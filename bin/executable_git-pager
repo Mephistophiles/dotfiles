@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$S" ]; then
+  DELTA_ARGS="--word-diff-regex=''"
+fi
+
+delta --24-bit-color=always \
+  $DELTA_ARGS

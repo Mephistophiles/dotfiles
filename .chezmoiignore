@@ -1,0 +1,6 @@
+LICENSE
+README.md
+.config/nvim/spell/
+.config/nvim/lua/packer_compiled.lua
+.config/fish/fish_variables
+.config/fish/fishd.*

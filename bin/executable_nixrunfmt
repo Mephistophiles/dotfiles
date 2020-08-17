@@ -1,0 +1,35 @@
+#!/usr/bin/env julia
+
+uid = @ccall getuid()::Cint
+
+search_place = "$(homedir())/.config/nixpkgs/"
+
+if uid == 0
+	search_place = "/etc/nixos/"
+end
+
+for file in readlines(`find "$search_place" -name '*.nix'`)
+	mktempdir() do tmpdir
+		SRC = "$file"
+		DST = "$tmpdir/$(basename(file))"
+
+		@debug("'$SRC' => '$DST'")
+		cp(SRC, DST)
+		@debug("nixfmt '$DST'")
+		run(`nixfmt "$DST"`)
+
+		if success(`cmp --quiet "$SRC" "$DST"`)
+			println("$SRC: Nothing to do")
+			return
+		end
+
+		try
+			run(`delta --paging=never "$SRC" "$DST"`)
+		catch
+		end
+		println("$SRC: continue? ")
+		readline()
+		mv(DST, SRC; force=true)
+		println("$SRC: done")
+	end
+end
