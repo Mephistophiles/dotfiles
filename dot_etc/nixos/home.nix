@@ -10,6 +10,7 @@
     ./home/i3status.nix
     ./home/kitty.nix
     ./home/mail.nix
+    ./home/starship.nix
     ./home/tmux.nix
     ./home/vault.nix
   ];
@@ -31,25 +32,6 @@
   programs = {
     home-manager.enable = true;
     go.enable = true;
-    starship = {
-      enable = true;
-      package = pkgs.unstable.starship;
-      enableFishIntegration = true;
-      settings = {
-        battery = { format = "[$symbol $percentage]($style) "; };
-        git_status = {
-          ahead = "\${count}↑";
-          behind = "\${count}↓";
-          deleted = "\${count}✘";
-          diverged = "\${ahead_count}↑\${behind_count}↓";
-          modified = "\${count}✚";
-          renamed = "\${count}»";
-          staged = "\${count}●";
-          stashed = "\${count}⚑";
-          untracked = "\${count}…";
-        };
-      };
-    };
     rofi = {
       enable = true;
       theme = "solarized";
