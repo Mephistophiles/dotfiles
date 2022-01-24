@@ -423,8 +423,6 @@ return packer.startup({
 
         use 'stevearc/dressing.nvim'
 
-        use {'chentau/marks.nvim', config = function() require'marks'.setup {} end}
-
         use {
             'folke/trouble.nvim',
             requires = 'kyazdani42/nvim-web-devicons',
