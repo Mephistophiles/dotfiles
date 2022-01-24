@@ -104,15 +104,7 @@ return packer.startup({
             cmd = {'Telescope'},
             module = 'telescope',
             setup = function()
-                MAP.nnoremap('<C-p>', '<cmd>Telescope find_files<cr>')
-                MAP.nnoremap('<C-b>', '<cmd>Telescope buffers<cr>')
-                MAP.nnoremap('<leader>ff', '<cmd>Telescope find_files<cr>')
-                MAP.nnoremap('<leader>fg', '<cmd>Telescope live_grep<cr>')
-                MAP.nnoremap('<leader>fb', '<cmd>Telescope buffers<cr>')
-                MAP.nnoremap('<leader>fw', '<cmd>Telescope grep_string<cr>')
-                MAP.nnoremap('<leader>gs', '<cmd>Telescope git_status<cr>')
-                MAP.nnoremap('<leader>gc', '<cmd>Telescope git_commits<cr>')
-                MAP.nnoremap('<leader>fB', '<cmd>Telescope meta<cr>')
+                require('settings.telescope').setup()
             end,
             config = function()
                 require('telescope').load_extension('ui-select')
