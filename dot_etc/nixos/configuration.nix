@@ -226,7 +226,7 @@ in {
     age
     bitwarden
     bitwarden-cli
-    chezmoi
+    unstable.chezmoi
     curl
     docker-compose
     dunst
