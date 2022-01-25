@@ -10,6 +10,7 @@ local themes =
 function M.mappings()
     MAP.nnoremap('<C-p>', function() telescope.find_files(themes.get_ivy({})) end)
     MAP.nnoremap('<C-b>', function() telescope.buffers(themes.get_ivy({shorten_path = false})) end)
+    MAP.nnoremap('<leader>fd', function() telescope.fd(themes.get_ivy({})) end)
     MAP.nnoremap('<leader>ff', function() telescope.find_files(themes.get_ivy({})) end)
     MAP.nnoremap('<leader>fb',
                  function() telescope.buffers(themes.get_ivy({shorten_path = false})) end)
