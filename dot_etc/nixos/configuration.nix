@@ -81,7 +81,11 @@ in {
 
     cron = {
       enable = true;
-      systemCronJobs = [ "*/5 * * * *	mzhukov	 /home/mzhukov/.etc/sync.sh" ];
+      systemCronJobs = [
+        "*/5 * * * *	mzhukov	 /home/mzhukov/.etc/sync.sh"
+        "*/5 * * * *	mzhukov	 cat ~/.config/starship.toml > ~/.dotfiles/dot_config/readonly_starship.toml"
+        "*/5 * * * *	mzhukov	 cat ~/.config/alacritty/alacritty.yml > ~/.dotfiles/dot_config/alacritty/alacritty.yml"
+      ];
     };
 
     openssh = { enable = true; };
