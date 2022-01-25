@@ -103,9 +103,7 @@ return packer.startup({
             },
             cmd = {'Telescope'},
             module = 'telescope',
-            setup = function()
-                require('settings.telescope').setup()
-            end,
+            setup = function() require('settings.telescope').setup() end,
             config = function()
                 require('telescope').load_extension('ui-select')
                 require('telescope').load_extension('project')
@@ -199,16 +197,6 @@ return packer.startup({
                 MAP.nnoremap('<leader>a', ':Tabularize /')
                 MAP.vnoremap('<leader>a', ':Tabularize /')
             end,
-        }
-
-        use {
-            'TimUntersberger/neogit',
-            requires = 'nvim-lua/plenary.nvim',
-            cmd = {'Neogit'},
-            config = function()
-                require('neogit').setup {disable_builtin_notifications = true}
-            end,
-            opt = true,
         }
 
         use {
