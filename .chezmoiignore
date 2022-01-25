@@ -4,3 +4,8 @@ README.md
 .config/nvim/lua/packer_compiled.lua
 .config/fish/fish_variables
 .config/fish/fishd.*
+
+{{- if eq .chezmoi.hostname "mzhukov-laptop" }}
+.config/starship.toml
+.config/alacritty/alacritty.yml
+{{- end }}
