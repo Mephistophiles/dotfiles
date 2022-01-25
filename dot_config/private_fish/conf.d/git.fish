@@ -240,7 +240,6 @@ abbr --add 'gupav' 'git pull --rebase --autostash -v'
 abbr --add 'glum' 'git pull upstream (git_main_branch)'
 
 abbr --add 'gwch' 'git whatchanged -p --abbrev-commit --pretty=medium'
-abbr --add 'gwip' 'git add -A; git rm (git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign -m "--wip-- [skip ci]"'
 
 abbr --add 'gam' 'git am'
 abbr --add 'gamc' 'git am --continue'

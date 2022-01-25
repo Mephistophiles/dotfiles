@@ -1,0 +1,29 @@
+#!/usr/bin/env julia
+
+import Dates
+
+function get_next_stage_number()::Int
+    stage_pattern = r"^DO NOT PUSH: WIP: stage (\d+)"
+    previous_commit_subject = readchomp(`git show --format=%s -s`)
+
+    matched = match(stage_pattern, previous_commit_subject)
+
+    if matched === nothing
+        @debug("nothing to match - return first stage number")
+        return 1
+    end
+
+    @debug("matched - $(matched)")
+
+    stage_number = parse(Int, matched[1])
+
+    @debug("got stage $stage_number")
+
+    stage_number + 1
+end
+
+next_stage_number = get_next_stage_number()
+
+now = Dates.format(Dates.now(), Dates.dateformat"e dd u HH:MM:SS YYYY")
+
+run(`git commit -am "DO NOT PUSH: WIP: stage $next_stage_number: $now"`)
