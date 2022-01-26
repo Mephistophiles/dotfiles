@@ -17,6 +17,9 @@ return packer.startup({
         -- filedetect drop-in-placement
         use {'nathom/filetype.nvim', setup = function() vim.g.did_load_filetypes = 1 end}
 
+        -- extended repeat ('.') for another plugins
+        use 'tpope/vim-repeat'
+
         use {
             'neovim/nvim-lspconfig',
             requires = {
