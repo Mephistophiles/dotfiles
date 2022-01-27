@@ -96,7 +96,6 @@ end
 
 local servers = {
     sumneko_lua = {
-        cmd = require'lspcontainers'.command('sumneko_lua'),
         settings = {
             Lua = {
                 runtime = {
