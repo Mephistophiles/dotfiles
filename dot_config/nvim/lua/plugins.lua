@@ -475,6 +475,13 @@ return packer.startup({
                 }
             end,
         }
+
+        use {
+            'rhysd/git-messenger.vim',
+            cmd = {'GitMessenger'},
+            keys = {'<leader>gm'},
+            setup = function() MAP.nnoremap('<leader>gm', '<Plug>(git-messenger)') end,
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
