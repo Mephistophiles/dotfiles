@@ -499,6 +499,8 @@ return packer.startup({
             cmd = {'ISwap', 'ISwapWith'},
             config = function() require('iswap').setup {} end,
         }
+
+        use {'nacro90/numb.nvim', config = function() require('numb').setup() end}
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
