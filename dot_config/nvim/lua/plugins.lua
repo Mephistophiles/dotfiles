@@ -23,7 +23,7 @@ return packer.startup({
         use {
             'neovim/nvim-lspconfig',
             requires = {
-                'nvim-lua/lsp-status.nvim', {
+                {
                     'ray-x/lsp_signature.nvim',
                     config = function()
                         require'lsp_signature'.setup({toggle_key = '<C-S>'})
@@ -481,6 +481,13 @@ return packer.startup({
             cmd = {'GitMessenger'},
             keys = {'<leader>gm'},
             setup = function() MAP.nnoremap('<leader>gm', '<Plug>(git-messenger)') end,
+        }
+
+        use {
+            'j-hui/fidget.nvim',
+            config = function()
+                require('fidget').setup {text = {spinner = 'dots'}, align = {bottom = true}}
+            end,
         }
     end,
     config = {

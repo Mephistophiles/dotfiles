@@ -2,7 +2,6 @@ local M = {}
 
 local lspconfig = require 'lspconfig'
 local configs = require 'lspconfig.configs'
-local nvim_status = require 'lsp-status'
 local nvim_lsp_signature = require 'lsp_signature'
 
 local custom_init = function(client)
@@ -44,7 +43,6 @@ local filetype_attach = setmetatable({
 local custom_attach = function(client, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
-    nvim_status.on_attach(client)
     nvim_lsp_signature.on_attach(client, bufnr)
 
     M.key_bindings()
@@ -78,8 +76,6 @@ end
 
 function M.make_default_opts()
     local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
-    updated_capabilities = vim.tbl_deep_extend('keep', updated_capabilities,
-                                               nvim_status.capabilities)
     updated_capabilities.textDocument.codeLens = {dynamicRegistration = false}
     updated_capabilities = require('cmp_nvim_lsp').update_capabilities(updated_capabilities)
 
@@ -168,11 +164,7 @@ local setup_server = function(server, config)
     lspconfig[server].setup(config)
 end
 
-function M.setup()
-    for server, config in pairs(servers) do setup_server(server, config) end
-
-    require'lsp-status'.register_progress()
-end
+function M.setup() for server, config in pairs(servers) do setup_server(server, config) end end
 
 function M.key_bindings()
     -- Mappings.
