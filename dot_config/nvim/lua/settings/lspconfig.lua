@@ -45,7 +45,7 @@ local custom_attach = function(client, bufnr)
 
     nvim_lsp_signature.on_attach(client, bufnr)
 
-    M.key_bindings()
+    M.key_bindings(client)
 
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -166,7 +166,7 @@ end
 
 function M.setup() for server, config in pairs(servers) do setup_server(server, config) end end
 
-function M.key_bindings()
+function M.key_bindings(client)
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     MAP.nnoremap('gD', vim.lsp.buf.declaration, 'buffer')
@@ -212,6 +212,10 @@ function M.key_bindings()
     MAP.nnoremap('[d', function() vim.diagnostic.goto_next() end, 'buffer')
     MAP.nnoremap(']d', function() vim.diagnostic.goto_prev() end, 'buffer')
     MAP.nnoremap('<leader>q', function() vim.diagnostic.setloclist() end, 'buffer')
+
+    if client.resolved_capabilities.code_lens then
+        MAP.nnoremap('<leader>lr', vim.lsp.codelens.run, 'buffer')
+    end
 end
 
 return M
