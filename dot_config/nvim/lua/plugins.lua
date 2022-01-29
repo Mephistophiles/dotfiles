@@ -220,7 +220,11 @@ return packer.startup({
             config = function() require('settings.formatter').setup() end,
         }
 
-        use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+        use {
+            'nvim-treesitter/nvim-treesitter',
+            run = ':TSUpdate',
+            requires = {'p00f/nvim-ts-rainbow'},
+        }
 
         use {
             'Darazaki/indent-o-matic',
