@@ -493,6 +493,12 @@ return packer.startup({
                 require('fidget').setup {text = {spinner = 'dots'}, align = {bottom = true}}
             end,
         }
+
+        use {
+            'mizlan/iswap.nvim',
+            cmd = {'ISwap', 'ISwapWith'},
+            config = function() require('iswap').setup {} end,
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
