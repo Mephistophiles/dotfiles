@@ -501,6 +501,15 @@ return packer.startup({
         }
 
         use {'nacro90/numb.nvim', config = function() require('numb').setup() end}
+
+        use {
+            'mfussenegger/nvim-dap',
+            requires = {'rcarriga/nvim-dap-ui', 'theHamsta/nvim-dap-virtual-text'},
+            module = 'dap',
+            lazy = true,
+            setup = function() require('settings.dap').setup() end,
+            config = function() require('settings.dap').config() end,
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
