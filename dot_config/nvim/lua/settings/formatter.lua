@@ -31,6 +31,18 @@ local filetypes = {
     c = {
         -- prettier
         function()
+            local util = require('lspconfig.util')
+            local filename = vim.api.nvim_buf_get_name(0)
+
+            if util.root_pattern('.clang-format')(filename) then
+                return {
+                    exe = 'clang-format',
+                    args = {},
+                    stdin = true,
+                    cwd = vim.fn.expand('%:p:h'), -- Run clang-format in cwd of the file.
+                }
+            end
+
             if vim.fn.executable('uncrustify') ~= 1 then return nil end
 
             local cfgpath = vim.fn.stdpath('config')
