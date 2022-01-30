@@ -20,10 +20,6 @@ return packer.startup({
         -- extended repeat ('.') for another plugins
         use 'tpope/vim-repeat'
 
-        use {'antoinemadec/FixCursorHold.nvim', run = function()
-            vim.g.curshold_updatime = 1000
-        end}
-
         use {
             'neovim/nvim-lspconfig',
             requires = {
