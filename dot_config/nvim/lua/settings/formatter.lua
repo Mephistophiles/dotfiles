@@ -31,6 +31,8 @@ local filetypes = {
     c = {
         -- prettier
         function()
+            if vim.fn.executable('uncrustify') ~= 1 then return nil end
+
             local cfgpath = vim.fn.stdpath('config')
 
             return {
@@ -93,7 +95,9 @@ function M.setup()
 
     local supported_langs = {}
 
-    for ft in pairs(opts.filetype) do table.insert(supported_langs, ft) end
+    for ft, fns in pairs(opts.filetype) do
+        if fns[1]() ~= nil then table.insert(supported_langs, ft) end
+    end
 
     local function blacklist_file(file)
         local blacklist = BLACKLIST.get()
