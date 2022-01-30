@@ -273,7 +273,6 @@ in {
 
     # programming
     cmake
-    gccMultiStdenv
     gcc_multi
     git
     gitAndTools.delta
@@ -291,9 +290,13 @@ in {
     yarn
 
     # programming LSP
-    unstable.python39Packages.python-lsp-server
+    llvmPackages_latest.clang
+    llvmPackages_latest.llvm
+    clang-tools
     rnix-lsp
     sumneko-lua-language-server
+    unstable.python39Packages.python-lsp-server
+    unstable.vscode-extensions.llvm-org.lldb-vscode
 
     # file systems
     btrfs-progs
