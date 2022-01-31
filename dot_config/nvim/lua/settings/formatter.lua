@@ -33,8 +33,9 @@ local filetypes = {
         function()
             local util = require('lspconfig.util')
             local filename = vim.api.nvim_buf_get_name(0)
+            local project_root = util.find_git_ancestor(filename)
 
-            if util.root_pattern('.clang-format')(filename) then
+            if project_root and util.path.is_file(util.path.join({project_root, '.clang-format'})) then
                 return {
                     exe = 'clang-format',
                     args = {},
