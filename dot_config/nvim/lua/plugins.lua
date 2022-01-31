@@ -510,6 +510,8 @@ return packer.startup({
             setup = function() require('settings.dap').setup() end,
             config = function() require('settings.dap').config() end,
         }
+
+        use {'rhysd/committia.vim'}
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
