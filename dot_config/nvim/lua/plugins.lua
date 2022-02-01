@@ -512,6 +512,15 @@ return packer.startup({
         }
 
         use {'rhysd/committia.vim'}
+
+        use {
+            'chrisbra/NrrwRgn',
+            cmd = {'NR', 'NW', 'WR', 'NRV', 'NUD', 'NRP', 'NRM', 'NRS', 'NRN', 'NRL'},
+            setup = function()
+                vim.g.nrrw_rgn_nomap_nr = 1
+                vim.g.nrrw_rgn_nomap_Nr = 1
+            end,
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
