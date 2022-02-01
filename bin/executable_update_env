@@ -1,0 +1,16 @@
+#!/usr/bin/env julia
+
+function update_env()
+	for line in readlines(`tmux show-env`)
+		if startswith(line, '-')
+			name = line[2:end]
+			println("set --unexport \"$name\"")
+		else
+			name, value = split(line, '=')
+			println("set --export \"$name\" \"$value\"")
+		end
+	end
+end
+
+
+update_env()
