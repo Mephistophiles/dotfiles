@@ -10,16 +10,7 @@ local themes =
 function M.mappings()
     MAP.nnoremap('<C-p>', function() telescope.find_files(themes.get_ivy({})) end)
     MAP.nnoremap('<C-b>', function() telescope.buffers(themes.get_ivy({shorten_path = false})) end)
-    MAP.nnoremap('<leader>fd', function() telescope.fd(themes.get_ivy({})) end)
-    MAP.nnoremap('<leader>ff', function() telescope.find_files(themes.get_ivy({})) end)
-    MAP.nnoremap('<leader>fb',
-                 function() telescope.buffers(themes.get_ivy({shorten_path = false})) end)
-    MAP.nnoremap('<leader>fg', function() telescope.live_grep(themes.get_ivy({})) end)
-    MAP.nnoremap('<leader>fw', function() telescope.grep_string(themes.get_ivy({})) end)
-    MAP.nnoremap('<leader>gs', function()
-        telescope.git_status {winblend = 10, border = true, previewer = false, shorten_path = false}
-    end)
-    MAP.nnoremap('<leader>gc', function() telescope.git_commits {winblend = 5} end)
+    MAP.nnoremap('<leader>lg', function() telescope.live_grep(themes.get_ivy({})) end)
 
     MAP.nnoremap('<leader>en', function()
         local opts_with_preview, opts_without_preview
