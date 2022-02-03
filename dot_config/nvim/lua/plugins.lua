@@ -158,8 +158,8 @@ return packer.startup({
             opt = true,
             module = 'spectre',
             setup = function()
-                MAP.nnoremap('<leader>S', function() require('spectre').open() end)
-                MAP.nnoremap('<leader>sw',
+                MAP.nnoremap('<leader>/', function() require('spectre').open() end)
+                MAP.nnoremap('<leader>*',
                              function()
                     require('spectre').open_visual({select_word = true})
                 end)
