@@ -10,7 +10,7 @@
         scrolling.history = 100000;
         selection.semantic_escape_chars = '',│`|"' ()[]{}<>\t'';
         font = {
-          size = 9.0;
+          size = 10.0;
           normal = {
             family = "monospace";
             style = "Regular";
