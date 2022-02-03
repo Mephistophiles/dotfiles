@@ -206,7 +206,7 @@ function M.key_bindings(client)
     MAP.nnoremap('<C-s>', vim.lsp.buf.signature_help, 'buffer')
     MAP.nnoremap('<leader>rn', function() vim.lsp.buf.rename() end, 'buffer')
     -- MAP.nnoremap('<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
-    MAP.nnoremap('<leader>f', vim.lsp.buf.formatting, 'buffer')
+    MAP.nnoremap('<leader>f', function() vim.lsp.buf.formatting() end, 'buffer')
 
     MAP.nnoremap('<leader>d', vim.diagnostic.open_float, 'buffer')
     MAP.nnoremap('[d', function() vim.diagnostic.goto_next() end, 'buffer')
