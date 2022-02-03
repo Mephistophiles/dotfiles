@@ -511,7 +511,7 @@ return packer.startup({
             config = function() require('settings.dap').config() end,
         }
 
-        use {'rhysd/committia.vim'}
+        use 'rhysd/committia.vim'
 
         use {
             'chrisbra/NrrwRgn',
