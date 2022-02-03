@@ -50,12 +50,7 @@ return packer.startup({
             config = function()
                 require('lualine').setup({
                     options = {theme = 'tokyonight'},
-                    sections = {
-                        lualine_c = {
-                            {'filename', file_status = true, path = 1},
-                            [[require'lsp-status'.status()]],
-                        },
-                    },
+                    sections = {lualine_c = {{'filename', file_status = true, path = 1}}},
                 })
             end,
         }
