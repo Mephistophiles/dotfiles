@@ -407,7 +407,7 @@ return packer.startup({
 
         use {
             'ggandor/lightspeed.nvim',
-            disable = false,
+            disable = true,
             opt = true,
             module = 'lightspeed',
             setup = function()
@@ -415,6 +415,33 @@ return packer.startup({
 
                 MAP.map('<leader>s', function() require'lightspeed'.sx:go(false) end)
                 MAP.map('<leader>S', function() require'lightspeed'.sx:go(true) end)
+            end,
+            config = function()
+                require'lightspeed'.setup({
+                    ignore_case = true,
+                    force_beacons_into_match_width = true,
+                })
+            end,
+        }
+
+	use {
+            'rlane/pounce.nvim',
+            disable = false,
+            opt = true,
+            module = 'pounce',
+            setup = function()
+                MAP.nmap('<leader>s', function() require'pounce'.pounce {} end)
+                MAP.nmap('<leader>S', function()
+                    require'pounce'.pounce {do_repeat = true}
+                end)
+            end,
+            config = function()
+                require'pounce'.setup {
+                    accept_keys = 'JFKDLSAHGNUVRBYTMICEOXWPQZ',
+                    accept_best_key = '<enter>',
+                    multi_window = true,
+                    debug = false,
+                }
             end,
         }
 
