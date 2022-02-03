@@ -346,20 +346,57 @@ return packer.startup({
 
         use {
             'phaazon/hop.nvim',
-            disable = true,
+            disable = false,
             as = 'hop',
-            cmd = {
-                'HopWord', 'HopWordAC', 'HopWordBC', 'HopPattern', 'HopChar1', 'HopChar2',
-                'HopLine',
-            },
+            module = 'hop',
             setup = function()
-                MAP.map('<Leader>w', '<CMD>HopWordAC<CR>')
-                MAP.map('<Leader>b', '<CMD>HopWordBC<CR>')
-                MAP.map('<Leader>l', '<CMD>HopLine<CR>')
-                MAP.map('<Leader>f', '<CMD>HopChar1AB<CR>')
-                MAP.map('<Leader>F', '<CMD>HopChar1BC<CR>')
-                -- MAP.map('<Leader>s', '<CMD>HopChar2<CR>')
-                -- MAP.map('<Leader>p', '<CMD>HopPattern<CR>')
+                MAP.map('<Leader>w', function()
+                    require'hop'.hint_words(
+                        {direction = require'hop.hint'.HintDirection.AFTER_CURSOR})
+                end)
+                MAP.map('<Leader>b', function()
+                    require'hop'.hint_words(
+                        {direction = require'hop.hint'.HintDirection.BEFORE_CURSOR})
+                end)
+                MAP.nmap('f', function()
+                    require'hop'.hint_char1({
+                        direction = require'hop.hint'.HintDirection.AFTER_CURSOR,
+                        current_line_only = true,
+                    })
+                end)
+                MAP.nmap('F', function()
+                    require'hop'.hint_char1({
+                        direction = require'hop.hint'.HintDirection.BEFORE_CURSOR,
+                        current_line_only = true,
+                    })
+                end)
+                MAP.omap('f', function()
+                    require'hop'.hint_char1({
+                        direction = require'hop.hint'.HintDirection.AFTER_CURSOR,
+                        current_line_only = true,
+                        inclusive_jump = true,
+                    })
+                end)
+                MAP.omap('F', function()
+                    require'hop'.hint_char1({
+                        direction = require'hop.hint'.HintDirection.BEFORE_CURSOR,
+                        current_line_only = true,
+                        inclusive_jump = true,
+                    })
+                end)
+
+                MAP.map('t', function()
+                    require'hop'.hint_char1({
+                        direction = require'hop.hint'.HintDirection.AFTER_CURSOR,
+                        current_line_only = true,
+                    })
+                end)
+                MAP.map('T', function()
+                    require'hop'.hint_char1({
+                        direction = require'hop.hint'.HintDirection.BEFORE_CURSOR,
+                        current_line_only = true,
+                    })
+                end)
             end,
             config = function()
                 -- you can configure Hop the way you like here; see :h hop-config
@@ -370,13 +407,13 @@ return packer.startup({
         use {
             'ggandor/lightspeed.nvim',
             disable = false,
-            config = function()
-                MAP.map('<leader>w', '<Plug>Lightspeed_s')
-                MAP.map('<leader>b', '<Plug>Lightspeed_S')
-                MAP.map('<leader>f', '<Plug>Lightspeed_f')
-                MAP.map('<leader>F', '<Plug>Lightspeed_F')
-                MAP.map('<leader>t', '<Plug>Lightspeed_t')
-                MAP.map('<leader>T', '<Plug>Lightspeed_T')
+            opt = true,
+            module = 'lightspeed',
+            setup = function()
+                vim.g.lightspeed_no_default_keymaps = true
+
+                MAP.map('<leader>s', function() require'lightspeed'.sx:go(false) end)
+                MAP.map('<leader>S', function() require'lightspeed'.sx:go(true) end)
             end,
         }
 
