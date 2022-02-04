@@ -10,15 +10,15 @@ truncation_length = 3
 truncation_symbol = "…/"
 
 [git_status]
-ahead = "${count}↑"
-behind = "${count}↓"
-deleted = "${count}✘"
-diverged = "${ahead_count}↑${behind_count}↓"
-modified = "${count}✚"
-renamed = "${count}»"
-staged = "${count}●"
-stashed = "${count}⚑"
-untracked = "${count}…"
+ahead = "↑${count}"
+behind = "↓${count}"
+deleted = "✘${count}"
+diverged = "↑${ahead_count}↓${behind_count}"
+modified = "✚${count}"
+renamed = "»${count}"
+staged = "●${count}"
+stashed = "⚑${count}"
+untracked = "…${count}"
 
 [lua]
 disabled = true

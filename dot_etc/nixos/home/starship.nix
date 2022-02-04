@@ -17,15 +17,15 @@
         #   "$git_status"
         # ];
         git_status = {
-          ahead = "\${count}↑";
-          behind = "\${count}↓";
-          deleted = "\${count}✘";
-          diverged = "\${ahead_count}↑\${behind_count}↓";
-          modified = "\${count}✚";
-          renamed = "\${count}»";
-          staged = "\${count}●";
-          stashed = "\${count}⚑";
-          untracked = "\${count}…";
+          ahead = "↑\${count}";
+          behind = "↓\${count}";
+          deleted = "✘\${count}";
+          diverged = "↑\${ahead_count}↓\${behind_count}";
+          modified = "✚\${count}";
+          renamed = "»\${count}";
+          staged = "●\${count}";
+          stashed = "⚑\${count}";
+          untracked = "…\${count}";
         };
         memory_usage = {
           disabled = false;
