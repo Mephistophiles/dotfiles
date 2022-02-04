@@ -424,7 +424,7 @@ return packer.startup({
             end,
         }
 
-	use {
+        use {
             'rlane/pounce.nvim',
             disable = false,
             opt = true,
@@ -580,6 +580,12 @@ return packer.startup({
                 vim.g.nrrw_rgn_nomap_nr = 1
                 vim.g.nrrw_rgn_nomap_Nr = 1
             end,
+        }
+
+        use {
+            'chentau/marks.nvim',
+            event = {'CursorHold', 'InsertEnter'},
+            config = function() require'marks'.setup {default_mappings = false} end,
         }
     end,
     config = {
