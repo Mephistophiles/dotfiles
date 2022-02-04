@@ -1,2 +1,12 @@
 #!/usr/bin/env julia
-run(`nixos-rebuild switch`)
+
+current_user = readchomp(`whoami`)
+
+if current_user == "root"
+	println("Run nixos-rebuild...")
+	run(`nixos-rebuild switch`)
+else
+	println("Run home-manager...")
+	run(`home-manager switch --flake /etc/nixos`)
+end
+
