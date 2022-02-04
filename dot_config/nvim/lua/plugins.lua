@@ -26,7 +26,7 @@ return packer.startup({
                 {
                     'ray-x/lsp_signature.nvim',
                     config = function()
-                        require'lsp_signature'.setup({toggle_key = '<C-S>'})
+                        require'lsp_signature'.setup({toggle_key = '<C-S>', floating_window = false})
                     end,
                 }, 'lspcontainers/lspcontainers.nvim',
             },
