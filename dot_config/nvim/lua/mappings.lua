@@ -36,7 +36,7 @@ local function paste_git_signoff()
     local username = io.popen('git config user.name', 'r'):read('*l')
     local email = io.popen('git config user.email', 'r'):read('*l')
 
-    vim.api.nvim_put({'Signed-off-by: ' .. username .. '<' .. email .. '>'}, 'c', false, true)
+    vim.api.nvim_put({'Signed-off-by: ' .. username .. ' <' .. email .. '>'}, 'c', false, true)
 
     return true
 end
