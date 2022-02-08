@@ -155,7 +155,7 @@ function M.setup()
         if not vim.tbl_contains(supported_langs, filetype) then return end
         if is_blacklisted_file(filename) then return end
 
-        vim.cmd [[FormatWrite]]
+        vim.cmd [[undojoin | FormatWrite]]
     end
 
     MAP.nnoremap('<leader>m', function()
