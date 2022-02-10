@@ -18,7 +18,6 @@
       #     i3lock
       #     xautolock
       #     xbindkeys
-      #     unstable.flameshot
       #   ];
       # };
 
@@ -35,4 +34,5 @@
       };
     };
   };
+  environment.systemPackages = with pkgs; [ unstable.flameshot ];
 }
