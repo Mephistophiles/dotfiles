@@ -372,28 +372,13 @@ return packer.startup({
                         current_line_only = true,
                     })
                 end)
-                MAP.omap('f', function()
-                    require'hop'.hint_char1({
-                        direction = require'hop.hint'.HintDirection.AFTER_CURSOR,
-                        current_line_only = true,
-                        inclusive_jump = true,
-                    })
-                end)
-                MAP.omap('F', function()
-                    require'hop'.hint_char1({
-                        direction = require'hop.hint'.HintDirection.BEFORE_CURSOR,
-                        current_line_only = true,
-                        inclusive_jump = true,
-                    })
-                end)
-
-                MAP.map('t', function()
+                MAP.nmap('t', function()
                     require'hop'.hint_char1({
                         direction = require'hop.hint'.HintDirection.AFTER_CURSOR,
                         current_line_only = true,
                     })
                 end)
-                MAP.map('T', function()
+                MAP.nmap('T', function()
                     require'hop'.hint_char1({
                         direction = require'hop.hint'.HintDirection.BEFORE_CURSOR,
                         current_line_only = true,
