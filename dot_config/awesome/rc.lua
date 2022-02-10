@@ -149,13 +149,76 @@ local function set_wallpaper(s)
 end
 
 local batwidget = wibox.widget.textbox()
-vicious.register(batwidget, vicious.widgets.bat, "BAT: $1$2% ($3)", 61, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, 'BAT: $1$2% ($3)', 61, 'BAT0')
+
+local volumewidget = wibox.widget.textbox()
+vicious.register(volumewidget, vicious.widgets.volume, '$1% $2', 2, 'Master')
+volumewidget:buttons(awful.util.table.join(table.unpack({
+    awful.button({}, 1, function() awful.util.spawn('amixer -q set Master toggle', false) end),
+    awful.button({}, 3, function() awful.util.spawn('alacritty -e alsamixer', true) end),
+    awful.button({}, 4, function() awful.util.spawn('amixer -q set Master 1%+', false) end),
+    awful.button({}, 5, function() awful.util.spawn('amixer -q set Master 1%-', false) end),
+})))
+
+local pushlocker_widget = wibox.widget.textbox()
+pushlocker_widget:buttons(awful.util.table.join(table.unpack({
+    awful.button({}, 1, function()
+        local _, _, ret = os.execute('timeout 2s pushlockctl check')
+
+        if ret == 0 then
+            awful.util.spawn('pushlockctl lock', false)
+        elseif ret == 2 then
+            awful.util.spawn('pushlockctl unlock', false)
+        end
+    end),
+})))
+local update_pushlocker = function()
+    local has_vpn = io.popen('ip r get 192.168.161.35', 'r'):read('*l'):match('tun') ~= nil
+
+    if not has_vpn then
+        pushlocker_widget.text = ''
+
+        return
+    end
+
+    local handle = io.popen('timeout 2s pushlockctl check')
+    local res = handle:read('*l')
+    local ret = select(3, handle:close())
+
+    local text = ''
+
+    if res == 'Unknown error' or ret == 101 or ret == 124 then
+        text = '🔥 Server Error'
+    elseif ret == 0 then
+        text = '⚡️'
+    elseif ret == 1 then
+        text = [[🚧 ']] .. res .. [[']]
+    elseif ret == 2 then
+        text = '👷 Locked by me'
+    elseif ret == 101 or ret == 124 then
+        text = '🔥 Server Error'
+    else
+        text = ''
+    end
+
+    if text ~= '' then text = text .. ' ' end
+
+    pushlocker_widget.text = text
+
+end
+
+gears.timer {
+    timeout = 3,
+    call_now = true,
+    autostart = true,
+    callback = function() update_pushlocker() end,
+}
 
 local separator = wibox.widget {
     widget = wibox.widget.separator,
-    orientation = "vertical",
+    orientation = 'vertical',
     forced_width = 10,
-    color = "#353535",
+    color = '#353535',
     visible = true,
 }
 
@@ -209,6 +272,9 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            pushlocker_widget,
+            volumewidget,
+            separator,
             batwidget,
             separator,
             mykeyboardlayout,
@@ -503,12 +569,9 @@ client.connect_signal('unfocus', function(c) c.border_color = beautiful.border_n
 
 -- {{{ Autorun
 
-
 local autorun = {
-    "flameshot", -- screenshot
+    'flameshot', -- screenshot
 }
 
-for _, prg in ipairs(autorun) do
-    awful.spawn.once(prg)
-end
+for _, prg in ipairs(autorun) do awful.spawn.once(prg) end
 -- }}}
