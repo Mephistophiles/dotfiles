@@ -13,6 +13,7 @@ local awful = require('awful')
 require('awful.autofocus')
 -- Widget and layout library
 local wibox = require('wibox')
+-- local vicious = require('vicious')
 -- Theme handling library
 local beautiful = require('beautiful')
 -- Notification library
@@ -485,4 +486,33 @@ end)
 
 client.connect_signal('focus', function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal('unfocus', function(c) c.border_color = beautiful.border_normal end)
+-- }}}
+
+-- {{{ Autorun
+
+
+local autorun = {
+    "flameshot", -- screenshot
+}
+
+for _, prg in ipairs(autorun) do
+    awful.spawn.once(prg)
+end
+-- }}}
+
+-- {{{ Widgets
+-- local batwidget = wibox.widget.progressbar()
+-- batbox = wibox.layout.margin(
+--     wibox.widget{ { max_value = 1, widget = batwidget,
+--                     border_width = 0.5, border_color = "#000000",
+--                     color = { type = "linear",
+--                               from = { 0, 0 },
+--                               to = { 0, 30 },
+--                               stops = { { 0, "#AECF96" },
+--                                         { 1, "#FF5656" } } } },
+--                   forced_height = 10, forced_width = 8,
+--                   direction = 'east', color = beautiful.fg_widget,
+--                   layout = wibox.container.rotate },
+--     1, 1, 3, 3)
+-- vicious.register(batwidget, vicious.widgets.bat, "$2", 61, "BAT0")
 -- }}}
