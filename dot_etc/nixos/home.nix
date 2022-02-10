@@ -32,15 +32,15 @@
   programs = {
     home-manager.enable = true;
     go.enable = true;
-    rofi = {
-      enable = true;
-      theme = "solarized";
-      extraConfig = {
-        matching = "fuzzy";
-        sort = true;
-        sorting-method = "fzf";
-      };
-    };
+    # rofi = {
+    #   enable = true;
+    #   theme = "solarized";
+    #   extraConfig = {
+    #     matching = "fuzzy";
+    #     sort = true;
+    #     sorting-method = "fzf";
+    #   };
+    # };
     gpg.enable = true;
   };
 
