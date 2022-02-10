@@ -62,13 +62,6 @@ in {
 
       desktopManager = { xterm.enable = false; };
 
-      displayManager = {
-        gdm = {
-          enable = true;
-          autoSuspend = false;
-        };
-      };
-
       # Enable touchpad support (enabled default in most desktopManager).
       libinput = { enable = true; };
 

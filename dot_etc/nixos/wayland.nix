@@ -1,7 +1,17 @@
 { config, pkgs, lib, ... }:
 
 {
-  services = { xserver = { displayManager = { defaultSession = "sway"; }; }; };
+  services = {
+    xserver = {
+      displayManager = {
+        gdm = {
+          enable = true;
+          autoSuspend = false;
+        };
+        defaultSession = "sway";
+      };
+    };
+  };
   programs = {
     sway = {
       enable = true;

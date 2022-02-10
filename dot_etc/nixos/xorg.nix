@@ -3,16 +3,34 @@
 {
   services = {
     xserver = {
-      displayManager = { defaultSession = "none+i3"; };
-      windowManager.i3 = {
+      # displayManager = {
+      #   gdm = {
+      #     enable = true;
+      #     autoSuspend = false;
+      #   };
+      #   defaultSession = "none+i3";
+      # };
+      # windowManager.i3 = {
+      #   enable = true;
+      #   package = pkgs.i3-gaps;
+      #   extraPackages = with pkgs; [
+      #     autotiling
+      #     i3lock
+      #     xautolock
+      #     xbindkeys
+      #     unstable.flameshot
+      #   ];
+      # };
+
+      displayManager = {
+        sddm.enable = true;
+        defaultSession = "none+awesome";
+      };
+      windowManager.awesome = {
         enable = true;
-        package = pkgs.i3-gaps;
-        extraPackages = with pkgs; [
-          autotiling
-          i3lock
-          xautolock
-          xbindkeys
-          unstable.flameshot
+        luaModules = with pkgs.luaPackages; [
+          luarocks # is the package manager for Lua modules
+          luadbi-mysql # Database abstraction layer
         ];
       };
     };
