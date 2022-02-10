@@ -6,6 +6,41 @@ local M = {}
 --- @class Blacklist
 local BLACKLIST = {}
 
+local function blacklist_file(file)
+    local blacklist = BLACKLIST.get()
+
+    if not vim.tbl_contains(blacklist, file) then table.insert(blacklist, file) end
+
+    BLACKLIST.set(blacklist)
+end
+
+local function gc_blacklist(blacklist)
+    blacklist = vim.tbl_filter(function(file)
+        local st = vim.loop.fs_stat(file)
+        return st ~= nil -- and (st.type == 'file' or st.type == 'directory')
+    end, blacklist)
+
+    BLACKLIST.set(blacklist)
+
+    return blacklist
+end
+
+local function unblacklist_file(file)
+    local blacklist = BLACKLIST.get()
+
+    blacklist = vim.tbl_filter(function(f) return f ~= file end, blacklist)
+
+    BLACKLIST.set(blacklist)
+end
+
+local function is_blacklisted_file(file)
+    local blacklist = BLACKLIST.get()
+
+    for _, f in ipairs(blacklist) do if vim.startswith(file, f) then return true end end
+
+    return false
+end
+
 function BLACKLIST.empty() return {} end
 
 --- Gets the current blacklist
@@ -103,61 +138,6 @@ local filetypes = {
 function M.on_menu_save(blacklist) BLACKLIST.set(blacklist) end
 
 function M.setup()
-    local opts = {logging = false, filetype = filetypes}
-    require('formatter').setup(opts)
-
-    local supported_langs = {}
-
-    for ft, fns in pairs(opts.filetype) do
-        if fns[1]() ~= nil then table.insert(supported_langs, ft) end
-    end
-
-    local function blacklist_file(file)
-        local blacklist = BLACKLIST.get()
-
-        if not vim.tbl_contains(blacklist, file) then table.insert(blacklist, file) end
-
-        BLACKLIST.set(blacklist)
-    end
-
-    local function gc_blacklist(blacklist)
-        blacklist = vim.tbl_filter(function(file)
-            local st = vim.loop.fs_stat(file)
-            return st ~= nil -- and (st.type == 'file' or st.type == 'directory')
-        end, blacklist)
-
-        BLACKLIST.set(blacklist)
-
-        return blacklist
-    end
-
-    local function unblacklist_file(file)
-        local blacklist = BLACKLIST.get()
-
-        blacklist = vim.tbl_filter(function(f) return f ~= file end, blacklist)
-
-        BLACKLIST.set(blacklist)
-    end
-
-    local function is_blacklisted_file(file)
-        local blacklist = BLACKLIST.get()
-
-        for _, f in ipairs(blacklist) do if vim.startswith(file, f) then return true end end
-
-        return false
-    end
-
-    function _G.format_document()
-        local filename = vim.api.nvim_buf_get_name(0)
-        local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
-
-        if vim.b.disable_formatter == true then return end
-        if not vim.tbl_contains(supported_langs, filetype) then return end
-        if is_blacklisted_file(filename) then return end
-
-        vim.cmd [[undojoin | FormatWrite]]
-    end
-
     MAP.nnoremap('<leader>m', function()
         if not vim.b.disable_formatter then
             vim.b.disable_formatter = true
@@ -185,6 +165,29 @@ function M.setup()
     end)
     MAP.nnoremap('<leader>ml',
                  function() require('settings.formatter_ui').toggle_quick_menu(BLACKLIST.get()) end)
+end
+
+function M.config()
+    local opts = {logging = false, filetype = filetypes}
+    require('formatter').setup(opts)
+
+    local supported_langs = {}
+
+    for ft, fns in pairs(opts.filetype) do
+        if fns[1]() ~= nil then table.insert(supported_langs, ft) end
+    end
+
+    function _G.format_document()
+        if vim.b.disable_formatter == true then return end
+
+        if not vim.tbl_contains(supported_langs, vim.api.nvim_buf_get_option(0, 'filetype')) then
+            return
+        end
+
+        if is_blacklisted_file(vim.api.nvim_buf_get_name(0)) then return end
+
+        vim.cmd [[undojoin | FormatWrite]]
+    end
 
     vim.cmd [[
         augroup FormatAutogroup

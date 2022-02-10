@@ -213,7 +213,8 @@ return packer.startup({
             'mhartington/formatter.nvim',
             cmd = {'Format', 'FormatWrite'},
             event = {'BufWritePre'},
-            config = function() require('settings.formatter').setup() end,
+            setup = function() require('settings.formatter').setup() end,
+            config = function() require('settings.formatter').config() end,
         }
 
         use {
