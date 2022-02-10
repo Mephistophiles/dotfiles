@@ -291,7 +291,7 @@ clientkeys = gears.table.join(table.unpack({
     awful.key({modkey}, 'b', function()
         local myscreen = awful.screen.focused()
         myscreen.mywibox.visible = not myscreen.mywibox.visible
-    end, {description = 'toggle statusbar'}),
+    end, {description = 'toggle statusbar', group = 'client'}),
     awful.key({modkey, 'Shift'}, 'c', function(c) c:kill() end,
               {description = 'close', group = 'client'}),
     awful.key({modkey, 'Control'}, 'space', awful.client.floating.toggle,
