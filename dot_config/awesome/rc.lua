@@ -149,7 +149,21 @@ local function set_wallpaper(s)
 end
 
 local batwidget = wibox.widget.textbox()
-vicious.register(batwidget, vicious.widgets.bat, 'BAT: $1$2% ($3)', 61, 'BAT0')
+vicious.register(batwidget, vicious.widgets.bat, function(_, args)
+    if tonumber(args[2]) < 30 and args[1] == '-' then
+        return string.format([[<span color='#FF0000'>BAT: %s%d%% (%s)</span>]], args[1], args[2],
+                             args[3])
+    end
+    if args[1] == '-' then return string.format([[BAT: %s%d%% (%s)]], args[1], args[2], args[3]) end
+
+    return string.format([[BAT: %d%%]], args[2])
+end, 10, 'BAT0')
+-- batwidget:set_color{
+--     type = 'linear',
+--     from = {0, 0},
+--     to = {100, 0},
+--     stops = {{0, '#FF5656'}, {0.5, '#88A175'}, {1, '#AECF96'}},
+-- }
 
 local volumewidget = wibox.widget.textbox()
 vicious.register(volumewidget, vicious.widgets.volume, '$1% $2', 2, 'Master')
