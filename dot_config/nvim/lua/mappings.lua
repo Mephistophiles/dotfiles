@@ -1,4 +1,4 @@
-vim.g.mapleader = ','
+vim.g.mapleader = ' '
 
 -- Toggle paste
 vim.o.pastetoggle = '<F6>'
@@ -92,13 +92,13 @@ MAP.cmd('Wqa', 'wqa')
 MAP.cmd('Q', 'q')
 
 -- folding
-MAP.nnoremap('<space>', function()
+MAP.nnoremap('<tab>', function()
     local current_level = vim.fn.foldlevel('.')
 
     if current_level > 0 then
         vim.api.nvim_input('za')
     else
-        vim.api.nvim_input('<space>')
+        vim.api.nvim_input('<tab>')
     end
 end)
 
