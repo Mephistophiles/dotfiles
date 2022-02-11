@@ -29,6 +29,6 @@ require('settings.treesitter').setup()
 if ok then pcall(require, 'packer_compiled') end
 
 -- cleanups
-MAP.nnoremap('<leader><space>', table.concat(MAP_CLEANUPS, ''))
+MAP.nnoremap('<leader><enter>', table.concat(MAP_CLEANUPS, ''))
 
 -- vim.cmd('syntax on') -- On syntax
