@@ -201,7 +201,7 @@ local update_pushlocker = function()
         text = ''
     end
 
-    if text ~= '' then text = text .. ' ' end
+    if text ~= '' then text = ' ' .. text .. ' ' end
 
     pushlocker_widget.text = text
 
@@ -217,8 +217,8 @@ gears.timer {
 local separator = wibox.widget {
     widget = wibox.widget.separator,
     orientation = 'vertical',
-    forced_width = 10,
-    color = '#353535',
+    forced_width = 15,
+    color = '#444444',
     visible = true,
 }
 
@@ -273,12 +273,15 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             pushlocker_widget,
+            separator,
             volumewidget,
             separator,
             batwidget,
             separator,
             mykeyboardlayout,
+            separator,
             wibox.widget.systray(),
+            separator,
             mytextclock,
             s.mylayoutbox,
         },
