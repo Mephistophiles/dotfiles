@@ -165,12 +165,22 @@ function M.setup()
     end)
     MAP.nnoremap('<leader>ml',
                  function() require('settings.formatter_ui').toggle_quick_menu(BLACKLIST.get()) end)
+
+    for ft, fns in pairs(filetypes) do
+        fns = fns[1]()
+
+        if fns ~= nil then
+            vim.api.nvim_set_var('neoformat_enabled_' .. ft, {'custom'})
+            vim.api.nvim_set_var('neoformat_' .. ft .. '_custom',
+                                 {exe = fns.exe, args = fns.args, stdin = fns.stdin})
+        end
+    end
+
+    vim.g.neoformat_only_msg_on_error = true
 end
 
 function M.config()
     local opts = {logging = false, filetype = filetypes}
-    require('formatter').setup(opts)
-
     local supported_langs = {}
 
     for ft, fns in pairs(opts.filetype) do
@@ -186,13 +196,13 @@ function M.config()
 
         if is_blacklisted_file(vim.api.nvim_buf_get_name(0)) then return end
 
-        vim.cmd [[undojoin | FormatWrite]]
+        vim.cmd [[undojoin | Neoformat]]
     end
 
     vim.cmd [[
         augroup FormatAutogroup
           autocmd!
-          autocmd BufWritePost * :lua format_document()
+          autocmd BufWritePre * lua format_document()
         augroup END
     ]]
 end
