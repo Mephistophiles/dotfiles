@@ -166,7 +166,7 @@ end, 10, 'BAT0')
 -- }
 
 local volumewidget = wibox.widget.textbox()
-vicious.register(volumewidget, vicious.widgets.volume, '$1% $2', 2, 'Master')
+vicious.register(volumewidget, vicious.widgets.volume, ' VOL: $1% $2', 2, 'Master')
 volumewidget:buttons(awful.util.table.join(table.unpack({
     awful.button({}, 1, function() awful.util.spawn('amixer -q set Master toggle', false) end),
     awful.button({}, 3, function() awful.util.spawn('alacritty -e alsamixer', true) end),
@@ -175,6 +175,13 @@ volumewidget:buttons(awful.util.table.join(table.unpack({
 })))
 
 local pushlocker_widget = wibox.widget.textbox()
+local pushlocker_separator = wibox.widget {
+    widget = wibox.widget.separator,
+    orientation = 'vertical',
+    forced_width = 15,
+    color = '#444444',
+    visible = true,
+}
 pushlocker_widget:buttons(awful.util.table.join(table.unpack({
     awful.button({}, 1, function()
         local _, _, ret = os.execute('timeout 2s pushlockctl check')
@@ -186,39 +193,48 @@ pushlocker_widget:buttons(awful.util.table.join(table.unpack({
         end
     end),
 })))
-local update_pushlocker = function()
-    local has_vpn = io.popen('ip r get 192.168.161.35', 'r'):read('*l'):match('tun') ~= nil
 
-    if not has_vpn then
-        pushlocker_widget.text = ''
+local get_pushlocker_text = function()
+    local ip_route_handle = io.popen('ip r get 192.168.161.35', 'r')
 
-        return
-    end
+    if ip_route_handle == nil then return nil end
+
+    local ip_route_out = ip_route_handle:read('*l')
+    local has_vpn = ip_route_out and ip_route_out:match('tun') ~= nil
+
+    if not has_vpn then return nil end
 
     local handle = io.popen('timeout 2s pushlockctl check')
     local res = handle:read('*l')
     local ret = select(3, handle:close())
 
-    local text = ''
-
     if res == 'Unknown error' or ret == 101 or ret == 124 then
-        text = '🔥 Server Error'
+        return '🔥 Server Error'
     elseif ret == 0 then
-        text = '⚡️'
+        return '⚡️'
     elseif ret == 1 then
-        text = [[🚧 ']] .. res .. [[']]
+        return [[🚧 ']] .. res .. [[']]
     elseif ret == 2 then
-        text = '👷 Locked by me'
+        return '👷 Locked by me'
     elseif ret == 101 or ret == 124 then
-        text = '🔥 Server Error'
-    else
-        text = ''
+        return '🔥 Server Error'
+    end
+end
+
+local update_pushlocker = function()
+    local text = get_pushlocker_text()
+
+    if not text == nil or text == '' then
+        pushlocker_widget.text = ''
+        pushlocker_widget.visible = false
+        pushlocker_separator.visible = false
+
+        return
     end
 
-    if text ~= '' then text = ' ' .. text .. ' ' end
-
-    pushlocker_widget.text = text
-
+    pushlocker_widget.text = ' ' .. text .. ' '
+    pushlocker_widget.visible = true
+    pushlocker_separator.visible = true
 end
 
 gears.timer {
@@ -287,7 +303,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             pushlocker_widget,
-            separator,
+            pushlocker_separator,
             volumewidget,
             separator,
             batwidget,
