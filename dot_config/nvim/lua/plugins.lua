@@ -210,8 +210,8 @@ return packer.startup({
         }
 
         use {
-            'sbdchd/neoformat',
-            cmd = {'Neoformat'},
+            'mhartington/formatter.nvim',
+            cmd = {'Format', 'FormatWrite'},
             event = {'BufWritePre'},
             setup = function() require('settings.formatter').setup() end,
             config = function() require('settings.formatter').config() end,
