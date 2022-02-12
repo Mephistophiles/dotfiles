@@ -196,7 +196,7 @@ function M.config()
 
         if is_blacklisted_file(vim.api.nvim_buf_get_name(0)) then return end
 
-        vim.cmd [[undojoin | Neoformat]]
+        vim.cmd [[try | undojoin | Neoformat | catch /E790/ | Neoformat | endtry]]
     end
 
     vim.cmd [[
