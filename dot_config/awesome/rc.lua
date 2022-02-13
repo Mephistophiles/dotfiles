@@ -410,7 +410,7 @@ local globalkeys = gears.table.join(table.unpack({
               {description = 'show the menubar', group = 'launcher'}),
 }))
 
-clientkeys = gears.table.join(table.unpack({
+local clientkeys = gears.table.join(table.unpack({
     awful.key({modkey}, 'f', function(c)
         c.fullscreen = not c.fullscreen
         c:raise()
