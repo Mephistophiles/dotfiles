@@ -148,6 +148,12 @@ local function set_wallpaper(s)
     end
 end
 
+local cpuwidget = wibox.widget.textbox()
+vicious.register(cpuwidget, vicious.widgets.cpu, 'CPU: $1%', 3)
+
+local memwidget = wibox.widget.textbox()
+vicious.register(memwidget, vicious.widgets.mem, 'MEM: $1% SWAP: $5%', 3)
+
 local batwidget = wibox.widget.textbox()
 vicious.register(batwidget, vicious.widgets.bat, function(_, args)
     if tonumber(args[2]) < 30 and args[1] == '-' then
@@ -319,6 +325,10 @@ awful.screen.connect_for_each_screen(function(s)
             pushlocker_widget,
             pushlocker_separator,
             volumewidget,
+            separator,
+            cpuwidget,
+            separator,
+            memwidget,
             separator,
             batwidget,
             separator,
