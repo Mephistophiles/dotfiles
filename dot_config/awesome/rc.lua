@@ -224,7 +224,7 @@ end
 local update_pushlocker = function()
     local text = get_pushlocker_text()
 
-    if not text == nil or text == '' then
+    if not text or text == '' then
         pushlocker_widget.text = ''
         pushlocker_widget.visible = false
         pushlocker_separator.visible = false
