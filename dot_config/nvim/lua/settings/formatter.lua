@@ -139,23 +139,23 @@ function M.on_menu_save(blacklist) BLACKLIST.set(blacklist) end
 
 function M.setup()
     MAP.nnoremap('<leader>m', function()
-        if not vim.b.disable_formatter then
-            vim.b.disable_formatter = true
-            vim.notify('Disable format on save')
-        else
-            vim.b.disable_formatter = false
+        if not vim.b.enable_formatter then
+            vim.b.enable_formatter = true
             vim.notify('Enable format on save')
+        else
+            vim.b.enable_formatter = false
+            vim.notify('Disable format on save')
         end
     end)
 
     MAP.nnoremap('<leader>mb', function()
         blacklist_file(vim.api.nvim_buf_get_name(0))
-        vim.b.disable_formatter = true
+        vim.b.enable_formatter = false
         vim.notify('Permanently disable format on save')
     end)
     MAP.nnoremap('<leader>mu', function()
         unblacklist_file(vim.api.nvim_buf_get_name(0))
-        vim.b.disable_formatter = false
+        vim.b.enable_formatter = true
         vim.notify('Remove current file from the blacklist')
     end)
     MAP.nnoremap('<leader>mc', function()
@@ -178,7 +178,7 @@ function M.config()
     end
 
     function _G.format_document()
-        if vim.b.disable_formatter == true then return end
+        if not vim.b.enable_formatter then return end
 
         if not vim.tbl_contains(supported_langs, vim.api.nvim_buf_get_option(0, 'filetype')) then
             return
