@@ -252,6 +252,20 @@ local separator = wibox.widget {
     visible = true,
 }
 
+local tags = {
+    {tag_name = '0', tag_key = '`'}, --
+    {tag_name = '1', tag_key = '#10'}, --
+    {tag_name = '2', tag_key = '#11'}, --
+    {tag_name = '3', tag_key = '#12'}, --
+    {tag_name = '4', tag_key = '#13'}, --
+    {tag_name = '5', tag_key = '#14'}, --
+    {tag_name = '6', tag_key = '#15'}, --
+    {tag_name = '7', tag_key = '#16'}, --
+    {tag_name = '8', tag_key = '#17'}, --
+    {tag_name = '9', tag_key = '#18'}, --
+    {tag_name = '10', tag_key = '#19'}, --
+}
+
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal('property::geometry', set_wallpaper)
 
@@ -260,7 +274,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'}, s, awful.layout.layouts[1])
+    awful.tag(gears.table.map(function(el) return el.tag_name end, tags), s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -436,39 +450,34 @@ clientkeys = gears.table.join(table.unpack({
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i, v in ipairs({'`', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) do
-    local key = nil
-
-    if v == '`' then
-        key = '`'
-    else
-        key = '#' .. v + 9
-    end
+for tag_idx, tag_item in ipairs(tags) do
+    local tag_key = tag_item.tag_key
+    local tag_name = tag_item.tag_name
 
     globalkeys = gears.table.join(globalkeys, table.unpack({ -- View tag only.
-        awful.key({modkey}, key, function()
-            local screen = awful.screen.focused()
-            local tag = screen.tags[i]
+        awful.key({modkey}, tag_key, function()
+            local focused_screen = awful.screen.focused()
+            local tag = focused_screen.tags[tag_idx]
             if tag then tag:view_only() end
-        end, {description = 'view tag #' .. i, group = 'tag'}), -- Toggle tag display.
-        awful.key({modkey, 'Control'}, key, function()
-            local screen = awful.screen.focused()
-            local tag = screen.tags[i]
+        end, {description = 'view tag #' .. tag_name, group = 'tag'}), -- Toggle tag display.
+        awful.key({modkey, 'Control'}, tag_key, function()
+            local focused_screen = awful.screen.focused()
+            local tag = focused_screen.tags[tag_idx]
             if tag then awful.tag.viewtoggle(tag) end
-        end, {description = 'toggle tag #' .. i, group = 'tag'}), -- Move client to tag.
-        awful.key({modkey, 'Shift'}, key, function()
+        end, {description = 'toggle tag #' .. tag_name, group = 'tag'}), -- Move client to tag.
+        awful.key({modkey, 'Shift'}, tag_key, function()
             if client.focus then
-                local tag = client.focus.screen.tags[i]
+                local tag = client.focus.screen.tags[tag_idx]
                 if tag then client.focus:move_to_tag(tag) end
             end
-        end, {description = 'move focused client to tag #' .. i, group = 'tag'}),
+        end, {description = 'move focused client to tag #' .. tag_name, group = 'tag'}),
         -- Toggle tag on focused client.
-        awful.key({modkey, 'Control', 'Shift'}, '#' .. i + 9, function()
+        awful.key({modkey, 'Control', 'Shift'}, tag_key, function()
             if client.focus then
-                local tag = client.focus.screen.tags[i]
+                local tag = client.focus.screen.tags[tag_idx]
                 if tag then client.focus:toggle_tag(tag) end
             end
-        end, {description = 'toggle focused client on tag #' .. i, group = 'tag'}),
+        end, {description = 'toggle focused client on tag #' .. tag_name, group = 'tag'}),
     }))
 end
 
