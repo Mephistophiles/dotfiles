@@ -20,6 +20,8 @@ local beautiful = require('beautiful')
 local naughty = require('naughty')
 local menubar = require('menubar')
 local hotkeys_popup = require('awful.hotkeys_popup')
+-- External libraries
+local scratch = require('scratch')
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require('awful.hotkeys_popup.keys')
@@ -455,6 +457,11 @@ local clientkeys = gears.table.join(table.unpack({
         c.maximized_horizontal = not c.maximized_horizontal
         c:raise()
     end, {description = '(un)maximize horizontally', group = 'client'}),
+
+    awful.key({modkey, 'Shift'}, '-', function(c) scratch.pad.set(c) end,
+              {description = 'make the currently focused window a scratchpad', group = 'client'}),
+    awful.key({modkey}, '-', function() scratch.pad.toggle() end,
+              {description = 'show the scratchpad window', group = 'client'}),
 }))
 
 -- Bind all key numbers to tags.
