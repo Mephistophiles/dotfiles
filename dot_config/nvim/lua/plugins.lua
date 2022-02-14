@@ -79,7 +79,7 @@ return packer.startup({
         use {'tpope/vim-fugitive', cmd = {'G', 'Git'}, opt = true}
 
         use {
-            'blackCauldron7/surround.nvim',
+            'Mephistophiles/surround.nvim', -- original author (blackCauldron7) has been deleted (unsupported repo)
             config = function()
                 require'surround'.setup {map_insert_mode = false, mappings_style = 'surround'}
 
