@@ -584,6 +584,8 @@ return packer.startup({
             event = {'CursorHold', 'InsertEnter'},
             config = function() require'marks'.setup {default_mappings = false} end,
         }
+
+        use {'timcharper/textile.vim', ft = 'textile'}
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
