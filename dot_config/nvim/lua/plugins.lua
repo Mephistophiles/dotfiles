@@ -586,6 +586,7 @@ return packer.startup({
         }
 
         use {'timcharper/textile.vim', ft = 'textile'}
+        use {'ellisonleao/glow.nvim', ft = 'markdown'}
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
