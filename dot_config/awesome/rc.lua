@@ -60,6 +60,17 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
 
 -- This is used later as the default terminal and editor to run.
+
+--- Returns browser cmd
+---@alias browser_mode '"regular"' | '"private"'
+---@param private_mode browser_mode - get cmd to run a browser in private mode
+---@return string browser cmd
+local function browser(private_mode)
+    if private_mode and private_mode == 'private' then return 'firefox --private-window' end
+
+    return 'firefox'
+end
+
 local terminal = 'alacritty'
 local editor = os.getenv('EDITOR') or 'nvim'
 local editor_cmd = terminal .. ' -e ' .. editor
@@ -379,6 +390,10 @@ local globalkeys = gears.table.join(table.unpack({
         awful.client.focus.history.previous()
         if client.focus then client.focus:raise() end
     end, {description = 'go back', group = 'client'}), -- Standard program
+    awful.key({modkey}, 'b', function() awful.spawn(browser('regular')) end,
+              {description = 'open a browser', group = 'launcher'}),
+    awful.key({modkey, 'Shift'}, 'b', function() awful.spawn(browser('private')) end,
+              {description = 'open a private browser', group = 'launcher'}),
     awful.key({modkey}, 'Return', function() awful.spawn(terminal) end,
               {description = 'open a terminal', group = 'launcher'}),
     awful.key({modkey, 'Control'}, 'r', awesome.restart,
