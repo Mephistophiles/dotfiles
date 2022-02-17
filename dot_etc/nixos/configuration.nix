@@ -224,7 +224,8 @@ in {
     age
     bitwarden
     bitwarden-cli
-    bottom
+    unstable.bottom
+    brightnessctl
     unstable.chezmoi
     curl
     docker-compose
