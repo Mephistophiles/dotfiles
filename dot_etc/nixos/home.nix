@@ -20,6 +20,7 @@
     unstable.evince
     unstable.jq
     unstable.tree-sitter
+    acpi
     gopass
     gopls
     nodejs

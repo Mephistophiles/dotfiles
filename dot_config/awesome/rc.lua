@@ -13,7 +13,6 @@ local awful = require('awful')
 require('awful.autofocus')
 -- Widget and layout library
 local wibox = require('wibox')
-local vicious = require('vicious')
 -- Theme handling library
 local beautiful = require('beautiful')
 -- Notification library
@@ -161,43 +160,16 @@ local function set_wallpaper(s)
     end
 end
 
-local cpuwidget = wibox.widget.textbox()
-vicious.register(cpuwidget, vicious.widgets.cpu, 'CPU: $1%', 3)
-
-local memwidget = wibox.widget.textbox()
-vicious.register(memwidget, vicious.widgets.mem, 'MEM: $1% SWAP: $5%', 3)
-
-local batwidget = wibox.widget.textbox()
-vicious.register(batwidget, vicious.widgets.bat, function(_, args)
-    if tonumber(args[2]) < 30 and args[1] == '-' then
-        return string.format([[<span color='#FF0000'>BAT: %s%d%% (%s)</span>]], args[1], args[2],
-                             args[3])
-    end
-    if args[1] == '-' then return string.format([[BAT: %s%d%% (%s)]], args[1], args[2], args[3]) end
-
-    return string.format([[BAT: %d%%]], args[2])
-end, 10, 'BAT0')
--- batwidget:set_color{
---     type = 'linear',
---     from = {0, 0},
---     to = {100, 0},
---     stops = {{0, '#FF5656'}, {0.5, '#88A175'}, {1, '#AECF96'}},
--- }
-
-local volumewidget = wibox.widget.textbox()
-vicious.register(volumewidget, vicious.widgets.volume, ' VOL: $1% $2', 2, 'Master')
-volumewidget:buttons(awful.util.table.join(table.unpack({
-    awful.button({}, 1, function() awful.util.spawn('amixer -q set Master toggle', false) end),
-    awful.button({}, 3, function() awful.util.spawn('alacritty -e alsamixer', true) end),
-    awful.button({}, 4, function() awful.util.spawn('amixer -q set Master 1%+', false) end),
-    awful.button({}, 5, function() awful.util.spawn('amixer -q set Master 1%-', false) end),
-})))
+local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
+local mem_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
+local battery_widget = require('awesome-wm-widgets.batteryarc-widget.batteryarc')
+local brightness_widget = require('awesome-wm-widgets.brightness-widget.brightness')
+local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
 local pushlocker_widget = wibox.widget.textbox()
 local pushlocker_separator = wibox.widget {
     widget = wibox.widget.separator,
     orientation = 'vertical',
-    forced_width = 15,
     color = '#444444',
     visible = true,
 }
@@ -266,7 +238,7 @@ gears.timer {
 local separator = wibox.widget {
     widget = wibox.widget.separator,
     orientation = 'vertical',
-    forced_width = 15,
+    forced_width = 8,
     color = '#444444',
     visible = true,
 }
@@ -335,15 +307,13 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            spacing = 7,
             pushlocker_widget,
-            pushlocker_separator,
-            volumewidget,
-            separator,
-            cpuwidget,
-            separator,
-            memwidget,
-            separator,
-            batwidget,
+            brightness_widget({program = 'brightnessctl'}),
+            volume_widget({widget_type = 'arc', device = 'default'}),
+            cpu_widget(),
+            mem_widget(),
+            battery_widget({show_current_level = true}),
             separator,
             mykeyboardlayout,
             separator,
