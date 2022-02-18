@@ -70,6 +70,9 @@ local function browser(private_mode)
     return 'firefox'
 end
 
+local awesomewm_dir = gears.filesystem.get_configuration_dir()
+local lock = awesomewm_dir .. '/awesome-lock.sh'
+
 local terminal = 'alacritty'
 local editor = os.getenv('EDITOR') or 'nvim'
 local editor_cmd = terminal .. ' -e ' .. editor
@@ -360,6 +363,8 @@ local globalkeys = gears.table.join(table.unpack({
         awful.client.focus.history.previous()
         if client.focus then client.focus:raise() end
     end, {description = 'go back', group = 'client'}), -- Standard program
+    awful.key({modkey}, [[\]], function() awful.spawn(lock .. ' lock 2') end,
+              {description = 'lock a screen', group = 'launcher'}),
     awful.key({modkey}, 'b', function() awful.spawn(browser('regular')) end,
               {description = 'open a browser', group = 'launcher'}),
     awful.key({modkey, 'Shift'}, 'b', function() awful.spawn(browser('private')) end,
@@ -628,10 +633,14 @@ client.connect_signal('unfocus', function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- {{{ Autorun
+local xidlehook = string.format(
+                      'xidlehook --not-when-fullscreen --timer 60 "%s lock 1" "%s unlock 1" --timer 30 "%s lock 2" "%s unlock 2"',
+                      lock, lock, lock, lock)
 
 local autorun = {
     'flameshot', -- screenshot
     'solaar config "MX Master 2S" dpi 4000', -- logitech mouse
+    xidlehook, -- lock
 }
 
 for _, prg in ipairs(autorun) do awful.spawn.once(prg) end
