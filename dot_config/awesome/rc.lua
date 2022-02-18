@@ -244,7 +244,7 @@ local separator = wibox.widget {
 }
 
 local tags = {
-    {tag_name = '0', tag_key = '`'}, --
+    -- {tag_name = '0', tag_key = '`'}, --
     {tag_name = '1', tag_key = '#10'}, --
     {tag_name = '2', tag_key = '#11'}, --
     {tag_name = '3', tag_key = '#12'}, --
