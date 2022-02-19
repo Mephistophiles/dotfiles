@@ -170,12 +170,6 @@ local brightness_widget = require('awesome-wm-widgets.brightness-widget.brightne
 local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
 local pushlocker_widget = wibox.widget.textbox()
-local pushlocker_separator = wibox.widget {
-    widget = wibox.widget.separator,
-    orientation = 'vertical',
-    color = '#444444',
-    visible = true,
-}
 pushlocker_widget:buttons(awful.util.table.join(table.unpack({
     awful.button({}, 1, function()
         local _, _, ret = os.execute('timeout 2s pushlockctl check')
@@ -221,14 +215,12 @@ local update_pushlocker = function()
     if not text or text == '' then
         pushlocker_widget.text = ''
         pushlocker_widget.visible = false
-        pushlocker_separator.visible = false
 
         return
     end
 
     pushlocker_widget.text = ' ' .. text .. ' '
     pushlocker_widget.visible = true
-    pushlocker_separator.visible = true
 end
 
 gears.timer {
