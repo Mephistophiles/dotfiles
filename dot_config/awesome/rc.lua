@@ -302,7 +302,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            spacing = 7,
+            spacing = 9,
             pushlocker_widget,
             brightness_widget({program = 'brightnessctl'}),
             volume_widget({widget_type = 'arc', device = 'default'}),
