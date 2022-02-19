@@ -142,7 +142,7 @@ in {
 
   environment.variables = {
     PATH = "$HOME/.cargo/bin:$HOME/bin:$HOME/go/bin";
-    WINIT_X11_SCALE_FACTOR = "1.35";
+    WINIT_X11_SCALE_FACTOR = "1.2";
     EDITOR = "vim";
   };
 
