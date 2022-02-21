@@ -367,9 +367,15 @@ return packer.startup({
                     require'hop'.hint_words(
                         {direction = require'hop.hint'.HintDirection.AFTER_CURSOR})
                 end)
+                MAP.map('<Leader>W', function()
+                    require'hop'.hint_words({ multi_windows = true })
+                end)
                 MAP.map('<Leader>b', function()
                     require'hop'.hint_words(
                         {direction = require'hop.hint'.HintDirection.BEFORE_CURSOR})
+                end)
+                MAP.map('<Leader>B', function()
+                    require'hop'.hint_words({ multi_windows = true })
                 end)
                 MAP.nmap('f', function()
                     require'hop'.hint_char1({
