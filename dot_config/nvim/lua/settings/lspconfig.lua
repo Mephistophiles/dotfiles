@@ -24,7 +24,7 @@ local custom_attach = function(client, bufnr)
     if client.resolved_capabilities.document_formatting then
         vim.cmd [[augroup Format]]
         vim.cmd [[autocmd! * <buffer>]]
-        vim.cmd [[autocmd BufWritePost <buffer> lua require'settings.formatter'.format_document()]]
+        vim.cmd [[autocmd BufWritePre <buffer> lua require'settings.formatter'.format_document()]]
         vim.cmd [[augroup END]]
     end
 

@@ -101,7 +101,7 @@ function M.format_document()
 
     if is_blacklisted_file(vim.api.nvim_buf_get_name(0)) then return end
 
-    vim.lsp.buf.formatting()
+    vim.lsp.buf.formatting_seq_sync()
 end
 
 return M
