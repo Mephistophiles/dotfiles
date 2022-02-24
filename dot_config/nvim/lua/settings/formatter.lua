@@ -62,82 +62,11 @@ end
 --- @param blacklist Blacklist
 function BLACKLIST.set(blacklist) vim.fn.writefile(vim.fn.msgpackdump(blacklist), cache_file, 'b') end
 
-local filetypes = {
-    c = {
-        -- prettier
-        function()
-            local util = require('lspconfig.util')
-            local filename = vim.api.nvim_buf_get_name(0)
-            local project_root = util.find_git_ancestor(filename)
-
-            if project_root and util.path.is_file(util.path.join({project_root, '.clang-format'})) then
-                return {
-                    exe = 'clang-format',
-                    args = {},
-                    stdin = true,
-                    cwd = vim.fn.expand('%:p:h'), -- Run clang-format in cwd of the file.
-                }
-            end
-
-            if vim.fn.executable('uncrustify') ~= 1 then return nil end
-
-            local cfgpath = vim.fn.stdpath('config')
-
-            return {
-                exe = 'uncrustify',
-                args = {'-c', cfgpath .. '/uncrustify.cfg', '-lc'},
-                stdin = true,
-            }
-        end,
-    },
-    rust = {
-        -- Rustfmt
-        function()
-            return {exe = 'rustfmt', args = {'--edition=2018', '--emit=stdout'}, stdin = true}
-        end,
-    },
-    go = {
-        -- golang
-        function() return {exe = 'gofmt', stdin = true} end,
-    },
-    lua = {
-        -- lua-format
-        function()
-            return {
-                exe = 'lua-format',
-                args = {
-                    '--tab-width=4', '--column-limit=100', '--column-table-limit=100',
-                    '--double-quote-to-single-quote', '--extra-sep-at-table-end',
-                },
-                stdin = true,
-            }
-        end,
-    },
-    cpp = {
-        -- clang-format
-        function()
-            return {
-                exe = 'clang-format',
-                args = {},
-                stdin = true,
-                cwd = vim.fn.expand('%:p:h'), -- Run clang-format in cwd of the file.
-            }
-        end,
-    },
-    json = {
-        function()
-            local jq_args = {'--indent', '4'}
-
-            if vim.b.formatter_sort_keys then table.insert(jq_args, '--sort-keys') end
-
-            return {exe = 'jq', args = jq_args, stdin = true}
-        end,
-    },
-}
-
 function M.on_menu_save(blacklist) BLACKLIST.set(blacklist) end
 
 function M.setup()
+    vim.b.enable_formatter = true
+
     MAP.nnoremap('<leader>m', function()
         if not vim.b.enable_formatter then
             vim.b.enable_formatter = true
@@ -167,35 +96,12 @@ function M.setup()
                  function() require('settings.formatter_ui').toggle_quick_menu(BLACKLIST.get()) end)
 end
 
-function M.config()
-    local opts = {logging = false, filetype = filetypes}
-    require('formatter').setup(opts)
+function M.format_document()
+    if not vim.b.enable_formatter then return end
 
-    local supported_langs = {}
+    if is_blacklisted_file(vim.api.nvim_buf_get_name(0)) then return end
 
-    for ft, fns in pairs(opts.filetype) do
-        if fns[1]() ~= nil then table.insert(supported_langs, ft) end
-    end
-
-    function _G.format_document()
-        if not vim.b.enable_formatter then return end
-
-        if not vim.tbl_contains(supported_langs, vim.api.nvim_buf_get_option(0, 'filetype')) then
-            return
-        end
-
-        if is_blacklisted_file(vim.api.nvim_buf_get_name(0)) then return end
-
-        -- todo fix spam in changes
-        vim.cmd [[FormatWrite]]
-    end
-
-    vim.cmd [[
-        augroup FormatAutogroup
-          autocmd!
-          autocmd BufWritePost * lua format_document()
-        augroup END
-    ]]
+    vim.lsp.buf.formatting()
 end
 
 return M

@@ -290,6 +290,7 @@ in {
     llvmPackages_latest.llvm
     clang-tools
     rnix-lsp
+    efm-langserver
     sumneko-lua-language-server
     unstable.python39Packages.python-lsp-server
     unstable.vscode-extensions.llvm-org.lldb-vscode

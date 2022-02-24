@@ -28,7 +28,7 @@ return packer.startup({
                     config = function()
                         require'lsp_signature'.setup({toggle_key = '<C-S>', floating_window = false})
                     end,
-                }, 'lspcontainers/lspcontainers.nvim',
+                }, 'mattn/efm-langserver', 'lspcontainers/lspcontainers.nvim',
             },
         }
 
@@ -218,14 +218,6 @@ return packer.startup({
             'simrat39/symbols-outline.nvim',
             cmd = {'SymbolsOutline'},
             setup = function() MAP.nmap('<F5>', '<cmd>SymbolsOutline<cr>') end,
-        }
-
-        use {
-            'mhartington/formatter.nvim',
-            cmd = {'Format', 'FormatWrite'},
-            event = {'BufWritePre'},
-            setup = function() require('settings.formatter').setup() end,
-            config = function() require('settings.formatter').config() end,
         }
 
         use {

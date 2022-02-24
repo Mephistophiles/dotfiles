@@ -9,36 +9,8 @@ local custom_init = function(client)
     client.config.flags.allow_incremental_sync = true
 end
 
-local filetype_attach = setmetatable({
-    go = function()
-        -- vim.cmd [[
-        --   augroup lsp_buf_format
-        --     au! BufWritePre <buffer>
-        --     autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()
-        --   augroup END
-        -- ]]
-    end,
-
-    rust = function()
-        -- vim.cmd [[
-        --    augroup lsp_buf_inlay_hints
-        --      au! BufWritePre <buffer>
-        --      autocmd CursorHold <buffer> :lua vim.lsp.buf_request(0, 'rust-analyzer/inlayHints', require('lsp_extensions.inlay_hints').get_params(), require('lsp_extensions.inlay_hints').get_callback {})
-        --    augroup END
-        -- ]]
-
-        -- vim.cmd [[
-        --   autocmd BufEnter,BufWritePost <buffer> :lua require('lsp_extensions.inlay_hints').request {aligned = true, prefix = " » "}
-        -- ]]
-
-        -- vim.cmd [[
-        --   augroup lsp_buf_format
-        --     au! BufWritePre <buffer>
-        --     autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync()
-        --   augroup END
-        -- ]]
-    end,
-}, {__index = function() return function() end end})
+local filetype_attach = setmetatable({go = function() end, rust = function() end},
+                                     {__index = function() return function() end end})
 
 local custom_attach = function(client, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
@@ -48,6 +20,13 @@ local custom_attach = function(client, bufnr)
     M.key_bindings(client)
 
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    if client.resolved_capabilities.document_formatting then
+        vim.cmd [[augroup Format]]
+        vim.cmd [[autocmd! * <buffer>]]
+        vim.cmd [[autocmd BufWritePost <buffer> lua require'settings.formatter'.format_document()]]
+        vim.cmd [[augroup END]]
+    end
 
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
@@ -140,6 +119,30 @@ local servers = {
 
         return {}
     end,
+    efm = function()
+        require('settings.formatter').setup()
+
+        return {
+            init_options = {documentFormatting = true},
+            filetypes = {'lua'},
+            root_dir = require('lspconfig').util.root_pattern {'.git/', '.'},
+            settings = {
+                -- root_dir = lspconfig.util.root_pattern{'.git/', "."},
+                lintDebounce = 100,
+                languages = {
+                    -- ["="] = { misspell },
+                    c = {
+                        require('settings.efm.c_uncrustify'),
+                        require('settings.efm.c_clang_format'),
+                    },
+                    go = {require('settings.efm.go')},
+                    json = {require('settings.efm.json')},
+                    lua = {require('settings.efm.lua')},
+                    rust = {require('settings.efm.rust')},
+                },
+            },
+        }
+    end,
     -- rust_analyzer = true,
     tsserver = {cmd = require'lspcontainers'.command('tsserver')},
     clangd = true,
@@ -206,7 +209,9 @@ function M.key_bindings(client)
     MAP.nnoremap('<C-s>', vim.lsp.buf.signature_help, 'buffer')
     MAP.nnoremap('<leader>rn', function() vim.lsp.buf.rename() end, 'buffer')
     -- MAP.nnoremap('<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
-    MAP.nnoremap('<leader>f', function() vim.lsp.buf.formatting() end, 'buffer')
+    if client.resolved_capabilities.document_formatting then
+        MAP.nnoremap('<leader>f', function() vim.lsp.buf.formatting() end, 'buffer')
+    end
 
     MAP.nnoremap('<leader>d', vim.diagnostic.open_float, 'buffer')
     MAP.nnoremap('[d', function() vim.diagnostic.goto_next() end, 'buffer')
