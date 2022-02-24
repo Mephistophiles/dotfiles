@@ -124,7 +124,7 @@ local servers = {
 
         return {
             init_options = {documentFormatting = true},
-            filetypes = {'lua'},
+            filetypes = {'c', 'go', 'json', 'rust', 'lua'},
             root_dir = require('lspconfig').util.root_pattern {'.git/', '.'},
             settings = {
                 -- root_dir = lspconfig.util.root_pattern{'.git/', "."},
