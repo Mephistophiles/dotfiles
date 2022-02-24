@@ -190,6 +190,8 @@ local get_pushlocker_text = function()
     local ip_route_out = ip_route_handle:read('*l')
     local has_vpn = ip_route_out and ip_route_out:match('tun') ~= nil
 
+    ip_route_handle:close()
+
     if not has_vpn then return nil end
 
     local handle = io.popen('timeout 2s pushlockctl check')
