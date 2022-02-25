@@ -1,14 +1,8 @@
 #!/usr/bin/env fish
 
 function screen_lock
-	if pidof i3lock >/dev/null 2>&1
-		return
-	end
-
-	pkill i3lock
-
 	# Lock screen displaing this image
-	i3lock -f -c 000000
+	slock
 end
 
 function lock
