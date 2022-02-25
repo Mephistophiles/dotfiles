@@ -156,7 +156,7 @@ function M.setup()
                 vim.cmd [[autocmd BufWritePre <buffer> lua require'settings.formatter'.format_document()]]
                 vim.cmd [[augroup END]]
 
-                MAP.nnoremap('<leader>f', function() vim.lsp.buf.formatting_sync() end, 'buffer')
+                MAP.nnoremap('<leader>f', function() vim.lsp.buf.formatting() end, 'buffer')
             end
         end,
         root_dir = require('lspconfig').util.root_pattern {'.git/', '.'},
