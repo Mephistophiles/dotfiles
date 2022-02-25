@@ -163,7 +163,9 @@ function M.setup()
             lintDebounce = 100,
             languages = {
                 -- ["="] = { misspell },
-                c = {require('settings.efm.c_uncrustify')--[[ , require('settings.efm.c_clang_format') ]]},
+                c = {
+                    require('settings.efm.c_uncrustify'), --[[ , require('settings.efm.c_clang_format') ]]
+                },
                 go = {require('settings.efm.go')},
                 json = {require('settings.efm.json')},
                 lua = {require('settings.efm.lua')},
