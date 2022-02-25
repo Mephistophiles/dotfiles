@@ -19,11 +19,12 @@ local beautiful = require('beautiful')
 local naughty = require('naughty')
 local menubar = require('menubar')
 local hotkeys_popup = require('awful.hotkeys_popup')
--- External libraries
-local scratch = require('scratch')
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require('awful.hotkeys_popup.keys')
+
+-- External libraries
+local scratch = require('scratch')
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -110,7 +111,8 @@ awful.layout.layouts = {
 local myawesomemenu = {
     {'hotkeys', function() hotkeys_popup.show_help(nil, awful.screen.focused()) end},
     {'manual', terminal .. ' -e man awesome'},
-    {'edit config', editor_cmd .. ' ' .. awesome.conffile}, {'restart', awesome.restart},
+    {'edit config', editor_cmd .. ' ' .. awesome.conffile}, --
+    {'restart', awesome.restart}, --
     {'quit', function() awesome.quit() end},
 }
 
@@ -349,15 +351,7 @@ local globalkeys = gears.table.join(table.unpack({
               {description = 'swap with previous client by index', group = 'client'}),
     awful.key({modkey, 'control'}, 'j', function() awful.screen.focus_relative(1) end,
               {description = 'focus the next screen', group = 'screen'}),
-    awful.key({modkey}, ']', function() awful.screen.focus_relative(1) end,
-              {description = 'focus the next screen', group = 'screen'}),
-    awful.key({modkey, 'Shift'}, 'Right', function() awful.screen.focus_relative(1) end,
-              {description = 'focus the next screen', group = 'screen'}),
     awful.key({modkey, 'control'}, 'k', function() awful.screen.focus_relative(-1) end,
-              {description = 'focus the previous screen', group = 'screen'}),
-    awful.key({modkey}, '[', function() awful.screen.focus_relative(-1) end,
-              {description = 'focus the previous screen', group = 'screen'}),
-    awful.key({modkey, 'Shift'}, 'Left', function() awful.screen.focus_relative(-1) end,
               {description = 'focus the previous screen', group = 'screen'}),
     awful.key({modkey}, 'u', awful.client.urgent.jumpto,
               {description = 'jump to urgent client', group = 'client'}),
