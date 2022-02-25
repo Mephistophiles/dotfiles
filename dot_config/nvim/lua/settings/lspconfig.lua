@@ -137,6 +137,8 @@ local setup_server = function(server, config)
 
     config = vim.tbl_deep_extend('force', M.make_default_opts(), config)
 
+    if server == 'clangd' then config.capabilities.offsetEncoding = {'utf-16'} end
+
     lspconfig[server].setup(config)
 end
 
