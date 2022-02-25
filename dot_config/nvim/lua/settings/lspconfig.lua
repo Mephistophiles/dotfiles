@@ -21,12 +21,9 @@ local custom_attach = function(client, bufnr)
 
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-    if client.resolved_capabilities.document_formatting then
-        vim.cmd [[augroup Format]]
-        vim.cmd [[autocmd! * <buffer>]]
-        vim.cmd [[autocmd BufWritePre <buffer> lua require'settings.formatter'.format_document()]]
-        vim.cmd [[augroup END]]
-    end
+    -- use efm for formatting
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
 
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
@@ -119,30 +116,6 @@ local servers = {
 
         return {}
     end,
-    efm = function()
-        require('settings.formatter').setup()
-
-        return {
-            init_options = {documentFormatting = true},
-            filetypes = {'c', 'go', 'json', 'rust', 'lua'},
-            root_dir = require('lspconfig').util.root_pattern {'.git/', '.'},
-            settings = {
-                -- root_dir = lspconfig.util.root_pattern{'.git/', "."},
-                lintDebounce = 100,
-                languages = {
-                    -- ["="] = { misspell },
-                    c = {
-                        require('settings.efm.c_uncrustify'),
-                        require('settings.efm.c_clang_format'),
-                    },
-                    go = {require('settings.efm.go')},
-                    json = {require('settings.efm.json')},
-                    lua = {require('settings.efm.lua')},
-                    rust = {require('settings.efm.rust')},
-                },
-            },
-        }
-    end,
     -- rust_analyzer = true,
     tsserver = {cmd = require'lspcontainers'.command('tsserver')},
     clangd = true,
@@ -167,7 +140,38 @@ local setup_server = function(server, config)
     lspconfig[server].setup(config)
 end
 
-function M.setup() for server, config in pairs(servers) do setup_server(server, config) end end
+function M.setup()
+    for server, config in pairs(servers) do setup_server(server, config) end
+
+    require('settings.formatter').setup()
+
+    lspconfig.efm.setup({
+        init_options = {documentFormatting = true},
+        on_attach = function(client)
+            if client.resolved_capabilities.document_formatting then
+                vim.cmd [[augroup Format]]
+                vim.cmd [[autocmd! * <buffer>]]
+                vim.cmd [[autocmd BufWritePre <buffer> lua require'settings.formatter'.format_document()]]
+                vim.cmd [[augroup END]]
+
+                MAP.nnoremap('<leader>f', function() vim.lsp.buf.formatting_sync() end, 'buffer')
+            end
+        end,
+        root_dir = require('lspconfig').util.root_pattern {'.git/', '.'},
+        settings = {
+            -- root_dir = lspconfig.util.root_pattern{'.git/', "."},
+            lintDebounce = 100,
+            languages = {
+                -- ["="] = { misspell },
+                c = {require('settings.efm.c_uncrustify')--[[ , require('settings.efm.c_clang_format') ]]},
+                go = {require('settings.efm.go')},
+                json = {require('settings.efm.json')},
+                lua = {require('settings.efm.lua')},
+                rust = {require('settings.efm.rust')},
+            },
+        },
+    })
+end
 
 function M.key_bindings(client)
     -- Mappings.
@@ -209,10 +213,6 @@ function M.key_bindings(client)
     MAP.nnoremap('<C-s>', vim.lsp.buf.signature_help, 'buffer')
     MAP.nnoremap('<leader>rn', function() vim.lsp.buf.rename() end, 'buffer')
     -- MAP.nnoremap('<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
-    if client.resolved_capabilities.document_formatting then
-        MAP.nnoremap('<leader>f', function() vim.lsp.buf.formatting() end, 'buffer')
-    end
-
     MAP.nnoremap('<leader>d', vim.diagnostic.open_float, 'buffer')
     MAP.nnoremap('[d', function() vim.diagnostic.goto_next() end, 'buffer')
     MAP.nnoremap(']d', function() vim.diagnostic.goto_prev() end, 'buffer')
