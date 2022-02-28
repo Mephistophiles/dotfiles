@@ -118,7 +118,7 @@ local servers = {
     end,
     -- rust_analyzer = true,
     tsserver = {cmd = require'lspcontainers'.command('tsserver')},
-    clangd = true,
+    clangd = {capabilities = {offsetEncoding = {'utf-16'}}},
     gopls = true,
     pylsp = true,
     rnix = true,
@@ -136,8 +136,6 @@ local setup_server = function(server, config)
     if type(config) ~= 'table' then config = {} end
 
     config = vim.tbl_deep_extend('force', M.make_default_opts(), config)
-
-    if server == 'clangd' then config.capabilities.offsetEncoding = {'utf-16'} end
 
     lspconfig[server].setup(config)
 end
