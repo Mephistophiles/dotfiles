@@ -25,6 +25,7 @@ require("awful.hotkeys_popup.keys")
 
 -- External libraries
 local scratch = require('scratch')
+local lfs = require('lfs') -- filesystem library
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -182,10 +183,31 @@ local function set_wallpaper(s)
     end
 end
 
+local function dir_is_empty(dir)
+    for file in lfs.dir(dir) do
+        if file ~= '.' and file ~= '..' then
+            return false
+        end
+    end
+
+    return true
+end
+
+
+local function has_battery()
+    return not dir_is_empty('/sys/class/power_supply')
+end
+
+local function has_brightness()
+    return not dir_is_empty('/sys/class/backlight')
+end
+
 local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
 local mem_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
-local battery_widget = require('awesome-wm-widgets.batteryarc-widget.batteryarc')
-local brightness_widget = require('awesome-wm-widgets.brightness-widget.brightness')
+local battery_widget = has_battery() and require('awesome-wm-widgets.batteryarc-widget.batteryarc') or nil
+
+local brightness_widget = has_brightness() and require('awesome-wm-widgets.brightness-widget.brightness') or nil
+
 local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
 local pushlocker_widget = wibox.widget.textbox()
@@ -206,8 +228,8 @@ local get_pushlocker_text = function()
 
     if ip_route_handle == nil then return nil end
 
-    local ip_route_out = ip_route_handle:read('*l')
-    local has_vpn = ip_route_out and ip_route_out:match('tun') ~= nil
+    local ip_route_out = ip_route_handle:read('*a')
+    local has_vpn = ip_route_out and ip_route_out:match('192.168.161.35') ~= nil
 
     ip_route_handle:close()
 
@@ -258,6 +280,19 @@ local separator = wibox.widget {
     color = '#444444',
     visible = true,
 }
+
+local empty_widget = function()
+    local widget = wibox.widget.textbox()
+    widget.visible = false
+    return widget
+end
+
+if brightness_widget == nil then
+    brightness_widget = empty_widget
+end
+if battery_widget == nil then
+    battery_widget = empty_widget
+end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
