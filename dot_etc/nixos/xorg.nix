@@ -32,5 +32,6 @@
       };
     };
   };
+  programs.slock.enable = true;
   environment.systemPackages = with pkgs; [ unstable.flameshot ];
 }
