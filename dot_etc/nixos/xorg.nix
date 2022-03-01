@@ -27,8 +27,7 @@
       };
       windowManager.awesome = {
         enable = true;
-        luaModules = with pkgs.luaPackages; [
-        ];
+        luaModules = with pkgs.luaPackages; [ luafilesystem ];
       };
     };
   };
