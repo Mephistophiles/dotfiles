@@ -34,8 +34,9 @@ return packer.startup({
 
         use 'hrsh7th/cmp-nvim-lsp' -- language server protocol
         use 'hrsh7th/cmp-buffer' -- completion from current buffer
+        use 'saadparwaiz1/cmp_luasnip' -- completion from snippets
         use 'onsails/lspkind-nvim' -- print completion source in menu
-        use 'L3MON4D3/LuaSnip' -- snippet engine
+        use {'L3MON4D3/LuaSnip', config = function() require('settings.luasnip').setup() end} -- snippet engine
         use 'hrsh7th/cmp-path' -- completion for filesystem
         use {'tzachar/cmp-tabnine', run = './install.sh'} -- tabnine
         use 'hrsh7th/nvim-cmp'
@@ -360,14 +361,14 @@ return packer.startup({
                         {direction = require'hop.hint'.HintDirection.AFTER_CURSOR})
                 end)
                 MAP.map('<Leader>W', function()
-                    require'hop'.hint_words({ multi_windows = true })
+                    require'hop'.hint_words({multi_windows = true})
                 end)
                 MAP.map('<Leader>b', function()
                     require'hop'.hint_words(
                         {direction = require'hop.hint'.HintDirection.BEFORE_CURSOR})
                 end)
                 MAP.map('<Leader>B', function()
-                    require'hop'.hint_words({ multi_windows = true })
+                    require'hop'.hint_words({multi_windows = true})
                 end)
                 MAP.nmap('f', function()
                     require'hop'.hint_char1({
