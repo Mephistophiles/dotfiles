@@ -203,8 +203,8 @@ local function has_brightness()
 end
 
 local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
-local mem_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
 local battery_widget = has_battery() and require('awesome-wm-widgets.batteryarc-widget.batteryarc') or nil
+-- local mem_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
 
 local brightness_widget = has_brightness() and require('awesome-wm-widgets.brightness-widget.brightness') or nil
 
@@ -348,7 +348,7 @@ awful.screen.connect_for_each_screen(function(s)
             brightness_widget({program = 'brightnessctl'}),
             volume_widget({widget_type = 'arc', device = 'default'}),
             cpu_widget(),
-            mem_widget(),
+            -- mem_widget(),
             battery_widget({show_current_level = true}),
             separator,
             mykeyboardlayout,
