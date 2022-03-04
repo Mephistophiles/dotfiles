@@ -202,11 +202,18 @@ local function has_brightness()
     return not dir_is_empty('/sys/class/backlight')
 end
 
+
+local empty_widget = function()
+    local widget = wibox.widget.textbox()
+    widget.visible = false
+    return widget
+end
+
 local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
-local battery_widget = has_battery() and require('awesome-wm-widgets.batteryarc-widget.batteryarc') or nil
 -- local mem_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
 
-local brightness_widget = has_brightness() and require('awesome-wm-widgets.brightness-widget.brightness') or nil
+local battery_widget = has_battery() and require('awesome-wm-widgets.batteryarc-widget.batteryarc') or empty_widget
+local brightness_widget = has_brightness() and require('awesome-wm-widgets.brightness-widget.brightness') or empty_widget
 
 local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
@@ -280,19 +287,6 @@ local separator = wibox.widget {
     color = '#444444',
     visible = true,
 }
-
-local empty_widget = function()
-    local widget = wibox.widget.textbox()
-    widget.visible = false
-    return widget
-end
-
-if brightness_widget == nil then
-    brightness_widget = empty_widget
-end
-if battery_widget == nil then
-    battery_widget = empty_widget
-end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
