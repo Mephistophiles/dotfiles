@@ -97,7 +97,7 @@ function M.setup()
                 require('luasnip').lsp_expand(args.body)
             end,
         },
-        views = {entries = 'native'},
+        view = {entries = 'native'},
         experimental = {ghost_text = true},
     })
 end
