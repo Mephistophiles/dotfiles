@@ -80,15 +80,6 @@ return packer.startup({
         use {'tpope/vim-fugitive', cmd = {'G', 'Git'}, opt = true}
 
         use {
-            'Mephistophiles/surround.nvim', -- original author (blackCauldron7) has been deleted (unsupported repo)
-            config = function()
-                require'surround'.setup {map_insert_mode = false, mappings_style = 'surround'}
-
-                vim.api.nvim_del_keymap('v', 's') -- remove surrond visual
-            end,
-        }
-
-        use {
             'lewis6991/gitsigns.nvim',
             event = {'CursorHold', 'InsertEnter'},
             requires = {'nvim-lua/plenary.nvim'},
