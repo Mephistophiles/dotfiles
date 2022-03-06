@@ -231,12 +231,12 @@ pushlocker_widget:buttons(awful.util.table.join(table.unpack({
 })))
 
 local get_pushlocker_text = function()
-    local ip_route_handle = io.popen('ip r get 192.168.161.35', 'r')
+    local ip_route_handle = io.popen('ip route list exact 192.168.161.0/24', 'r')
 
     if ip_route_handle == nil then return nil end
 
     local ip_route_out = ip_route_handle:read('*a')
-    local has_vpn = ip_route_out and ip_route_out:match('192.168.161.35') ~= nil
+    local has_vpn = ip_route_out and ip_route_out:match('^192.168.161.0/24') ~= nil
 
     ip_route_handle:close()
 
