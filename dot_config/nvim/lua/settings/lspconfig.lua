@@ -159,7 +159,6 @@ function M.setup()
         end,
         root_dir = require('lspconfig').util.root_pattern {'.git/', '.'},
         settings = {
-            -- root_dir = lspconfig.util.root_pattern{'.git/', "."},
             lintDebounce = 100,
             languages = {
                 -- ["="] = { misspell },
@@ -168,7 +167,7 @@ function M.setup()
                 },
                 go = {require('settings.efm.go')},
                 json = {require('settings.efm.json')},
-                lua = {require('settings.efm.lua')},
+                lua = {R('settings.efm.lua')},
                 rust = {require('settings.efm.rust')},
             },
         },
