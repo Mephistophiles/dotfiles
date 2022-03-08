@@ -288,6 +288,7 @@ in {
     # programming LSP
     clang-tools
     efm-langserver
+    gdb
     llvmPackages_latest.clang
     llvmPackages_latest.llvm
     rnix-lsp
