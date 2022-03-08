@@ -145,6 +145,15 @@ function M.setup()
 
     require('settings.formatter').setup()
 
+    local languages = {
+        -- ["="] = { misspell },
+        c = {require('settings.efm.c_uncrustify') --[[ , require('settings.efm.c_clang_format') ]] },
+        go = {require('settings.efm.go')},
+        json = {require('settings.efm.json')},
+        lua = {R('settings.efm.lua')},
+        rust = {require('settings.efm.rust')},
+    }
+
     lspconfig.efm.setup({
         init_options = {documentFormatting = true},
         on_attach = function(client)
@@ -158,19 +167,8 @@ function M.setup()
             end
         end,
         root_dir = require('lspconfig').util.root_pattern {'.git/', '.'},
-        settings = {
-            lintDebounce = 100,
-            languages = {
-                -- ["="] = { misspell },
-                c = {
-                    require('settings.efm.c_uncrustify'), --[[ , require('settings.efm.c_clang_format') ]]
-                },
-                go = {require('settings.efm.go')},
-                json = {require('settings.efm.json')},
-                lua = {R('settings.efm.lua')},
-                rust = {require('settings.efm.rust')},
-            },
-        },
+        filetypes = vim.tbl_keys(languages),
+        settings = {lintDebounce = 100, languages = languages},
     })
 end
 
