@@ -1,4 +1,1 @@
-return {
-	formatCommand = 'clang-format',
-	formatStdin = true,
-}
+return {formatCommand = 'clang-format', formatStdin = true}

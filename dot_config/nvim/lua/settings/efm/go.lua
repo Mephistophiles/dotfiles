@@ -1,4 +1,1 @@
-return {
-	formatCommand = 'gofmt',
-	formatStdin = true,
-}
+return {formatCommand = 'gofmt', formatStdin = true}
