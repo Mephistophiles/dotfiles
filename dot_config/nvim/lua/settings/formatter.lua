@@ -67,10 +67,10 @@ function M.on_menu_save(blacklist) BLACKLIST.set(blacklist) end
 function M.setup()
     MAP.nnoremap('<leader>m', function()
         if vim.b.disable_formatter then
-            vim.b.disable_formatter = true
+            vim.b.disable_formatter = false
             vim.notify('Enable format on save')
         else
-            vim.b.disable_formatter = false
+            vim.b.disable_formatter = true
             vim.notify('Disable format on save')
         end
     end)
