@@ -215,7 +215,7 @@ local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
 local battery_widget = has_battery() and require('awesome-wm-widgets.batteryarc-widget.batteryarc') or empty_widget
 local brightness_widget = has_brightness() and require('awesome-wm-widgets.brightness-widget.brightness') or empty_widget
 
-local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
+-- local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
 local pushlocker_widget = wibox.widget.textbox()
 pushlocker_widget:buttons(awful.util.table.join(table.unpack({
@@ -340,7 +340,7 @@ awful.screen.connect_for_each_screen(function(s)
             spacing = 9,
             pushlocker_widget,
             brightness_widget({program = 'brightnessctl'}),
-            volume_widget({widget_type = 'arc', device = 'default'}),
+            -- volume_widget({widget_type = 'arc', device = 'default'}),
             cpu_widget(),
             -- mem_widget(),
             battery_widget({show_current_level = true}),
