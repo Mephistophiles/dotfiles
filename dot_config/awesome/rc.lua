@@ -223,9 +223,9 @@ pushlocker_widget:buttons(awful.util.table.join(table.unpack({
         local _, _, ret = os.execute('timeout 2s pushlockctl check')
 
         if ret == 0 then
-            awful.util.spawn('pushlockctl lock', false)
+            awful.spawn('pushlockctl lock', false)
         elseif ret == 2 then
-            awful.util.spawn('pushlockctl unlock', false)
+            awful.spawn('pushlockctl unlock', false)
         end
     end),
 })))
@@ -472,20 +472,20 @@ globalkeys = gears.table.join(
               {description = "show the menubar", group = "launcher"}),
     -- Media
     awful.key({}, 'XF86AudioRaiseVolume',
-              function() awful.util.spawn('amixer -q set Master 2%+', false) end,
+              function() awful.spawn('amixer -q set Master 2%+', false) end,
               {description = 'increase volume level', group = 'awesome'}),
     awful.key({}, 'XF86AudioLowerVolume',
-              function() awful.util.spawn('amixer -q set Master 2%-', false) end,
+              function() awful.spawn('amixer -q set Master 2%-', false) end,
               {description = 'decrease volume level', group = 'awesome'}),
     awful.key({}, 'XF86AudioMute',
-              function() awful.util.spawn('amixer -q set Master toggle', false) end,
+              function() awful.spawn('amixer -q set Master toggle', false) end,
               {description = 'toggle volume', group = 'awesome'}),
 
     awful.key({}, 'XF86MonBrightnessUp',
-              function() awful.util.spawn('brightnessctl set +15', false) end,
+              function() awful.spawn('brightnessctl set +15', false) end,
               {description = 'increase brightness', group = 'awesome'}),
     awful.key({}, 'XF86MonBrightnessDown',
-              function() awful.util.spawn('brightnessctl set 15-', false) end,
+              function() awful.spawn('brightnessctl set 15-', false) end,
               {description = 'decrease brightness', group = 'awesome'})
 )
 
