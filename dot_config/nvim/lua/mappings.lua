@@ -120,3 +120,9 @@ MAP.nnoremap('<leader>Y', 'gg"+yG')
 -- workarounds
 -- inoremap <C-c> <Esc>
 MAP.inoremap('<C-c>', '<Esc>')
+
+-- resize
+MAP.nnoremap('<C-w>K', ':resize -5<CR>')
+MAP.nnoremap('<C-w>J', ':resize +5<CR>')
+MAP.nnoremap('<C-w>H', ':vertical resize -5<CR>')
+MAP.nnoremap('<C-w>L', ':vertical resize +5<CR>')
