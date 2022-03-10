@@ -13,6 +13,8 @@ function M.setup()
             'json', --
             'julia', --
             'lua', --
+            'make', --
+            'python', --
             'rust', --
             'teal', --
             'typescript', --
