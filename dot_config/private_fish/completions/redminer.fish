@@ -116,28 +116,32 @@ function __fish_redminer_need_append_batch_command
   return 1
 end
 
+function __fish_redminer_timer_sort
+    sed -e '/(running)/s/^/1:/' -e '/(suspended)/s/^/2:/' | sort | sed 's/^[[:digit:]]\+://'
+end
+
 function __fish_redminer_list_issues
     redminer tickets | sed 's/^#//'
 end
 
 function __fish_redminer_list_staged_timers
-    redminer timer list_porcelain staged | sed "s/:/$TAB_CHAR/"
+    redminer timer list_porcelain staged | __fish_redminer_timer_sort | sed "s/:/$TAB_CHAR/"
 end
 
 function __fish_redminer_list_non_staged_timers
-    redminer timer list_porcelain | sed "s/:/$TAB_CHAR/"
+    redminer timer list_porcelain | __fish_redminer_timer_sort | sed "s/:/$TAB_CHAR/"
 end
 
 function __fish_redminer_list_to_commit_timers
-    redminer timer list_porcelain to_commit | sed "s/:/$TAB_CHAR/"
+    redminer timer list_porcelain to_commit | __fish_redminer_timer_sort | sed "s/:/$TAB_CHAR/"
 end
 
 function __fish_redminer_list_running_timers
-    redminer timer list_porcelain | grep running | sed "s/:/$TAB_CHAR/"
+    redminer timer list_porcelain | __fish_redminer_timer_sort | grep running | sed "s/:/$TAB_CHAR/"
 end
 
 function __fish_redminer_list_suspended_timers
-    redminer timer list_porcelain | grep suspended | sed "s/:/$TAB_CHAR/"
+    redminer timer list_porcelain | __fish_redminer_timer_sort | grep suspended | sed "s/:/$TAB_CHAR/"
 end
 
 function __fish_redminer_list_issues_wo_timers
@@ -172,9 +176,9 @@ complete -f -c redminer -n '__fish_redminer_using_command' -a 'report' -d 'gener
 complete -f -c redminer -n '__fish_redminer_using_command' -a 'week_report' -d 'generate XLS week report'
 complete -f -c redminer -n '__fish_redminer_using_command' -a 'pr' -d 'create merge request'
 
-complete -f -c redminer -n '__fish_redminer_using_command fetch' -a '(__fish_redminer_list_issues)' -d 'select issue id'
+complete -f -c redminer -n '__fish_redminer_using_command fetch' -k -a '(__fish_redminer_list_issues)' -d 'select issue id'
 
-complete -f -c redminer -n '__fish_redminer_using_command ticket_info' -a '(__fish_redminer_list_issues)' -d 'select issue'
+complete -f -c redminer -n '__fish_redminer_using_command ticket_info' -k -a '(__fish_redminer_list_issues)' -d 'select issue'
 
 complete -f -c redminer -n '__fish_redminer_using_command timer' -a 'new' -d 'create new timer for the issue'
 complete -f -c redminer -n '__fish_redminer_using_command timer' -a 'batch' -d 'create new timer for the issue in batch mode'
@@ -189,13 +193,13 @@ complete -f -c redminer -n '__fish_redminer_using_command timer' -a 'report' -d 
 complete -f -c redminer -n '__fish_redminer_using_command timer' -a 'restore' -d 'move timer from staged'
 complete -f -c redminer -n '__fish_redminer_using_command timer' -a 'set' -d 'set timer ops'
 
-complete -f -c redminer -n '__fish_redminer_using_command timer commit' -a '(__fish_redminer_list_non_staged_timers)' -d 'select issue'
-complete -f -c redminer -n '__fish_redminer_using_command timer restore' -a '(__fish_redminer_list_staged_timers)' -d 'select issue'
-complete -f -c redminer -n '__fish_redminer_using_command timer suspend' -a '(__fish_redminer_list_running_timers)' -d 'select issue'
-complete -f -c redminer -n '__fish_redminer_using_command timer resume' -a '(__fish_redminer_list_suspended_timers)' -d 'select issue'
-complete -f -c redminer -n '__fish_redminer_using_command timer new' -a '(__fish_redminer_list_issues_wo_timers)' -d 'select issue'
-complete -f -c redminer -n '__fish_redminer_using_command timer del' -a '(__fish_redminer_list_issues)' -d 'select issue'
-complete -f -c redminer -n '__fish_redminer_using_command timer set' -a '(__fish_redminer_list_to_commit_timers)' -d 'select issue'
+complete -f -c redminer -n '__fish_redminer_using_command timer commit' -k -a '(__fish_redminer_list_non_staged_timers)' -d 'select issue'
+complete -f -c redminer -n '__fish_redminer_using_command timer restore' -k -a '(__fish_redminer_list_staged_timers)' -d 'select issue'
+complete -f -c redminer -n '__fish_redminer_using_command timer suspend' -k -a '(__fish_redminer_list_running_timers)' -d 'select issue'
+complete -f -c redminer -n '__fish_redminer_using_command timer resume' -k -a '(__fish_redminer_list_suspended_timers)' -d 'select issue'
+complete -f -c redminer -n '__fish_redminer_using_command timer new' -k -a '(__fish_redminer_list_issues_wo_timers)' -d 'select issue'
+complete -f -c redminer -n '__fish_redminer_using_command timer del' -k -a '(__fish_redminer_list_issues)' -d 'select issue'
+complete -f -c redminer -n '__fish_redminer_using_command timer set' -k -a '(__fish_redminer_list_to_commit_timers)' -d 'select issue'
 complete -f -c redminer -n '__fish_redminer_using_command timer batch' -a '(__fish_redminer_list_issues_wo_timers)' -d 'select offset'
 complete -f -c redminer -n '__fish_redminer_need_append_batch_command' -a 'offset' -d 'select offset'
 complete -f -c redminer -n '__fish_redminer_need_append_batch_command' -a 'offset_ext' -d 'select offset'
@@ -229,6 +233,9 @@ complete -f -c redminer -n '__fish_redminer_need_append_set_command type' -a 'te
 complete -f -c redminer -n '__fish_redminer_need_append_set_command type' -a 'debugging' -d 'debugging'
 complete -f -c redminer -n '__fish_redminer_need_append_set_command type' -a 'support' -d 'support'
 complete -f -c redminer -n '__fish_redminer_need_append_set_command type' -a 'discussion' -d 'discussion'
+
+complete -f -c redminer -n '__fish_redminer_need_append_set_command note' -a '@patch' -d 'Patch was accepted'
+complete -f -c redminer -n '__fish_redminer_need_append_set_command note' -a '@patch_rej' -d 'Patch was rejected'
 
 complete -f -c redminer -n '__fish_redminer_need_append_set_command create' -a 'today' -d 'today'
 complete -f -c redminer -n '__fish_redminer_need_append_set_command create' -a 'yesterday' -d 'yesterday'
