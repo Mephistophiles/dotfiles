@@ -263,6 +263,20 @@ local update_pushlocker = function()
     pushlocker_widget.visible = true
 end
 
+local has_redminer = function() return os.execute('redminer timer list_porcelain') end
+
+local redminer_widget = has_redminer and
+                            awful.widget
+                                .watch(string.format('%s/redminer.sh', awesomewm_dir), 5,
+                                       function(widget, stdout)
+        if #stdout == 0 then
+            widget.visible = false
+        else
+            widget.markup = ' ' .. stdout .. ' '
+            widget.visible = true
+        end
+    end) or empty_widget
+
 gears.timer {
     timeout = 3,
     call_now = true,
@@ -328,6 +342,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             spacing = 9,
+            redminer_widget,
             pushlocker_widget,
             brightness_widget({program = 'brightnessctl'}),
             -- volume_widget({widget_type = 'arc', device = 'default'}),
