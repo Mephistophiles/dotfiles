@@ -10,7 +10,7 @@ function lock
 
 	switch $phase
 		case 1
-			xset dpms force off
+			xset dpms force off &>/dev/null
 		case 2
 			screen_lock
 	end
@@ -21,7 +21,7 @@ function unlock
 
 	switch $phase
 		case 1
-			xset dpms force on
+			xset dpms force on &>/dev/null
 		case 2
 	end
 end
