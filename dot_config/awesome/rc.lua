@@ -58,16 +58,6 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 
---- Returns browser cmd
----@alias browser_mode '"regular"' | '"private"'
----@param private_mode browser_mode - get cmd to run a browser in private mode
----@return string browser cmd
-local function browser(private_mode)
-    if private_mode and private_mode == 'private' then return 'firefox --private-window' end
-
-    return 'firefox'
-end
-
 local awesomewm_dir = gears.filesystem.get_configuration_dir()
 
 local terminal = 'alacritty'
