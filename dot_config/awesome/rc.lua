@@ -241,7 +241,7 @@ local get_pushlocker_text = function()
     elseif ret == 0 then
         return '⚡️'
     elseif ret == 1 then
-        return "🚧 " .. res
+        return '🚧 ' .. res
     elseif ret == 2 then
         return '👷 Locked by me'
     elseif ret == 101 or ret == 124 then
