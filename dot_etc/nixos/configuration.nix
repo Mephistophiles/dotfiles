@@ -275,8 +275,8 @@ in {
     gitAndTools.gh
     gnumake
     lua
-    luaformatter
     python39
+    stylua
     tig
     unstable.julia-stable-bin
     unstable.lazydocker

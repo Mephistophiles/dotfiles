@@ -140,37 +140,7 @@ local setup_server = function(server, config)
     lspconfig[server].setup(config)
 end
 
-function M.setup()
-    for server, config in pairs(servers) do setup_server(server, config) end
-
-    require('settings.formatter').setup()
-
-    local languages = {
-        -- ["="] = { misspell },
-        c = {require('settings.efm.c_uncrustify') --[[ , require('settings.efm.c_clang_format') ]] },
-        go = {require('settings.efm.go')},
-        json = {require('settings.efm.json')},
-        lua = {R('settings.efm.lua')},
-        rust = {require('settings.efm.rust')},
-    }
-
-    lspconfig.efm.setup({
-        init_options = {documentFormatting = true},
-        on_attach = function(client)
-            if client.resolved_capabilities.document_formatting then
-                vim.cmd [[augroup Format]]
-                vim.cmd [[autocmd! * <buffer>]]
-                vim.cmd [[autocmd BufWritePre <buffer> lua require'settings.formatter'.format_document()]]
-                vim.cmd [[augroup END]]
-
-                MAP.nnoremap('<leader>f', function() vim.lsp.buf.formatting() end, 'buffer')
-            end
-        end,
-        root_dir = require('lspconfig').util.root_pattern {'.git/', '.'},
-        filetypes = vim.tbl_keys(languages),
-        settings = {lintDebounce = 100, languages = languages},
-    })
-end
+function M.setup() for server, config in pairs(servers) do setup_server(server, config) end end
 
 function M.key_bindings(client)
     -- Mappings.

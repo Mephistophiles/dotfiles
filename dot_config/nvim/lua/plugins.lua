@@ -28,8 +28,14 @@ return packer.startup({
                     config = function()
                         require'lsp_signature'.setup({toggle_key = '<C-S>', floating_window = false})
                     end,
-                }, 'mattn/efm-langserver', 'lspcontainers/lspcontainers.nvim',
+                }, 'lspcontainers/lspcontainers.nvim',
             },
+        }
+
+        use {
+            'jose-elias-alvarez/null-ls.nvim',
+            config = function() require('settings.null-ls').setup() end,
+            requires = {'nvim-lua/plenary.nvim'},
         }
 
         use 'hrsh7th/cmp-nvim-lsp' -- language server protocol
