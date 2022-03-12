@@ -10,7 +10,7 @@ function M.setup()
     local sources = {
         null_ls.builtins.formatting.uncrustify.with {
             filetypes = { 'c' },
-            args = { '-c', f('%s/uncrustify.cfg', cfgpath) },
+            args = { '-q', '-lc', '-c', f('%s/uncrustify.cfg', cfgpath) },
         }, -- uncrustify
         null_ls.builtins.formatting.gofmt, -- gofmt
         null_ls.builtins.formatting.json_tool.with {
