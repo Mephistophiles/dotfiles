@@ -750,9 +750,20 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 local autorun = {
     'flameshot', -- screenshot
     'solaar config "MX Master 2S" dpi 4000', -- logitech mouse
-    string.format('%sxidlehook.sh', awesomewm_dir), -- lock
     'setxkbmap us,ru -option "grp:alt_shift_toggle,grp_led:scroll" -option "caps:backspace"', -- keyboard
 }
 
 for _, prg in ipairs(autorun) do awful.spawn.once(prg) end
+
+local lock_scr = string.format('%sawesome-lock.sh', awesomewm_dir)
+awful.spawn('pkill xidlehook')
+awful.spawn.once({
+    'xidlehook',
+    '--timer', '60',
+    lock_scr .. " lock 1",
+    lock_scr .. " unlock 1",
+    '--timer', '30',
+    lock_scr .. " lock 2",
+    lock_scr .. " unlock 2",
+})
 -- }}}
