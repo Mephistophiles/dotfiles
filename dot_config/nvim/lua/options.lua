@@ -2,21 +2,21 @@ vim.opt.number = true -- Default number mode
 vim.opt.relativenumber = true -- Set relative number
 
 -- relative number only in normal mode
-vim.cmd([[
+vim.cmd [[
 augroup ToggleRelativeNumber
   au!
   autocmd InsertEnter * :setlocal norelativenumber
   autocmd InsertLeave * :setlocal relativenumber
 augroup END
-]])
+]]
 
 -- highlight yanked text
-vim.cmd([[
+vim.cmd [[
 augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
 augroup END
-]])
+]]
 
 vim.opt.tabstop = 4 -- by default 4 spaces in tab
 vim.opt.shiftwidth = 4 -- by default 4 spaces in tab
@@ -29,7 +29,7 @@ vim.opt.ignorecase = true -- Ignore case for search
 vim.opt.smartcase = true -- turn smartcase search
 
 -- Fish doesn't play all that well with others
-vim.opt.shell = vim.fn.exepath('bash')
+vim.opt.shell = vim.fn.exepath 'bash'
 
 vim.opt.inccommand = 'nosplit'
 
@@ -64,18 +64,22 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 -- Backups
-local current_date = os.date('%Y-%m/%Y-%m-%d/')
-local backupdir = vim.fn.stdpath('cache') .. '/backup/' .. current_date .. vim.fn.expand('%:p:h')
+local current_date = os.date '%Y-%m/%Y-%m-%d/'
+local backupdir = vim.fn.stdpath 'cache' .. '/backup/' .. current_date .. vim.fn.expand '%:p:h'
 
-if vim.fn.isdirectory(backupdir) == 0 then vim.fn.mkdir(backupdir, 'p', '0755') end
+if vim.fn.isdirectory(backupdir) == 0 then
+    vim.fn.mkdir(backupdir, 'p', '0755')
+end
 
 vim.opt.backupdir = backupdir
-vim.opt.backupext = os.date('.%H:%M:%S.') .. vim.fn.expand('%:e')
+vim.opt.backupext = os.date '.%H:%M:%S.' .. vim.fn.expand '%:e'
 vim.opt.backup = true
 
-local undodir = vim.fn.stdpath('cache') .. '/undodir/'
+local undodir = vim.fn.stdpath 'cache' .. '/undodir/'
 
-if vim.fn.isdirectory(undodir) == 0 then vim.fn.mkdir(undodir, 'p', '0755') end
+if vim.fn.isdirectory(undodir) == 0 then
+    vim.fn.mkdir(undodir, 'p', '0755')
+end
 
 vim.opt.undofile = true
 vim.opt.undodir = undodir
@@ -97,7 +101,7 @@ vim.opt.langmap =
 vim.opt.spelllang = 'en_us,ru_ru'
 
 -- better diffopt
-vim.opt.diffopt:append({internal = true, ['algorithm:patience'] = true})
+vim.opt.diffopt:append { internal = true, ['algorithm:patience'] = true }
 
 -- Show invisible
 vim.opt.list = true
@@ -106,6 +110,6 @@ vim.opt.listchars = [[tab:▶ ,trail:·,extends:❯,precedes:❮]]
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = 'menu,menuone,noselect'
 
-vim.opt.shortmess:append({
+vim.opt.shortmess:append {
     c = true, -- Avoid showing message extra message when using completion
-})
+}

@@ -1,8 +1,8 @@
 local M = {}
 
 function M.setup()
-    require'nvim-treesitter.configs'.setup {
-        autopairs = {enable = true},
+    require('nvim-treesitter.configs').setup {
+        autopairs = { enable = true },
         -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = {
             'bash', --

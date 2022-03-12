@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
     local cmp = require 'cmp'
-    local types = require('cmp.types')
+    local types = require 'cmp.types'
 
     local cmp_kind = function(entry1, entry2)
         local kind1 = entry1:get_kind()
@@ -19,7 +19,7 @@ function M.setup()
         end
     end
 
-    local lspkind = require('lspkind')
+    local lspkind = require 'lspkind'
     local source_mapping = {
         buffer = '[Buffer]',
         nvim_lsp = '[LSP]',
@@ -29,14 +29,16 @@ function M.setup()
         crates = '[Crates.io]',
     }
 
-    cmp.setup({
+    cmp.setup {
         formatting = {
             format = function(entry, vim_item)
                 vim_item.kind = lspkind.presets.default[vim_item.kind]
                 local menu = source_mapping[entry.source.name]
                 if entry.source.name == 'cmp_tabnine' then
-                    if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~=
-                        nil then
+                    if
+                        entry.completion_item.data ~= nil
+                        and entry.completion_item.data.detail ~= nil
+                    then
                         menu = entry.completion_item.data.detail .. ' ' .. menu
                     end
                     vim_item.kind = ''
@@ -50,34 +52,47 @@ function M.setup()
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
             ['<C-e>'] = cmp.mapping.close(),
             ['<C-Space>'] = cmp.mapping.complete(),
-            ['<c-y>'] = cmp.mapping(cmp.mapping.confirm {
-                behavior = cmp.ConfirmBehavior.Insert,
-                select = true,
-            }, {'i', 'c'}),
-            ['<right>'] = cmp.mapping(cmp.mapping.confirm {
-                behavior = cmp.ConfirmBehavior.Insert,
-                select = true,
-            }, {'i'}),
+            ['<c-y>'] = cmp.mapping(
+                cmp.mapping.confirm {
+                    behavior = cmp.ConfirmBehavior.Insert,
+                    select = true,
+                },
+                { 'i', 'c' }
+            ),
+            ['<right>'] = cmp.mapping(
+                cmp.mapping.confirm {
+                    behavior = cmp.ConfirmBehavior.Insert,
+                    select = true,
+                },
+                { 'i' }
+            ),
             ['<c-space>'] = cmp.mapping {
                 i = cmp.mapping.complete(),
-                c = function(_ --[[fallback]] )
+                c = function(
+                    _ --[[fallback]]
+                )
                     if cmp.visible() then
-                        if not cmp.confirm {select = true} then return end
+                        if not cmp.confirm { select = true } then
+                            return
+                        end
                     else
                         cmp.complete()
                     end
                 end,
             },
             -- Testing
-            ['<c-q>'] = cmp.mapping.confirm {behavior = cmp.ConfirmBehavior.Replace, select = true},
+            ['<c-q>'] = cmp.mapping.confirm {
+                behavior = cmp.ConfirmBehavior.Replace,
+                select = true,
+            },
         },
         sources = {
-            {name = 'cmp_tabnine'}, -- tabnine
-            {name = 'nvim_lsp'}, -- language server protocol
-            {name = 'luasnip'}, -- snippet engine
-            {name = 'path'}, -- completion from FS
-            {name = 'buffer', keyword_length = 5}, -- completion from buffer
-            {name = 'crates'}, -- crates
+            { name = 'cmp_tabnine' }, -- tabnine
+            { name = 'nvim_lsp' }, -- language server protocol
+            { name = 'luasnip' }, -- snippet engine
+            { name = 'path' }, -- completion from FS
+            { name = 'buffer', keyword_length = 5 }, -- completion from buffer
+            { name = 'crates' }, -- crates
         },
         sorting = {
             priority_weight = 10,
@@ -97,9 +112,9 @@ function M.setup()
                 require('luasnip').lsp_expand(args.body)
             end,
         },
-        view = {entries = 'native'},
-        experimental = {ghost_text = true},
-    })
+        view = { entries = 'native' },
+        experimental = { ghost_text = true },
+    }
 end
 
 return M

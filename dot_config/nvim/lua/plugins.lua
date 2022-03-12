@@ -1,10 +1,10 @@
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
 
-local packer = require('packer')
+local packer = require 'packer'
 local use = packer.use
 
-return packer.startup({
+return packer.startup {
     function()
         -- Packer can manage itself
         use 'wbthomason/packer.nvim'
@@ -15,7 +15,12 @@ return packer.startup({
         use 'b0o/mapx.nvim'
 
         -- filedetect drop-in-placement
-        use {'nathom/filetype.nvim', setup = function() vim.g.did_load_filetypes = 1 end}
+        use {
+            'nathom/filetype.nvim',
+            setup = function()
+                vim.g.did_load_filetypes = 1
+            end,
+        }
 
         -- extended repeat ('.') for another plugins
         use 'tpope/vim-repeat'
@@ -26,39 +31,55 @@ return packer.startup({
                 {
                     'ray-x/lsp_signature.nvim',
                     config = function()
-                        require'lsp_signature'.setup({toggle_key = '<C-S>', floating_window = false})
+                        require('lsp_signature').setup {
+                            toggle_key = '<C-S>',
+                            floating_window = false,
+                        }
                     end,
-                }, 'lspcontainers/lspcontainers.nvim',
+                },
+                'lspcontainers/lspcontainers.nvim',
             },
         }
 
         use {
             'jose-elias-alvarez/null-ls.nvim',
-            config = function() require('settings.null-ls').setup() end,
-            requires = {'nvim-lua/plenary.nvim'},
+            config = function()
+                require('settings.null-ls').setup()
+            end,
+            requires = { 'nvim-lua/plenary.nvim' },
         }
 
         use 'hrsh7th/cmp-nvim-lsp' -- language server protocol
         use 'hrsh7th/cmp-buffer' -- completion from current buffer
         use 'saadparwaiz1/cmp_luasnip' -- completion from snippets
         use 'onsails/lspkind-nvim' -- print completion source in menu
-        use {'L3MON4D3/LuaSnip', config = function() require('settings.luasnip').setup() end} -- snippet engine
+        use {
+            'L3MON4D3/LuaSnip',
+            config = function()
+                require('settings.luasnip').setup()
+            end,
+        } -- snippet engine
         use 'hrsh7th/cmp-path' -- completion for filesystem
-        use {'tzachar/cmp-tabnine', run = './install.sh'} -- tabnine
+        use { 'tzachar/cmp-tabnine', run = './install.sh' } -- tabnine
         use 'hrsh7th/nvim-cmp'
 
         use 'wsdjeg/vim-fetch'
 
-        use {'airblade/vim-rooter', config = function() vim.g.rooter_patterns = {'.git'} end}
+        use {
+            'airblade/vim-rooter',
+            config = function()
+                vim.g.rooter_patterns = { '.git' }
+            end,
+        }
 
         use {
             'hoob3rt/lualine.nvim',
-            requires = {'kyazdani42/nvim-web-devicons', opt = true},
+            requires = { 'kyazdani42/nvim-web-devicons', opt = true },
             config = function()
-                require('lualine').setup({
-                    options = {theme = 'tokyonight'},
-                    sections = {lualine_c = {{'filename', file_status = true, path = 1}}},
-                })
+                require('lualine').setup {
+                    options = { theme = 'tokyonight' },
+                    sections = { lualine_c = { { 'filename', file_status = true, path = 1 } } },
+                }
             end,
         }
         use {
@@ -66,13 +87,13 @@ return packer.startup({
             config = function()
                 vim.opt.background = 'dark'
                 vim.opt.termguicolors = true
-                vim.cmd('colorscheme tokyonight')
+                vim.cmd 'colorscheme tokyonight'
             end,
         }
         use {
             'kyazdani42/nvim-tree.lua',
             module = 'nvim-tree',
-            requires = {'kyazdani42/nvim-web-devicons', opt = true},
+            requires = { 'kyazdani42/nvim-web-devicons', opt = true },
             setup = function()
                 MAP.nnoremap([[<C-\>]], function()
                     require('nvim-tree').find_file(true)
@@ -81,14 +102,16 @@ return packer.startup({
                     require('nvim-tree').toggle()
                 end)
             end,
-            config = function() require'nvim-tree'.setup {} end,
+            config = function()
+                require('nvim-tree').setup {}
+            end,
         }
-        use {'tpope/vim-fugitive', cmd = {'G', 'Git'}, opt = true}
+        use { 'tpope/vim-fugitive', cmd = { 'G', 'Git' }, opt = true }
 
         use {
             'Mephistophiles/surround.nvim', -- original author (blackCauldron7) has been deleted (unsupported repo)
             config = function()
-                require'surround'.setup {map_insert_mode = false, mappings_style = 'surround'}
+                require('surround').setup { map_insert_mode = false, mappings_style = 'surround' }
 
                 vim.api.nvim_del_keymap('v', 's') -- remove surrond visual
             end,
@@ -96,10 +119,10 @@ return packer.startup({
 
         use {
             'lewis6991/gitsigns.nvim',
-            event = {'CursorHold', 'InsertEnter'},
-            requires = {'nvim-lua/plenary.nvim'},
+            event = { 'CursorHold', 'InsertEnter' },
+            requires = { 'nvim-lua/plenary.nvim' },
             config = function()
-                require('gitsigns').setup({
+                require('gitsigns').setup {
                     current_line_blame = true,
 
                     on_attach = function(bufnr)
@@ -109,7 +132,9 @@ return packer.startup({
                             opts = opts or {}
                             opts.buffer = bufnr
 
-                            if type(mode) == 'string' then mode = {mode} end
+                            if type(mode) == 'string' then
+                                mode = { mode }
+                            end
 
                             for _, m in ipairs(mode) do
                                 local func_name = m .. 'map'
@@ -118,45 +143,58 @@ return packer.startup({
                         end
 
                         -- Navigation
-                        map('n', ']c', [[&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>']],
-                            {expr = true})
-                        map('n', '[c', [[&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>']],
-                            {expr = true})
+                        map(
+                            'n',
+                            ']c',
+                            [[&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>']],
+                            { expr = true }
+                        )
+                        map(
+                            'n',
+                            '[c',
+                            [[&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>']],
+                            { expr = true }
+                        )
 
                         -- Actions
-                        map({'n', 'v'}, '<leader>hs', gs.stage_hunk)
-                        map({'n', 'v'}, '<leader>hr', gs.reset_hunk)
+                        map({ 'n', 'v' }, '<leader>hs', gs.stage_hunk)
+                        map({ 'n', 'v' }, '<leader>hr', gs.reset_hunk)
                         map('n', '<leader>hS', gs.stage_buffer)
                         map('n', '<leader>hu', gs.undo_stage_hunk)
                         map('n', '<leader>hR', gs.reset_buffer)
                         map('n', '<leader>hp', gs.preview_hunk)
                         map('n', '<leader>hb', function()
-                            gs.blame_line {full = true}
+                            gs.blame_line { full = true }
                         end)
                         map('n', '<leader>tb', gs.toggle_current_line_blame)
                         map('n', '<leader>hd', gs.diffthis)
-                        map('n', '<leader>hD', function() gs.diffthis('~') end)
+                        map('n', '<leader>hD', function()
+                            gs.diffthis '~'
+                        end)
                         map('n', '<leader>td', gs.toggle_deleted)
 
                         -- Text object
-                        map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+                        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
                     end,
-
-                })
+                }
             end,
         }
 
         use {
             'nvim-telescope/telescope.nvim',
             requires = {
-                {'nvim-lua/popup.nvim', module = 'popup'}, 'nvim-lua/plenary.nvim',
-                'nvim-telescope/telescope-ui-select.nvim', 'nvim-telescope/telescope-project.nvim',
+                { 'nvim-lua/popup.nvim', module = 'popup' },
+                'nvim-lua/plenary.nvim',
+                'nvim-telescope/telescope-ui-select.nvim',
+                'nvim-telescope/telescope-project.nvim',
             },
-            cmd = {'Telescope'},
+            cmd = { 'Telescope' },
             module = 'telescope',
-            setup = function() require('settings.telescope').setup() end,
+            setup = function()
+                require('settings.telescope').setup()
+            end,
             config = function()
-                require('telescope').setup({
+                require('telescope').setup {
                     defaults = {
                         mappings = {
                             i = {
@@ -165,10 +203,10 @@ return packer.startup({
                             },
                         },
                     },
-                })
+                }
 
-                require('telescope').load_extension('ui-select')
-                require('telescope').load_extension('project')
+                require('telescope').load_extension 'ui-select'
+                require('telescope').load_extension 'project'
             end,
         }
 
@@ -177,14 +215,15 @@ return packer.startup({
             opt = true,
             module = 'spectre',
             setup = function()
-                MAP.nnoremap('<leader>/', function() require('spectre').open() end)
-                MAP.nnoremap('<leader>*',
-                             function()
-                    require('spectre').open_visual({select_word = true})
+                MAP.nnoremap('<leader>/', function()
+                    require('spectre').open()
+                end)
+                MAP.nnoremap('<leader>*', function()
+                    require('spectre').open_visual { select_word = true }
                 end)
             end,
             config = function()
-                require('spectre').setup({
+                require('spectre').setup {
                     mapping = {
                         ['open_in_vsplit'] = {
                             map = '<c-v>',
@@ -202,19 +241,25 @@ return packer.startup({
                             desc = 'open in new tab',
                         },
                     },
-                })
+                }
             end,
             requires = {
-                'kyazdani42/nvim-web-devicons', {'nvim-lua/popup.nvim', module = 'popup'},
+                'kyazdani42/nvim-web-devicons',
+                { 'nvim-lua/popup.nvim', module = 'popup' },
                 'nvim-lua/plenary.nvim',
             },
         }
 
-        use {'numToStr/Comment.nvim', config = function() require('Comment').setup() end}
+        use {
+            'numToStr/Comment.nvim',
+            config = function()
+                require('Comment').setup()
+            end,
+        }
 
         use {
             'mg979/vim-visual-multi',
-            keys = {'<c-n>'},
+            keys = { '<c-n>' },
             config = function()
                 vim.g.VM_reselect_first = 1
                 vim.g.VM_case_setting = 'sensitive'
@@ -223,14 +268,16 @@ return packer.startup({
 
         use {
             'simrat39/symbols-outline.nvim',
-            cmd = {'SymbolsOutline'},
-            setup = function() MAP.nmap('<F5>', '<cmd>SymbolsOutline<cr>') end,
+            cmd = { 'SymbolsOutline' },
+            setup = function()
+                MAP.nmap('<F5>', '<cmd>SymbolsOutline<cr>')
+            end,
         }
 
         use {
             'nvim-treesitter/nvim-treesitter',
             run = ':TSUpdate',
-            requires = {'p00f/nvim-ts-rainbow'},
+            requires = { 'p00f/nvim-ts-rainbow' },
         }
 
         use {
@@ -243,14 +290,14 @@ return packer.startup({
                     max_lines = 2048,
 
                     -- Space indentations that should be detected
-                    standard_widths = {2, 4, 8},
+                    standard_widths = { 2, 4, 8 },
                 }
             end,
         }
 
         use {
             'godlygeek/tabular',
-            cmd = {'Tabularize'},
+            cmd = { 'Tabularize' },
             opt = true,
             setup = function()
                 MAP.nnoremap('<leader>a', ':Tabularize /')
@@ -261,37 +308,40 @@ return packer.startup({
         use {
             'sindrets/diffview.nvim',
             requires = 'kyazdani42/nvim-web-devicons',
-            cmd = {'DiffviewOpen'},
+            cmd = { 'DiffviewOpen' },
             opt = true,
         }
 
         use {
             'mbbill/undotree',
             cmd = 'UndotreeToggle',
-            setup = function() MAP.noremap('<F3>', '<cmd>UndotreeToggle<CR>') end,
+            setup = function()
+                MAP.noremap('<F3>', '<cmd>UndotreeToggle<CR>')
+            end,
             opt = true,
         }
 
         use {
             'AndrewRadev/switch.vim',
             cmd = 'Switch',
-            keys = {'-'},
+            keys = { '-' },
             setup = function()
                 vim.g.switch_mapping = '-'
                 vim.g.switch_find_smallest_match = 0
                 vim.g.switch_custom_definitions = {
-                    {'d_str_t', 'd_str_auto_t'}, {'json_t', 'json_auto_t'},
-                    {'d_jrpcmsg_t', 'd_jrpcmsg_auto_t'}, {'d_dynarray_t', 'd_dynarray_auto_t'},
-                    {'d_vect_t', 'd_vect_auto_t'},
-                    {'json_object_set_nocheck', 'json_object_set_new_nocheck'},
-                    {'json_object_set', 'json_object_set_new'},
-                    {'json_array_append', 'json_array_append_new'},
+                    { 'd_str_t', 'd_str_auto_t' },
+                    { 'json_t', 'json_auto_t' },
+                    { 'd_jrpcmsg_t', 'd_jrpcmsg_auto_t' },
+                    { 'd_dynarray_t', 'd_dynarray_auto_t' },
+                    { 'd_vect_t', 'd_vect_auto_t' },
+                    { 'json_object_set_nocheck', 'json_object_set_new_nocheck' },
+                    { 'json_object_set', 'json_object_set_new' },
+                    { 'json_array_append', 'json_array_append_new' },
                     {
                         ['^\\(\\k\\+\\)=y'] = '# \\1 is not set',
                         ['^# \\(\\k\\+\\) is not set'] = '\\1=y',
                     },
                 }
-
             end,
         }
 
@@ -299,7 +349,10 @@ return packer.startup({
             'christoomey/vim-tmux-navigator',
             opt = true,
             cmd = {
-                'TmuxNavigateLeft', 'TmuxNavigateDown', 'TmuxNavigateUp', 'TmuxNavigateRight',
+                'TmuxNavigateLeft',
+                'TmuxNavigateDown',
+                'TmuxNavigateUp',
+                'TmuxNavigateRight',
                 'TmuxNavigatePrevious',
             },
             setup = function()
@@ -319,15 +372,19 @@ return packer.startup({
             'chrisbra/vim-kconfig',
             ft = 'kconfig',
             setup = function()
-                vim.cmd('au BufRead,BufNewFile Config.in setlocal filetype=kconfig')
+                vim.cmd 'au BufRead,BufNewFile Config.in setlocal filetype=kconfig'
             end,
         }
 
         use {
             'mfussenegger/nvim-ts-hint-textobject',
             setup = function()
-                MAP.omap('m', function() require('tsht').nodes() end)
-                MAP.vnoremap('m', function() require('tsht').nodes() end)
+                MAP.omap('m', function()
+                    require('tsht').nodes()
+                end)
+                MAP.vnoremap('m', function()
+                    require('tsht').nodes()
+                end)
             end,
             opt = true,
             module = 'tsht',
@@ -336,25 +393,37 @@ return packer.startup({
             'tpope/vim-eunuch',
             opt = true,
             cmd = {
-                'Delete', 'Unlink', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Cfind', 'Clocate',
-                'Lfind/', 'Wall', 'SudoWrite', 'SudoEdit',
+                'Delete',
+                'Unlink',
+                'Move',
+                'Rename',
+                'Chmod',
+                'Mkdir',
+                'Cfind',
+                'Clocate',
+                'Lfind/',
+                'Wall',
+                'SudoWrite',
+                'SudoEdit',
             },
         }
 
-        use {'LnL7/vim-nix', opt = true, ft = 'nix'}
-        use {'tommcdo/vim-exchange', opt = true, keys = {'cx'}}
+        use { 'LnL7/vim-nix', opt = true, ft = 'nix' }
+        use { 'tommcdo/vim-exchange', opt = true, keys = { 'cx' } }
 
         use {
             'rhysd/conflict-marker.vim',
             opt = true,
-            cond = function() return vim.opt.diff:get() end,
+            cond = function()
+                return vim.opt.diff:get()
+            end,
             setup = function()
                 -- matchit is not installed
                 vim.g.conflict_marker_enable_matchit = 0
             end,
         }
 
-        use {'cespare/vim-toml', ft = 'toml'}
+        use { 'cespare/vim-toml', ft = 'toml' }
 
         use {
             'phaazon/hop.nvim',
@@ -363,47 +432,49 @@ return packer.startup({
             module = 'hop',
             setup = function()
                 MAP.map('<Leader>w', function()
-                    require'hop'.hint_words(
-                        {direction = require'hop.hint'.HintDirection.AFTER_CURSOR})
+                    require('hop').hint_words {
+                        direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+                    }
                 end)
                 MAP.map('<Leader>W', function()
-                    require'hop'.hint_words({multi_windows = true})
+                    require('hop').hint_words { multi_windows = true }
                 end)
                 MAP.map('<Leader>b', function()
-                    require'hop'.hint_words(
-                        {direction = require'hop.hint'.HintDirection.BEFORE_CURSOR})
+                    require('hop').hint_words {
+                        direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
+                    }
                 end)
                 MAP.map('<Leader>B', function()
-                    require'hop'.hint_words({multi_windows = true})
+                    require('hop').hint_words { multi_windows = true }
                 end)
                 MAP.nmap('f', function()
-                    require'hop'.hint_char1({
-                        direction = require'hop.hint'.HintDirection.AFTER_CURSOR,
+                    require('hop').hint_char1 {
+                        direction = require('hop.hint').HintDirection.AFTER_CURSOR,
                         current_line_only = true,
-                    })
+                    }
                 end)
                 MAP.nmap('F', function()
-                    require'hop'.hint_char1({
-                        direction = require'hop.hint'.HintDirection.BEFORE_CURSOR,
+                    require('hop').hint_char1 {
+                        direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
                         current_line_only = true,
-                    })
+                    }
                 end)
                 MAP.nmap('t', function()
-                    require'hop'.hint_char1({
-                        direction = require'hop.hint'.HintDirection.AFTER_CURSOR,
+                    require('hop').hint_char1 {
+                        direction = require('hop.hint').HintDirection.AFTER_CURSOR,
                         current_line_only = true,
-                    })
+                    }
                 end)
                 MAP.nmap('T', function()
-                    require'hop'.hint_char1({
-                        direction = require'hop.hint'.HintDirection.BEFORE_CURSOR,
+                    require('hop').hint_char1 {
+                        direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
                         current_line_only = true,
-                    })
+                    }
                 end)
             end,
             config = function()
                 -- you can configure Hop the way you like here; see :h hop-config
-                require'hop'.setup {keys = 'etovxqpdygfblzhckisuran'}
+                require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
             end,
         }
 
@@ -415,14 +486,18 @@ return packer.startup({
             setup = function()
                 vim.g.lightspeed_no_default_keymaps = true
 
-                MAP.map('<leader>s', function() require'lightspeed'.sx:go(false) end)
-                MAP.map('<leader>S', function() require'lightspeed'.sx:go(true) end)
+                MAP.map('<leader>s', function()
+                    require('lightspeed').sx:go(false)
+                end)
+                MAP.map('<leader>S', function()
+                    require('lightspeed').sx:go(true)
+                end)
             end,
             config = function()
-                require'lightspeed'.setup({
+                require('lightspeed').setup {
                     ignore_case = true,
                     force_beacons_into_match_width = true,
-                })
+                }
             end,
         }
 
@@ -432,13 +507,15 @@ return packer.startup({
             opt = true,
             module = 'pounce',
             setup = function()
-                MAP.nmap('<leader>s', function() require'pounce'.pounce {} end)
+                MAP.nmap('<leader>s', function()
+                    require('pounce').pounce {}
+                end)
                 MAP.nmap('<leader>S', function()
-                    require'pounce'.pounce {do_repeat = true}
+                    require('pounce').pounce { do_repeat = true }
                 end)
             end,
             config = function()
-                require'pounce'.setup {
+                require('pounce').setup {
                     accept_keys = 'JFKDLSAHGNUVRBYTMICEOXWPQZ',
                     accept_best_key = '<enter>',
                     multi_window = true,
@@ -447,49 +524,72 @@ return packer.startup({
             end,
         }
 
-        use {'rafcamlet/nvim-luapad', cmd = {'Luapad'}}
+        use { 'rafcamlet/nvim-luapad', cmd = { 'Luapad' } }
 
-        use {'xiyaowong/nvim-cursorword'}
+        use { 'xiyaowong/nvim-cursorword' }
 
         use {
             'ThePrimeagen/harpoon',
-            requires = {'nvim-lua/plenary.nvim', 'nvim-lua/popup.nvim'},
+            requires = { 'nvim-lua/plenary.nvim', 'nvim-lua/popup.nvim' },
             module = 'harpoon',
             setup = function()
                 MAP.map('<Leader>`', function()
                     require('harpoon.ui').toggle_quick_menu()
                 end)
-                MAP.map('<Leader>h', function() require('harpoon.mark').add_file() end)
-                MAP.map('<Leader>1', function() require('harpoon.ui').nav_file(1) end)
-                MAP.map('<Leader>2', function() require('harpoon.ui').nav_file(2) end)
-                MAP.map('<Leader>3', function() require('harpoon.ui').nav_file(3) end)
-                MAP.map('<Leader>4', function() require('harpoon.ui').nav_file(4) end)
-                MAP.map('<Leader>5', function() require('harpoon.ui').nav_file(5) end)
-                MAP.map('<Leader>6', function() require('harpoon.ui').nav_file(6) end)
+                MAP.map('<Leader>h', function()
+                    require('harpoon.mark').add_file()
+                end)
+                MAP.map('<Leader>1', function()
+                    require('harpoon.ui').nav_file(1)
+                end)
+                MAP.map('<Leader>2', function()
+                    require('harpoon.ui').nav_file(2)
+                end)
+                MAP.map('<Leader>3', function()
+                    require('harpoon.ui').nav_file(3)
+                end)
+                MAP.map('<Leader>4', function()
+                    require('harpoon.ui').nav_file(4)
+                end)
+                MAP.map('<Leader>5', function()
+                    require('harpoon.ui').nav_file(5)
+                end)
+                MAP.map('<Leader>6', function()
+                    require('harpoon.ui').nav_file(6)
+                end)
             end,
         }
 
-        use {'teal-language/vim-teal', ft = 'teal'}
-        use {'andymass/vim-matchup'}
-        use {'rcarriga/nvim-notify', config = function() vim.notify = require('notify') end}
+        use { 'teal-language/vim-teal', ft = 'teal' }
+        use { 'andymass/vim-matchup' }
+        use {
+            'rcarriga/nvim-notify',
+            config = function()
+                vim.notify = require 'notify'
+            end,
+        }
 
-        use {'wakatime/vim-wakatime'}
+        use { 'wakatime/vim-wakatime' }
 
-        use {'michaeljsmith/vim-indent-object'}
+        use { 'michaeljsmith/vim-indent-object' }
 
         use 'simrat39/rust-tools.nvim'
         use {
             'saecki/crates.nvim',
             ft = 'rust',
-            event = {'BufRead Cargo.toml'},
-            requires = {{'nvim-lua/plenary.nvim'}},
-            config = function() require('crates').setup() end,
+            event = { 'BufRead Cargo.toml' },
+            requires = { { 'nvim-lua/plenary.nvim' } },
+            config = function()
+                require('crates').setup()
+            end,
         }
 
         use {
             'danymat/neogen',
             cmd = 'Neogen',
-            config = function() require('neogen').setup {enabled = true} end,
+            config = function()
+                require('neogen').setup { enabled = true }
+            end,
             requires = 'nvim-treesitter/nvim-treesitter',
         }
 
@@ -504,13 +604,13 @@ return packer.startup({
                 MAP.nnoremap('<F12>', [[:FloatermToggle<CR>]], 'silent')
                 MAP.tnoremap('<F12>', [[<C-\><C-n>:FloatermToggle<CR>]], 'silent')
             end,
-            cmd = {'FloatermNew', 'FloatermToggle'},
+            cmd = { 'FloatermNew', 'FloatermToggle' },
         }
 
         use {
             'anuvyklack/pretty-fold.nvim',
             config = function()
-                require('pretty-fold').setup({})
+                require('pretty-fold').setup {}
                 require('pretty-fold.preview').setup()
             end,
         }
@@ -520,7 +620,7 @@ return packer.startup({
         use {
             'folke/trouble.nvim',
             requires = 'kyazdani42/nvim-web-devicons',
-            cmd = {'Trouble', 'TroubleToggle'},
+            cmd = { 'Trouble', 'TroubleToggle' },
             config = function()
                 require('trouble').setup {
                     -- your configuration comes here
@@ -544,40 +644,53 @@ return packer.startup({
 
         use {
             'rhysd/git-messenger.vim',
-            cmd = {'GitMessenger'},
-            keys = {'<leader>gm'},
-            setup = function() MAP.nnoremap('<leader>gm', '<Plug>(git-messenger)') end,
+            cmd = { 'GitMessenger' },
+            keys = { '<leader>gm' },
+            setup = function()
+                MAP.nnoremap('<leader>gm', '<Plug>(git-messenger)')
+            end,
         }
 
         use {
             'j-hui/fidget.nvim',
             config = function()
-                require('fidget').setup {text = {spinner = 'dots'}, align = {bottom = true}}
+                require('fidget').setup { text = { spinner = 'dots' }, align = { bottom = true } }
             end,
         }
 
         use {
             'mizlan/iswap.nvim',
-            cmd = {'ISwap', 'ISwapWith'},
-            config = function() require('iswap').setup {} end,
+            cmd = { 'ISwap', 'ISwapWith' },
+            config = function()
+                require('iswap').setup {}
+            end,
         }
 
-        use {'nacro90/numb.nvim', config = function() require('numb').setup() end}
+        use {
+            'nacro90/numb.nvim',
+            config = function()
+                require('numb').setup()
+            end,
+        }
 
         use {
             'mfussenegger/nvim-dap',
-            requires = {'rcarriga/nvim-dap-ui', 'theHamsta/nvim-dap-virtual-text'},
+            requires = { 'rcarriga/nvim-dap-ui', 'theHamsta/nvim-dap-virtual-text' },
             module = 'dap',
             lazy = true,
-            setup = function() require('settings.dap').setup() end,
-            config = function() require('settings.dap').config() end,
+            setup = function()
+                require('settings.dap').setup()
+            end,
+            config = function()
+                require('settings.dap').config()
+            end,
         }
 
         use 'rhysd/committia.vim'
 
         use {
             'chrisbra/NrrwRgn',
-            cmd = {'NR', 'NW', 'WR', 'NRV', 'NUD', 'NRP', 'NRM', 'NRS', 'NRN', 'NRL'},
+            cmd = { 'NR', 'NW', 'WR', 'NRV', 'NUD', 'NRP', 'NRM', 'NRS', 'NRN', 'NRL' },
             setup = function()
                 vim.g.nrrw_rgn_nomap_nr = 1
                 vim.g.nrrw_rgn_nomap_Nr = 1
@@ -586,15 +699,17 @@ return packer.startup({
 
         use {
             'chentau/marks.nvim',
-            event = {'CursorHold', 'InsertEnter'},
-            config = function() require'marks'.setup {default_mappings = false} end,
+            event = { 'CursorHold', 'InsertEnter' },
+            config = function()
+                require('marks').setup { default_mappings = false }
+            end,
         }
 
-        use {'timcharper/textile.vim', ft = 'textile'}
-        use {'ellisonleao/glow.nvim', ft = 'markdown'}
+        use { 'timcharper/textile.vim', ft = 'textile' }
+        use { 'ellisonleao/glow.nvim', ft = 'markdown' }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
-        compile_path = vim.fn.stdpath('config') .. '/lua/packer_compiled.lua',
+        compile_path = vim.fn.stdpath 'config' .. '/lua/packer_compiled.lua',
     },
-})
+}

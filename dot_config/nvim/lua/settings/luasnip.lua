@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-    local ls = require('luasnip')
+    local ls = require 'luasnip'
 
     ls.config.set_config {
         -- This tells LuaSnip to remember to keep around the last snippet.
@@ -62,8 +62,10 @@ function M.setup()
 
     ls.snippets = {
         c = {
-            snippet('trace',
-                    t [[d_alert("~~ DEL ~~", "%s -> %s() -> %d", __FILENAME__, __func__, __LINE__);]]),
+            snippet(
+                'trace',
+                t [[d_alert("~~ DEL ~~", "%s -> %s() -> %d", __FILENAME__, __func__, __LINE__);]]
+            ),
         },
     }
 end

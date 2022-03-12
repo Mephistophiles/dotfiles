@@ -9,8 +9,11 @@ local custom_init = function(client)
     client.config.flags.allow_incremental_sync = true
 end
 
-local filetype_attach = setmetatable({go = function() end, rust = function() end},
-                                     {__index = function() return function() end end})
+local filetype_attach = setmetatable({ go = function() end, rust = function() end }, {
+    __index = function()
+        return function() end
+    end,
+})
 
 local custom_attach = function(client, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
@@ -52,7 +55,7 @@ end
 
 function M.make_default_opts()
     local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
-    updated_capabilities.textDocument.codeLens = {dynamicRegistration = false}
+    updated_capabilities.textDocument.codeLens = { dynamicRegistration = false }
     updated_capabilities = require('cmp_nvim_lsp').update_capabilities(updated_capabilities)
 
     -- TODO: check if this is the problem.
@@ -62,7 +65,7 @@ function M.make_default_opts()
         on_init = custom_init,
         on_attach = custom_attach,
         capabilities = updated_capabilities,
-        flags = {debounce_text_changes = 50},
+        flags = { debounce_text_changes = 50 },
     }
 end
 
@@ -84,20 +87,22 @@ local servers = {
                     },
                     diagnostics = {
                         -- Get the language server to recognize the `vim` global
-                        globals = {'vim'},
+                        globals = { 'vim' },
                     },
                     workspace = {
                         -- Make the server aware of Neovim runtime files
                         library = vim.api.nvim_get_runtime_file('', true),
                     },
                     -- Do not send telemetry data containing a randomized but unique identifier
-                    telemetry = {enable = false},
+                    telemetry = { enable = false },
                 },
             },
         }
     end,
     teal = function()
-        if vim.fn.exepath('tl') == '' then return end
+        if vim.fn.exepath 'tl' == '' then
+            return
+        end
 
         configs.teal = {
             default_config = {
@@ -117,30 +122,40 @@ local servers = {
         return {}
     end,
     -- rust_analyzer = true,
-    tsserver = {cmd = require'lspcontainers'.command('tsserver')},
-    clangd = {capabilities = {offsetEncoding = {'utf-16'}}},
+    tsserver = { cmd = require('lspcontainers').command 'tsserver' },
+    clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
     gopls = true,
     pylsp = true,
     rnix = true,
 }
 
 local setup_server = function(server, config)
-    if not config then return end
+    if not config then
+        return
+    end
 
     if type(config) == 'function' then
         config = config()
 
-        if not config then return end
+        if not config then
+            return
+        end
     end
 
-    if type(config) ~= 'table' then config = {} end
+    if type(config) ~= 'table' then
+        config = {}
+    end
 
     config = vim.tbl_deep_extend('force', M.make_default_opts(), config)
 
     lspconfig[server].setup(config)
 end
 
-function M.setup() for server, config in pairs(servers) do setup_server(server, config) end end
+function M.setup()
+    for server, config in pairs(servers) do
+        setup_server(server, config)
+    end
+end
 
 function M.key_bindings(client)
     -- Mappings.
@@ -152,7 +167,7 @@ function M.key_bindings(client)
     MAP.nnoremap('gi', function()
         require('telescope.builtin').lsp_implementations {
             layout_strategy = 'vertical',
-            layout_config = {prompt_position = 'top'},
+            layout_config = { prompt_position = 'top' },
             sorting_strategy = 'ascending',
             ignore_filename = false,
         }
@@ -161,7 +176,7 @@ function M.key_bindings(client)
     MAP.nnoremap('gr', function()
         require('telescope.builtin').lsp_references {
             layout_strategy = 'vertical',
-            layout_config = {prompt_position = 'top'},
+            layout_config = { prompt_position = 'top' },
             sorting_strategy = 'ascending',
             ignore_filename = false,
         }
@@ -180,12 +195,20 @@ function M.key_bindings(client)
 
     MAP.nnoremap('K', vim.lsp.buf.hover, 'buffer')
     MAP.nnoremap('<C-s>', vim.lsp.buf.signature_help, 'buffer')
-    MAP.nnoremap('<leader>rn', function() vim.lsp.buf.rename() end, 'buffer')
+    MAP.nnoremap('<leader>rn', function()
+        vim.lsp.buf.rename()
+    end, 'buffer')
     -- MAP.nnoremap('<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
     MAP.nnoremap('<leader>d', vim.diagnostic.open_float, 'buffer')
-    MAP.nnoremap('[d', function() vim.diagnostic.goto_next() end, 'buffer')
-    MAP.nnoremap(']d', function() vim.diagnostic.goto_prev() end, 'buffer')
-    MAP.nnoremap('<leader>q', function() vim.diagnostic.setloclist() end, 'buffer')
+    MAP.nnoremap('[d', function()
+        vim.diagnostic.goto_next()
+    end, 'buffer')
+    MAP.nnoremap(']d', function()
+        vim.diagnostic.goto_prev()
+    end, 'buffer')
+    MAP.nnoremap('<leader>q', function()
+        vim.diagnostic.setloclist()
+    end, 'buffer')
 
     if client.resolved_capabilities.code_lens then
         MAP.nnoremap('<leader>lr', vim.lsp.codelens.run, 'buffer')

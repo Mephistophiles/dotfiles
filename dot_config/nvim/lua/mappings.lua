@@ -5,53 +5,61 @@ vim.o.pastetoggle = '<F6>'
 
 local function number_toggle()
     if vim.o.relativenumber then
-        vim.notify('Disable relative numbers')
+        vim.notify 'Disable relative numbers'
         vim.o.relativenumber = false
     else
-        vim.notify('Enable relative numbers')
+        vim.notify 'Enable relative numbers'
         vim.o.relativenumber = true
     end
 end
 
 local function swap_list_chars()
-    if not vim.g.listchars_mode then vim.g.listchars_mode = 1 end
+    if not vim.g.listchars_mode then
+        vim.g.listchars_mode = 1
+    end
 
     if vim.g.listchars_mode == 0 then
         vim.o.list = true
         vim.g.listchars_mode = 1
-        vim.notify('Enable list mode')
+        vim.notify 'Enable list mode'
     elseif vim.g.listchars_mode == 1 then
-        vim.opt.listchars:append({space = '·', eol = '$'})
+        vim.opt.listchars:append { space = '·', eol = '$' }
         vim.g.listchars_mode = 2
-        vim.notify('Enable verbose list mode')
+        vim.notify 'Enable verbose list mode'
     elseif vim.g.listchars_mode == 2 then
-        vim.opt.listchars:remove({'space', 'eol'})
+        vim.opt.listchars:remove { 'space', 'eol' }
         vim.o.list = false
         vim.g.listchars_mode = 0
-        vim.notify('Disable list mode')
+        vim.notify 'Disable list mode'
     end
 end
 
 local function paste_git_signoff()
-    local username = io.popen('git config user.name', 'r'):read('*l')
-    local email = io.popen('git config user.email', 'r'):read('*l')
+    local username = io.popen('git config user.name', 'r'):read '*l'
+    local email = io.popen('git config user.email', 'r'):read '*l'
 
-    vim.api.nvim_put({'Signed-off-by: ' .. username .. ' <' .. email .. '>'}, 'c', false, true)
+    vim.api.nvim_put({ 'Signed-off-by: ' .. username .. ' <' .. email .. '>' }, 'c', false, true)
 
     return true
 end
 
 local function select_word()
-    local current_word = vim.fn.expand('<cword>')
+    local current_word = vim.fn.expand '<cword>'
     vim.o.hlsearch = true
     vim.cmd([[/\<]] .. current_word .. [[\>]])
 end
 
 -- toggle show invisible symbols
-MAP.nnoremap('<F2>', function() number_toggle() end)
-MAP.inoremap('<F2>', function() number_toggle() end)
+MAP.nnoremap('<F2>', function()
+    number_toggle()
+end)
+MAP.inoremap('<F2>', function()
+    number_toggle()
+end)
 
-MAP.nnoremap('<F4>', function() swap_list_chars() end)
+MAP.nnoremap('<F4>', function()
+    swap_list_chars()
+end)
 
 -- toggle spelling
 MAP.nnoremap('<F7>', [[:set spell!<CR>]])
@@ -60,11 +68,17 @@ MAP.nnoremap('<F7>', [[:set spell!<CR>]])
 MAP.nnoremap([[\]], ',')
 
 -- paste signoff
-MAP.nnoremap('<F8>', function() paste_git_signoff() end)
-MAP.inoremap('<F8>', function() paste_git_signoff() end)
+MAP.nnoremap('<F8>', function()
+    paste_git_signoff()
+end)
+MAP.inoremap('<F8>', function()
+    paste_git_signoff()
+end)
 
 -- select word on cursor
-MAP.nnoremap('<leader><enter>', function() select_word() end)
+MAP.nnoremap('<leader><enter>', function()
+    select_word()
+end)
 -- command mode helpers
 MAP.cnoremap('<C-a>', '<Home>')
 MAP.cnoremap('<C-e>', '<End>')
@@ -93,12 +107,12 @@ MAP.cmd('Q', 'q')
 
 -- folding
 MAP.nnoremap('<tab>', function()
-    local current_level = vim.fn.foldlevel('.')
+    local current_level = vim.fn.foldlevel '.'
 
     if current_level > 0 then
-        vim.api.nvim_input('za')
+        vim.api.nvim_input 'za'
     else
-        vim.api.nvim_input('<tab>')
+        vim.api.nvim_input '<tab>'
     end
 end)
 

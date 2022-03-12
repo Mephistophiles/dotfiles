@@ -1,5 +1,5 @@
-local popup = require('plenary.popup')
-local formatter = require('settings.formatter')
+local popup = require 'plenary.popup'
+local formatter = require 'settings.formatter'
 
 local M = {}
 
@@ -11,7 +11,9 @@ Formatter_bufh = nil
 local function close_menu(force_save)
     force_save = force_save or false
 
-    if force_save then require('settings.formatter_ui').on_menu_save() end
+    if force_save then
+        require('settings.formatter_ui').on_menu_save()
+    end
 
     vim.api.nvim_win_close(Formatter_win_id, true)
 
@@ -22,7 +24,7 @@ end
 local function create_window()
     local width = 60
     local height = 10
-    local borderchars = {'─', '│', '─', '│', '╭', '╮', '╯', '╰'}
+    local borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' }
     local bufnr = vim.api.nvim_create_buf(false, false)
 
     local Formatter_win_id, win = popup.create(bufnr, {
@@ -37,17 +39,21 @@ local function create_window()
 
     vim.api.nvim_win_set_option(win.border.win_id, 'winhl', 'Normal:FormatterBorder')
 
-    return {bufnr = bufnr, win_id = Formatter_win_id}
+    return { bufnr = bufnr, win_id = Formatter_win_id }
 end
 
-local function is_white_space(str) return str:gsub('%s', '') == '' end
+local function is_white_space(str)
+    return str:gsub('%s', '') == ''
+end
 
 local function get_menu_items()
     local lines = vim.api.nvim_buf_get_lines(Formatter_bufh, 0, -1, true)
     local indices = {}
 
     for _, line in pairs(lines) do
-        if not is_white_space(line) then table.insert(indices, line) end
+        if not is_white_space(line) then
+            table.insert(indices, line)
+        end
     end
 
     return indices
@@ -70,21 +76,35 @@ function M.toggle_quick_menu(blacklist)
     vim.api.nvim_buf_set_option(Formatter_bufh, 'filetype', 'formatter')
     vim.api.nvim_buf_set_option(Formatter_bufh, 'buftype', 'acwrite')
     vim.api.nvim_buf_set_option(Formatter_bufh, 'bufhidden', 'delete')
-    vim.api.nvim_buf_set_keymap(Formatter_bufh, 'n', 'q',
-                                [[<Cmd>lua require('settings.formatter_ui').toggle_quick_menu()<CR>]],
-                                {silent = true})
-    vim.api.nvim_buf_set_keymap(Formatter_bufh, 'n', '<ESC>',
-                                [[<Cmd>lua require('settings.formatter_ui').toggle_quick_menu()<CR>]],
-                                {silent = true})
-    vim.api.nvim_buf_set_keymap(Formatter_bufh, 'n', '<CR>',
-                                [[<Cmd>lua require('settings.formatter_ui').select_menu_item()<CR>]],
-                                {})
-    vim.cmd(string.format(
-                [[autocmd BufWriteCmd <buffer=%s> lua require('settings.formatter_ui').on_menu_save()]],
-                Formatter_bufh))
-    vim.cmd(string.format('autocmd BufModifiedSet <buffer=%s> set nomodified', Formatter_bufh))
+    vim.api.nvim_buf_set_keymap(
+        Formatter_bufh,
+        'n',
+        'q',
+        [[<Cmd>lua require('settings.formatter_ui').toggle_quick_menu()<CR>]],
+        { silent = true }
+    )
+    vim.api.nvim_buf_set_keymap(
+        Formatter_bufh,
+        'n',
+        '<ESC>',
+        [[<Cmd>lua require('settings.formatter_ui').toggle_quick_menu()<CR>]],
+        { silent = true }
+    )
+    vim.api.nvim_buf_set_keymap(
+        Formatter_bufh,
+        'n',
+        '<CR>',
+        [[<Cmd>lua require('settings.formatter_ui').select_menu_item()<CR>]],
+        {}
+    )
     vim.cmd(
-        [[autocmd BufLeave <buffer> ++nested ++once silent lua require('settings.formatter_ui').toggle_quick_menu()]])
+        string.format(
+            [[autocmd BufWriteCmd <buffer=%s> lua require('settings.formatter_ui').on_menu_save()]],
+            Formatter_bufh
+        )
+    )
+    vim.cmd(string.format('autocmd BufModifiedSet <buffer=%s> set nomodified', Formatter_bufh))
+    vim.cmd [[autocmd BufLeave <buffer> ++nested ++once silent lua require('settings.formatter_ui').toggle_quick_menu()]]
 end
 
 function M.select_menu_item()
@@ -100,6 +120,8 @@ function M.nav_file(filename)
     vim.api.nvim_buf_set_option(buf_id, 'buflisted', true)
 end
 
-function M.on_menu_save() formatter.on_menu_save(get_menu_items()) end
+function M.on_menu_save()
+    formatter.on_menu_save(get_menu_items())
+end
 
 return M
