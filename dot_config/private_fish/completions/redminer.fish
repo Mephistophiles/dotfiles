@@ -117,7 +117,7 @@ function __fish_redminer_need_append_batch_command
 end
 
 function __fish_redminer_timer_sort
-    sed -e '/(running)/s/^/1:/' -e '/(suspended)/s/^/2:/' | sort | sed 's/^[[:digit:]]\+://'
+    sed -e '/(running)/s/^/99:/' -e '/(suspended)/s/^/98:/' | sort --reverse | sed 's/^[[:digit:]]\+://'
 end
 
 function __fish_redminer_list_issues
