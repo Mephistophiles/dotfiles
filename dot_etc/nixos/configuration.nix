@@ -338,6 +338,8 @@ in {
       fira-code
       fira-code-symbols
       font-awesome
+      fontconfig
+      freetype
       hack-font
       jetbrains-mono
       liberation_ttf
@@ -346,10 +348,10 @@ in {
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
+      siji
       source-code-pro
       source-sans-pro
       source-serif-pro
-      siji
       ubuntu_font_family
       weather-icons
     ];
