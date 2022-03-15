@@ -10,6 +10,7 @@ function M.setup()
             'cmake', --
             'fish', --
             'go', --
+            'javascript', --
             'json', --
             'julia', --
             'lua', --
