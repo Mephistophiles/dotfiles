@@ -270,10 +270,10 @@ local redminer_widget = has_redminer and
                                 .watch(string.format('%s/redminer.sh', awesomewm_dir), 5,
                                        function(widget, stdout)
         if #stdout == 0 then
-            widget.visible = false
+            widget:set_visible(false)
         else
-            widget.markup = ' ' .. stdout .. ' '
-            widget.visible = true
+            widget:set_markup(' ' .. stdout .. ' ')
+            widget:set_visible(true)
         end
     end) or empty_widget
 
