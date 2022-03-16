@@ -284,7 +284,7 @@ local current_dm_version = gears.filesystem.file_readable(dm_file)
             { 'cat', dm_file },
             5,
             function(widget, stdout)
-                if #stdout > 0 then
+                if stdout and #stdout > 0 then
                     widget:set_visible(true)
                     widget:set_text(' v' .. stdout .. ' ')
                 else
@@ -292,7 +292,7 @@ local current_dm_version = gears.filesystem.file_readable(dm_file)
                 end
             end
         )
-    or empty_widget
+    or empty_widget()
 
 local cpu_temp_widget = awful.widget.watch(
     { 'bash', '-c', [[sensors 'k10temp-*' -u | grep input: | head | cut -d' ' -f4 | head -1]] },
