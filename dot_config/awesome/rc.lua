@@ -277,6 +277,23 @@ local redminer_widget = has_redminer and
         end
     end) or empty_widget
 
+local dm_file =
+    '/home/builder/SDKS/SSD/APPLY/DIR_QEMU_DBG/output/build/deuteron-master/dm/dm/dm_version.dm'
+local current_dm_version = gears.filesystem.file_readable(dm_file)
+        and awful.widget.watch(
+            { 'cat', dm_file },
+            5,
+            function(widget, stdout)
+                if #stdout > 0 then
+                    widget:set_visible(true)
+                    widget:set_text(' v' .. stdout .. ' ')
+                else
+                    widget:set_visible(false)
+                end
+            end
+        )
+    or empty_widget
+
 gears.timer {
     timeout = 3,
     call_now = true,
@@ -342,6 +359,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             spacing = 9,
+            current_dm_version,
             redminer_widget,
             pushlocker_widget,
             brightness_widget({program = 'brightnessctl'}),
