@@ -294,6 +294,16 @@ local current_dm_version = gears.filesystem.file_readable(dm_file)
         )
     or empty_widget
 
+local cpu_temp_widget = awful.widget.watch(
+    { 'bash', '-c', [[sensors 'k10temp-*' -u | grep input: | head | cut -d' ' -f4 | head -1]] },
+    5,
+    function(widget, stdout)
+        local temp = tonumber(stdout)
+
+        widget:set_text(string.format("%.2f℃", temp))
+    end
+)
+
 gears.timer {
     timeout = 3,
     call_now = true,
@@ -364,6 +374,7 @@ awful.screen.connect_for_each_screen(function(s)
             pushlocker_widget,
             brightness_widget({program = 'brightnessctl'}),
             -- volume_widget({widget_type = 'arc', device = 'default'}),
+            cpu_temp_widget,
             cpu_widget(),
             -- mem_widget(),
             battery_widget({show_current_level = true}),
