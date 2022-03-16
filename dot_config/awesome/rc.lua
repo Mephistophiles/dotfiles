@@ -294,13 +294,17 @@ local current_dm_version = gears.filesystem.file_readable(dm_file)
         )
     or empty_widget()
 
+
 local cpu_temp_widget = awful.widget.watch(
     { 'bash', '-c', [[sensors 'k10temp-*' -u | grep input: | head | cut -d' ' -f4 | head -1]] },
     5,
     function(widget, stdout)
+        if not stdout or #stdout == 0 then
+            return
+        end
         local temp = tonumber(stdout)
 
-        widget:set_text(string.format("%.2f℃", temp))
+        widget:set_text(string.format('%.1f℃', temp))
     end
 )
 
