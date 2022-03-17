@@ -60,7 +60,7 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 local awesomewm_dir = gears.filesystem.get_configuration_dir()
 
-local terminal = 'alacritty'
+local terminal = 'kitty'
 local editor = os.getenv('EDITOR') or 'nvim'
 local editor_cmd = terminal .. ' -e ' .. editor
 
