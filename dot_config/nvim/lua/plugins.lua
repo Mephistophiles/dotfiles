@@ -720,6 +720,12 @@ return packer.startup {
                 }
             end,
         }
+
+        use {
+            'rcarriga/vim-ultest',
+            requires = { 'vim-test/vim-test' },
+            run = ':UpdateRemotePlugins',
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
