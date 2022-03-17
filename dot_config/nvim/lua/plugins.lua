@@ -346,25 +346,24 @@ return packer.startup {
         }
 
         use {
-            'christoomey/vim-tmux-navigator',
-            opt = true,
-            cmd = {
-                'TmuxNavigateLeft',
-                'TmuxNavigateDown',
-                'TmuxNavigateUp',
-                'TmuxNavigateRight',
-                'TmuxNavigatePrevious',
-            },
-            setup = function()
-                vim.g.tmux_navigator_no_mappings = 1
+            'aserowy/tmux.nvim',
+            config = function()
+                require('tmux').setup {
+                    -- overwrite default configuration
+                    -- here, e.g. to enable default bindings
+                    copy_sync = {
+                        -- enables copy sync and overwrites all register actions to
+                        -- sync registers *, +, unnamed, and 0 till 9 from tmux in advance
+                        enable = true,
+                    },
+                }
 
-                MAP.nnoremap('<c-h>', '<cmd>TmuxNavigateLeft<cr>')
-                MAP.nnoremap('<c-l>', '<cmd>TmuxNavigateRight<cr>')
-                MAP.nnoremap('<a-h>', '<cmd>TmuxNavigateLeft<cr>')
-                MAP.nnoremap('<a-j>', '<cmd>TmuxNavigateDown<cr>')
-                MAP.nnoremap('<a-k>', '<cmd>TmuxNavigateUp<cr>')
-                MAP.nnoremap('<a-l>', '<cmd>TmuxNavigateRight<cr>')
-                MAP.nnoremap('<BS>', '<cmd>TmuxNavigatePrevious<cr>')
+                MAP.nnoremap('<c-h>', '<cmd>lua require("tmux").move_left()<cr>')
+                MAP.nnoremap('<c-l>', '<cmd>lua require("tmux").move_right()<cr>')
+                MAP.nnoremap('<a-h>', '<cmd>lua require("tmux").move_left()<cr>')
+                MAP.nnoremap('<a-j>', '<cmd>lua require("tmux").move_bottom()<cr>')
+                MAP.nnoremap('<a-k>', '<cmd>lua require("tmux").move_top()<cr>')
+                MAP.nnoremap('<a-l>', '<cmd>lua require("tmux").move_right()<cr>')
             end,
         }
 
