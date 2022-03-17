@@ -43,12 +43,6 @@ local function paste_git_signoff()
     return true
 end
 
-local function select_word()
-    local current_word = vim.fn.expand '<cword>'
-    vim.o.hlsearch = true
-    vim.cmd([[/\<]] .. current_word .. [[\>]])
-end
-
 -- toggle show invisible symbols
 MAP.nnoremap('<F2>', function()
     number_toggle()
@@ -75,10 +69,6 @@ MAP.inoremap('<F8>', function()
     paste_git_signoff()
 end)
 
--- select word on cursor
-MAP.nnoremap('<leader><enter>', function()
-    select_word()
-end)
 -- command mode helpers
 MAP.cnoremap('<C-a>', '<Home>')
 MAP.cnoremap('<C-e>', '<End>')
