@@ -190,6 +190,7 @@ in {
     unstable.fd
     unstable.hyperfine
     unstable.inferno
+    unstable.procs
     unstable.ripgrep
     unstable.ruplacer
     unstable.rust-analyzer
