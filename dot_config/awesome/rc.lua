@@ -277,22 +277,18 @@ local redminer_widget = has_redminer and
         end
     end) or empty_widget
 
-local dm_file =
-    '/home/builder/SDKS/SSD/APPLY/DIR_QEMU_DBG/output/build/deuteron-master/dm/dm/dm_version.dm'
-local current_dm_version = gears.filesystem.file_readable(dm_file)
-        and awful.widget.watch(
-            { 'cat', dm_file },
-            5,
-            function(widget, stdout)
-                if stdout and #stdout > 0 then
-                    widget:set_visible(true)
-                    widget:set_text(' v' .. stdout .. ' ')
-                else
-                    widget:set_visible(false)
-                end
-            end
-        )
-    or empty_widget()
+local current_dm_version = awful.widget.watch(
+    { string.format('%s/dm_version.sh', awesomewm_dir) },
+    5,
+    function(widget, stdout)
+        if stdout and #stdout > 0 then
+            widget:set_visible(true)
+            widget:set_text(' v' .. stdout .. ' ')
+        else
+            widget:set_visible(false)
+        end
+    end
+)
 
 
 local cpu_temp_widget = awful.widget.watch(
