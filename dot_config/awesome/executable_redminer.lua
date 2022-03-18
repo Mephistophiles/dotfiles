@@ -19,7 +19,11 @@ local function get_stats(total_left, running, suspended, staged, current_ticket)
    local prefix = ""
 
    if current_ticket then
-      prefix = current_ticket .. " "
+      current_ticket = current_ticket:gsub('#', '')
+      local handle = io.popen('redminer ticket_info ' .. current_ticket, 'r')
+      local ticket_info = handle:read('*l')
+      handle:close()
+      prefix = ticket_info .. " | "
    end
 
    return string.format("%s%s left [%d/%d/%d]", prefix, displaytime(total_left), running, suspended, staged)
