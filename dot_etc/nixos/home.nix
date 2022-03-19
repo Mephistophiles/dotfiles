@@ -8,7 +8,6 @@
     ./home/alacritty.nix
     ./home/git.nix
     ./home/i3status.nix
-    ./home/kitty.nix
     ./home/mail.nix
     ./home/starship.nix
     ./home/tmux.nix

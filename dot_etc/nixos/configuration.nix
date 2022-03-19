@@ -234,6 +234,7 @@ in {
     file
     fzf
     htop
+    kitty
     linuxPackages.cpupower
     lm_sensors
     manpages
