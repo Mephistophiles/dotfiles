@@ -123,6 +123,7 @@ local servers = {
     end,
     -- rust_analyzer = true,
     clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
+    vuels = true,
     tsserver = true,
     gopls = true,
     pylsp = true,
