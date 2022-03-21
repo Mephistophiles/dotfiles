@@ -295,6 +295,7 @@ in {
     llvmPackages_latest.llvm
     rnix-lsp
     sumneko-lua-language-server
+    unstable.nodePackages.typescript-language-server
     unstable.python39Packages.python-lsp-server
     unstable.vscode-extensions.llvm-org.lldb-vscode
 

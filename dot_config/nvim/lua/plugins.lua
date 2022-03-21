@@ -37,7 +37,6 @@ return packer.startup {
                         }
                     end,
                 },
-                'lspcontainers/lspcontainers.nvim',
             },
         }
 

@@ -122,8 +122,8 @@ local servers = {
         return {}
     end,
     -- rust_analyzer = true,
-    tsserver = { cmd = require('lspcontainers').command 'tsserver' },
     clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
+    tsserver = true,
     gopls = true,
     pylsp = true,
     rnix = true,
