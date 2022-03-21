@@ -120,7 +120,7 @@ function M.format_document()
         return
     end
 
-    vim.lsp.buf.formatting_sync()
+    vim.lsp.buf.formatting_sync(nil, 2000)
 end
 
 return M
