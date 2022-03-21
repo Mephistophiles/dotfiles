@@ -27,6 +27,7 @@ function M.setup()
             extra_args = { '--config-path', f('%s/stylua.toml', cfgpath) },
         }, -- lua
         null_ls.builtins.formatting.rustfmt, -- fust
+        null_ls.builtins.formatting.eslint, -- eslint
     }
 
     null_ls.setup {
