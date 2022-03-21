@@ -65,13 +65,6 @@ return packer.startup {
         use 'wsdjeg/vim-fetch'
 
         use {
-            'airblade/vim-rooter',
-            config = function()
-                vim.g.rooter_patterns = { '.git' }
-            end,
-        }
-
-        use {
             'hoob3rt/lualine.nvim',
             requires = { 'kyazdani42/nvim-web-devicons', opt = true },
             config = function()
@@ -89,20 +82,28 @@ return packer.startup {
                 vim.cmd 'colorscheme tokyonight'
             end,
         }
+
+        use {
+            'ahmedkhalf/project.nvim',
+            config = function()
+                require('project_nvim').setup {}
+            end,
+        }
+
         use {
             'kyazdani42/nvim-tree.lua',
-            module = 'nvim-tree',
-            requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-            setup = function()
-                MAP.nnoremap([[<C-\>]], function()
-                    require('nvim-tree').find_file(true)
-                end)
-                MAP.nnoremap([[<leader><leader>]], function()
-                    require('nvim-tree').toggle()
-                end)
-            end,
+            requires = { 'kyazdani42/nvim-web-devicons' },
             config = function()
-                require('nvim-tree').setup {}
+                require('nvim-tree').setup {
+                    update_cwd = true,
+                    update_focused_file = {
+                        enable = true,
+                        update_cwd = true,
+                    },
+                }
+
+                MAP.nnoremap([[<C-\>]], [[<cmd> lua require('nvim-tree').find_file(true)<CR>]])
+                MAP.nnoremap([[<leader><leader>]], [[<cmd> lua require('nvim-tree').toggle()<CR>]])
             end,
         }
         use { 'tpope/vim-fugitive', cmd = { 'G', 'Git' }, opt = true }
