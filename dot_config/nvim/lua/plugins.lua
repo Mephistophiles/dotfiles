@@ -726,6 +726,13 @@ return packer.startup {
             requires = { 'vim-test/vim-test' },
             run = ':UpdateRemotePlugins',
         }
+
+        use {
+            'norcalli/nvim-colorizer.lua',
+            config = function()
+                require('colorizer').setup()
+            end,
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
