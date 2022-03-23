@@ -76,9 +76,11 @@ return packer.startup {
         }
         use {
             'folke/tokyonight.nvim',
-            config = function()
+            setup = function()
                 vim.opt.background = 'dark'
                 vim.opt.termguicolors = true
+            end,
+            config = function()
                 vim.cmd 'colorscheme tokyonight'
             end,
         }
