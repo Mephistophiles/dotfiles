@@ -87,9 +87,9 @@ function M.setup()
             },
         },
         sources = {
-            { name = 'cmp_tabnine' }, -- tabnine
-            { name = 'nvim_lsp' }, -- language server protocol
             { name = 'luasnip' }, -- snippet engine
+            { name = 'nvim_lsp' }, -- language server protocol
+            { name = 'cmp_tabnine' }, -- tabnine
             { name = 'path' }, -- completion from FS
             { name = 'buffer', keyword_length = 5 }, -- completion from buffer
             { name = 'crates' }, -- crates
