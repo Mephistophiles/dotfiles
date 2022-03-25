@@ -710,6 +710,19 @@ return packer.startup {
         use { 'ellisonleao/glow.nvim', ft = 'markdown' }
 
         use {
+            'rcarriga/vim-ultest',
+            requires = { 'vim-test/vim-test' },
+            run = ':UpdateRemotePlugins',
+        }
+
+        use {
+            'norcalli/nvim-colorizer.lua',
+            config = function()
+                require('colorizer').setup()
+            end,
+        }
+
+        use {
             'klen/nvim-config-local',
             config = function()
                 require('config-local').setup {
@@ -720,19 +733,6 @@ return packer.startup {
                     commands_create = true, -- Create commands (ConfigSource, ConfigEdit, ConfigTrust, ConfigIgnore)
                     silent = false, -- Disable plugin messages (Config loaded/ignored)
                 }
-            end,
-        }
-
-        use {
-            'rcarriga/vim-ultest',
-            requires = { 'vim-test/vim-test' },
-            run = ':UpdateRemotePlugins',
-        }
-
-        use {
-            'norcalli/nvim-colorizer.lua',
-            config = function()
-                require('colorizer').setup()
             end,
         }
     end,
