@@ -41,6 +41,7 @@ function M.setup()
                 },
                 { 'i', 'c' }
             ),
+            ['<CR>'] = cmp.mapping.confirm { select = false },
             ['<right>'] = cmp.mapping(
                 cmp.mapping.confirm {
                     behavior = cmp.ConfirmBehavior.Insert,
