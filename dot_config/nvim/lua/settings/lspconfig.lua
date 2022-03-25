@@ -24,7 +24,7 @@ local custom_attach = function(client, bufnr)
 
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-    -- use efm for formatting
+    -- use null-ls for formatting
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false
 
