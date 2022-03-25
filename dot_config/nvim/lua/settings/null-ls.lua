@@ -39,9 +39,13 @@ function M.setup()
                 vim.cmd [[autocmd BufWritePre <buffer> lua require'settings.formatter'.format_document()]]
                 vim.cmd [[augroup END]]
 
-                MAP.nnoremap('<leader>f', function()
-                    vim.lsp.buf.formatting()
-                end, 'buffer')
+                MAP.nnoremap('<leader>f', [[:lua vim.lsp.buf.formatting()<cr>]], 'silent', 'buffer')
+                MAP.vnoremap(
+                    '<leader>f',
+                    [[:'<,'>lua vim.lsp.buf.range_formatting()<cr>]],
+                    'silent',
+                    'buffer'
+                )
             end
         end,
     }
