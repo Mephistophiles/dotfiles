@@ -702,7 +702,7 @@ return packer.startup {
             'chentau/marks.nvim',
             event = { 'CursorHold', 'InsertEnter' },
             config = function()
-                require('marks').setup { default_mappings = false }
+                require('marks').setup { default_mappings = true }
             end,
         }
 
