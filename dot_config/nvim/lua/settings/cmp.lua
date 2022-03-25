@@ -82,6 +82,7 @@ function M.setup()
             comparators = {
                 cmp.config.compare.offset, -- offset
                 cmp.config.compare.exact, -- exact
+                cmp.config.compare.recently_used, -- resently used
                 cmp.config.compare.score, -- score (priority based)
                 cmp.config.compare.kind, -- kind based
                 cmp.config.compare.sort_text, -- text based (alpha sort)
