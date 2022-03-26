@@ -731,7 +731,7 @@ return packer.startup {
                     hashfile = vim.fn.stdpath 'data' .. '/config-local', -- Where the plugin keeps files data
                     autocommands_create = true, -- Create autocommands (VimEnter, DirectoryChanged)
                     commands_create = true, -- Create commands (ConfigSource, ConfigEdit, ConfigTrust, ConfigIgnore)
-                    silent = false, -- Disable plugin messages (Config loaded/ignored)
+                    silent = true, -- Disable plugin messages (Config loaded/ignored)
                 }
             end,
         }
