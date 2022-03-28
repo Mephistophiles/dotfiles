@@ -11,6 +11,7 @@ let
 in {
   imports = [ # Include the results of the hardware scan.
     ./variables.nix
+    ./home/vault.nix
     ./hardware-configuration.nix
     ./host.nix
   ] ++ lib.optional withWayland ./wayland.nix
@@ -321,6 +322,8 @@ in {
     # Per-interface useDHCP will be mandatory in the future, so this generated config
     # replicates the default behaviour.
     networkmanager.enable = true;
+
+    wg-quick = { interfaces.wg0 = config.vault.wireguard; };
 
     # Configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
