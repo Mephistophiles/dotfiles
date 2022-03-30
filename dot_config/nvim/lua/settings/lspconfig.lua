@@ -159,6 +159,8 @@ function M.setup()
 end
 
 function M.key_bindings(client)
+    local telescope, themes = require('settings.telescope').instance()
+
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     MAP.nnoremap('gD', vim.lsp.buf.declaration, 'buffer')
@@ -166,7 +168,7 @@ function M.key_bindings(client)
     MAP.nnoremap('<leader>D', vim.lsp.buf.type_definition, 'buffer')
 
     MAP.nnoremap('gi', function()
-        require('telescope.builtin').lsp_implementations {
+        telescope.lsp_implementations {
             layout_strategy = 'vertical',
             layout_config = { prompt_position = 'top' },
             sorting_strategy = 'ascending',
@@ -175,7 +177,7 @@ function M.key_bindings(client)
     end, 'buffer')
 
     MAP.nnoremap('gr', function()
-        require('telescope.builtin').lsp_references {
+        telescope.lsp_references {
             layout_strategy = 'vertical',
             layout_config = { prompt_position = 'top' },
             sorting_strategy = 'ascending',
@@ -183,15 +185,12 @@ function M.key_bindings(client)
         }
     end, 'buffer')
     MAP.nnoremap('<leader>ca', function()
-        local themes = require 'telescope.themes'
-        local opts = themes.get_dropdown {
+        telescope.lsp_code_actions(themes.get_dropdown {
             winblend = 10,
             border = true,
             previewer = false,
             shorten_path = false,
-        }
-
-        require('telescope.builtin').lsp_code_actions(opts)
+        })
     end, 'buffer')
 
     MAP.nnoremap('K', vim.lsp.buf.hover, 'buffer')

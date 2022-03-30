@@ -73,6 +73,10 @@ function M.mappings()
     end)
 end
 
+function M.instance()
+    return telescope, themes
+end
+
 function M.setup()
     M.mappings()
 end
