@@ -28,6 +28,10 @@ function M.setup()
         }, -- lua
         null_ls.builtins.formatting.rustfmt, -- fust
         null_ls.builtins.formatting.eslint, -- eslint
+
+        -- diagnostics
+        null_ls.builtins.diagnostics.eslint, -- eslint diagnostics
+        null_ls.builtins.diagnostics.gitlint, --
     }
 
     null_ls.setup {
