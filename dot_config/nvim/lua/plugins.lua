@@ -279,7 +279,13 @@ return packer.startup {
         use {
             'nvim-treesitter/nvim-treesitter',
             run = ':TSUpdate',
-            requires = { 'p00f/nvim-ts-rainbow' },
+            requires = {
+                'p00f/nvim-ts-rainbow',
+                {
+                    'nvim-treesitter/playground',
+                    cmd = { 'TSPlaygroundToggle' },
+                },
+            },
         }
 
         use {
