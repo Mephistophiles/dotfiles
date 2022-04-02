@@ -257,11 +257,11 @@ in {
     zip
 
     # nixos
-    nixfmt
-    unstable.nixpkgs-review
     nix-index
     nix-prefetch
+    nixfmt
     nox
+    unstable.nixpkgs-review
 
     # self packaged
     # mypkgs.clipboard-sync
