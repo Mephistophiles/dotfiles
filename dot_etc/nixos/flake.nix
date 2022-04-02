@@ -67,6 +67,14 @@
           home-manager.nixosModules.home-manager
 
           ({ pkgs, ... }: {
+            imports =
+              (if (nixpkgs.lib.versionAtLeast nixpkgs.lib.version "21.10") then
+                [
+                  "${nixpkgs-unstable}/nixos/modules/services/networking/wg-quick.nix"
+                ]
+              else
+                abort "remove this override");
+            disabledModules = [ "services/networking/wg-quick.nix" ];
             nixpkgs = nixpkgs-overlay;
             nix.extraOptions = "experimental-features = nix-command flakes";
             nix.package = pkgs.nixFlakes;
