@@ -17,8 +17,8 @@
 
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "nixpkgs/nixos-21.11";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
     home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -40,7 +40,7 @@
           config.allowUnfreePredicate = unfreePredicate;
         };
       };
-      nixpkgs_overlay = {
+      nixpkgs-overlay = {
         config.allowUnfreePredicate = unfreePredicate;
         overlays = [ overlay-unstable ];
       };
@@ -51,7 +51,7 @@
           homeDirectory = "/home/mzhukov";
           username = "mzhukov";
           configuration = { pkgs, config, ... }: {
-            nixpkgs = nixpkgs_overlay;
+            nixpkgs = nixpkgs-overlay;
             programs.home-manager.enable = true;
             imports = [ ./home.nix ];
           };
@@ -67,7 +67,7 @@
           home-manager.nixosModules.home-manager
 
           ({ pkgs, ... }: {
-            nixpkgs = nixpkgs_overlay;
+            nixpkgs = nixpkgs-overlay;
             nix.extraOptions = "experimental-features = nix-command flakes";
             nix.package = pkgs.nixFlakes;
             nix.registry.nixpkgs.flake = nixpkgs;
