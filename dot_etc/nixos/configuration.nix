@@ -260,6 +260,7 @@ in {
     nix-index
     nix-prefetch
     nixfmt
+    nixos-option
     nox
     unstable.nixpkgs-review
 
