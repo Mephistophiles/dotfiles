@@ -14,6 +14,7 @@
           # hookPaths = "~/.git-templates/hooks/";
           pager = "~/bin/git-pager";
         };
+        difftool = { difftastic = { cmd = ''difft "$LOCAL" "$REMOTE"''; }; };
         merge = { tool = "vimdiff"; };
         mergetool = {
           vimdiff = {

@@ -186,6 +186,7 @@ in {
     unstable.cargo-whatfeatures
     unstable.choose
     unstable.clipcat
+    unstable.difftastic
     unstable.dua
     unstable.exa
     unstable.fd
