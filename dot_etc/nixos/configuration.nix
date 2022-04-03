@@ -7,15 +7,15 @@
 
 let
   mypkgs = pkgs.callPackage pkgs/default.nix { inherit pkgs; };
-  withWayland = false;
+  graphics = "gnome";
 in {
   imports = [ # Include the results of the hardware scan.
     ./variables.nix
     ./home/vault.nix
     ./hardware-configuration.nix
     ./host.nix
-  ] ++ lib.optional withWayland ./wayland.nix
-    ++ lib.optional (!withWayland) ./xorg.nix;
+  ] ++ lib.optional (graphics == "gnome") ./gnome.nix
+    ++ lib.optional (graphics == "awesomewm") ./awesomewm.nix;
 
   # Use the systemd-boot EFI boot loader.
   boot = {
