@@ -111,11 +111,27 @@ return packer.startup {
         use { 'tpope/vim-fugitive', cmd = { 'G', 'Git' }, opt = true }
 
         use {
-            'Mephistophiles/surround.nvim', -- original author (blackCauldron7) has been deleted (unsupported repo)
+            'echasnovski/mini.nvim', -- original author (blackCauldron7) has been deleted (unsupported repo)
             config = function()
-                require('surround').setup { map_insert_mode = false, mappings_style = 'surround' }
+                require('mini.surround').setup {
+                    -- Number of lines within which surrounding is searched
+                    n_lines = 20,
 
-                vim.api.nvim_del_keymap('v', 's') -- remove surrond visual
+                    -- Pattern to match function name in 'function call' surrounding
+                    -- By default it is a string of letters, '_' or '.'
+                    funname_pattern = '[%w_%.]+',
+
+                    -- Module mappings. Use `''` (empty string) to disable one.
+                    mappings = {
+                        add = 'ys', -- Add surrounding
+                        delete = 'ds', -- Delete surrounding
+                        find = '', -- Find surrounding (to the right)
+                        find_left = '', -- Find surrounding (to the left)
+                        highlight = '', -- Highlight surrounding
+                        replace = 'rs', -- Replace surrounding
+                        update_n_lines = '', -- Update `n_lines`
+                    },
+                }
             end,
         }
 
