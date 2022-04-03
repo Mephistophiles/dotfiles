@@ -734,6 +734,7 @@ return packer.startup {
 
         use {
             'rcarriga/vim-ultest',
+            cmd = { 'Ultest', 'UltestSummary', 'UltestNearest', 'TestFile', 'TestNearest' },
             requires = { 'vim-test/vim-test' },
             run = ':UpdateRemotePlugins',
         }
