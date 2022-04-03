@@ -304,6 +304,9 @@ local cpu_temp_widget = awful.widget.watch(
     end
 )
 
+local month_calendar = awful.widget.calendar_popup.month()
+month_calendar:attach(mytextclock, 'tr')
+
 gears.timer {
     timeout = 3,
     call_now = true,
