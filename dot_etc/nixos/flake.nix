@@ -79,6 +79,7 @@
             nix.extraOptions = "experimental-features = nix-command flakes";
             nix.package = pkgs.nixFlakes;
             nix.registry.nixpkgs.flake = nixpkgs;
+            nix.registry.nixpkgs-unstable.flake = nixpkgs-unstable;
 
             home-manager.useGlobalPkgs = true;
           })
