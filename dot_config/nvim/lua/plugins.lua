@@ -93,21 +93,21 @@ return packer.startup {
         }
 
         use {
-            'kyazdani42/nvim-tree.lua',
-            requires = { 'kyazdani42/nvim-web-devicons' },
+            'nvim-neo-tree/neo-tree.nvim',
+            cmd = { 'Neotree' },
+            requires = {
+                'nvim-lua/plenary.nvim',
+                'kyazdani42/nvim-web-devicons', -- not strictly required, but recommended
+                'MunifTanjim/nui.nvim',
+            },
+            setup = function()
+                require('settings.neo-tree').setup()
+            end,
             config = function()
-                require('nvim-tree').setup {
-                    update_cwd = true,
-                    update_focused_file = {
-                        enable = true,
-                        update_cwd = true,
-                    },
-                }
-
-                MAP.nnoremap([[<C-\>]], [[<cmd> lua require('nvim-tree').find_file(true)<CR>]])
-                MAP.nnoremap([[<leader><leader>]], [[<cmd> lua require('nvim-tree').toggle()<CR>]])
+                require('settings.neo-tree').config()
             end,
         }
+
         use { 'tpope/vim-fugitive', cmd = { 'G', 'Git' }, opt = true }
 
         use {
