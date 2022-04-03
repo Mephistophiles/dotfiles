@@ -730,7 +730,6 @@ return packer.startup {
         }
 
         use { 'timcharper/textile.vim', ft = 'textile' }
-        use { 'ellisonleao/glow.nvim', ft = 'markdown' }
 
         use {
             'rcarriga/vim-ultest',
