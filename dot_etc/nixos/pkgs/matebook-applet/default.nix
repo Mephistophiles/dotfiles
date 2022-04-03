@@ -4,7 +4,7 @@
 
 let
   pname = "matebook-applet";
-  version = "3.0.1";
+  version = "3.0.3";
   name = "${pname}-${version}";
 
 in stdenv.mkDerivation {
@@ -13,9 +13,9 @@ in stdenv.mkDerivation {
 
   src = fetchurl {
     url =
-      "https://github.com/nekr0z/matebook-applet/releases/download/${version}/matebook-applet_${version}_amd64.deb";
+      "https://github.com/nekr0z/matebook-applet/releases/download/v${version}/matebook-applet_${version}_amd64.deb";
     name = "${name}.deb";
-    sha256 = "0grbnxwkbiqs28ia7nbrvqb88i16pqk3by3gppynnp7d0afxa3kl";
+    sha256 = "sha256-iymgjatnbMsC5afJ5B25+xGWFlpyzLNtU7+XNKKTzHg=";
   };
 
   nativeBuildInputs = [ autoPatchelfHook dpkg ];
