@@ -128,7 +128,7 @@ return packer.startup {
                         find = '', -- Find surrounding (to the right)
                         find_left = '', -- Find surrounding (to the left)
                         highlight = '', -- Highlight surrounding
-                        replace = 'rs', -- Replace surrounding
+                        replace = 'cs', -- Replace surrounding
                         update_n_lines = '', -- Update `n_lines`
                     },
                 }
