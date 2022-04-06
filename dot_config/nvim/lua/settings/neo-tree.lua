@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
     MAP.nnoremap([[<C-\>]], [[<cmd>Neotree reveal_force_cwd<cr>]])
-    MAP.nnoremap([[<leader><leader>]], [[<cmd>Neotree reveal<cr>]])
+    MAP.nnoremap([[<leader><leader>]], [[<cmd>Neotree reveal toggle<cr>]])
 end
 
 function M.config()
@@ -26,11 +26,11 @@ function M.config()
             position = 'left',
             width = 40,
             mappings = {
-                ['<space>'] = 'toggle_node',
+                ['<tab>'] = 'toggle_node',
                 ['<2-LeftMouse>'] = 'open',
                 ['<cr>'] = 'open',
-                ['S'] = 'open_split',
-                ['s'] = 'open_vsplit',
+                ['s'] = 'open_split',
+                ['v'] = 'open_vsplit',
                 ['t'] = 'open_tabnew',
                 ['C'] = 'close_node',
                 ['<bs>'] = 'navigate_up',
@@ -50,6 +50,15 @@ function M.config()
                 ['c'] = 'copy', -- takes text input for destination
                 ['m'] = 'move', -- takes text input for destination
                 ['q'] = 'close_window',
+                ['F'] = function()
+                    require('neo-tree').show('filesystem', false)
+                end,
+                ['G'] = function()
+                    require('neo-tree').show('git_status', false)
+                end,
+                ['B'] = function()
+                    require('neo-tree').show('buffers', false)
+                end,
             },
         },
         nesting_rules = {},
