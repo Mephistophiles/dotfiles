@@ -53,10 +53,10 @@ function M.config()
                 ['F'] = function()
                     require('neo-tree').show('filesystem', false)
                 end,
-                ['G'] = function()
+                ['<C-G>'] = function()
                     require('neo-tree').show('git_status', false)
                 end,
-                ['B'] = function()
+                ['<C-B>'] = function()
                     require('neo-tree').show('buffers', false)
                 end,
             },
