@@ -20,6 +20,15 @@ return packer.startup {
             setup = function()
                 vim.g.did_load_filetypes = 1
             end,
+            config = function()
+                require('filetype').setup {
+                    overrides = {
+                        extensions = {
+                            tl = 'teal',
+                        },
+                    },
+                }
+            end,
         }
 
         -- extended repeat ('.') for another plugins
