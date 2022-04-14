@@ -118,8 +118,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -304,9 +302,6 @@ local cpu_temp_widget = awful.widget.watch(
     end
 )
 
-local month_calendar = awful.widget.calendar_popup.month()
-month_calendar:attach(mytextclock, 'tr')
-
 gears.timer {
     timeout = 3,
     call_now = true,
@@ -326,6 +321,11 @@ local separator = wibox.widget {
 screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
+    -- Create a textclock widget
+    local mytextclock = wibox.widget.textclock()
+    local month_calendar = awful.widget.calendar_popup.month { screen = s }
+    month_calendar:attach(mytextclock, 'tr')
+
     -- Wallpaper
     set_wallpaper(s)
 
