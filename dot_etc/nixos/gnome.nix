@@ -41,6 +41,7 @@
     #   pkgs.gnome.geary
   ];
   environment.systemPackages = with pkgs; [
+    gnome.gpaste
     gnome3.adwaita-icon-theme
     gnomeExtensions.caffeine
     gnomeExtensions.paperwm
