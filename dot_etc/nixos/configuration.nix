@@ -7,7 +7,7 @@
 
 let
   mypkgs = pkgs.callPackage pkgs/default.nix { inherit pkgs; };
-  graphics = "gnome";
+  graphics = "awesomewm";
 in {
   imports = [ # Include the results of the hardware scan.
     ./variables.nix
