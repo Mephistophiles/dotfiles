@@ -77,9 +77,23 @@ return packer.startup {
             'hoob3rt/lualine.nvim',
             requires = { 'kyazdani42/nvim-web-devicons', opt = true },
             config = function()
+                local treesitter = require 'nvim-treesitter'
+                local function treelocation()
+                    return treesitter.statusline {
+                        indicator_size = 70,
+                        type_patterns = { 'class', 'function', 'method' },
+                        separator = ' -> ',
+                    }
+                end
+
                 require('lualine').setup {
                     options = { theme = 'tokyonight' },
-                    sections = { lualine_c = { { 'filename', file_status = true, path = 1 } } },
+                    sections = {
+                        lualine_c = {
+                            { 'filename', file_status = true, path = 1 },
+                            { treelocation },
+                        },
+                    },
                 }
             end,
         }
