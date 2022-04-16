@@ -26,8 +26,9 @@
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager }:
     let
+      lib = nixpkgs.lib;
       unfreePredicate = pkg:
-        builtins.elem (nixpkgs.lib.getName pkg) [
+        builtins.elem (lib.getName pkg) [
           "clion"
           "slack"
           "vscode"
@@ -58,7 +59,7 @@
         };
       };
 
-      nixosConfigurations.mzhukov-laptop = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.mzhukov-laptop = lib.nixosSystem {
         system = "x86_64-linux";
         # Things in this set are passed to modules and accessible
         # in the top-level arguments (e.g. `{ pkgs, lib, inputs, ... }:`).
@@ -68,7 +69,7 @@
 
           ({ pkgs, ... }: {
             imports =
-              (if (nixpkgs.lib.versionAtLeast nixpkgs.lib.version "21.10") then
+              (if (lib.versionAtLeast lib.trivial.release "21.11") then
                 [
                   "${nixpkgs-unstable}/nixos/modules/services/networking/wg-quick.nix"
                 ]
