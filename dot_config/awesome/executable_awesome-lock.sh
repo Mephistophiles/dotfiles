@@ -1,5 +1,7 @@
 #!/usr/bin/env fish
 
+set SCRIPT_DIR (realpath (dirname (status --current-filename)))
+
 function screen_lock
 	# Lock screen displaing this image
 	slock
@@ -10,7 +12,8 @@ function lock
 
 	switch $phase
 		case 1
-			xset dpms force off &>/dev/null
+			pkill -f awesome-dimm.sh
+			$SCRIPT_DIR/awesome-dimm.sh off
 		case 2
 			screen_lock
 	end
@@ -21,7 +24,8 @@ function unlock
 
 	switch $phase
 		case 1
-			xset dpms force on &>/dev/null
+			pkill -f awesome-dimm.sh
+			$SCRIPT_DIR/awesome-dimm.sh on
 		case 2
 	end
 end

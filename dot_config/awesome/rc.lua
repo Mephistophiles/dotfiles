@@ -791,6 +791,7 @@ local lock_scr = string.format('%sawesome-lock.sh', awesomewm_dir)
 awful.spawn('pkill xidlehook')
 awful.spawn.once({
     'xidlehook',
+    '--not-when-fullscreen',
     '--timer', '60',
     lock_scr .. " lock 1",
     lock_scr .. " unlock 1",
