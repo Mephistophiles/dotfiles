@@ -45,23 +45,6 @@
   };
 
   services = {
-    xidlehook = {
-      enable = true;
-      package = pkgs.unstable.xidlehook;
-      not-when-fullscreen = true;
-      not-when-audio = true;
-      timers = [
-        {
-          delay = (15 * 60);
-          command = "${pkgs.xorg.xset}/bin/xset dpms force off";
-          canceller = "${pkgs.xorg.xset}/bin/xset dpms force on";
-        }
-        {
-          delay = (1 * 60);
-          command = "${pkgs.i3lock}/bin/i3lock -f -c 000000";
-        }
-      ];
-    };
     gpg-agent = {
       enable = true;
 

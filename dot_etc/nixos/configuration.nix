@@ -200,6 +200,7 @@ in {
     unstable.simple-http-server
     unstable.watchexec
     unstable.xh
+    unstable.xidlehook
     unstable.zoxide
 
     # gui
