@@ -77,21 +77,11 @@ return packer.startup {
             'hoob3rt/lualine.nvim',
             requires = { 'kyazdani42/nvim-web-devicons', opt = true },
             config = function()
-                local treesitter = require 'nvim-treesitter'
-                local function treelocation()
-                    return treesitter.statusline {
-                        indicator_size = 70,
-                        type_patterns = { 'class', 'function', 'method' },
-                        separator = ' -> ',
-                    }
-                end
-
                 require('lualine').setup {
                     options = { theme = 'tokyonight' },
                     sections = {
                         lualine_c = {
                             { 'filename', file_status = true, path = 1 },
-                            { treelocation },
                         },
                     },
                 }
@@ -340,6 +330,18 @@ return packer.startup {
                     cmd = { 'TSPlaygroundToggle' },
                 },
                 'nvim-treesitter/nvim-treesitter-textobjects',
+                {
+                    'mfussenegger/nvim-ts-hint-textobject',
+                    setup = function()
+                        MAP.omap('m', '<C-U>:lua require("tsht").nodes()<cr>', 'silent')
+                        MAP.vnoremap('m', ':lua require("tsht").nodes()<cr>', 'silent')
+                    end,
+                    opt = true,
+                    module = 'tsht',
+                },
+                {
+                    'romgrk/nvim-treesitter-context',
+                },
             },
         }
 
@@ -438,19 +440,6 @@ return packer.startup {
             end,
         }
 
-        use {
-            'mfussenegger/nvim-ts-hint-textobject',
-            setup = function()
-                MAP.omap('m', function()
-                    require('tsht').nodes()
-                end)
-                MAP.vnoremap('m', function()
-                    require('tsht').nodes()
-                end)
-            end,
-            opt = true,
-            module = 'tsht',
-        }
         use {
             'tpope/vim-eunuch',
             opt = true,
