@@ -18,13 +18,7 @@ return packer.startup {
                 vim.g.did_load_filetypes = 1
             end,
             config = function()
-                require('filetype').setup {
-                    overrides = {
-                        extensions = {
-                            tl = 'teal',
-                        },
-                    },
-                }
+                require('settings.filetypes').config()
             end,
         }
 

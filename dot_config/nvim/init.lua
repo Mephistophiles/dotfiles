@@ -17,7 +17,6 @@ end
 require 'globals'
 require 'mappings'
 require 'options'
-require 'filetypes'
 
 pcall(require, 'host')
 
