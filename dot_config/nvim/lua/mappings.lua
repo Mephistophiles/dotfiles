@@ -44,59 +44,59 @@ local function paste_git_signoff()
 end
 
 -- toggle show invisible symbols
-MAP.nnoremap('<F2>', function()
+vim.keymap.set('n', '<F2>', function()
     number_toggle()
 end)
-MAP.inoremap('<F2>', function()
+vim.keymap.set('i', '<F2>', function()
     number_toggle()
 end)
 
-MAP.nnoremap('<F4>', function()
+vim.keymap.set('n', '<F4>', function()
     swap_list_chars()
 end)
 
 -- toggle spelling
-MAP.nnoremap('<F7>', [[:set spell!<CR>]])
+vim.keymap.set('n', '<F7>', [[:set spell!<CR>]])
 
 -- Back search for f F t T
-MAP.nnoremap([[\]], ',')
+vim.keymap.set('n', [[\]], ',')
 
 -- paste signoff
-MAP.nnoremap('<F8>', function()
+vim.keymap.set('n', '<F8>', function()
     paste_git_signoff()
 end)
-MAP.inoremap('<F8>', function()
+vim.keymap.set('i', '<F8>', function()
     paste_git_signoff()
 end)
 
 -- command mode helpers
-MAP.cnoremap('<C-a>', '<Home>')
-MAP.cnoremap('<C-e>', '<End>')
-MAP.cnoremap('<C-p>', '<Up>')
-MAP.cnoremap('<C-n>', '<Down>')
-MAP.cnoremap('<C-b>', '<Left>')
-MAP.cnoremap('<C-f>', '<Right>')
+vim.keymap.set('c', '<C-a>', '<Home>')
+vim.keymap.set('c', '<C-e>', '<End>')
+vim.keymap.set('c', '<C-p>', '<Up>')
+vim.keymap.set('c', '<C-n>', '<Down>')
+vim.keymap.set('c', '<C-b>', '<Left>')
+vim.keymap.set('c', '<C-f>', '<Right>')
 
 -- map Home to buffernext, End bufferprev
-MAP.nnoremap('<Home>', ':bn')
-MAP.nnoremap('<End>', ':bp')
+vim.keymap.set('n', '<Home>', ':bn')
+vim.keymap.set('n', '<End>', ':bp')
 
 -- very magic search by default
-MAP.nnoremap([[?]], [[?\v]])
-MAP.nnoremap([[/]], [[/\v]])
-MAP.cnoremap([[%s/]], [[%sm/]])
+vim.keymap.set('n', [[?]], [[?\v]])
+vim.keymap.set('n', [[/]], [[/\v]])
+vim.keymap.set('c', [[%s/]], [[%sm/]])
 
 -- Suppress command mistakes
-MAP.cmd('W', 'w')
-MAP.cmd('WQ', 'wq')
-MAP.cmd('Wq', 'wq')
-MAP.cmd('WQA', 'wqa')
-MAP.cmd('WQa', 'wqa')
-MAP.cmd('Wqa', 'wqa')
-MAP.cmd('Q', 'q')
+vim.api.nvim_create_user_command('W', 'w', {})
+vim.api.nvim_create_user_command('WQ', 'wq', {})
+vim.api.nvim_create_user_command('Wq', 'wq', {})
+vim.api.nvim_create_user_command('WQA', 'wqa', {})
+vim.api.nvim_create_user_command('WQa', 'wqa', {})
+vim.api.nvim_create_user_command('Wqa', 'wqa', {})
+vim.api.nvim_create_user_command('Q', 'q', {})
 
 -- folding
-MAP.nnoremap('<tab>', function()
+vim.keymap.set('n', '<tab>', function()
     local current_level = vim.fn.foldlevel '.'
 
     if current_level > 0 then
@@ -107,26 +107,26 @@ MAP.nnoremap('<tab>', function()
 end)
 
 -- Better usage
-MAP.nnoremap('Y', 'y$')
-MAP.nnoremap('n', 'nzz')
-MAP.nnoremap('N', 'Nzz')
-MAP.vnoremap('J', [[:m '>+1<CR>gv=gv]])
-MAP.vnoremap('K', [[:m '<-2<CR>gv=gv]])
+vim.keymap.set('n', 'Y', 'y$')
+vim.keymap.set('n', 'n', 'nzz')
+vim.keymap.set('n', 'N', 'Nzz')
+vim.keymap.set('v', 'J', [[:m '>+1<CR>gv=gv]])
+vim.keymap.set('v', 'K', [[:m '<-2<CR>gv=gv]])
 
 -- replace paste without save in registers
-MAP.vnoremap('<leader>p', '"_dP')
+vim.keymap.set('v', '<leader>p', '"_dP')
 
 -- copy in clipboard
-MAP.nnoremap('<leader>y', '"+y')
-MAP.vnoremap('<leader>y', '"+y')
-MAP.nnoremap('<leader>Y', 'gg"+yG')
+vim.keymap.set('n', '<leader>y', '"+y')
+vim.keymap.set('v', '<leader>y', '"+y')
+vim.keymap.set('n', '<leader>Y', 'gg"+yG')
 
 -- workarounds
 -- inoremap <C-c> <Esc>
-MAP.inoremap('<C-c>', '<Esc>')
+vim.keymap.set('i', '<C-c>', '<Esc>')
 
 -- resize
-MAP.nnoremap('<C-w>K', ':resize -5<CR>')
-MAP.nnoremap('<C-w>J', ':resize +5<CR>')
-MAP.nnoremap('<C-w>H', ':vertical resize -5<CR>')
-MAP.nnoremap('<C-w>L', ':vertical resize +5<CR>')
+vim.keymap.set('n', '<C-w>K', ':resize -5<CR>')
+vim.keymap.set('n', '<C-w>J', ':resize +5<CR>')
+vim.keymap.set('n', '<C-w>H', ':vertical resize -5<CR>')
+vim.keymap.set('n', '<C-w>L', ':vertical resize +5<CR>')

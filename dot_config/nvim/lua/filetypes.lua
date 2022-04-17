@@ -1,3 +1,4 @@
+-- FIXME: rewrite to filetype
 vim.cmd [[
 augroup ft_json
     au!

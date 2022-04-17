@@ -1,31 +1,18 @@
 local M = {}
 
 function M.setup()
-    MAP.nnoremap('<leader>db', function()
-        require('dap').toggle_breakpoint()
-    end)
-    MAP.nnoremap('<leader>dB', function()
-        require('dap').toggle_breakpoint(vim.fn.input 'Breakpoint condition: ')
-    end)
-
-    MAP.nnoremap('<leader>dc', function()
-        require('dap').continue()
-    end)
-    MAP.nnoremap('<leader>ds', function()
-        require('dap').step_over()
-    end)
-    MAP.nnoremap('<leader>di', function()
-        require('dap').step_into()
-    end)
-    MAP.nnoremap('<leader>do', function()
-        require('dap').step_out()
-    end)
-    MAP.nnoremap('<leader>dr', function()
-        require('dap').repl.open()
-    end)
-    MAP.nnoremap('<leader>dh', function()
-        require('dap.ui.variables').hover()
-    end)
+    vim.keymap.set('n', '<leader>db', ':lua require("dap").toggle_breakpoint()<cr>')
+    vim.keymap.set(
+        'n',
+        '<leader>dB',
+        ':lua require("dap").toggle_breakpoint(vim.fn.input "Breakpoint condition: ")<cr>'
+    )
+    vim.keymap.set('n', '<leader>dc', ':lua  require("dap").continue()<cr>')
+    vim.keymap.set('n', '<leader>ds', ':lua  require("dap").step_over()<cr>')
+    vim.keymap.set('n', '<leader>di', ':lua  require("dap").step_into()<cr>')
+    vim.keymap.set('n', '<leader>do', ':lua  require("dap").step_out()<cr>')
+    vim.keymap.set('n', '<leader>dr', ':lua  require("dap").repl.open()<cr>')
+    vim.keymap.set('n', '<leader>dh', ':lua  require("dap.ui.variables").hover()<cr>')
 end
 
 function M.config()

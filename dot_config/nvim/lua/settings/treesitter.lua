@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup()
+function M.config()
     require('orgmode').setup_ts_grammar()
     require('nvim-treesitter.configs').setup {
         autopairs = { enable = true },

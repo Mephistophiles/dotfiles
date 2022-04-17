@@ -163,64 +163,64 @@ function M.key_bindings(client)
 
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    MAP.nnoremap('gD', vim.lsp.buf.declaration, 'buffer')
-    MAP.nnoremap('gd', vim.lsp.buf.definition, 'buffer')
-    MAP.nnoremap('<leader>D', vim.lsp.buf.type_definition, 'buffer')
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = true })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = true })
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, { buffer = true })
 
-    MAP.nnoremap('gi', function()
+    vim.keymap.set('n', 'gi', function()
         telescope.lsp_implementations {
             layout_strategy = 'vertical',
             layout_config = { prompt_position = 'top' },
             sorting_strategy = 'ascending',
             ignore_filename = false,
         }
-    end, 'buffer')
+    end, { buffer = true })
 
-    MAP.nnoremap('gr', function()
+    vim.keymap.set('n', 'gr', function()
         telescope.lsp_references {
             layout_strategy = 'vertical',
             layout_config = { prompt_position = 'top' },
             sorting_strategy = 'ascending',
             ignore_filename = false,
         }
-    end, 'buffer')
-    MAP.nnoremap('<leader>ca', function()
+    end, { buffer = true })
+    vim.keymap.set('n', '<leader>ca', function()
         telescope.lsp_code_actions(themes.get_dropdown {
             winblend = 10,
             border = true,
             previewer = false,
             shorten_path = false,
         })
-    end, 'buffer')
-    MAP.nnoremap('<leader>cs', function()
+    end, { buffer = true })
+    vim.keymap.set('n', '<leader>cs', function()
         telescope.lsp_document_symbols(themes.get_ivy {})
     end)
-    MAP.nnoremap('<leader>cS', function()
+    vim.keymap.set('n', '<leader>cS', function()
         telescope.lsp_workspace_symbols(themes.get_ivy {})
     end)
-    MAP.nnoremap('<leader>cd', function()
+    vim.keymap.set('n', '<leader>cd', function()
         telescope.lsp_dynamic_workspace_symbols(themes.get_ivy {})
     end)
 
-    MAP.nnoremap('K', vim.lsp.buf.hover, 'buffer')
-    MAP.nnoremap('<C-s>', vim.lsp.buf.signature_help, 'buffer')
-    MAP.nnoremap('<leader>rn', function()
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = true })
+    vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, { buffer = true })
+    vim.keymap.set('n', '<leader>rn', function()
         vim.lsp.buf.rename()
-    end, 'buffer')
-    -- MAP.nnoremap('<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
-    MAP.nnoremap('<leader>d', vim.diagnostic.open_float, 'buffer')
-    MAP.nnoremap('[d', function()
+    end, { buffer = true })
+    -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
+    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { buffer = true })
+    vim.keymap.set('n', '[d', function()
         vim.diagnostic.goto_next()
-    end, 'buffer')
-    MAP.nnoremap(']d', function()
+    end, { buffer = true })
+    vim.keymap.set('n', ']d', function()
         vim.diagnostic.goto_prev()
-    end, 'buffer')
-    MAP.nnoremap('<leader>q', function()
+    end, { buffer = true })
+    vim.keymap.set('n', '<leader>q', function()
         vim.diagnostic.setloclist()
-    end, 'buffer')
+    end, { buffer = true })
 
     if client.resolved_capabilities.code_lens then
-        MAP.nnoremap('<leader>lr', vim.lsp.codelens.run, 'buffer')
+        vim.keymap.set('n', '<leader>lr', vim.lsp.codelens.run, { buffer = true })
     end
 end
 

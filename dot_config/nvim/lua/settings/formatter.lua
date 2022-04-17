@@ -81,7 +81,7 @@ function M.on_menu_save(blacklist)
 end
 
 function M.setup()
-    MAP.nnoremap('<leader>m', function()
+    vim.keymap.set('n', '<leader>m', function()
         if vim.b.disable_formatter then
             vim.b.disable_formatter = false
             vim.notify 'Enable format on save'
@@ -91,22 +91,22 @@ function M.setup()
         end
     end)
 
-    MAP.nnoremap('<leader>mb', function()
+    vim.keymap.set('n', '<leader>mb', function()
         blacklist_file(vim.api.nvim_buf_get_name(0))
         vim.b.disable_formatter = true
         vim.notify 'Permanently disable format on save'
     end)
-    MAP.nnoremap('<leader>mu', function()
+    vim.keymap.set('n', '<leader>mu', function()
         unblacklist_file(vim.api.nvim_buf_get_name(0))
         vim.b.disable_formatter = false
         vim.notify 'Remove current file from the blacklist'
     end)
-    MAP.nnoremap('<leader>mc', function()
+    vim.keymap.set('n', '<leader>mc', function()
         local before = BLACKLIST.get()
         local after = gc_blacklist(before)
         vim.notify(string.format('GC blacklist: %d -> %d entries', #before, #after))
     end)
-    MAP.nnoremap('<leader>ml', function()
+    vim.keymap.set('n', '<leader>ml', function()
         require('settings.formatter_ui').toggle_quick_menu(BLACKLIST.get())
     end)
 end

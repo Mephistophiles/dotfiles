@@ -17,16 +17,3 @@ MAP_CLEANUPS = {
     '<CMD>call clearmatches()<CR>',
     '<CMD>lua vim.notify.dismiss()<CR>',
 }
-
-local success
-success, MAP = pcall(require, 'mapx')
-
-if not success then
-    MAP = setmetatable({}, {
-        __index = function()
-            return function()
-                print 'MAPPING is not supported'
-            end
-        end,
-    })
-end

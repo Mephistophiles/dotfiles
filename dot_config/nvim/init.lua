@@ -26,13 +26,12 @@ require 'plugins'
 require('settings.rust-tools').setup()
 require('settings.lspconfig').setup()
 require('settings.cmp').setup()
-require('settings.treesitter').setup()
 
 if ok then
     pcall(require, 'packer_compiled')
 end
 
 -- cleanups
-MAP.nnoremap('<leader><enter>', table.concat(MAP_CLEANUPS, ''))
+vim.keymap.set('n', '<leader><enter>', table.concat(MAP_CLEANUPS, ''))
 
 -- vim.cmd('syntax on') -- On syntax

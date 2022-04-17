@@ -11,9 +11,6 @@ return packer.startup {
         -- Speedup loading
         use 'lewis6991/impatient.nvim'
 
-        -- neovim mappings (wait for neovim 0.7)
-        use 'b0o/mapx.nvim'
-
         -- filedetect drop-in-placement
         use {
             'nathom/filetype.nvim',
@@ -174,28 +171,14 @@ return packer.startup {
                     on_attach = function(bufnr)
                         local gs = package.loaded.gitsigns
 
-                        local function map(mode, l, r, opts)
-                            opts = opts or {}
-                            opts.buffer = bufnr
-
-                            if type(mode) == 'string' then
-                                mode = { mode }
-                            end
-
-                            for _, m in ipairs(mode) do
-                                local func_name = m .. 'map'
-                                MAP[func_name](l, r, opts)
-                            end
-                        end
-
                         -- Navigation
-                        map(
+                        vim.keymap.set(
                             'n',
                             ']c',
                             [[&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>']],
                             { expr = true }
                         )
-                        map(
+                        vim.keymap.set(
                             'n',
                             '[c',
                             [[&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>']],
@@ -203,24 +186,24 @@ return packer.startup {
                         )
 
                         -- Actions
-                        map({ 'n', 'v' }, '<leader>hs', gs.stage_hunk)
-                        map({ 'n', 'v' }, '<leader>hr', gs.reset_hunk)
-                        map('n', '<leader>hS', gs.stage_buffer)
-                        map('n', '<leader>hu', gs.undo_stage_hunk)
-                        map('n', '<leader>hR', gs.reset_buffer)
-                        map('n', '<leader>hp', gs.preview_hunk)
-                        map('n', '<leader>hb', function()
+                        vim.keymap.set({ 'n', 'v' }, '<leader>hs', gs.stage_hunk)
+                        vim.keymap.set({ 'n', 'v' }, '<leader>hr', gs.reset_hunk)
+                        vim.keymap.set('n', '<leader>hS', gs.stage_buffer)
+                        vim.keymap.set('n', '<leader>hu', gs.undo_stage_hunk)
+                        vim.keymap.set('n', '<leader>hR', gs.reset_buffer)
+                        vim.keymap.set('n', '<leader>hp', gs.preview_hunk)
+                        vim.keymap.set('n', '<leader>hb', function()
                             gs.blame_line { full = true }
                         end)
-                        map('n', '<leader>tb', gs.toggle_current_line_blame)
-                        map('n', '<leader>hd', gs.diffthis)
-                        map('n', '<leader>hD', function()
+                        vim.keymap.set('n', '<leader>tb', gs.toggle_current_line_blame)
+                        vim.keymap.set('n', '<leader>hd', gs.diffthis)
+                        vim.keymap.set('n', '<leader>hD', function()
                             gs.diffthis '~'
                         end)
-                        map('n', '<leader>td', gs.toggle_deleted)
+                        vim.keymap.set('n', '<leader>td', gs.toggle_deleted)
 
                         -- Text object
-                        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+                        vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
                     end,
                 }
             end,
@@ -261,12 +244,12 @@ return packer.startup {
             opt = true,
             module = 'spectre',
             setup = function()
-                MAP.nnoremap('<leader>/', function()
-                    require('spectre').open()
-                end)
-                MAP.nnoremap('<leader>*', function()
-                    require('spectre').open_visual { select_word = true }
-                end)
+                vim.keymap.set('n', '<leader>/', ':lua require("spectre").open()<cr>')
+                vim.keymap.set(
+                    'n',
+                    '<leader>*',
+                    ':lua require("spectre").open_visual { select_word = true }<cr>'
+                )
             end,
             config = function()
                 require('spectre').setup {
@@ -316,15 +299,18 @@ return packer.startup {
             'simrat39/symbols-outline.nvim',
             cmd = { 'SymbolsOutline' },
             setup = function()
-                MAP.nmap('<F5>', '<cmd>SymbolsOutline<cr>')
+                vim.keymap.set('n', '<F5>', '<cmd>SymbolsOutline<cr>')
             end,
         }
 
         use {
             'nvim-treesitter/nvim-treesitter',
             run = ':TSUpdate',
+            config = function()
+                require('settings.treesitter').config()
+            end,
             requires = {
-                'p00f/nvim-ts-rainbow',
+                { 'p00f/nvim-ts-rainbow', disable = true }, -- FIXME: rainbow has neovim0.7 bug
                 {
                     'nvim-treesitter/playground',
                     cmd = { 'TSPlaygroundToggle' },
@@ -333,8 +319,18 @@ return packer.startup {
                 {
                     'mfussenegger/nvim-ts-hint-textobject',
                     setup = function()
-                        MAP.omap('m', '<C-U>:lua require("tsht").nodes()<cr>', 'silent')
-                        MAP.vnoremap('m', ':lua require("tsht").nodes()<cr>', 'silent')
+                        vim.keymap.set(
+                            'o',
+                            'm',
+                            '<C-U>:lua require("tsht").nodes()<cr>',
+                            { silent = true }
+                        )
+                        vim.keymap.set(
+                            'v',
+                            'm',
+                            ':lua require("tsht").nodes()<cr>',
+                            { silent = true }
+                        )
                     end,
                     opt = true,
                     module = 'tsht',
@@ -365,8 +361,8 @@ return packer.startup {
             cmd = { 'Tabularize' },
             opt = true,
             setup = function()
-                MAP.nnoremap('<leader>a', ':Tabularize /')
-                MAP.vnoremap('<leader>a', ':Tabularize /')
+                vim.keymap.set('n', '<leader>a', ':Tabularize /')
+                vim.keymap.set('v', '<leader>a', ':Tabularize /')
             end,
         }
 
@@ -381,7 +377,7 @@ return packer.startup {
             'mbbill/undotree',
             cmd = 'UndotreeToggle',
             setup = function()
-                MAP.noremap('<F3>', '<cmd>UndotreeToggle<CR>')
+                vim.keymap.set('n', '<F3>', '<cmd>UndotreeToggle<CR>')
             end,
             opt = true,
         }
@@ -423,12 +419,12 @@ return packer.startup {
                     },
                 }
 
-                MAP.nnoremap('<c-h>', '<cmd>lua require("tmux").move_left()<cr>')
-                MAP.nnoremap('<c-l>', '<cmd>lua require("tmux").move_right()<cr>')
-                MAP.nnoremap('<a-h>', '<cmd>lua require("tmux").move_left()<cr>')
-                MAP.nnoremap('<a-j>', '<cmd>lua require("tmux").move_bottom()<cr>')
-                MAP.nnoremap('<a-k>', '<cmd>lua require("tmux").move_top()<cr>')
-                MAP.nnoremap('<a-l>', '<cmd>lua require("tmux").move_right()<cr>')
+                vim.keymap.set('n', '<c-h>', '<cmd>lua require("tmux").move_left()<cr>')
+                vim.keymap.set('n', '<c-l>', '<cmd>lua require("tmux").move_right()<cr>')
+                vim.keymap.set('n', '<a-h>', '<cmd>lua require("tmux").move_left()<cr>')
+                vim.keymap.set('n', '<a-j>', '<cmd>lua require("tmux").move_bottom()<cr>')
+                vim.keymap.set('n', '<a-k>', '<cmd>lua require("tmux").move_top()<cr>')
+                vim.keymap.set('n', '<a-l>', '<cmd>lua require("tmux").move_right()<cr>')
             end,
         }
 
@@ -482,41 +478,41 @@ return packer.startup {
             as = 'hop',
             module = 'hop',
             setup = function()
-                MAP.map('<Leader>w', function()
+                vim.keymap.set('n', '<Leader>w', function()
                     require('hop').hint_words {
                         direction = require('hop.hint').HintDirection.AFTER_CURSOR,
                     }
                 end)
-                MAP.map('<Leader>W', function()
+                vim.keymap.set('n', '<Leader>W', function()
                     require('hop').hint_words { multi_windows = true }
                 end)
-                MAP.map('<Leader>b', function()
+                vim.keymap.set('n', '<Leader>b', function()
                     require('hop').hint_words {
                         direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
                     }
                 end)
-                MAP.map('<Leader>B', function()
+                vim.keymap.set('n', '<Leader>B', function()
                     require('hop').hint_words { multi_windows = true }
                 end)
-                MAP.nmap('f', function()
+                vim.keymap.set('n', 'f', function()
                     require('hop').hint_char1 {
                         direction = require('hop.hint').HintDirection.AFTER_CURSOR,
                         current_line_only = true,
                     }
                 end)
-                MAP.nmap('F', function()
+                vim.keymap.set('n', 'F', function()
                     require('hop').hint_char1 {
                         direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
                         current_line_only = true,
                     }
                 end)
-                MAP.nmap('t', function()
+                vim.keymap.set('n', 't', function()
                     require('hop').hint_char1 {
                         direction = require('hop.hint').HintDirection.AFTER_CURSOR,
                         current_line_only = true,
                     }
                 end)
-                MAP.nmap('T', function()
+                vim.keymap.set('n', 'T', function()
                     require('hop').hint_char1 {
                         direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
                         current_line_only = true,
@@ -537,10 +533,10 @@ return packer.startup {
             setup = function()
                 vim.g.lightspeed_no_default_keymaps = true
 
-                MAP.map('<leader>s', function()
+                vim.keymap.set('n', '<leader>s', function()
                     require('lightspeed').sx:go(false)
                 end)
-                MAP.map('<leader>S', function()
+                vim.keymap.set('n', '<leader>S', function()
                     require('lightspeed').sx:go(true)
                 end)
             end,
@@ -558,10 +554,10 @@ return packer.startup {
             opt = true,
             module = 'pounce',
             setup = function()
-                MAP.nmap('<leader>s', function()
+                vim.keymap.set('n', '<leader>s', function()
                     require('pounce').pounce {}
                 end)
-                MAP.nmap('<leader>S', function()
+                vim.keymap.set('n', '<leader>S', function()
                     require('pounce').pounce { do_repeat = true }
                 end)
             end,
@@ -584,28 +580,28 @@ return packer.startup {
             requires = { 'nvim-lua/plenary.nvim', 'nvim-lua/popup.nvim' },
             module = 'harpoon',
             setup = function()
-                MAP.map('<Leader>`', function()
+                vim.keymap.set('n', '<Leader>`', function()
                     require('harpoon.ui').toggle_quick_menu()
                 end)
-                MAP.map('<Leader>h', function()
+                vim.keymap.set('n', '<Leader>h', function()
                     require('harpoon.mark').add_file()
                 end)
-                MAP.map('<Leader>1', function()
+                vim.keymap.set('n', '<Leader>1', function()
                     require('harpoon.ui').nav_file(1)
                 end)
-                MAP.map('<Leader>2', function()
+                vim.keymap.set('n', '<Leader>2', function()
                     require('harpoon.ui').nav_file(2)
                 end)
-                MAP.map('<Leader>3', function()
+                vim.keymap.set('n', '<Leader>3', function()
                     require('harpoon.ui').nav_file(3)
                 end)
-                MAP.map('<Leader>4', function()
+                vim.keymap.set('n', '<Leader>4', function()
                     require('harpoon.ui').nav_file(4)
                 end)
-                MAP.map('<Leader>5', function()
+                vim.keymap.set('n', '<Leader>5', function()
                     require('harpoon.ui').nav_file(5)
                 end)
-                MAP.map('<Leader>6', function()
+                vim.keymap.set('n', '<Leader>6', function()
                     require('harpoon.ui').nav_file(6)
                 end)
             end,
@@ -652,8 +648,8 @@ return packer.startup {
                 vim.g.floaterm_height = 0.7
             end,
             setup = function()
-                MAP.nnoremap('<F12>', [[:FloatermToggle<CR>]], 'silent')
-                MAP.tnoremap('<F12>', [[<C-\><C-n>:FloatermToggle<CR>]], 'silent')
+                vim.keymap.set('n', '<F12>', [[:FloatermToggle<CR>]], { silent = true })
+                vim.keymap.set('t', '<F12>', [[<C-\><C-n>:FloatermToggle<CR>]], { silent = true })
             end,
             cmd = { 'FloatermNew', 'FloatermToggle' },
         }
@@ -698,7 +694,7 @@ return packer.startup {
             cmd = { 'GitMessenger' },
             keys = { '<leader>gm' },
             setup = function()
-                MAP.nnoremap('<leader>gm', '<Plug>(git-messenger)')
+                vim.keymap.set('n', '<leader>gm', '<Plug>(git-messenger)')
             end,
         }
 
@@ -786,6 +782,7 @@ return packer.startup {
                     },
                 }
             end,
+            requires = 'nvim-treesitter/nvim-treesitter',
         }
 
         use {

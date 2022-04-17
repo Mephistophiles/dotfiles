@@ -19,12 +19,13 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-21.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    nixpkgs-trunk.url = "nixpkgs/master";
 
     home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nixpkgs-trunk, home-manager }:
     let
       lib = nixpkgs.lib;
       unfreePredicate = pkg:
@@ -37,6 +38,10 @@
 
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
+          system = "x86_64-linux";
+          config.allowUnfreePredicate = unfreePredicate;
+        };
+        trunk = import nixpkgs-trunk {
           system = "x86_64-linux";
           config.allowUnfreePredicate = unfreePredicate;
         };
@@ -81,6 +86,7 @@
             nix.package = pkgs.nix_2_7;
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.registry.nixpkgs-unstable.flake = nixpkgs-unstable;
+            nix.registry.nixpkgs-trunk.flake = nixpkgs-trunk;
             home-manager.useGlobalPkgs = true;
           })
 

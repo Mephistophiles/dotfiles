@@ -217,7 +217,7 @@ in {
     thunderbird
 
     # text editors
-    (unstable.neovim.override { vimAlias = true; })
+    (trunk.neovim.override { vimAlias = true; })
     micro
     python39Packages.pynvim
     xfce.mousepad

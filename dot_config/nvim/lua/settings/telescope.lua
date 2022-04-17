@@ -13,17 +13,17 @@ local themes = setmetatable({}, {
 })
 
 function M.mappings()
-    MAP.nnoremap('<C-p>', function()
+    vim.keymap.set('n', '<C-p>', function()
         telescope.find_files(themes.get_ivy {})
     end)
-    MAP.nnoremap('<C-b>', function()
+    vim.keymap.set('n', '<C-b>', function()
         telescope.buffers(themes.get_ivy { shorten_path = false })
     end)
-    MAP.nnoremap('<leader>lg', function()
+    vim.keymap.set('n', '<leader>lg', function()
         telescope.live_grep(themes.get_ivy {})
     end)
 
-    MAP.nnoremap('<leader>en', function()
+    vim.keymap.set('n', '<leader>en', function()
         local opts_with_preview, opts_without_preview
         local actions = require 'telescope.actions'
         local action_state = require 'telescope.actions.state'

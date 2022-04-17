@@ -1,8 +1,8 @@
 local M = {}
 
 function M.setup()
-    MAP.nnoremap([[<C-\>]], [[<cmd>Neotree reveal_force_cwd<cr>]])
-    MAP.nnoremap([[<leader><leader>]], [[<cmd>Neotree reveal toggle<cr>]])
+    vim.keymap.set('n', [[<C-\>]], [[<cmd>Neotree reveal_force_cwd<cr>]])
+    vim.keymap.set('n', [[<leader><leader>]], [[<cmd>Neotree reveal toggle<cr>]])
 end
 
 function M.config()
