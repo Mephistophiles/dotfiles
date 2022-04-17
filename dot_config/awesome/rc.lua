@@ -59,6 +59,25 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 -- This is used later as the default terminal and editor to run.
 
 local awesomewm_dir = gears.filesystem.get_configuration_dir()
+local wallpapers = (function()
+    local wallpapers = {}
+    local wallpapers_dir = awesomewm_dir .. '/wallpapers/'
+
+    for file in lfs.dir(wallpapers_dir) do
+        if file ~= '.' and file ~= '..' then
+            table.insert(wallpapers, wallpapers_dir .. file)
+        end
+    end
+
+    return wallpapers
+end)()
+
+math.randomseed(os.time())
+local wallpaper = wallpapers[math.random(1, #wallpapers)]
+
+beautiful.wallpaper = function()
+    return wallpaper
+end
 
 local terminal = 'kitty'
 local editor = os.getenv('EDITOR') or 'nvim'
