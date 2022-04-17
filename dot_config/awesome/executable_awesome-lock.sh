@@ -27,6 +27,8 @@ function unlock
 			pkill -f awesome-dimm.sh
 			$SCRIPT_DIR/awesome-dimm.sh on
 		case 2
+			pkill -f awesome-dimm.sh
+			$SCRIPT_DIR/awesome-dimm.sh on
 	end
 end
 
