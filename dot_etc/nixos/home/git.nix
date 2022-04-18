@@ -8,6 +8,7 @@
       userName = "Maxim Zhukov";
       userEmail = "mussitantesmortem@gmail.com";
       signing.key = "7146F5C513417782";
+      lfs = true;
       extraConfig = {
         core = {
           editor = "nvim";

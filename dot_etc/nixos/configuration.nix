@@ -206,6 +206,7 @@ in {
     # gui
     evince
     firefox
+    gimp
     gnome3.file-roller
     gnome3.gnome-calculator
     gnome3.gnome-disk-utility
@@ -277,6 +278,7 @@ in {
     cmake
     gcc_multi
     git
+    git-lfs
     gitAndTools.delta
     gitAndTools.gh
     gnumake

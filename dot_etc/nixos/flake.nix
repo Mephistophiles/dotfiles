@@ -25,16 +25,12 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nixpkgs-trunk, home-manager }:
+  outputs =
+    inputs@{ self, nixpkgs, nixpkgs-unstable, nixpkgs-trunk, home-manager }:
     let
       lib = nixpkgs.lib;
       unfreePredicate = pkg:
-        builtins.elem (lib.getName pkg) [
-          "clion"
-          "slack"
-          "vscode"
-          "zoom"
-        ];
+        builtins.elem (lib.getName pkg) [ "clion" "slack" "vscode" "zoom" ];
 
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
@@ -73,13 +69,12 @@
           home-manager.nixosModules.home-manager
 
           ({ pkgs, ... }: {
-            imports =
-              (if (lib.versionAtLeast lib.trivial.release "21.11") then
-                [
-                  "${nixpkgs-unstable}/nixos/modules/services/networking/wg-quick.nix"
-                ]
-              else
-                abort "remove this override");
+            imports = (if (lib.versionAtLeast lib.trivial.release "21.11") then
+              [
+                "${nixpkgs-unstable}/nixos/modules/services/networking/wg-quick.nix"
+              ]
+            else
+              abort "remove this override");
             disabledModules = [ "services/networking/wg-quick.nix" ];
             nixpkgs = nixpkgs-overlay;
             nix.extraOptions = "experimental-features = nix-command flakes";
