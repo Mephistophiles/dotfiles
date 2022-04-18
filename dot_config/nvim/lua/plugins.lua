@@ -468,7 +468,6 @@ return packer.startup {
 
         use {
             'phaazon/hop.nvim',
-            disable = false,
             as = 'hop',
             module = 'hop',
             setup = function()
@@ -516,29 +515,6 @@ return packer.startup {
             config = function()
                 -- you can configure Hop the way you like here; see :h hop-config
                 require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
-            end,
-        }
-
-        use {
-            'ggandor/lightspeed.nvim',
-            disable = true,
-            opt = true,
-            module = 'lightspeed',
-            setup = function()
-                vim.g.lightspeed_no_default_keymaps = true
-
-                vim.keymap.set('n', '<leader>s', function()
-                    require('lightspeed').sx:go(false)
-                end)
-                vim.keymap.set('n', '<leader>S', function()
-                    require('lightspeed').sx:go(true)
-                end)
-            end,
-            config = function()
-                require('lightspeed').setup {
-                    ignore_case = true,
-                    force_beacons_into_match_width = true,
-                }
             end,
         }
 
