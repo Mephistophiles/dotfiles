@@ -281,15 +281,6 @@ return packer.startup {
         }
 
         use {
-            'mg979/vim-visual-multi',
-            keys = { '<c-n>' },
-            config = function()
-                vim.g.VM_reselect_first = 1
-                vim.g.VM_case_setting = 'sensitive'
-            end,
-        }
-
-        use {
             'simrat39/symbols-outline.nvim',
             cmd = { 'SymbolsOutline' },
             setup = function()
