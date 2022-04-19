@@ -342,8 +342,17 @@ screen.connect_signal("property::geometry", set_wallpaper)
 awful.screen.connect_for_each_screen(function(s)
     -- Create a textclock widget
     local mytextclock = wibox.widget.textclock()
-    local month_calendar = awful.widget.calendar_popup.month { screen = s }
-    month_calendar:attach(mytextclock, 'tr')
+    local calendar_widget = require 'awesome-wm-widgets.calendar-widget.calendar'
+    local cw = calendar_widget {
+        theme = 'nord',
+        placement = 'top_right',
+        radius = 8,
+    }
+    mytextclock:connect_signal('button::press', function(_, _, _, button)
+        if button == 1 then
+            cw.toggle()
+        end
+    end)
 
     -- Wallpaper
     set_wallpaper(s)
