@@ -277,8 +277,6 @@ in {
     # programming
     cmake
     gcc_multi
-    git
-    git-lfs
     gitAndTools.delta
     gitAndTools.gh
     gnumake
