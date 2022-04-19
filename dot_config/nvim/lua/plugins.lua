@@ -458,54 +458,26 @@ return packer.startup {
         use { 'cespare/vim-toml', ft = 'toml' }
 
         use {
-            'phaazon/hop.nvim',
-            as = 'hop',
-            module = 'hop',
+            'ggandor/lightspeed.nvim',
+            module = 'lightspeed',
+            opt = true,
             setup = function()
-                vim.keymap.set('n', '<Leader>w', function()
-                    require('hop').hint_words {
-                        direction = require('hop.hint').HintDirection.AFTER_CURSOR,
-                    }
+                vim.g.lightspeed_no_default_keymaps = true
+                vim.keymap.set('n', '<leader>w', function()
+                    require('lightspeed').sx:go(false)
                 end)
-                vim.keymap.set('n', '<Leader>W', function()
-                    require('hop').hint_words { multi_windows = true }
-                end)
-                vim.keymap.set('n', '<Leader>b', function()
-                    require('hop').hint_words {
-                        direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
-                    }
-                end)
-                vim.keymap.set('n', '<Leader>B', function()
-                    require('hop').hint_words { multi_windows = true }
-                end)
-                vim.keymap.set('n', 'f', function()
-                    require('hop').hint_char1 {
-                        direction = require('hop.hint').HintDirection.AFTER_CURSOR,
-                        current_line_only = true,
-                    }
-                end)
-                vim.keymap.set('n', 'F', function()
-                    require('hop').hint_char1 {
-                        direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
-                        current_line_only = true,
-                    }
-                end)
-                vim.keymap.set('n', 't', function()
-                    require('hop').hint_char1 {
-                        direction = require('hop.hint').HintDirection.AFTER_CURSOR,
-                        current_line_only = true,
-                    }
-                end)
-                vim.keymap.set('n', 'T', function()
-                    require('hop').hint_char1 {
-                        direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
-                        current_line_only = true,
-                    }
+                vim.keymap.set('n', '<leader>b', function()
+                    require('lightspeed').sx:go(true)
                 end)
             end,
             config = function()
-                -- you can configure Hop the way you like here; see :h hop-config
-                require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
+                require('lightspeed').setup {
+                    ignore_case = true,
+                    special_keys = {
+                        next_match_group = '<space>',
+                        prev_match_group = '<tab>',
+                    },
+                }
             end,
         }
 
