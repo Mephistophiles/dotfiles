@@ -59,7 +59,7 @@ vim.opt.updatetime = 500
 vim.g.c_syntax_for_h = true
 
 -- gui
-vim.o.guifont = 'JetBrainsMono Nerd Font'
+vim.o.guifont = 'FiraCode Nerd Font Mono:h10'
 
 -- Timeout
 vim.opt.timeoutlen = 1000
