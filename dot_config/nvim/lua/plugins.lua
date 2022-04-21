@@ -332,7 +332,7 @@ return packer.startup {
                     module = 'tsht',
                 },
                 {
-                    'romgrk/nvim-treesitter-context',
+                    'lewis6991/nvim-treesitter-context',
                 },
             },
         }
