@@ -133,12 +133,23 @@ return packer.startup {
             'echasnovski/mini.nvim', -- original author (blackCauldron7) has been deleted (unsupported repo)
             config = function()
                 require('mini.surround').setup {
+                    custom_surroundings = {
+                        ['b'] = {
+                            input = { find = '%b()', extract = '^(.).*(.)$' },
+                            output = { left = '(', right = ')' },
+                        },
+                        ['B'] = {
+                            input = { find = '%b{}', extract = '^(.).*(.)$' },
+                            output = { left = '{', right = '}' },
+                        },
+                    },
                     -- Number of lines within which surrounding is searched
                     n_lines = 20,
 
-                    -- Pattern to match function name in 'function call' surrounding
-                    -- By default it is a string of letters, '_' or '.'
-                    funname_pattern = '[%w_%.]+',
+                    -- How to search for surrounding (first inside current line, then inside
+                    -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
+                    -- 'cover_or_nearest'. For more details, see `:h MiniSurround.config`.
+                    search_method = 'cover',
 
                     -- Module mappings. Use `''` (empty string) to disable one.
                     mappings = {
