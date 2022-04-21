@@ -469,24 +469,26 @@ return packer.startup {
         use { 'cespare/vim-toml', ft = 'toml' }
 
         use {
-            'ggandor/lightspeed.nvim',
-            module = 'lightspeed',
+            'ggandor/leap.nvim',
             opt = true,
-            setup = function()
-                vim.g.lightspeed_no_default_keymaps = true
-                vim.keymap.set('n', '<leader>w', function()
-                    require('lightspeed').sx:go(false)
-                end)
-                vim.keymap.set('n', '<leader>b', function()
-                    require('lightspeed').sx:go(true)
-                end)
-            end,
+            keys = { { 'n', '<leader>w' }, { 'n', '<leader>b' } },
             config = function()
-                require('lightspeed').setup {
-                    ignore_case = true,
+                vim.keymap.set('n', '<leader>w', '<Plug>(leap-forward)', { silent = true })
+                vim.keymap.set('n', '<leader>b', '<Plug>(leap-backward)', { silent = true })
+                require('leap').setup {
+                    case_insensitive = true,
+                    -- Leaving the appropriate list empty effectively disables "smart" mode,
+                    -- and forces auto-jump to be on or off.
+                    -- safe_labels = { . . . },
+                    -- labels = { . . . },
+                    -- These keys are captured directly by the plugin at runtime.
                     special_keys = {
-                        next_match_group = '<space>',
-                        prev_match_group = '<tab>',
+                        repeat_search = '<enter>',
+                        next_match = '<enter>',
+                        prev_match = '<tab>',
+                        next_group = '<space>',
+                        prev_group = '<tab>',
+                        eol = '<space>',
                     },
                 }
             end,
