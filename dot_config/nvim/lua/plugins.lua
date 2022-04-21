@@ -558,7 +558,14 @@ return packer.startup {
         use {
             'rcarriga/nvim-notify',
             config = function()
-                vim.notify = require 'notify'
+                local notify_fn = require 'notify'
+                vim.notify = function(msg, level, opts)
+                    if level and level > vim.log.levels.DEBUG then
+                        msg = msg .. '\n' .. debug.traceback()
+                    end
+
+                    notify_fn(msg, level, opts)
+                end
             end,
         }
 
