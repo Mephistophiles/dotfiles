@@ -702,23 +702,6 @@ return packer.startup {
         }
 
         use {
-            'nvim-orgmode/orgmode',
-            config = function()
-                -- Load custom tree-sitter grammar for org filetype
-                require('orgmode').setup {
-                    org_agenda_files = { '~/org/*' },
-                    org_default_notes_file = '~/org/inbox.org',
-                    mappings = {
-                        org = {
-                            org_toggle_checkbox = '<leader>,',
-                        },
-                    },
-                }
-            end,
-            requires = 'nvim-treesitter/nvim-treesitter',
-        }
-
-        use {
             'klen/nvim-config-local',
             config = function()
                 require('config-local').setup {

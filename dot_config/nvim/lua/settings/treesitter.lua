@@ -1,7 +1,6 @@
 local M = {}
 
 function M.config()
-    require('orgmode').setup_ts_grammar()
     require('nvim-treesitter.configs').setup {
         autopairs = { enable = true },
         -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages

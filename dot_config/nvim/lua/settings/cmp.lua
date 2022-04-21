@@ -10,10 +10,7 @@ function M.setup()
         path = '[Path]',
         cmp_tabnine = '[TabNine]',
         crates = '[Crates.io]',
-        orgmode = '[Orgmode]',
     }
-
-    local _ = require 'orgmode' -- remove plugin notifier
 
     cmp.setup {
         formatting = {
@@ -78,7 +75,6 @@ function M.setup()
             { name = 'path' }, -- completion from FS
             { name = 'buffer', keyword_length = 5 }, -- completion from buffer
             { name = 'crates' }, -- crates
-            { name = 'orgmode' }, -- orgmode
         },
         sorting = {
             priority_weight = 10,
