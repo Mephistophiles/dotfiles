@@ -735,6 +735,30 @@ return packer.startup {
                 }
             end,
         }
+
+        use {
+            'folke/zen-mode.nvim',
+            cmd = { 'ZenMode' },
+            config = function()
+                require('zen-mode').setup {
+                    plugins = {
+                        gitsigns = { enabled = true },
+                        tmux = { enabled = true },
+                        kitty = {
+                            enabled = true,
+                            font = '+4', -- font size increment
+                        },
+                    },
+                }
+            end,
+        }
+        use {
+            'folke/twilight.nvim',
+            cmd = { 'Twilight', 'TwilightEnable' },
+            config = function()
+                require('twilight').setup {}
+            end,
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
