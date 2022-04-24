@@ -200,12 +200,10 @@ return packer.startup {
                         vim.keymap.set('n', '<leader>hb', function()
                             gs.blame_line { full = true }
                         end)
-                        vim.keymap.set('n', '<leader>tb', gs.toggle_current_line_blame)
                         vim.keymap.set('n', '<leader>hd', gs.diffthis)
                         vim.keymap.set('n', '<leader>hD', function()
                             gs.diffthis '~'
                         end)
-                        vim.keymap.set('n', '<leader>td', gs.toggle_deleted)
 
                         -- Text object
                         vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
@@ -712,6 +710,20 @@ return packer.startup {
             cmd = { 'Ultest', 'UltestSummary', 'UltestNearest', 'TestFile', 'TestNearest' },
             requires = { 'vim-test/vim-test' },
             run = ':UpdateRemotePlugins',
+            keys = {
+                '<leader>tf',
+                '<leader>tn',
+                '<leader>tl',
+                '<leader>ts',
+                '<leader>to',
+            },
+            config = function()
+                vim.keymap.set('n', '<leader>tf', '<Plug>(ultest-run-file)')
+                vim.keymap.set('n', '<leader>tn', '<Plug>(ultest-run-nearest)')
+                vim.keymap.set('n', '<leader>tl', '<Plug>(ultest-run-last)')
+                vim.keymap.set('n', '<leader>ts', '<Plug>(ultest-summary-toggle)')
+                vim.keymap.set('n', '<leader>to', '<Plug>(ultest-output-show)')
+            end,
         }
 
         use {
