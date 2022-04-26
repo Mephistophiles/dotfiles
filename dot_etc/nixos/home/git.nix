@@ -26,6 +26,7 @@
         pull = { rebase = true; };
         # init = { templateDir = "~/.git-templates"; };
         delta = { line-numbers = true; };
+        safe.directory = "/etc/nixos";
       };
       includes = [{
         condition = "gitdir:/home/mzhukov/WORK/";
