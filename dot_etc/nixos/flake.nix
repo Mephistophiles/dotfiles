@@ -25,8 +25,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager }:
     let
       lib = nixpkgs.lib;
       unfreePredicate = pkg:
@@ -38,8 +37,8 @@
           config.allowUnfreePredicate = unfreePredicate;
         };
         # trunk = import nixpkgs-trunk {
-          # system = "x86_64-linux";
-          # config.allowUnfreePredicate = unfreePredicate;
+        # system = "x86_64-linux";
+        # config.allowUnfreePredicate = unfreePredicate;
         # };
       };
       nixpkgs-overlay = {
