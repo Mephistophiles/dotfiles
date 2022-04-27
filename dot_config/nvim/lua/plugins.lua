@@ -304,7 +304,7 @@ return packer.startup {
                 require('settings.treesitter').config()
             end,
             requires = {
-                { 'p00f/nvim-ts-rainbow', disable = true }, -- FIXME: rainbow has neovim0.7 bug
+                { 'p00f/nvim-ts-rainbow' },
                 {
                     'nvim-treesitter/playground',
                     cmd = { 'TSPlaygroundToggle' },
