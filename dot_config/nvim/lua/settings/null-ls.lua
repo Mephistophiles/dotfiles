@@ -2,6 +2,7 @@ local M = {}
 
 function M.setup()
     local null_ls = require 'null-ls'
+    local lspconfig = require 'settings.lspconfig'
     local cfgpath = vim.fn.stdpath 'config'
     local f = string.format
 
@@ -30,6 +31,7 @@ function M.setup()
         null_ls.builtins.formatting.eslint, -- eslint
 
         -- diagnostics
+        null_ls.builtins.diagnostics.jsonlint,
         null_ls.builtins.diagnostics.eslint, -- eslint diagnostics
         null_ls.builtins.diagnostics.gitlint, --
     }
@@ -55,6 +57,8 @@ function M.setup()
                     [[:'<,'>lua vim.lsp.buf.range_formatting()<cr>]],
                     { silent = true, buffer = true }
                 )
+
+                lspconfig.key_bindings(client)
             end
         end,
     }
