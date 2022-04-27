@@ -85,17 +85,18 @@ function M.config()
                 'class',
                 'function',
                 'method',
-                -- 'for', -- These won't appear in the context
-                -- 'while',
-                -- 'if',
-                -- 'switch',
-                -- 'case',
+                'for', -- These won't appear in the context
+                'while',
+                'if',
+                'switch',
+                'case',
             },
             -- Example for a specific filetype.
             -- If a pattern is missing, *open a PR* so everyone can benefit.
-            --   rust = {
-            --       'impl_item',
-            --   },
+            rust = {
+                'loop_expression',
+                'impl_item',
+            },
         },
         exact_patterns = {
             -- Example for a specific filetype with Lua patterns
