@@ -184,14 +184,7 @@ function M.key_bindings(client)
             ignore_filename = false,
         }
     end, { buffer = true })
-    vim.keymap.set('n', '<leader>ca', function()
-        telescope.lsp_code_actions(themes.get_dropdown {
-            winblend = 10,
-            border = true,
-            previewer = false,
-            shorten_path = false,
-        })
-    end, { buffer = true })
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = true })
     vim.keymap.set('n', '<leader>cs', function()
         telescope.lsp_document_symbols(themes.get_ivy {})
     end)
