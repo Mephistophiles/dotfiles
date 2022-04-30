@@ -241,7 +241,7 @@ in {
     kitty
     linuxPackages.cpupower
     lm_sensors
-    manpages
+    man-pages
     mc
     parallel-full
     procps
