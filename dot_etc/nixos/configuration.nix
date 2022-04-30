@@ -266,6 +266,7 @@ in {
     nixfmt
     nixos-option
     nox
+    unstable.home-manager
     unstable.nixpkgs-review
 
     # self packaged
