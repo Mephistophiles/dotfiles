@@ -83,7 +83,7 @@
             disabledModules = [ "services/networking/wg-quick.nix" ];
             nixpkgs = nixpkgs-overlay;
             nix.extraOptions = "experimental-features = nix-command flakes";
-            nix.package = pkgs.nix_2_7;
+            nix.package = pkgs.nixFlakes;
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.registry.nixpkgs-unstable.flake = nixpkgs-unstable;
             # nix.registry.nixpkgs-trunk.flake = nixpkgs-trunk;
