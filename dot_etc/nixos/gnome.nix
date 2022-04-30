@@ -13,14 +13,13 @@
     (self: super: {
       gnomeExtensions = super.gnomeExtensions // {
         paperwm = super.gnomeExtensions.paperwm.overrideDerivation (old: {
-          version = "pre-41.0";
+          version = "pre-42.0";
           src = super.fetchFromGitHub {
-            owner = "paperwm";
+            owner = "ccope";
             repo = "PaperWM";
-            rev = "e9f714846b9eac8bdd5b33c3d33f1a9d2fbdecd4";
-            sha256 = "0wdigmlw4nlm9i4vr24kvhpdbgc6381j6y9nrwgy82mygkcx55l1";
+            rev = "5ff631c216e9b43556bab369b0f5f984ea878ab0";
+            sha256 = "sha256-Sn/04lTaeOD6yWHQn/+XXcfm3C+kaMngjiYf/Hy+QX8=";
           };
-          patches = old.patches ++ [ ./patches/paperwm-gnome-41.patch ];
         });
       };
     })
