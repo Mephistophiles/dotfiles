@@ -277,6 +277,7 @@ in {
     # programming
     cmake
     gcc_multi
+    git
     gitAndTools.delta
     gitAndTools.gh
     gnumake
