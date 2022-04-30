@@ -29,7 +29,13 @@
     let
       lib = nixpkgs.lib;
       unfreePredicate = pkg:
-        builtins.elem (lib.getName pkg) [ "clion" "slack" "vscode" "zoom" ];
+        builtins.elem (lib.getName pkg) [
+          "clion"
+          "rescuetime"
+          "slack"
+          "vscode"
+          "zoom"
+        ];
 
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {

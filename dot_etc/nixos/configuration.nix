@@ -214,8 +214,9 @@ in {
     gnome3.nautilus
     libreoffice
     meld
-    unstable.tdesktop
     thunderbird
+    unstable.rescuetime
+    unstable.tdesktop
 
     # text editors
     (unstable.neovim.override { vimAlias = true; })
