@@ -13,7 +13,7 @@ function M.setup()
             filetypes = { 'c' },
             args = { '-q', '-lc', '-c', f('%s/uncrustify.cfg', cfgpath) },
         }, -- uncrustify
-        null_ls.builtins.formatting.gofmt, -- gofmt
+        null_ls.builtins.formatting.gofmt,
         null_ls.builtins.formatting.json_tool.with {
             command = 'jq',
             args = { '--indent', '4' },
@@ -27,13 +27,14 @@ function M.setup()
         null_ls.builtins.formatting.stylua.with {
             extra_args = { '--config-path', f('%s/stylua.toml', cfgpath) },
         }, -- lua
-        null_ls.builtins.formatting.rustfmt, -- fust
-        null_ls.builtins.formatting.eslint, -- eslint
+        null_ls.builtins.formatting.rustfmt,
+        null_ls.builtins.formatting.eslint,
+        null_ls.builtins.formatting.prettier,
 
         -- diagnostics
         null_ls.builtins.diagnostics.jsonlint,
-        null_ls.builtins.diagnostics.eslint, -- eslint diagnostics
-        null_ls.builtins.diagnostics.gitlint, --
+        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.diagnostics.gitlint,
     }
 
     null_ls.setup {
