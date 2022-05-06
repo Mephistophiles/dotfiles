@@ -40,13 +40,14 @@ function M.config()
                 ['/'] = 'fuzzy_finder',
                 ['f'] = 'filter_on_submit',
                 ['<c-x>'] = 'clear_filter',
+                ['w'] = '',
                 ['a'] = 'add',
                 ['A'] = 'add_directory',
                 ['d'] = 'delete',
                 ['r'] = 'rename',
-                ['y'] = 'copy_to_clipboard',
-                ['x'] = 'cut_to_clipboard',
-                ['p'] = 'paste_from_clipboard',
+                ['y'] = '',
+                ['x'] = '',
+                ['p'] = '',
                 ['c'] = 'copy', -- takes text input for destination
                 ['m'] = 'move', -- takes text input for destination
                 ['q'] = 'close_window',
