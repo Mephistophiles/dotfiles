@@ -24,6 +24,7 @@ return packer.startup {
 
         -- extended repeat ('.') for another plugins
         use 'tpope/vim-repeat'
+        use 'tpope/vim-abolish'
 
         use {
             'neovim/nvim-lspconfig',
