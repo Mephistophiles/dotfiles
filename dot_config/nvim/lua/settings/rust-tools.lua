@@ -4,7 +4,6 @@ local M = {}
 
 function M.setup()
     local server = vim.tbl_deep_extend('force', lspconfig.make_default_opts(), {
-        cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' },
         flags = { allow_incremental_sync = true },
         settings = {
             ['rust-analyzer'] = {

@@ -196,6 +196,7 @@ in {
     unstable.procs
     unstable.ripgrep
     unstable.ruplacer
+    unstable.rust-analyzer
     unstable.rustup
     unstable.simple-http-server
     unstable.watchexec
