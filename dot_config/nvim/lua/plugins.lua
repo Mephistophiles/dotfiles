@@ -765,6 +765,14 @@ return packer.startup {
                 require('twilight').setup {}
             end,
         }
+
+        use {
+            'dhruvasagar/vim-table-mode',
+            setup = function()
+                vim.keymap.set('n', '<leader>tm', ':TableModeToggle<cr>')
+            end,
+            cmd = { 'TableModeToggle' },
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
