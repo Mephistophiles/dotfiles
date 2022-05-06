@@ -6,17 +6,17 @@ git:
     signOff: true
 
 os:
-  editCommand: 'nvim'
-  editCommandTemplate: '{{editor}} +{{line}} {{filename}}'
+  editCommand: "nvim"
+  editCommandTemplate: "{{editor}} +{{line}} {{filename}}"
 
 keybinding:
   # universal:
-    # exit: '<esc>'
-    # return: 'q'
+  # exit: '<esc>'
+  # return: 'q'
 
   commits:
-    moveDownCommit: '<c-n>' # move commit down one
-    moveUpCommit: '<c-p>' # move commit up one
+    moveDownCommit: "<c-n>" # move commit down one
+    moveUpCommit: "<c-p>" # move commit up one
 
 confirmOnQuit: false
 quitOnTopLevelReturn: false
