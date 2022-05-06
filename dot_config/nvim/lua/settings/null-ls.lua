@@ -12,7 +12,7 @@ function M.setup()
         null_ls.builtins.formatting.uncrustify.with {
             filetypes = { 'c' },
             args = { '-q', '-lc', '-c', f('%s/uncrustify.cfg', cfgpath) },
-        }, -- uncrustify
+        },
         null_ls.builtins.formatting.gofmt,
         null_ls.builtins.formatting.json_tool.with {
             command = 'jq',
