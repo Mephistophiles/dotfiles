@@ -2,6 +2,8 @@ git:
   paging:
     colorArg: always
     pager: delta --dark --paging=never
+  commit:
+    signOff: true
 
 os:
   editCommand: 'nvim'
