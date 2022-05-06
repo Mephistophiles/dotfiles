@@ -27,6 +27,10 @@ return packer.startup {
         use 'tpope/vim-abolish'
 
         use {
+            'gpanders/editorconfig.nvim',
+        }
+
+        use {
             'neovim/nvim-lspconfig',
             requires = {
                 {
