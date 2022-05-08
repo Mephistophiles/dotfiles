@@ -24,9 +24,7 @@ function M.setup()
                 return {}
             end,
         }, -- json
-        null_ls.builtins.formatting.stylua.with {
-            extra_args = { '--config-path', f('%s/stylua.toml', cfgpath) },
-        }, -- lua
+        null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.rustfmt,
         null_ls.builtins.formatting.eslint,
         null_ls.builtins.formatting.prettier,
@@ -38,6 +36,7 @@ function M.setup()
     }
 
     null_ls.setup {
+        debug = false,
         sources = sources,
         on_attach = function(client)
             if client.resolved_capabilities.document_formatting then
