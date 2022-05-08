@@ -282,7 +282,7 @@ end
 
 local has_redminer = function() return os.execute('redminer timer list_porcelain') end
 
-local redminer_widget = has_redminer and
+local redminer_widget = has_redminer() and
                             awful.widget
                                 .watch(string.format('%s/redminer.sh', awesomewm_dir), 5,
                                        function(widget, stdout)
