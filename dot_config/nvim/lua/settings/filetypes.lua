@@ -15,6 +15,9 @@ function M.config()
                 end,
             },
             function_complex = {
+                ['Config.in'] = function()
+                    vim.bo.filetype = 'kconfig'
+                end,
                 ['.*_config.default'] = function()
                     vim.bo.filetype = 'json'
                     vim.bo.shiftwidth = 4

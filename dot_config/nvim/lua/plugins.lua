@@ -418,9 +418,6 @@ return packer.startup {
         use {
             'chrisbra/vim-kconfig',
             ft = 'kconfig',
-            setup = function()
-                vim.cmd 'au BufRead,BufNewFile Config.in setlocal filetype=kconfig'
-            end,
         }
 
         use {
