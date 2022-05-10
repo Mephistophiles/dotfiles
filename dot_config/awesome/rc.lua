@@ -208,21 +208,16 @@ local function has_brightness()
     return not dir_is_empty("/sys/class/backlight")
 end
 
-
-local empty_widget = function()
-    local widget = wibox.widget.textbox()
-    widget.visible = false
-    return widget
-end
+local SKIP = "SKIP"
 
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local mem_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
 
 local battery_widget = has_battery() and require("awesome-wm-widgets.batteryarc-widget.batteryarc")
-    or empty_widget
+    or SKIP
 local brightness_widget = has_brightness()
         and require("awesome-wm-widgets.brightness-widget.brightness")
-    or empty_widget
+    or SKIP
 
 -- local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
@@ -287,7 +282,8 @@ local update_pushlocker = function()
 end
 
 local has_redminer = function()
-    return os.execute("redminer timer list_porcelain")
+    local success, _, _ = os.execute("redminer timer list_porcelain")
+    return success
 end
 
 local redminer_widget = has_redminer()
@@ -303,7 +299,7 @@ local redminer_widget = has_redminer()
                 end
             end
         )
-    or empty_widget
+    or SKIP
 
 local current_dm_version = awful.widget.watch(
     { string.format("%s/dm_version.sh", awesomewm_dir) },
@@ -399,37 +395,48 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
-    -- Add widgets to the wibox
-    s.mywibox:setup {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            mylauncher,
-            s.mytaglist,
-            s.mypromptbox,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            spacing = 5,
-            current_dm_version,
-            redminer_widget,
-            pushlocker_widget,
-            brightness_widget({program = 'brightnessctl'}),
-            -- volume_widget({widget_type = 'arc', device = 'default'}),
-            cpu_temp_widget,
-            cpu_widget(),
-            mem_widget(),
-            battery_widget({show_current_level = true}),
-            separator,
-            mykeyboardlayout,
-            separator,
-            wibox.widget.systray(),
-            separator,
-            mytextclock,
-            s.mylayoutbox,
-        },
+    local left_widgets = {
+        layout = wibox.layout.fixed.horizontal,
+        mylauncher,
+        s.mytaglist,
+        s.mypromptbox,
     }
+
+    local right_widgets = {
+        layout = wibox.layout.fixed.horizontal,
+        spacing = 5,
+    }
+
+    for _, widget in ipairs({
+        current_dm_version,
+        redminer_widget,
+        pushlocker_widget,
+        brightness_widget({ program = "brightnessctl" }),
+        -- volume_widget({widget_type = 'arc', device = 'default'}),
+        cpu_temp_widget,
+        cpu_widget(),
+        mem_widget(),
+        battery_widget({ show_current_level = true }),
+        separator,
+        mykeyboardlayout,
+        separator,
+        wibox.widget.systray(),
+        separator,
+        mytextclock,
+        s.mylayoutbox,
+    }) do
+        if type(widget) ~= "string" and widget ~= SKIP then
+            table.insert(right_widgets, widget)
+        end
+    end
+
+    -- Add widgets to the wibox
+    s.mywibox:setup({
+        layout = wibox.layout.align.horizontal,
+        left_widgets,
+        s.mytasklist, -- Middle widget
+        right_widgets,
+    })
 end)
 -- }}}
 
