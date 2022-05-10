@@ -30,23 +30,52 @@ local custom_attach = function(client, bufnr)
 
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
-        vim.cmd [[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]]
+        local lsp_document_highlight_group = vim.api.nvim_create_augroup(
+            'lsp_document_highlight',
+            { clear = false }
+        )
+        vim.api.nvim_create_autocmd('CursorHold', {
+            group = lsp_document_highlight_group,
+            buffer = 0,
+            desc = 'Document highlight',
+            callback = function()
+                vim.lsp.buf.document_highlight()
+            end,
+        })
+
+        vim.api.nvim_create_autocmd('CursorMoved', {
+            group = lsp_document_highlight_group,
+            buffer = 0,
+            desc = 'Document clear references',
+            callback = function()
+                vim.lsp.buf.clear_references()
+            end,
+        })
     end
 
     if client.resolved_capabilities.code_lens then
-        vim.cmd [[
-      augroup lsp_document_codelens
-        au! * <buffer>
-        autocmd BufEnter ++once         <buffer> lua require"vim.lsp.codelens".refresh()
-        autocmd BufWritePost,CursorHold <buffer> lua require"vim.lsp.codelens".refresh()
-      augroup END
-    ]]
+        local lsp_document_codelens_group = vim.api.nvim_create_augroup(
+            'lsp_document_codelens',
+            { clear = false }
+        )
+        vim.api.nvim_create_autocmd('BufEnter', {
+            group = lsp_document_codelens_group,
+            buffer = 0,
+            once = true,
+            desc = 'refresh on enter',
+            callback = function()
+                require('vim.lsp.codelens').refresh()
+            end,
+        })
+
+        vim.api.nvim_create_autocmd({ 'BufWritePost', 'CursorHold' }, {
+            group = lsp_document_codelens_group,
+            buffer = 0,
+            desc = 'Refresh references',
+            callback = function()
+                require('vim.lsp.codelens').refresh()
+            end,
+        })
     end
 
     -- Attach any filetype specific options to the client

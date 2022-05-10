@@ -7,7 +7,7 @@ end
 
 function M.config()
     -- Unless you are still migrating, remove the deprecated commands from v1.x
-    vim.cmd [[ let g:neo_tree_remove_legacy_commands = 1 ]]
+    vim.g.neo_tree_remove_legacy_commands = true
 
     -- If you want icons for diagnostic errors, you'll need to define them somewhere:
     vim.fn.sign_define('DiagnosticSignError', { text = ' ', texthl = 'DiagnosticSignError' })

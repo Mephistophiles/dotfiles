@@ -76,35 +76,42 @@ function M.toggle_quick_menu(blacklist)
     vim.api.nvim_buf_set_option(Formatter_bufh, 'filetype', 'formatter')
     vim.api.nvim_buf_set_option(Formatter_bufh, 'buftype', 'acwrite')
     vim.api.nvim_buf_set_option(Formatter_bufh, 'bufhidden', 'delete')
-    vim.api.nvim_buf_set_keymap(
-        Formatter_bufh,
-        'n',
-        'q',
-        [[<Cmd>lua require('settings.formatter_ui').toggle_quick_menu()<CR>]],
-        { silent = true }
-    )
-    vim.api.nvim_buf_set_keymap(
-        Formatter_bufh,
-        'n',
-        '<ESC>',
-        [[<Cmd>lua require('settings.formatter_ui').toggle_quick_menu()<CR>]],
-        { silent = true }
-    )
-    vim.api.nvim_buf_set_keymap(
-        Formatter_bufh,
-        'n',
-        '<CR>',
-        [[<Cmd>lua require('settings.formatter_ui').select_menu_item()<CR>]],
-        {}
-    )
-    vim.cmd(
-        string.format(
-            [[autocmd BufWriteCmd <buffer=%s> lua require('settings.formatter_ui').on_menu_save()]],
-            Formatter_bufh
-        )
-    )
-    vim.cmd(string.format('autocmd BufModifiedSet <buffer=%s> set nomodified', Formatter_bufh))
-    vim.cmd [[autocmd BufLeave <buffer> ++nested ++once silent lua require('settings.formatter_ui').toggle_quick_menu()]]
+    vim.api.nvim_buf_set_keymap(Formatter_bufh, 'n', 'q', function()
+        M.toggle_quick_menu()
+    end, { silent = true })
+    vim.api.nvim_buf_set_keymap(Formatter_bufh, 'n', '<ESC>', function()
+        M.toggle_quick_menu()
+    end, { silent = true })
+    vim.api.nvim_buf_set_keymap(Formatter_bufh, 'n', '<CR>', function()
+        M.select_menu_item()
+    end, {})
+
+    local formatter_ui_group = vim.api.nvim_create_augroup('FormatterUI', { clear = false })
+
+    vim.api.nvim_create_autocmd('BufWriteCmd', {
+        group = formatter_ui_group,
+        buffer = Formatter_bufh,
+        desc = 'Save on exit',
+        callback = function()
+            M.on_menu_save()
+        end,
+    })
+
+    vim.api.nvim_create_autocmd('BufModifiedSet', {
+        group = formatter_ui_group,
+        buffer = Formatter_bufh,
+        command = 'set nomodified',
+    })
+
+    vim.api.nvim_create_autocmd('BufLeave', {
+        group = formatter_ui_group,
+        buffer = Formatter_bufh,
+        once = true,
+        nested = true,
+        callback = function()
+            M.toggle_quick_menu()
+        end,
+    })
 end
 
 function M.select_menu_item()

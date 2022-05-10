@@ -6,7 +6,9 @@ function M.setup()
     local cfgpath = vim.fn.stdpath 'config'
     local f = string.format
 
-    require('settings.formatter').setup()
+    local formatter = require 'settings.formatter'
+
+    formatter.setup()
 
     local sources = {
         null_ls.builtins.formatting.uncrustify.with {
@@ -39,11 +41,17 @@ function M.setup()
         debug = false,
         sources = sources,
         on_attach = function(client)
-            if client.resolved_capabilities.document_formatting then
-                vim.cmd [[augroup Format]]
-                vim.cmd [[autocmd! * <buffer>]]
-                vim.cmd [[autocmd BufWritePre <buffer> lua require'settings.formatter'.format_document()]]
-                vim.cmd [[augroup END]]
+            if client.server_capabilities.documentFormattingProvider then
+                local format_group = vim.api.nvim_create_augroup('Format', { clear = false })
+
+                vim.api.nvim_create_autocmd('BufWritePre', {
+                    group = format_group,
+                    desc = 'Format document on save',
+                    buffer = 0,
+                    callback = function()
+                        formatter.format_document()
+                    end,
+                })
 
                 vim.keymap.set(
                     'n',
