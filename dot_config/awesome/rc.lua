@@ -24,8 +24,8 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 -- External libraries
-local scratch = require('scratch')
-local lfs = require('lfs') -- filesystem library
+local scratch = require("scratch")
+local lfs = require("lfs") -- filesystem library
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -61,10 +61,10 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 local awesomewm_dir = gears.filesystem.get_configuration_dir()
 local wallpapers = (function()
     local wallpapers = {}
-    local wallpapers_dir = awesomewm_dir .. '/wallpapers/'
+    local wallpapers_dir = awesomewm_dir .. "/wallpapers/"
 
     for file in lfs.dir(wallpapers_dir) do
-        if file ~= '.' and file ~= '..' then
+        if file ~= "." and file ~= ".." then
             table.insert(wallpapers, wallpapers_dir .. file)
         end
     end
@@ -79,9 +79,9 @@ beautiful.wallpaper = function()
     return wallpaper
 end
 
-local terminal = 'kitty'
-local editor = os.getenv('EDITOR') or 'nvim'
-local editor_cmd = terminal .. ' -e ' .. editor
+local terminal = "kitty"
+local editor = os.getenv("EDITOR") or "nvim"
+local editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -192,7 +192,7 @@ end
 
 local function dir_is_empty(dir)
     for file in lfs.dir(dir) do
-        if file ~= '.' and file ~= '..' then
+        if file ~= "." and file ~= ".." then
             return false
         end
     end
@@ -200,13 +200,12 @@ local function dir_is_empty(dir)
     return true
 end
 
-
 local function has_battery()
-    return not dir_is_empty('/sys/class/power_supply')
+    return not dir_is_empty("/sys/class/power_supply")
 end
 
 local function has_brightness()
-    return not dir_is_empty('/sys/class/backlight')
+    return not dir_is_empty("/sys/class/backlight")
 end
 
 
@@ -216,100 +215,111 @@ local empty_widget = function()
     return widget
 end
 
-local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
-local mem_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
+local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+local mem_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
 
-local battery_widget = has_battery() and require('awesome-wm-widgets.batteryarc-widget.batteryarc') or empty_widget
-local brightness_widget = has_brightness() and require('awesome-wm-widgets.brightness-widget.brightness') or empty_widget
+local battery_widget = has_battery() and require("awesome-wm-widgets.batteryarc-widget.batteryarc")
+    or empty_widget
+local brightness_widget = has_brightness()
+        and require("awesome-wm-widgets.brightness-widget.brightness")
+    or empty_widget
 
 -- local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
 local pushlocker_widget = wibox.widget.textbox()
 pushlocker_widget:buttons(awful.util.table.join(table.unpack({
     awful.button({}, 1, function()
-        local _, _, ret = os.execute('timeout 2s pushlockctl check')
+        local _, _, ret = os.execute("timeout 2s pushlockctl check")
 
         if ret == 0 then
-            awful.spawn('pushlockctl lock', false)
+            awful.spawn("pushlockctl lock", false)
         elseif ret == 2 then
-            awful.spawn('pushlockctl unlock', false)
+            awful.spawn("pushlockctl unlock", false)
         end
     end),
 })))
 
 local get_pushlocker_text = function()
-    local ip_route_handle = io.popen('ip route list exact 192.168.161.0/24', 'r')
+    local ip_route_handle = io.popen("ip route list exact 192.168.161.0/24", "r")
 
-    if ip_route_handle == nil then return nil end
+    if ip_route_handle == nil then
+        return nil
+    end
 
-    local ip_route_out = ip_route_handle:read('*a')
-    local has_vpn = ip_route_out and ip_route_out:match('^192.168.161.0/24') ~= nil
+    local ip_route_out = ip_route_handle:read("*a")
+    local has_vpn = ip_route_out and ip_route_out:match("^192.168.161.0/24") ~= nil
 
     ip_route_handle:close()
 
-    if not has_vpn then return nil end
+    if not has_vpn then
+        return nil
+    end
 
-    local handle = io.popen('timeout 2s pushlockctl check')
-    local res = handle:read('*l')
+    local handle = io.popen("timeout 2s pushlockctl check")
+    local res = handle:read("*l")
     local ret = select(3, handle:close())
 
-    if res == 'Unknown error' or ret == 101 or ret == 124 then
-        return '🔥 Server Error'
+    if res == "Unknown error" or ret == 101 or ret == 124 then
+        return "🔥 Server Error"
     elseif ret == 0 then
-        return '⚡️'
+        return "⚡️"
     elseif ret == 1 then
-        return '🚧 ' .. res
+        return "🚧 " .. res
     elseif ret == 2 then
-        return '👷 Locked by me'
+        return "👷 Locked by me"
     elseif ret == 101 or ret == 124 then
-        return '🔥 Server Error'
+        return "🔥 Server Error"
     end
 end
 
 local update_pushlocker = function()
     local text = get_pushlocker_text()
 
-    if not text or text == '' then
-        pushlocker_widget.text = ''
+    if not text or text == "" then
+        pushlocker_widget.text = ""
         pushlocker_widget.visible = false
 
         return
     end
 
-    pushlocker_widget.text = ' ' .. text .. ' '
+    pushlocker_widget.text = " " .. text .. " "
     pushlocker_widget.visible = true
 end
 
-local has_redminer = function() return os.execute('redminer timer list_porcelain') end
+local has_redminer = function()
+    return os.execute("redminer timer list_porcelain")
+end
 
-local redminer_widget = has_redminer() and
-                            awful.widget
-                                .watch(string.format('%s/redminer.sh', awesomewm_dir), 5,
-                                       function(widget, stdout)
-        if #stdout == 0 then
-            widget:set_visible(false)
-        else
-            widget:set_markup(' ' .. stdout .. ' ')
-            widget:set_visible(true)
-        end
-    end) or empty_widget
+local redminer_widget = has_redminer()
+        and awful.widget.watch(
+            string.format("%s/redminer.sh", awesomewm_dir),
+            5,
+            function(widget, stdout)
+                if #stdout == 0 then
+                    widget:set_visible(false)
+                else
+                    widget:set_markup(" " .. stdout .. " ")
+                    widget:set_visible(true)
+                end
+            end
+        )
+    or empty_widget
 
 local current_dm_version = awful.widget.watch(
-    { string.format('%s/dm_version.sh', awesomewm_dir) },
+    { string.format("%s/dm_version.sh", awesomewm_dir) },
     5,
     function(widget, stdout)
         if stdout and #stdout > 0 then
             widget:set_visible(true)
-            widget:set_text(' v' .. stdout .. ' ')
+            widget:set_text(" v" .. stdout .. " ")
         else
             widget:set_visible(false)
         end
     end
 )
 
-
 local cpu_temp_widget = awful.widget.watch(
-    { 'bash', '-c', [[sensors 'k10temp-*' -u | grep input: | head | cut -d' ' -f4 | head -1]] },
+    { "bash", "-c", [[sensors 'k10temp-*' -u | grep input: | head | cut -d' ' -f4 | head -1]] },
     5,
     function(widget, stdout)
         if not stdout or #stdout == 0 then
@@ -317,24 +327,26 @@ local cpu_temp_widget = awful.widget.watch(
         end
         local temp = tonumber(stdout)
 
-        widget:set_text(string.format('%.1f℃', temp))
+        widget:set_text(string.format("%.1f℃", temp))
     end
 )
 
-gears.timer {
+gears.timer({
     timeout = 3,
     call_now = true,
     autostart = true,
-    callback = function() update_pushlocker() end,
-}
+    callback = function()
+        update_pushlocker()
+    end,
+})
 
-local separator = wibox.widget {
+local separator = wibox.widget({
     widget = wibox.widget.separator,
-    orientation = 'vertical',
+    orientation = "vertical",
     forced_width = 8,
-    color = '#444444',
+    color = "#444444",
     visible = true,
-}
+})
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
@@ -342,13 +354,13 @@ screen.connect_signal("property::geometry", set_wallpaper)
 awful.screen.connect_for_each_screen(function(s)
     -- Create a textclock widget
     local mytextclock = wibox.widget.textclock()
-    local calendar_widget = require 'awesome-wm-widgets.calendar-widget.calendar'
-    local cw = calendar_widget {
-        theme = 'nord',
-        placement = 'top_right',
+    local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+    local cw = calendar_widget({
+        theme = "nord",
+        placement = "top_right",
         radius = 8,
-    }
-    mytextclock:connect_signal('button::press', function(_, _, _, button)
+    })
+    mytextclock:connect_signal("button::press", function(_, _, _, button)
         if button == 1 then
             cw.toggle()
         end
@@ -808,22 +820,24 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- {{{ Autorun
 local autorun = {
-    'flameshot', -- screenshot
+    "flameshot", -- screenshot
     'solaar config "MX Master 2S" dpi 4000', -- logitech mouse
     'setxkbmap us,ru -option "grp:alt_shift_toggle,grp_led:scroll" -option "caps:backspace"', -- keyboard
 }
 
-for _, prg in ipairs(autorun) do awful.spawn.once(prg) end
+for _, prg in ipairs(autorun) do
+    awful.spawn.once(prg)
+end
 
-local lock_scr = string.format('%sawesome-lock.sh', awesomewm_dir)
-awful.spawn('pkill xidlehook')
+local lock_scr = string.format("%sawesome-lock.sh", awesomewm_dir)
+awful.spawn("pkill xidlehook")
 awful.spawn.once({
-    'xidlehook',
-    '--not-when-fullscreen',
-    '--timer', '60',
+    "xidlehook",
+    "--not-when-fullscreen",
+    "--timer", "60",
     lock_scr .. " lock 1",
     lock_scr .. " unlock 1",
-    '--timer', '30',
+    "--timer", "30",
     lock_scr .. " lock 2",
     lock_scr .. " unlock 2",
 })
