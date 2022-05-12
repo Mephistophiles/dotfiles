@@ -8,6 +8,8 @@ function M.setup()
 
     local formatter = require 'settings.formatter'
 
+    local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
     formatter.setup()
 
     local sources = {
@@ -40,16 +42,14 @@ function M.setup()
     null_ls.setup {
         debug = false,
         sources = sources,
-        on_attach = function(client)
-            if client.server_capabilities.documentFormattingProvider then
-                local format_group = vim.api.nvim_create_augroup('Format', { clear = false })
-
+        on_attach = function(client, bufnr)
+            if client.supports_method("textDocument/formatting") then
                 vim.api.nvim_create_autocmd('BufWritePre', {
-                    group = format_group,
+                    group = augroup,
                     desc = 'Format document on save',
                     buffer = 0,
                     callback = function()
-                        formatter.format_document()
+                        formatter.format_document(bufnr)
                     end,
                 })
 

@@ -3,6 +3,17 @@ local cache_file = cache_path .. '/formatter_blacklist.msgpack'
 
 local M = {}
 
+local lsp_formatting = function(bufnr)
+    vim.lsp.buf.format {
+        filter = function(clients)
+            return vim.tbl_filter(function(client)
+                return client.name == 'null-ls'
+            end, clients)
+        end,
+        bufnr = bufnr,
+    }
+end
+
 --- @class Blacklist
 local BLACKLIST = {}
 
@@ -81,6 +92,7 @@ function M.on_menu_save(blacklist)
 end
 
 function M.setup()
+    M.setup_formatter()
     vim.keymap.set('n', '<leader>m', function()
         if vim.b.disable_formatter then
             vim.b.disable_formatter = false
@@ -111,7 +123,64 @@ function M.setup()
     end)
 end
 
-function M.format_document()
+function M._handler(err, result, ctx)
+    if err ~= nil then
+        return
+    end
+    if result == nil then
+        return
+    end
+    if not vim.api.nvim_buf_is_loaded(ctx.bufnr) then
+        vim.fn.bufload(ctx.bufnr)
+        vim.api.nvim_buf_set_var(
+            ctx.bufnr,
+            'format_changedtick',
+            vim.api.nvim_buf_get_var(ctx.bufnr, 'changedtick')
+        )
+    elseif
+        vim.api.nvim_buf_get_var(ctx.bufnr, 'format_changedtick')
+            ~= vim.api.nvim_buf_get_var(ctx.bufnr, 'changedtick')
+        or vim.startswith(vim.api.nvim_get_mode().mode, 'i')
+    then
+        return
+    end
+
+    vim.lsp.util.apply_text_edits(result, ctx.bufnr, 'utf-16')
+    if ctx.bufnr == vim.api.nvim_get_current_buf() then
+        vim.cmd [[update]]
+    end
+end
+
+--- @class Options
+--- @field filter function
+--- @field bufnr number
+--- @param tbl Options
+function FORMAT_POLYFILL(tbl)
+    local clients = vim.tbl_values(vim.lsp.buf_get_clients())
+    clients = tbl.filter(clients)
+
+    vim.b.format_changedtick = vim.b.changedtick
+
+    local params = vim.lsp.util.make_formatting_params {}
+    local method = 'textDocument/formatting'
+    local timeout_ms = 2000
+
+    for _, client in ipairs(clients) do
+        local result = client.request_sync(method, params, timeout_ms, tbl.bufnr) or {}
+        M._handler(result.err, result.result, { client_id = client.id, bufnr = tbl.bufnr })
+    end
+end
+
+function M.setup_formatter()
+    assert(
+        vim.lsp.buf.format == nil or vim.lsp.buf.format == FORMAT_POLYFILL,
+        'Remove this override'
+    )
+
+    vim.lsp.buf.format = FORMAT_POLYFILL
+end
+
+function M.format_document(bufnr)
     if vim.b.disable_formatter then
         return
     end
@@ -120,7 +189,7 @@ function M.format_document()
         return
     end
 
-    vim.lsp.buf.formatting_sync(nil, 2000)
+    lsp_formatting(bufnr)
 end
 
 return M

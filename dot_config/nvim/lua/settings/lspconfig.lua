@@ -24,12 +24,8 @@ local custom_attach = function(client, bufnr)
 
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-    -- use null-ls for formatting
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-
     -- Set autocommands conditional on server_capabilities
-    if client.server_capabilities.documentHighlightProvider then
+    if client.supports_method 'textDocument/documentHighlight' then
         local lsp_document_highlight_group = vim.api.nvim_create_augroup(
             'lsp_document_highlight',
             { clear = false }
@@ -53,7 +49,7 @@ local custom_attach = function(client, bufnr)
         })
     end
 
-    if client.server_capabilities.codeLensProvider then
+    if client.supports_method 'textDocument/codeLens' then
         local lsp_document_codelens_group = vim.api.nvim_create_augroup(
             'lsp_document_codelens',
             { clear = false }
@@ -241,7 +237,7 @@ function M.key_bindings(client)
         vim.diagnostic.setloclist()
     end, { buffer = true })
 
-    if client.server_capabilities.codeLensProvider then
+    if client.supports_method 'textDocument/codeLens' then
         vim.keymap.set('n', '<leader>lr', vim.lsp.codelens.run, { buffer = true })
     end
 end
