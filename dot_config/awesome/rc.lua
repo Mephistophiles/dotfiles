@@ -412,16 +412,16 @@ awful.screen.connect_for_each_screen(function(s)
         spacing = 5,
     }
 
-    for _, widget in ipairs({
+    for widget in gears.table.iterate({
         current_dm_version,
         redminer_widget,
         pushlocker_widget,
-        brightness_widget({ program = "brightnessctl" }),
+        type(brightness_widget) == "function" and brightness_widget({program = 'brightnessctl'}) or SKIP,
         -- volume_widget({widget_type = 'arc', device = 'default'}),
         cpu_temp_widget,
         cpu_widget(),
         mem_widget(),
-        battery_widget({ show_current_level = true }),
+        type(battery_widget) == "function" and battery_widget({show_current_level = true}) or SKIP,
         separator,
         mykeyboardlayout,
         separator,
@@ -429,19 +429,23 @@ awful.screen.connect_for_each_screen(function(s)
         separator,
         mytextclock,
         s.mylayoutbox,
-    }) do
-        if type(widget) ~= "string" and widget ~= SKIP then
-            table.insert(right_widgets, widget)
+    }, function(item)
+        if type(item) == "string" and item == SKIP then
+            return false
         end
+
+        return true
+    end) do
+        table.insert(right_widgets, widget)
     end
 
     -- Add widgets to the wibox
-    s.mywibox:setup({
+    s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         left_widgets,
         s.mytasklist, -- Middle widget
         right_widgets,
-    })
+    }
 end)
 -- }}}
 
