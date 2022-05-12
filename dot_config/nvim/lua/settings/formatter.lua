@@ -1,3 +1,5 @@
+local util = require 'vim.lsp.util'
+
 local cache_path = vim.fn.stdpath 'cache'
 local cache_file = cache_path .. '/formatter_blacklist.msgpack'
 
@@ -10,6 +12,7 @@ local lsp_formatting = function(bufnr)
                 return client.name == 'null-ls'
             end, clients)
         end,
+        timeout_ms = 2000,
         bufnr = bufnr,
     }
 end
@@ -152,22 +155,71 @@ function M._handler(err, result, ctx)
 end
 
 --- @class Options
---- @field filter function
+--- @field async boolean
 --- @field bufnr number
---- @param tbl Options
-function FORMAT_POLYFILL(tbl)
-    local clients = vim.tbl_values(vim.lsp.buf_get_clients())
-    clients = tbl.filter(clients)
+--- @field filter function
+--- @field formatting_options table
+--- @field id number
+--- @field name string
+--- @field timeout_ms number
+---
+--- @param options Options
+function FORMAT_POLYFILL(options)
+    options = options or {}
+    local bufnr = options.bufnr or vim.api.nvim_get_current_buf()
+    local clients = vim.lsp.buf_get_clients(bufnr)
 
-    vim.b.format_changedtick = vim.b.changedtick
+    if options.filter then
+        clients = options.filter(clients)
+    elseif options.id then
+        clients = vim.tbl_filter(function(client)
+            return client.id == options.id
+        end, clients)
+    elseif options.name then
+        clients = vim.tbl_filter(function(client)
+            return client.name == options.name
+        end, clients)
+    end
 
-    local params = vim.lsp.util.make_formatting_params {}
-    local method = 'textDocument/formatting'
-    local timeout_ms = 2000
+    clients = vim.tbl_filter(function(client)
+        return client.supports_method 'textDocument/formatting'
+    end, clients)
 
-    for _, client in ipairs(clients) do
-        local result = client.request_sync(method, params, timeout_ms, tbl.bufnr) or {}
-        M._handler(result.err, result.result, { client_id = client.id, bufnr = tbl.bufnr })
+    if #clients == 0 then
+        vim.notify '[LSP] Format request failed, no matching language servers.'
+    end
+
+    if options.async then
+        local do_format
+        do_format = function(idx, client)
+            if not client then
+                return
+            end
+            local params = util.make_formatting_params(options.formatting_options)
+            client.request('textDocument/formatting', params, function(...)
+                local handler = client.handlers['textDocument/formatting']
+                    or vim.lsp.handlers['textDocument/formatting']
+                handler(...)
+                do_format(next(clients, idx))
+            end, bufnr)
+        end
+        do_format(next(clients))
+    else
+        local timeout_ms = options.timeout_ms or 1000
+        for _, client in pairs(clients) do
+            local params = util.make_formatting_params(options.formatting_options)
+            local result, err = client.request_sync(
+                'textDocument/formatting',
+                params,
+                timeout_ms,
+                bufnr
+            )
+            if result and result.result then
+                util.apply_text_edits(result.result, bufnr, client.offset_encoding)
+            elseif err then
+                vim.notify(string.format('[LSP][%s] %s', client.name, err), vim.log.levels.WARN)
+            end
+        end
     end
 end
 

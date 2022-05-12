@@ -8,7 +8,7 @@ function M.setup()
 
     local formatter = require 'settings.formatter'
 
-    local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+    local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
     formatter.setup()
 
@@ -43,7 +43,7 @@ function M.setup()
         debug = false,
         sources = sources,
         on_attach = function(client, bufnr)
-            if client.supports_method("textDocument/formatting") then
+            if client.supports_method 'textDocument/formatting' then
                 vim.api.nvim_create_autocmd('BufWritePre', {
                     group = augroup,
                     desc = 'Format document on save',
@@ -53,12 +53,10 @@ function M.setup()
                     end,
                 })
 
-                vim.keymap.set(
-                    'n',
-                    '<leader>f',
-                    [[:lua vim.lsp.buf.formatting()<cr>]],
-                    { silent = true, buffer = true }
-                )
+                vim.keymap.set('n', '<leader>f', function()
+                    formatter.format_document()
+                end, { silent = true, buffer = true })
+                -- TODO: range formatting is not supported: https://github.com/neovim/neovim/issues/18371
                 vim.keymap.set(
                     'v',
                     '<leader>f',
