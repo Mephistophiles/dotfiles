@@ -287,8 +287,7 @@ local update_pushlocker = function()
 end
 
 local has_redminer = function()
-    local success, _, _ = os.execute("redminer timer list_porcelain")
-    return success
+	return select(1, os.execute("~/bin/redminer timer list_porcelain"))
 end
 
 local redminer_widget = has_redminer()
@@ -299,7 +298,7 @@ local redminer_widget = has_redminer()
                 if #stdout == 0 then
                     widget:set_visible(false)
                 else
-                    widget:set_markup(" " .. stdout .. " ")
+                    widget:set_markup(stdout)
                     widget:set_visible(true)
                 end
             end
