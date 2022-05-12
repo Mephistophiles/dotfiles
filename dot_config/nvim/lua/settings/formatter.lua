@@ -154,16 +154,45 @@ function M._handler(err, result, ctx)
     end
 end
 
---- @class Options
---- @field async boolean
---- @field bufnr number
---- @field filter function
---- @field formatting_options table
---- @field id number
---- @field name string
---- @field timeout_ms number
+--- Formats a buffer using the attached (and optionally filtered) language
+--- server clients.
 ---
---- @param options Options
+--- @param options table|nil Optional table which holds the following optional fields:
+---     - formatting_options (table|nil):
+---         Can be used to specify FormattingOptions. Some unspecified options will be
+---         automatically derived from the current Neovim options.
+---         @see https://microsoft.github.io/language-server-protocol/specification#textDocument_formatting
+---     - timeout_ms (integer|nil, default 1000):
+---         Time in milliseconds to block for formatting requests. No effect if async=true
+---     - bufnr (number|nil):
+---         Restrict formatting to the clients attached to the given buffer, defaults to the current
+---         buffer (0).
+---     - filter (function|nil):
+---         Predicate to filter clients used for formatting. Receives the list of clients attached
+---         to bufnr as the argument and must return the list of clients on which to request
+---         formatting. Example:
+---
+---         <pre>
+---         -- Never request typescript-language-server for formatting
+---         vim.lsp.buf.format {
+---           filter = function(clients)
+---             return vim.tbl_filter(
+---               function(client) return client.name ~= "tsserver" end,
+---               clients
+---             )
+---           end
+---         }
+---         </pre>
+---
+---     - async boolean|nil
+---         If true the method won't block. Defaults to false.
+---         Editing the buffer while formatting asynchronous can lead to unexpected
+---         changes.
+---
+---     - id (number|nil):
+---         Restrict formatting to the client with ID (client.id) matching this field.
+---     - name (string|nil):
+---         Restrict formatting to the client with name (client.name) matching this field.
 function FORMAT_POLYFILL(options)
     options = options or {}
     local bufnr = options.bufnr or vim.api.nvim_get_current_buf()
