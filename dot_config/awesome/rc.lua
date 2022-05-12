@@ -251,6 +251,11 @@ local get_pushlocker_text = function()
     end
 
     local handle = io.popen("timeout 2s pushlockctl check")
+
+    if not handle then
+        return nil
+    end
+
     local res = handle:read("*l")
     local ret = select(3, handle:close())
 
