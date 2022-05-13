@@ -549,7 +549,7 @@ return packer.startup {
                 local notify_fn = require 'notify'
                 vim.notify = setmetatable({}, {
                     __call = function(_, msg, level, opts)
-                        if level and level > vim.log.levels.DEBUG then
+                        if level and level > vim.log.levels.INFO then
                             msg = msg .. '\n' .. debug.traceback()
                         end
 
