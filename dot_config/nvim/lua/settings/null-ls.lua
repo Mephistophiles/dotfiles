@@ -3,9 +3,6 @@ local M = {}
 function M.setup()
     local null_ls = require 'null-ls'
     local lspconfig = require 'settings.lspconfig'
-    local cfgpath = vim.fn.stdpath 'config'
-    local f = string.format
-
     local formatter = require 'settings.formatter'
 
     local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
@@ -13,10 +10,7 @@ function M.setup()
     formatter.setup()
 
     local sources = {
-        null_ls.builtins.formatting.uncrustify.with {
-            filetypes = { 'c' },
-            args = { '-q', '-lc', '-c', f('%s/uncrustify.cfg', cfgpath) },
-        },
+        null_ls.builtins.formatting.clang_format,
         null_ls.builtins.formatting.gofmt,
         null_ls.builtins.formatting.json_tool.with {
             command = 'jq',
