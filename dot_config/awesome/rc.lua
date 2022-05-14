@@ -208,7 +208,11 @@ local function has_brightness()
     return not dir_is_empty("/sys/class/backlight")
 end
 
-local SKIP = "SKIP"
+local SKIP = setmetatable({}, {
+    __call = function(self)
+        return self
+    end
+})
 
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local mem_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
@@ -415,12 +419,12 @@ awful.screen.connect_for_each_screen(function(s)
         current_dm_version,
         redminer_widget,
         pushlocker_widget,
-        type(brightness_widget) == "function" and brightness_widget({program = 'brightnessctl'}) or SKIP,
+        brightness_widget({program = 'brightnessctl'}),
         -- volume_widget({widget_type = 'arc', device = 'default'}),
         cpu_temp_widget,
         cpu_widget(),
         mem_widget(),
-        type(battery_widget) == "function" and battery_widget({show_current_level = true}) or SKIP,
+        battery_widget({show_current_level = true}),
         separator,
         mykeyboardlayout,
         separator,
@@ -429,7 +433,7 @@ awful.screen.connect_for_each_screen(function(s)
         mytextclock,
         s.mylayoutbox,
     }, function(item)
-        if type(item) == "string" and item == SKIP then
+        if item == SKIP then
             return false
         end
 
