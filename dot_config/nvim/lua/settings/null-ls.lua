@@ -10,7 +10,11 @@ function M.setup()
     formatter.setup()
 
     local sources = {
-        null_ls.builtins.formatting.clang_format,
+        null_ls.builtins.formatting.clang_format.with {
+            condition = function(utils)
+                return utils.root_has_file { '.clang_format' }
+            end,
+        },
         null_ls.builtins.formatting.gofmt,
         null_ls.builtins.formatting.json_tool.with {
             command = 'jq',
