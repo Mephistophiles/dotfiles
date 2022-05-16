@@ -566,6 +566,9 @@ globalkeys = gears.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
+    -- Ulauncher
+    awful.key({ modkey, "Shift" }, "p", function() awful.spawn('ulauncher', false) end,
+              {description = "show the ulauncher", group = "launcher"}),
     -- Media
     awful.key({}, 'XF86AudioRaiseVolume',
               function() awful.spawn('amixer -q set Master 2%+', false) end,
