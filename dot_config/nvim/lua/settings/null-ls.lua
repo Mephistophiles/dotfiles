@@ -12,7 +12,7 @@ function M.setup()
     local sources = {
         null_ls.builtins.formatting.clang_format.with {
             condition = function(utils)
-                return utils.root_has_file { '.clang_format' }
+                return utils.root_has_file '.clang-format'
             end,
         },
         null_ls.builtins.formatting.gofmt,
