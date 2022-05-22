@@ -104,26 +104,26 @@ function M.setup()
             vim.b.disable_formatter = true
             vim.notify 'Disable format on save'
         end
-    end)
+    end, { desc = 'Formatter: toggle formatter in current document' })
 
     vim.keymap.set('n', '<leader>mb', function()
         blacklist_file(vim.api.nvim_buf_get_name(0))
         vim.b.disable_formatter = true
         vim.notify 'Permanently disable format on save'
-    end)
+    end, { desc = 'Formatter: permanently disable format for current file' })
     vim.keymap.set('n', '<leader>mu', function()
         unblacklist_file(vim.api.nvim_buf_get_name(0))
         vim.b.disable_formatter = false
         vim.notify 'Remove current file from the blacklist'
-    end)
+    end, { desc = 'Formatter: remove current file from the blacklist' })
     vim.keymap.set('n', '<leader>mc', function()
         local before = BLACKLIST.get()
         local after = gc_blacklist(before)
         vim.notify(string.format('GC blacklist: %d -> %d entries', #before, #after))
-    end)
+    end, { desc = 'Formatter: run garbage collector in blacklist' })
     vim.keymap.set('n', '<leader>ml', function()
         require('settings.formatter_ui').toggle_quick_menu(BLACKLIST.get())
-    end)
+    end, { desc = 'Formatter: open blacklist menu' })
 end
 
 function M._handler(err, result, ctx)
@@ -135,14 +135,9 @@ function M._handler(err, result, ctx)
     end
     if not vim.api.nvim_buf_is_loaded(ctx.bufnr) then
         vim.fn.bufload(ctx.bufnr)
-        vim.api.nvim_buf_set_var(
-            ctx.bufnr,
-            'format_changedtick',
-            vim.api.nvim_buf_get_var(ctx.bufnr, 'changedtick')
-        )
+        vim.api.nvim_buf_set_var(ctx.bufnr, 'format_changedtick', vim.api.nvim_buf_get_var(ctx.bufnr, 'changedtick'))
     elseif
-        vim.api.nvim_buf_get_var(ctx.bufnr, 'format_changedtick')
-            ~= vim.api.nvim_buf_get_var(ctx.bufnr, 'changedtick')
+        vim.api.nvim_buf_get_var(ctx.bufnr, 'format_changedtick') ~= vim.api.nvim_buf_get_var(ctx.bufnr, 'changedtick')
         or vim.startswith(vim.api.nvim_get_mode().mode, 'i')
     then
         return
@@ -226,8 +221,7 @@ function FORMAT_POLYFILL(options)
             end
             local params = util.make_formatting_params(options.formatting_options)
             client.request('textDocument/formatting', params, function(...)
-                local handler = client.handlers['textDocument/formatting']
-                    or vim.lsp.handlers['textDocument/formatting']
+                local handler = client.handlers['textDocument/formatting'] or vim.lsp.handlers['textDocument/formatting']
                 handler(...)
                 do_format(next(clients, idx))
             end, bufnr)
@@ -237,12 +231,7 @@ function FORMAT_POLYFILL(options)
         local timeout_ms = options.timeout_ms or 1000
         for _, client in pairs(clients) do
             local params = util.make_formatting_params(options.formatting_options)
-            local result, err = client.request_sync(
-                'textDocument/formatting',
-                params,
-                timeout_ms,
-                bufnr
-            )
+            local result, err = client.request_sync('textDocument/formatting', params, timeout_ms, bufnr)
             if result and result.result then
                 util.apply_text_edits(result.result, bufnr, client.offset_encoding)
             elseif err then
@@ -253,10 +242,7 @@ function FORMAT_POLYFILL(options)
 end
 
 function M.setup_formatter()
-    assert(
-        vim.lsp.buf.format == nil or vim.lsp.buf.format == FORMAT_POLYFILL,
-        'Remove this override'
-    )
+    assert(vim.lsp.buf.format == nil or vim.lsp.buf.format == FORMAT_POLYFILL, 'Remove this override')
 
     vim.lsp.buf.format = FORMAT_POLYFILL
 end

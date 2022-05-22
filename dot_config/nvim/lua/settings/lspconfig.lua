@@ -26,10 +26,7 @@ local custom_attach = function(client, bufnr)
 
     -- Set autocommands conditional on server_capabilities
     if client.supports_method 'textDocument/documentHighlight' then
-        local lsp_document_highlight_group = vim.api.nvim_create_augroup(
-            'lsp_document_highlight',
-            { clear = false }
-        )
+        local lsp_document_highlight_group = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = false })
         vim.api.nvim_create_autocmd('CursorHold', {
             group = lsp_document_highlight_group,
             buffer = 0,
@@ -50,10 +47,7 @@ local custom_attach = function(client, bufnr)
     end
 
     if client.supports_method 'textDocument/codeLens' then
-        local lsp_document_codelens_group = vim.api.nvim_create_augroup(
-            'lsp_document_codelens',
-            { clear = false }
-        )
+        local lsp_document_codelens_group = vim.api.nvim_create_augroup('lsp_document_codelens', { clear = false })
         vim.api.nvim_create_autocmd('BufEnter', {
             group = lsp_document_codelens_group,
             buffer = 0,
@@ -188,9 +182,9 @@ function M.key_bindings(client)
 
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = true })
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = true })
-    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, { buffer = true })
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = true, desc = 'LSP: goto declaration' })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = true, desc = 'LSP: goto definition' })
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, { buffer = true, desc = 'LSP: goto type definition' })
 
     vim.keymap.set('n', 'gi', function()
         telescope.lsp_implementations {
@@ -199,7 +193,7 @@ function M.key_bindings(client)
             sorting_strategy = 'ascending',
             ignore_filename = false,
         }
-    end, { buffer = true })
+    end, { buffer = true, desc = 'LSP: goto implementation' })
 
     vim.keymap.set('n', 'gr', function()
         telescope.lsp_references {
@@ -208,37 +202,52 @@ function M.key_bindings(client)
             sorting_strategy = 'ascending',
             ignore_filename = false,
         }
-    end, { buffer = true })
-    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = true })
+    end, { buffer = true, desc = 'LSP: goto references' })
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = true, desc = 'LSP: show code actions' })
     vim.keymap.set('n', '<leader>cs', function()
         telescope.lsp_document_symbols(themes.get_ivy {})
-    end)
+    end, { buffer = true, desc = 'LSP: show document symbols' })
     vim.keymap.set('n', '<leader>cS', function()
         telescope.lsp_workspace_symbols(themes.get_ivy {})
-    end)
+    end, { buffer = true, desc = 'LSP: show workspace symbols' })
     vim.keymap.set('n', '<leader>cd', function()
         telescope.lsp_dynamic_workspace_symbols(themes.get_ivy {})
-    end)
+    end, { buffer = true, desc = 'LSP: show dynamic workspace symbols' })
 
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = true })
-    vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, { buffer = true })
+    vim.keymap.set(
+        'n',
+        'K',
+        vim.lsp.buf.hover,
+        { buffer = true, desc = 'LSP: display hover information about the symbol under ther cursor' }
+    )
+    vim.keymap.set(
+        'n',
+        '<C-s>',
+        vim.lsp.buf.signature_help,
+        { buffer = true, desc = 'LSP: display signature information about the symbol under the cursor' }
+    )
     vim.keymap.set('n', '<leader>rn', function()
         vim.lsp.buf.rename()
-    end, { buffer = true })
+    end, { buffer = true, desc = 'LSP: renames all references to the symbol under the cursor' })
     -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
-    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { buffer = true })
+    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { buffer = true, desc = 'LSP: Show diagnostic info' })
     vim.keymap.set('n', '[d', function()
         vim.diagnostic.goto_next()
-    end, { buffer = true })
+    end, { buffer = true, desc = 'LSP: move to the next diagnostic' })
     vim.keymap.set('n', ']d', function()
         vim.diagnostic.goto_prev()
-    end, { buffer = true })
+    end, { buffer = true, desc = 'LSP: move to the previous diagnostic' })
     vim.keymap.set('n', '<leader>q', function()
         vim.diagnostic.setloclist()
-    end, { buffer = true })
+    end, { buffer = true, desc = 'LSP: add buffer diagnostics to the location list' })
 
     if client.supports_method 'textDocument/codeLens' then
-        vim.keymap.set('n', '<leader>lr', vim.lsp.codelens.run, { buffer = true })
+        vim.keymap.set(
+            'n',
+            '<leader>lr',
+            vim.lsp.codelens.run,
+            { buffer = true, desc = 'LSP: run code lens in the current line' }
+        )
     end
 end
 

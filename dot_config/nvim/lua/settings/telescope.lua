@@ -15,13 +15,13 @@ local themes = setmetatable({}, {
 function M.mappings()
     vim.keymap.set('n', '<C-p>', function()
         telescope.find_files(themes.get_ivy {})
-    end)
+    end, { desc = 'Fuzzy find files in project' })
     vim.keymap.set('n', '<C-b>', function()
         telescope.buffers(themes.get_ivy { shorten_path = false })
-    end)
+    end, { desc = 'Fuzzy find opened buffers' })
     vim.keymap.set('n', '<leader>lg', function()
         telescope.live_grep(themes.get_ivy {})
-    end)
+    end, { desc = 'Fuzzy find with live grep' })
 
     vim.keymap.set('n', '<leader>en', function()
         local opts_with_preview, opts_without_preview
@@ -70,7 +70,7 @@ function M.mappings()
         opts_without_preview.previewer = false
 
         require('telescope.builtin').find_files(opts_with_preview)
-    end)
+    end, { desc = 'Fuzzy find neovim configuration files' })
 end
 
 function M.instance()

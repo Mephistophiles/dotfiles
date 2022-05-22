@@ -44,56 +44,50 @@ local function paste_git_signoff()
 end
 
 -- toggle show invisible symbols
-vim.keymap.set('n', '<F2>', function()
+vim.keymap.set({ 'n', 'i' }, '<F2>', function()
     number_toggle()
-end)
-vim.keymap.set('i', '<F2>', function()
-    number_toggle()
-end)
+end, { desc = 'Toggle numbers/relativenumbers' })
 
 vim.keymap.set('n', '<F4>', function()
     swap_list_chars()
-end)
+end, { desc = 'Show/Hide whitespaces' })
 
 -- toggle spelling
-vim.keymap.set('n', '<F7>', [[:set spell!<CR>]])
+vim.keymap.set('n', '<F7>', [[:set spell!<CR>]], { desc = 'Toggle spelling' })
 
 -- Back search for f F t T
-vim.keymap.set('n', [[\]], ',')
+vim.keymap.set('n', [[\]], ',', { desc = 'Back search for f/F t/T' })
 
 -- paste signoff
-vim.keymap.set('n', '<F8>', function()
+vim.keymap.set({ 'n', 'i' }, '<F8>', function()
     paste_git_signoff()
-end)
-vim.keymap.set('i', '<F8>', function()
-    paste_git_signoff()
-end)
+end, { desc = 'Paste Signed-off-by' })
 
 -- command mode helpers
-vim.keymap.set('c', '<C-a>', '<Home>')
-vim.keymap.set('c', '<C-e>', '<End>')
-vim.keymap.set('c', '<C-p>', '<Up>')
-vim.keymap.set('c', '<C-n>', '<Down>')
-vim.keymap.set('c', '<C-b>', '<Left>')
-vim.keymap.set('c', '<C-f>', '<Right>')
+vim.keymap.set('c', '<C-a>', '<Home>', { desc = 'Goto to start of line' })
+vim.keymap.set('c', '<C-e>', '<End>', { desc = 'Goto to end of line' })
+vim.keymap.set('c', '<C-p>', '<Up>', { desc = 'Select previous command' })
+vim.keymap.set('c', '<C-n>', '<Down>', { desc = 'Select next command' })
+vim.keymap.set('c', '<C-b>', '<Left>', { desc = 'Move cursor left' })
+vim.keymap.set('c', '<C-f>', '<Right>', { desc = 'Move cursor right' })
 
 -- map Home to buffernext, End bufferprev
-vim.keymap.set('n', '<Home>', ':bn')
-vim.keymap.set('n', '<End>', ':bp')
+vim.keymap.set('n', '<Home>', ':bnext', { desc = 'Select next buffer' })
+vim.keymap.set('n', '<End>', ':bprev', { desc = 'Select previous buffer' })
 
 -- very magic search by default
-vim.keymap.set('n', [[?]], [[?\v]])
-vim.keymap.set('n', [[/]], [[/\v]])
-vim.keymap.set('c', [[%s/]], [[%sm/]])
+vim.keymap.set('n', [[?]], [[?\v]], { desc = 'Backward search with magic mode' })
+vim.keymap.set('n', [[/]], [[/\v]], { desc = 'Search with magic mode' })
+vim.keymap.set('c', [[%s/]], [[%sm/]], { desc = 'Search with magic mode' })
 
 -- Suppress command mistakes
-vim.api.nvim_create_user_command('W', 'w', {})
-vim.api.nvim_create_user_command('WQ', 'wq', {})
-vim.api.nvim_create_user_command('Wq', 'wq', {})
-vim.api.nvim_create_user_command('WQA', 'wqa', {})
-vim.api.nvim_create_user_command('WQa', 'wqa', {})
-vim.api.nvim_create_user_command('Wqa', 'wqa', {})
-vim.api.nvim_create_user_command('Q', 'q', {})
+vim.api.nvim_create_user_command('W', 'w', { desc = 'Fix typo :W -> :w' })
+vim.api.nvim_create_user_command('WQ', 'wq', { desc = 'Fix typo :WQ -> :wq' })
+vim.api.nvim_create_user_command('Wq', 'wq', { desc = 'Fix typo :Wq -> :wq' })
+vim.api.nvim_create_user_command('WQA', 'wqa', { desc = 'Fix typo :WQA -> :wqa' })
+vim.api.nvim_create_user_command('WQa', 'wqa', { desc = 'Fix typo :WQa -> :wqa' })
+vim.api.nvim_create_user_command('Wqa', 'wqa', { desc = 'Fix typo :Wqa -> :wqa' })
+vim.api.nvim_create_user_command('Q', 'q', { desc = 'Fix typo :Q -> :q' })
 
 -- folding
 vim.keymap.set('n', '<tab>', function()
@@ -104,29 +98,29 @@ vim.keymap.set('n', '<tab>', function()
     else
         vim.api.nvim_input '<tab>'
     end
-end)
+end, { desc = 'Toggle fold' })
 
 -- Better usage
-vim.keymap.set('n', 'Y', 'y$')
-vim.keymap.set('n', 'n', 'nzz')
-vim.keymap.set('n', 'N', 'Nzz')
-vim.keymap.set('v', 'J', [[:m '>+1<CR>gv=gv]])
-vim.keymap.set('v', 'K', [[:m '<-2<CR>gv=gv]])
+vim.keymap.set('n', 'Y', 'y$', { desc = 'Yank to end of line' })
+vim.keymap.set('n', 'n', 'nzz', { desc = 'Goto to next search with possible unfold' })
+vim.keymap.set('n', 'N', 'Nzz', { desc = 'Goto to previous search with possible unfold' })
+vim.keymap.set('v', 'J', [[:m '>+1<CR>gv=gv]], { desc = 'Move line down' })
+vim.keymap.set('v', 'K', [[:m '<-2<CR>gv=gv]], { desc = 'Move line up' })
 
 -- replace paste without save in registers
-vim.keymap.set('v', '<leader>p', '"_dP')
+vim.keymap.set('v', '<leader>p', '"_dP', { desc = 'Paste without save in registers' })
+vim.keymap.set('v', '<leader>d', '"_d', { desc = 'Delete without save in registers' })
 
 -- copy in clipboard
-vim.keymap.set('n', '<leader>y', '"+y')
-vim.keymap.set('v', '<leader>y', '"+y')
-vim.keymap.set('n', '<leader>Y', 'gg"+yG')
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Copy to clipboard' })
+vim.keymap.set('n', '<leader>Y', 'gg"+yG', { desc = 'Copy to clipboard all file' })
 
 -- workarounds
 -- inoremap <C-c> <Esc>
-vim.keymap.set('i', '<C-c>', '<Esc>')
+vim.keymap.set('i', '<C-c>', '<Esc>', { desc = 'Emulate <ESC> by Ctrl+C' })
 
 -- resize
-vim.keymap.set('n', '<C-w>K', ':resize -5<CR>')
-vim.keymap.set('n', '<C-w>J', ':resize +5<CR>')
-vim.keymap.set('n', '<C-w>H', ':vertical resize -5<CR>')
-vim.keymap.set('n', '<C-w>L', ':vertical resize +5<CR>')
+vim.keymap.set('n', '<C-w>K', ':resize -5<CR>', { desc = 'Decrease horizontal size of split' })
+vim.keymap.set('n', '<C-w>J', ':resize +5<CR>', { desc = 'Increase horizontal size of split' })
+vim.keymap.set('n', '<C-w>H', ':vertical resize -5<CR>', { desc = 'Decrease vertical size of split' })
+vim.keymap.set('n', '<C-w>L', ':vertical resize +5<CR>', { desc = 'Increase vertical size of split' })

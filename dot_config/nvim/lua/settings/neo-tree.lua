@@ -1,8 +1,8 @@
 local M = {}
 
 function M.setup()
-    vim.keymap.set('n', [[<C-\>]], [[<cmd>Neotree reveal_force_cwd<cr>]])
-    vim.keymap.set('n', [[<leader><leader>]], [[<cmd>Neotree reveal toggle<cr>]])
+    vim.keymap.set('n', [[<C-\>]], [[<cmd>Neotree reveal_force_cwd<cr>]], { desc = 'Neotree: select current file' })
+    vim.keymap.set('n', [[<leader><leader>]], [[<cmd>Neotree reveal toggle<cr>]], { desc = 'Neotree: toggle' })
 end
 
 function M.config()

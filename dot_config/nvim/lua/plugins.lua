@@ -166,7 +166,7 @@ return packer.startup {
                 require('gitsigns').setup {
                     current_line_blame = true,
 
-                    on_attach = function(bufnr)
+                    on_attach = function()
                         local gs = package.loaded.gitsigns
 
                         -- Navigation
@@ -174,32 +174,37 @@ return packer.startup {
                             'n',
                             ']c',
                             [[&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>']],
-                            { expr = true }
+                            { expr = true, desc = 'Git: Goto next hunk' }
                         )
                         vim.keymap.set(
                             'n',
                             '[c',
                             [[&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>']],
-                            { expr = true }
+                            { expr = true, desc = 'Git: Goto prev hunk' }
                         )
 
                         -- Actions
-                        vim.keymap.set({ 'n', 'v' }, '<leader>hs', gs.stage_hunk)
-                        vim.keymap.set({ 'n', 'v' }, '<leader>hr', gs.reset_hunk)
-                        vim.keymap.set('n', '<leader>hS', gs.stage_buffer)
-                        vim.keymap.set('n', '<leader>hu', gs.undo_stage_hunk)
-                        vim.keymap.set('n', '<leader>hR', gs.reset_buffer)
-                        vim.keymap.set('n', '<leader>hp', gs.preview_hunk)
+                        vim.keymap.set({ 'n', 'v' }, '<leader>hs', gs.stage_hunk, { desc = 'Git: Stage hunk' })
+                        vim.keymap.set({ 'n', 'v' }, '<leader>hr', gs.reset_hunk, { desc = 'Git: Reset hunk' })
+                        vim.keymap.set('n', '<leader>hS', gs.stage_buffer, { desc = 'Git: Stage buffer' })
+                        vim.keymap.set('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Git: Undo stage hunk' })
+                        vim.keymap.set('n', '<leader>hR', gs.reset_buffer, { desc = 'Git: Reset buffer' })
+                        vim.keymap.set('n', '<leader>hp', gs.preview_hunk, { desc = 'Git: Preview hunk' })
                         vim.keymap.set('n', '<leader>hb', function()
                             gs.blame_line { full = true }
-                        end)
-                        vim.keymap.set('n', '<leader>hd', gs.diffthis)
+                        end, { desc = 'Git: Blame line' })
+                        vim.keymap.set('n', '<leader>hd', gs.diffthis, { desc = 'Git: Diff this file' })
                         vim.keymap.set('n', '<leader>hD', function()
                             gs.diffthis '~'
-                        end)
+                        end, { desc = 'Git: Run diff this' })
 
                         -- Text object
-                        vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+                        vim.keymap.set(
+                            { 'o', 'x' },
+                            'ih',
+                            ':<C-U>Gitsigns select_hunk<CR>',
+                            { desc = 'Git: Select hunk' }
+                        )
                     end,
                 }
             end,
@@ -240,11 +245,17 @@ return packer.startup {
             opt = true,
             module = 'spectre',
             setup = function()
-                vim.keymap.set('n', '<leader>/', ':lua require("spectre").open()<cr>')
+                vim.keymap.set(
+                    'n',
+                    '<leader>/',
+                    ':lua require("spectre").open()<cr>',
+                    { desc = 'Spectre: Open search panel' }
+                )
                 vim.keymap.set(
                     'n',
                     '<leader>*',
-                    ':lua require("spectre").open_visual { select_word = true }<cr>'
+                    ':lua require("spectre").open_visual { select_word = true }<cr>',
+                    { desc = 'Spectre: Search word under cursor' }
                 )
             end,
             config = function()
@@ -286,7 +297,12 @@ return packer.startup {
             'simrat39/symbols-outline.nvim',
             cmd = { 'SymbolsOutline' },
             setup = function()
-                vim.keymap.set('n', '<F5>', '<cmd>SymbolsOutline<cr>')
+                vim.keymap.set(
+                    'n',
+                    '<F5>',
+                    '<cmd>SymbolsOutline<cr>',
+                    { desc = 'SymbolsOutline: Open symbols outline' }
+                )
             end,
         }
 
@@ -310,13 +326,13 @@ return packer.startup {
                             'o',
                             'm',
                             '<C-U>:lua require("tsht").nodes()<cr>',
-                            { silent = true }
+                            { silent = true, desc = 'Treesitter: Show treesitter select hints' }
                         )
                         vim.keymap.set(
                             'v',
                             'm',
                             ':lua require("tsht").nodes()<cr>',
-                            { silent = true }
+                            { silent = true, desc = 'Treesitter: Show treesitter select hints' }
                         )
                     end,
                     opt = true,
@@ -348,8 +364,8 @@ return packer.startup {
             cmd = { 'Tabularize' },
             opt = true,
             setup = function()
-                vim.keymap.set('n', '<leader>a', ':Tabularize /')
-                vim.keymap.set('v', '<leader>a', ':Tabularize /')
+                vim.keymap.set('n', '<leader>a', ':Tabularize /', { desc = 'Tabularize: Align by pattern' })
+                vim.keymap.set('v', '<leader>a', ':Tabularize /', { desc = 'Tabularize: Align by pattern' })
             end,
         }
 
@@ -364,7 +380,7 @@ return packer.startup {
             'mbbill/undotree',
             cmd = 'UndotreeToggle',
             setup = function()
-                vim.keymap.set('n', '<F3>', '<cmd>UndotreeToggle<CR>')
+                vim.keymap.set('n', '<F3>', '<cmd>UndotreeToggle<CR>', { desc = 'Undotree: toggle' })
             end,
             opt = true,
         }
@@ -406,12 +422,12 @@ return packer.startup {
                     },
                 }
 
-                vim.keymap.set('n', '<c-h>', '<cmd>lua require("tmux").move_left()<cr>')
-                vim.keymap.set('n', '<c-l>', '<cmd>lua require("tmux").move_right()<cr>')
-                vim.keymap.set('n', '<a-h>', '<cmd>lua require("tmux").move_left()<cr>')
-                vim.keymap.set('n', '<a-j>', '<cmd>lua require("tmux").move_bottom()<cr>')
-                vim.keymap.set('n', '<a-k>', '<cmd>lua require("tmux").move_top()<cr>')
-                vim.keymap.set('n', '<a-l>', '<cmd>lua require("tmux").move_right()<cr>')
+                vim.keymap.set('n', '<c-h>', '<cmd>lua require("tmux").move_left()<cr>', { desc = 'Left movement' })
+                vim.keymap.set('n', '<c-l>', '<cmd>lua require("tmux").move_right()<cr>', { desc = 'Right movement' })
+                vim.keymap.set('n', '<a-h>', '<cmd>lua require("tmux").move_left()<cr>', { desc = 'Left movement' })
+                vim.keymap.set('n', '<a-j>', '<cmd>lua require("tmux").move_bottom()<cr>', { desc = 'Bottom movement' })
+                vim.keymap.set('n', '<a-k>', '<cmd>lua require("tmux").move_top()<cr>', { desc = 'Top movement' })
+                vim.keymap.set('n', '<a-l>', '<cmd>lua require("tmux").move_right()<cr>', { desc = 'Right movement' })
             end,
         }
 
@@ -461,8 +477,18 @@ return packer.startup {
             opt = true,
             keys = { { 'n', '<leader>w' }, { 'n', '<leader>b' } },
             config = function()
-                vim.keymap.set('n', '<leader>w', '<Plug>(leap-forward)', { silent = true })
-                vim.keymap.set('n', '<leader>b', '<Plug>(leap-backward)', { silent = true })
+                vim.keymap.set(
+                    'n',
+                    '<leader>w',
+                    '<Plug>(leap-forward)',
+                    { silent = true, desc = 'EasyMotion forward motion' }
+                )
+                vim.keymap.set(
+                    'n',
+                    '<leader>b',
+                    '<Plug>(leap-backward)',
+                    { silent = true, desc = 'EasyMotion backward motion' }
+                )
                 require('leap').setup {
                     case_insensitive = true,
                     -- Leaving the appropriate list empty effectively disables "smart" mode,
@@ -490,10 +516,10 @@ return packer.startup {
             setup = function()
                 vim.keymap.set('n', '<leader>s', function()
                     require('pounce').pounce {}
-                end)
+                end, { desc = 'Pounce fuzzy search in page' })
                 vim.keymap.set('n', '<leader>S', function()
                     require('pounce').pounce { do_repeat = true }
-                end)
+                end, { desc = 'Pounce: repeat last search' })
             end,
             config = function()
                 require('pounce').setup {
@@ -516,28 +542,28 @@ return packer.startup {
             setup = function()
                 vim.keymap.set('n', '<Leader>`', function()
                     require('harpoon.ui').toggle_quick_menu()
-                end)
+                end, { desc = 'Harpoon: show menu' })
                 vim.keymap.set('n', '<Leader>h', function()
                     require('harpoon.mark').add_file()
-                end)
+                end, { desc = 'Harpoon: toogle mark' })
                 vim.keymap.set('n', '<Leader>1', function()
                     require('harpoon.ui').nav_file(1)
-                end)
+                end, { desc = 'Harpoon: select 1 mark' })
                 vim.keymap.set('n', '<Leader>2', function()
                     require('harpoon.ui').nav_file(2)
-                end)
+                end, { desc = 'Harpoon: select 2 mark' })
                 vim.keymap.set('n', '<Leader>3', function()
                     require('harpoon.ui').nav_file(3)
-                end)
+                end, { desc = 'Harpoon: select 3 mark' })
                 vim.keymap.set('n', '<Leader>4', function()
                     require('harpoon.ui').nav_file(4)
-                end)
+                end, { desc = 'Harpoon: select 4 mark' })
                 vim.keymap.set('n', '<Leader>5', function()
                     require('harpoon.ui').nav_file(5)
-                end)
+                end, { desc = 'Harpoon: select 5 mark' })
                 vim.keymap.set('n', '<Leader>6', function()
                     require('harpoon.ui').nav_file(6)
-                end)
+                end, { desc = 'Harpoon: select 6 mark' })
             end,
         }
 
@@ -594,8 +620,13 @@ return packer.startup {
                 vim.g.floaterm_height = 0.7
             end,
             setup = function()
-                vim.keymap.set('n', '<F12>', [[:FloatermToggle<CR>]], { silent = true })
-                vim.keymap.set('t', '<F12>', [[<C-\><C-n>:FloatermToggle<CR>]], { silent = true })
+                vim.keymap.set('n', '<F12>', [[:FloatermToggle<CR>]], { silent = true, desc = 'Floaterm: toggle' })
+                vim.keymap.set(
+                    't',
+                    '<F12>',
+                    [[<C-\><C-n>:FloatermToggle<CR>]],
+                    { silent = true, desc = 'Floaterm: toggle' }
+                )
             end,
             cmd = { 'FloatermNew', 'FloatermToggle' },
         }
@@ -641,7 +672,7 @@ return packer.startup {
             cmd = { 'GitMessenger' },
             keys = { '<leader>gm' },
             setup = function()
-                vim.keymap.set('n', '<leader>gm', '<Plug>(git-messenger)')
+                vim.keymap.set('n', '<leader>gm', '<Plug>(git-messenger)', { desc = 'GitMessager: show git commit' })
             end,
         }
 
@@ -714,11 +745,11 @@ return packer.startup {
                 '<leader>to',
             },
             config = function()
-                vim.keymap.set('n', '<leader>tf', '<Plug>(ultest-run-file)')
-                vim.keymap.set('n', '<leader>tn', '<Plug>(ultest-run-nearest)')
-                vim.keymap.set('n', '<leader>tl', '<Plug>(ultest-run-last)')
-                vim.keymap.set('n', '<leader>ts', '<Plug>(ultest-summary-toggle)')
-                vim.keymap.set('n', '<leader>to', '<Plug>(ultest-output-show)')
+                vim.keymap.set('n', '<leader>tf', '<Plug>(ultest-run-file)', { desc = 'ULTest: run all tests in file' })
+                vim.keymap.set('n', '<leader>tn', '<Plug>(ultest-run-nearest)', { desc = 'ULTest: run nearest test' })
+                vim.keymap.set('n', '<leader>tl', '<Plug>(ultest-run-last)', { desc = 'ULTest: run last test' })
+                vim.keymap.set('n', '<leader>ts', '<Plug>(ultest-summary-toggle)', { desc = 'ULTest: toggle summary' })
+                vim.keymap.set('n', '<leader>to', '<Plug>(ultest-output-show)', { desc = 'ULTest: show test output' })
             end,
         }
 
@@ -771,9 +802,20 @@ return packer.startup {
         use {
             'dhruvasagar/vim-table-mode',
             setup = function()
-                vim.keymap.set('n', '<leader>tm', ':TableModeToggle<cr>')
+                vim.keymap.set('n', '<leader>tm', ':TableModeToggle<cr>', { desc = 'TableMode: toggle' })
             end,
             cmd = { 'TableModeToggle' },
+        }
+
+        use {
+            'folke/which-key.nvim',
+            config = function()
+                require('which-key').setup {
+                    -- your configuration comes here
+                    -- or leave it empty to use the default settings
+                    -- refer to the configuration section below
+                }
+            end,
         }
     end,
     config = {

@@ -53,13 +53,13 @@ function M.setup()
 
                 vim.keymap.set('n', '<leader>f', function()
                     formatter.format_document()
-                end, { silent = true, buffer = true })
+                end, { silent = true, buffer = true, desc = 'Format current document' })
                 -- TODO: range formatting is not supported: https://github.com/neovim/neovim/issues/18371
                 vim.keymap.set(
                     'v',
                     '<leader>f',
                     [[:'<,'>lua vim.lsp.buf.range_formatting()<cr>]],
-                    { silent = true, buffer = true }
+                    { silent = true, buffer = true, desc = 'Format current selecton in document' }
                 )
 
                 lspconfig.key_bindings(client)

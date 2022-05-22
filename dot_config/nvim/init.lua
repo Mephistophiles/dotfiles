@@ -31,6 +31,6 @@ if ok then
 end
 
 -- cleanups
-vim.keymap.set('n', '<leader><enter>', table.concat(MAP_CLEANUPS, ''))
+vim.keymap.set('n', '<leader><enter>', table.concat(MAP_CLEANUPS, ''), { desc = 'Clean all notifications/selections' })
 
 -- vim.cmd('syntax on') -- On syntax

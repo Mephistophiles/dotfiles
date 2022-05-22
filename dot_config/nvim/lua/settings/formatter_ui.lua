@@ -24,7 +24,7 @@ end
 local function create_window()
     local width = 60
     local height = 10
-    local borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' }
+    local borderchars = { [[─]], [[│]], [[─]], [[│]], [[╭]], [[╮]], [[╯]], [[╰]] }
     local bufnr = vim.api.nvim_create_buf(false, false)
 
     local Formatter_win_id, win = popup.create(bufnr, {
@@ -78,13 +78,13 @@ function M.toggle_quick_menu(blacklist)
     vim.api.nvim_buf_set_option(Formatter_bufh, 'bufhidden', 'delete')
     vim.keymap.set('n', 'q', function()
         M.toggle_quick_menu()
-    end, { silent = true, buffer = Formatter_bufh })
+    end, { silent = true, buffer = Formatter_bufh, desc = 'Formatter: quit from menu' })
     vim.keymap.set('n', '<ESC>', function()
         M.toggle_quick_menu()
-    end, { silent = true, buffer = Formatter_bufh })
+    end, { silent = true, buffer = Formatter_bufh, desc = 'Formatter: quit from menu' })
     vim.keymap.set('n', '<CR>', function()
         M.select_menu_item()
-    end, { buffer = Formatter_bufh })
+    end, { buffer = Formatter_bufh, desc = 'Formatter: select menu item' })
 
     local formatter_ui_group = vim.api.nvim_create_augroup('FormatterUI', { clear = false })
 
