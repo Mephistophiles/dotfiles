@@ -365,6 +365,9 @@ return packer.startup {
                     end,
                 },
                 {
+                    'nvim-treesitter/nvim-treesitter-refactor',
+                },
+                {
                     'lewis6991/nvim-treesitter-context',
                 },
             },

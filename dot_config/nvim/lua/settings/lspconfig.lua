@@ -182,8 +182,8 @@ function M.key_bindings(client)
 
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = true, desc = 'LSP: goto declaration' })
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = true, desc = 'LSP: goto definition' })
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { clear = true, buffer = true, desc = 'LSP: goto declaration' })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { clear = true, buffer = true, desc = 'LSP: goto definition' })
     vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, { buffer = true, desc = 'LSP: goto type definition' })
 
     vim.keymap.set('n', 'gi', function()
@@ -228,7 +228,7 @@ function M.key_bindings(client)
     )
     vim.keymap.set('n', '<leader>rn', function()
         vim.lsp.buf.rename()
-    end, { buffer = true, desc = 'LSP: renames all references to the symbol under the cursor' })
+    end, { clear = true, buffer = true, desc = 'LSP: renames all references to the symbol under the cursor' })
     -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
     vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { buffer = true, desc = 'LSP: Show diagnostic info' })
     vim.keymap.set('n', '[d', function()
