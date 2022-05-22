@@ -343,6 +343,7 @@ in {
       192.168.161.7 rd
       192.168.161.102 taskd
       192.168.100.3 listserv.msk.dlink.ru
+      192.168.100.23 mailman.dlink.ru
     '';
   };
 
