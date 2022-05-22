@@ -18,10 +18,7 @@ function M.setup()
                 vim_item.kind = lspkind.presets.default[vim_item.kind]
                 local menu = source_mapping[entry.source.name]
                 if entry.source.name == 'cmp_tabnine' then
-                    if
-                        entry.completion_item.data ~= nil
-                        and entry.completion_item.data.detail ~= nil
-                    then
+                    if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
                         menu = entry.completion_item.data.detail .. ' ' .. menu
                     end
                     vim_item.kind = ''

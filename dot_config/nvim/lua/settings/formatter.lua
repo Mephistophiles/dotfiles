@@ -137,7 +137,8 @@ function M._handler(err, result, ctx)
         vim.fn.bufload(ctx.bufnr)
         vim.api.nvim_buf_set_var(ctx.bufnr, 'format_changedtick', vim.api.nvim_buf_get_var(ctx.bufnr, 'changedtick'))
     elseif
-        vim.api.nvim_buf_get_var(ctx.bufnr, 'format_changedtick') ~= vim.api.nvim_buf_get_var(ctx.bufnr, 'changedtick')
+        vim.api.nvim_buf_get_var(ctx.bufnr, 'format_changedtick')
+            ~= vim.api.nvim_buf_get_var(ctx.bufnr, 'changedtick')
         or vim.startswith(vim.api.nvim_get_mode().mode, 'i')
     then
         return
@@ -221,7 +222,8 @@ function FORMAT_POLYFILL(options)
             end
             local params = util.make_formatting_params(options.formatting_options)
             client.request('textDocument/formatting', params, function(...)
-                local handler = client.handlers['textDocument/formatting'] or vim.lsp.handlers['textDocument/formatting']
+                local handler = client.handlers['textDocument/formatting']
+                    or vim.lsp.handlers['textDocument/formatting']
                 handler(...)
                 do_format(next(clients, idx))
             end, bufnr)
