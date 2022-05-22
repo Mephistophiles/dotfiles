@@ -7,15 +7,19 @@
 
 let
   mypkgs = pkgs.callPackage pkgs/default.nix { inherit pkgs; };
-  graphics = "awesomewm";
+  graphics = "gnome";
 in {
   imports = [ # Include the results of the hardware scan.
     ./variables.nix
     ./home/vault.nix
     ./hardware-configuration.nix
     ./host.nix
-  ] ++ lib.optional (graphics == "gnome") ./gnome.nix
-    ++ lib.optional (graphics == "awesomewm") ./awesomewm.nix;
+  ] ++ (if graphics == "gnome" then
+    [ ./gnome.nix ]
+  else if graphics == "awesomewm" then
+    [ ./awesomewm.nix ]
+  else
+    abort "Invalid graphics!");
 
   # Use the systemd-boot EFI boot loader.
   boot = {

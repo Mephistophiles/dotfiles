@@ -20,35 +20,38 @@
             rev = "b66aaf13e8f4cdf0e2f9078fb3e75703535b822c";
             sha256 = "sha256-6AUUu63oWxRw9Wpxe0f7xvt7iilvQfhpAB8SYG4yP8Q=";
           };
-          #patches = old.patches or [ ] ++ [
-          #  (self.fetchpatch {
-          #    name = "pr-22.patch";
-          #    url =
-          #      "https://patch-diff.githubusercontent.com/raw/PaperWM-community/PaperWM/pull/22.patch";
-          #    sha256 = "sha256-X/WqlhD3vfaZWscJYhTO0noarwyb8/s0C+vtWqk9tXM=";
-          #  })
-          #];
+          # patches = old.patches or [ ] ++ [
+          #   (self.fetchpatch {
+          #     name = "pr-25.patch";
+          #     url =
+          #       "https://patch-diff.githubusercontent.com/raw/PaperWM-community/PaperWM/pull/25.patch";
+          #     sha256 = "sha256-ISIL3bmNICf6I91LxGGmNXhIyehEF+7W9gfL8bq+g6M=";
+          #   })
+          # ];
         });
       };
     })
 
   ];
 
-  environment.gnome.excludePackages = [
-    pkgs.gnome.cheese
-    pkgs.gnome-photos
-    pkgs.gnome.gnome-music
-    #   pkgs.epiphany
-    #   pkgs.evince
-    pkgs.gnome.totem
-    #   pkgs.gnome.tali
-    #   pkgs.gnome.iagno
-    #   pkgs.gnome.hitori
-    pkgs.gnome-tour
-    #   pkgs.gnome.geary
-  ];
+  environment.gnome.excludePackages = (with pkgs; [ gnome-photos gnome-tour ])
+    ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-music
+      gnome-terminal
+      gedit # text editor
+      epiphany # web browser
+      geary # email reader
+      gnome-characters
+      totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
+
+  programs = { dconf.enable = true; gpaste.enable = true; };
   environment.systemPackages = with pkgs; [
-    gnome.gpaste
     gnome3.adwaita-icon-theme
     gnomeExtensions.caffeine
     gnomeExtensions.paperwm
