@@ -267,6 +267,7 @@ in {
     zip
 
     # nixos
+    deadnix
     nix-index
     nix-prefetch
     nixfmt
