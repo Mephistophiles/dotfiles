@@ -28,7 +28,7 @@
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager }:
     let
-      lib = nixpkgs.lib;
+      inherit (nixpkgs) lib;
       unfreePredicate = pkg:
         builtins.elem (lib.getName pkg) [
           "clion"

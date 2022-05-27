@@ -76,19 +76,19 @@
               format_swap = "{swap_used_percents}";
             }
 
-            (if config.variables.withWayland then ({
+            (if config.variables.withWayland then {
               block = "keyboard_layout";
               driver = "sway";
               mappings = {
                 "English (US)" = "EN";
                 "Russian (N/A)" = "RU";
               };
-            }) else ({
+            } else {
               block = "custom";
               command =
                 "${pkgs.xkblayout-state}/bin/xkblayout-state print '%s'";
               interval = 1;
-            }))
+            })
 
             {
               block = "battery";

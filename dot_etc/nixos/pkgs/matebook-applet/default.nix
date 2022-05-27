@@ -9,7 +9,7 @@ let
 
 in stdenv.mkDerivation {
   inherit name;
-  version = version;
+  inherit version;
 
   src = fetchurl {
     url =
