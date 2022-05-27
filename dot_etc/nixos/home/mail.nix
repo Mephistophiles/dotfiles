@@ -2,10 +2,7 @@
 
 { config, pkgs, ... }:
 
-let
-  # sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
-  unstable = import <nixos-unstable> { };
-in {
+{
   imports = [ ./i3status.nix ];
 
   # Let Home Manager install and manage itself.

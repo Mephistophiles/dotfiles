@@ -1,11 +1,8 @@
 # vim:expandtab ts=2 sw=2
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
-let
-  # sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
-  unstable = import <nixos-unstable> { };
-in {
+{
   home.packages = with pkgs; [ gopass pavucontrol ];
   programs = {
     i3status-rust = {
