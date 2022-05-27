@@ -17,11 +17,12 @@
 
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-21.11";
+    # nixpkgs.url = "nixpkgs/nixos-22.05";
+    nixpkgs.url = "nixpkgs/release-22.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     # nixpkgs-trunk.url = "nixpkgs/master";
 
-    home-manager.url = "github:nix-community/home-manager/release-21.11";
+    home-manager.url = "github:nix-community/home-manager/release-22.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -74,13 +75,6 @@
           home-manager.nixosModules.home-manager
 
           ({ pkgs, ... }: {
-            imports = (if (lib.versionAtLeast lib.trivial.release "21.11") then
-              [
-                "${nixpkgs-unstable}/nixos/modules/services/networking/wg-quick.nix"
-              ]
-            else
-              abort "remove this override");
-            disabledModules = [ "services/networking/wg-quick.nix" ];
             nixpkgs = nixpkgs-overlay;
             nix.extraOptions = "experimental-features = nix-command flakes";
             nix.package = pkgs.nixFlakes;
