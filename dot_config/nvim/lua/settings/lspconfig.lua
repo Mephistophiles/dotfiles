@@ -118,28 +118,7 @@ local servers = {
             },
         }
     end,
-    teal = function()
-        if vim.fn.exepath 'tl' == '' then
-            return
-        end
-
-        configs.teal = {
-            default_config = {
-                cmd = {
-                    'teal-language-server',
-                    -- "logging=on", use this to enable logging in /tmp/teal-language-server.log
-                },
-                filetypes = {
-                    'teal',
-                    -- "lua", -- Also works for lua, but you may get type errors that cannot be resolved within lua itself
-                },
-                root_dir = lspconfig.util.root_pattern('tlconfig.lua', '.git'),
-                settings = {},
-            },
-        }
-
-        return {}
-    end,
+    teal = vim.fn.exepath 'tl' ~= '',
     -- rust_analyzer = true,
     clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
     vuels = true,
