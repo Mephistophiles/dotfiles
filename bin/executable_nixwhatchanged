@@ -10,11 +10,11 @@ mktempdir() do path
 	if current_user == "root"
 		println("Run nixos-rebuild...")
 		run(`nixos-rebuild build`)
-		update_report = read(`nox-update --quiet /run/current-system result`, String)
+		update_report = read(`nix store diff-closures /run/current-system result/`, String)
 	else
 		println("Run home-manager...")
 		run(`home-manager build --flake /etc/nixos`)
-		update_report = read(`nox-update --quiet /nix/var/nix/profiles/per-user/mzhukov/home-manager result`, String)
+		update_report = read(`nix store diff-closures /nix/var/nix/profiles/per-user/mzhukov/home-manager result/`, String)
 	end
 
 
@@ -25,13 +25,6 @@ mktempdir() do path
 
 	println("---")
 
-	if "-v" in ARGS
-		print(update_report)
-	else
-		run(pipeline(IOBuffer(update_report),
-		             `grep -v '\.drv : $'`,
-		             `sed 's|^ */nix/store/[a-z0-9]*-||'`,
-		             `sort -u`))
-	end
+	print(update_report)
 end
 
