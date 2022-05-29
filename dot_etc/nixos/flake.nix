@@ -17,8 +17,7 @@
 
 {
   inputs = {
-    # nixpkgs.url = "nixpkgs/nixos-22.05";
-    nixpkgs.url = "nixpkgs/release-22.05";
+    nixpkgs.url = "nixpkgs/nixos-22.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     # nixpkgs-trunk.url = "nixpkgs/master";
 
