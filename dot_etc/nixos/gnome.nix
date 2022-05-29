@@ -25,7 +25,7 @@
               name = "pr-25.patch";
               url =
                 "https://patch-diff.githubusercontent.com/raw/PaperWM-community/PaperWM/pull/25.patch";
-              sha256 = "sha256-ISIL3bmNICf6I91LxGGmNXhIyehEF+7W9gfL8bq+g6M=";
+              sha256 = "sha256-N66a0c0doKN9km2uktFpbYVDEaD0H6seotMv81XUr04=";
             })
           ];
         });
