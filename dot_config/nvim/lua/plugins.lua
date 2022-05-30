@@ -838,6 +838,17 @@ return packer.startup {
                 }
             end,
         }
+
+        use {
+            'lukas-reineke/indent-blankline.nvim',
+            config = function()
+                require('indent_blankline').setup {
+                    space_char_blankline = ' ',
+                    show_current_context = false,
+                    show_current_context_start = false,
+                }
+            end,
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
