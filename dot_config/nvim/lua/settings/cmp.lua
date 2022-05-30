@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
     local cmp = require 'cmp'
     local lspkind = require 'lspkind'
+    local luasnip = require 'luasnip'
     local source_mapping = {
         buffer = '[Buffer]',
         nvim_lsp = '[LSP]',
@@ -46,7 +47,7 @@ function M.setup()
                 { 'i' }
             ),
             ['<c-space>'] = cmp.mapping {
-                i = cmp.mapping.complete(),
+                i = cmp.mapping.complete {},
                 c = function(
                     _ --[[fallback]]
                 )
@@ -54,6 +55,8 @@ function M.setup()
                         if not cmp.confirm { select = true } then
                             return
                         end
+                    elseif luasnip.expand_or_locally_jumpable() then
+                        luasnip.expand_or_jump()
                     else
                         cmp.complete()
                     end

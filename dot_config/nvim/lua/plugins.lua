@@ -53,19 +53,19 @@ return packer.startup {
             requires = { 'nvim-lua/plenary.nvim' },
         }
 
-        use 'hrsh7th/cmp-nvim-lsp' -- language server protocol
-        use 'hrsh7th/cmp-buffer' -- completion from current buffer
-        use 'saadparwaiz1/cmp_luasnip' -- completion from snippets
-        use 'onsails/lspkind-nvim' -- print completion source in menu
         use {
             'L3MON4D3/LuaSnip',
             config = function()
                 require('settings.luasnip').setup()
             end,
         } -- snippet engine
+        use 'hrsh7th/nvim-cmp'
+        use 'hrsh7th/cmp-nvim-lsp' -- language server protocol
+        use 'hrsh7th/cmp-buffer' -- completion from current buffer
+        use 'saadparwaiz1/cmp_luasnip' -- completion from snippets
+        use 'onsails/lspkind-nvim' -- print completion source in menu
         use 'hrsh7th/cmp-path' -- completion for filesystem
         use { 'tzachar/cmp-tabnine', run = './install.sh' } -- tabnine
-        use 'hrsh7th/nvim-cmp'
 
         use 'wsdjeg/vim-fetch'
 
