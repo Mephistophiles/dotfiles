@@ -849,6 +849,8 @@ return packer.startup {
                 }
             end,
         }
+
+        use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
