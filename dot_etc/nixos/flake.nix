@@ -25,7 +25,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager }:
+  outputs = inputs:
     let
       inherit (nixpkgs) lib;
       unfreePredicate = pkg:
@@ -34,8 +34,14 @@
           "rescuetime"
           "slack"
           "vscode"
+          "teams"
           "zoom"
         ];
+
+      nixpkgs = inputs.nixpkgs;
+      nixpkgs-unstable = inputs.nixpkgs-unstable;
+      # nixpkgs-trunk = inputs.nixpkgs-trunk;
+      home-manager = inputs.home-manager;
 
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
@@ -43,8 +49,8 @@
           config.allowUnfreePredicate = unfreePredicate;
         };
         # trunk = import nixpkgs-trunk {
-        # system = "x86_64-linux";
-        # config.allowUnfreePredicate = unfreePredicate;
+        #   system = "x86_64-linux";
+        #   config.allowUnfreePredicate = unfreePredicate;
         # };
       };
       nixpkgs-overlay = {

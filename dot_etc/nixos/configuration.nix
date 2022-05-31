@@ -319,6 +319,7 @@ in {
     # social
     unstable.rocketchat-desktop
     slack
+    teams
     zoom-us
   ];
 

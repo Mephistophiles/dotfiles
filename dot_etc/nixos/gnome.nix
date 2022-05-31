@@ -56,9 +56,10 @@
   environment.systemPackages = with pkgs; [
     gnome3.adwaita-icon-theme
     gnomeExtensions.caffeine
+    unstable.gnomeExtensions.cpufreq
     gnomeExtensions.paperwm
     gnomeExtensions.system-monitor
-    gnomeExtensions.vertical-overview
+    unstable.gnomeExtensions.vertical-overview
     unstable.gnomeExtensions.cleaner-overview
   ];
 }
