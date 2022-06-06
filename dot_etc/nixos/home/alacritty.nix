@@ -99,7 +99,8 @@ let
     };
   };
 
-in {
+in
+{
   programs = {
     alacritty = {
       enable = true;

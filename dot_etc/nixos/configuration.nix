@@ -8,8 +8,10 @@
 let
   mypkgs = pkgs.callPackage pkgs/default.nix { inherit pkgs; };
   graphics = "gnome";
-in {
-  imports = [ # Include the results of the hardware scan.
+in
+{
+  imports = [
+    # Include the results of the hardware scan.
     ./variables.nix
     ./home/vault.nix
     ./hardware-configuration.nix
@@ -80,9 +82,9 @@ in {
     cron = {
       enable = true;
       systemCronJobs = [
-        "*/5 * * * *	mzhukov	 /home/mzhukov/.etc/sync.sh"
-        "*/5 * * * *	mzhukov	 cat ~/.config/starship.toml > ~/.dotfiles/dot_config/readonly_starship.toml"
-        "*/5 * * * *	mzhukov	 cat ~/.config/alacritty/alacritty.yml > ~/.dotfiles/dot_config/alacritty/alacritty.yml"
+        "*/5 * * * *  mzhukov   /home/mzhukov/.etc/sync.sh"
+        "*/5 * * * *  mzhukov   cat ~/.config/starship.toml > ~/.dotfiles/dot_config/readonly_starship.toml"
+        "*/5 * * * *  mzhukov   cat ~/.config/alacritty/alacritty.yml > ~/.dotfiles/dot_config/alacritty/alacritty.yml"
       ];
     };
 
@@ -181,7 +183,7 @@ in {
     unstable.cargo-diet
     unstable.cargo-edit
     unstable.cargo-expand
-    unstable.cargo-generate
+    # unstable.cargo-generate
     unstable.cargo-outdated
     unstable.cargo-release
     unstable.cargo-tarpaulin
@@ -222,6 +224,7 @@ in {
     thunderbird
     unstable.rescuetime
     unstable.tdesktop
+    unstable.ulauncher
 
     # text editors
     (unstable.neovim.override { vimAlias = true; })
@@ -270,7 +273,6 @@ in {
     deadnix
     nix-index
     nix-prefetch
-    nixfmt
     nixos-option
     statix
     unstable.home-manager

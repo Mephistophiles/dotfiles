@@ -57,7 +57,8 @@
         config.allowUnfreePredicate = unfreePredicate;
         overlays = [ overlay-unstable ];
       };
-    in {
+    in
+    {
       homeConfigurations = {
         mzhukov = home-manager.lib.homeManagerConfiguration {
           system = "x86_64-linux";
@@ -70,6 +71,8 @@
           };
         };
       };
+
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
 
       nixosConfigurations.mzhukov-laptop = lib.nixosSystem {
         system = "x86_64-linux";

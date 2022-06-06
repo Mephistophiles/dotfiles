@@ -7,7 +7,8 @@ let
   version = "3.0.3";
   name = "${pname}-${version}";
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit name;
   inherit version;
 
