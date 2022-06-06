@@ -274,6 +274,7 @@ in
     nix-index
     nix-prefetch
     nixos-option
+    nixpkgs-fmt
     statix
     unstable.home-manager
     unstable.nixpkgs-review
