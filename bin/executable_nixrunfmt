@@ -1,35 +1,37 @@
 #!/usr/bin/env julia
 
-uid = @ccall getuid()::Cint
-
-search_place = "$(homedir())/.config/nixpkgs/"
-
-if uid == 0
-	search_place = "/etc/nixos/"
+function copy_nix_files(from, to, dry_run=false)
+	if dry_run
+		run(`rsync --dry-run --archive --verbose --include='*/' --include='*.nix' --exclude='*' $from/ $to`)
+	else
+		run(`rsync --archive --verbose --include='*/' --include='*.nix' --exclude='*' $from/ $to`)
+	end
 end
 
-for file in readlines(`find "$search_place" -name '*.nix'`)
-	mktempdir() do tmpdir
-		SRC = "$file"
-		DST = "$tmpdir/$(basename(file))"
+uid = @ccall getuid()::Cint
 
-		@debug("'$SRC' => '$DST'")
-		cp(SRC, DST)
-		@debug("nixfmt '$DST'")
-		run(`nixfmt "$DST"`)
+search_place = "/etc/nixos/"
 
-		if success(`cmp --quiet "$SRC" "$DST"`)
-			println("$SRC: Nothing to do")
+if uid != 0
+	error("Invalid permissions: you must be root")
+end
+
+mktempdir() do before
+	mktempdir() do after
+		copy_nix_files(search_place, before)
+		copy_nix_files(search_place, after)
+
+		run(`nixpkgs-fmt $after`)
+
+		status = run(ignorestatus(pipeline(`diff --recursive -U3 $before $after`, `delta --paging never`)))
+		println("continue? ")
+
+		try
+			readline()
+		catch
 			return
 		end
 
-		try
-			run(`delta --paging=never "$SRC" "$DST"`)
-		catch
-		end
-		println("$SRC: continue? ")
-		readline()
-		mv(DST, SRC; force=true)
-		println("$SRC: done")
+		copy_nix_files(after, search_place)
 	end
 end
