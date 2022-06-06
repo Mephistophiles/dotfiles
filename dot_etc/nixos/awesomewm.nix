@@ -14,8 +14,5 @@
     };
   };
   programs.slock.enable = true;
-  environment.systemPackages = with pkgs; [
-    unstable.flameshot
-    unstable.ulauncher
-  ];
+  environment.systemPackages = with pkgs; [ unstable.flameshot ];
 }
