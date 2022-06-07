@@ -13,27 +13,6 @@ local function number_toggle()
     end
 end
 
-local function swap_list_chars()
-    if not vim.g.listchars_mode then
-        vim.g.listchars_mode = 1
-    end
-
-    if vim.g.listchars_mode == 0 then
-        vim.o.list = true
-        vim.g.listchars_mode = 1
-        vim.notify 'Enable list mode'
-    elseif vim.g.listchars_mode == 1 then
-        vim.opt.listchars:append { space = '·', eol = '$' }
-        vim.g.listchars_mode = 2
-        vim.notify 'Enable verbose list mode'
-    elseif vim.g.listchars_mode == 2 then
-        vim.opt.listchars:remove { 'space', 'eol' }
-        vim.o.list = false
-        vim.g.listchars_mode = 0
-        vim.notify 'Disable list mode'
-    end
-end
-
 local function paste_git_signoff()
     local username = io.popen('git config user.name', 'r'):read '*l'
     local email = io.popen('git config user.email', 'r'):read '*l'
@@ -47,10 +26,6 @@ end
 vim.keymap.set({ 'n', 'i' }, '<F2>', function()
     number_toggle()
 end, { desc = 'Toggle numbers/relativenumbers' })
-
-vim.keymap.set('n', '<F4>', function()
-    swap_list_chars()
-end, { desc = 'Show/Hide whitespaces' })
 
 -- toggle spelling
 vim.keymap.set('n', '<F7>', [[:set spell!<CR>]], { desc = 'Toggle spelling' })
