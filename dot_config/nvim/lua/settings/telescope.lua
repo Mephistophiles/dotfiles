@@ -17,11 +17,16 @@ function M.mappings()
         telescope.find_files(themes.get_ivy {})
     end, { desc = 'Fuzzy find files in project' })
     vim.keymap.set('n', '<C-b>', function()
-        telescope.buffers(themes.get_ivy { shorten_path = false })
+        telescope.buffers(themes.get_ivy {})
     end, { desc = 'Fuzzy find opened buffers' })
     vim.keymap.set('n', '<leader>lg', function()
         telescope.live_grep(themes.get_ivy {})
     end, { desc = 'Fuzzy find with live grep' })
+    vim.keymap.set('n', '<M-/>', function()
+        local opts = themes.get_ivy {}
+        opts.previewer = false
+        telescope.current_buffer_fuzzy_find(opts)
+    end, { desc = 'Fuzzy find in current buffer' })
 
     vim.keymap.set('n', '<leader>en', function()
         local opts_with_preview, opts_without_preview
