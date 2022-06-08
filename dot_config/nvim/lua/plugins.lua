@@ -743,27 +743,6 @@ return packer.startup {
         use { 'timcharper/textile.vim', ft = 'textile' }
 
         use {
-            'rcarriga/vim-ultest',
-            cmd = { 'Ultest', 'UltestSummary', 'UltestNearest', 'TestFile', 'TestNearest' },
-            requires = { 'vim-test/vim-test' },
-            run = ':UpdateRemotePlugins',
-            keys = {
-                '<leader>tf',
-                '<leader>tn',
-                '<leader>tl',
-                '<leader>ts',
-                '<leader>to',
-            },
-            config = function()
-                vim.keymap.set('n', '<leader>tf', '<Plug>(ultest-run-file)', { desc = 'ULTest: run all tests in file' })
-                vim.keymap.set('n', '<leader>tn', '<Plug>(ultest-run-nearest)', { desc = 'ULTest: run nearest test' })
-                vim.keymap.set('n', '<leader>tl', '<Plug>(ultest-run-last)', { desc = 'ULTest: run last test' })
-                vim.keymap.set('n', '<leader>ts', '<Plug>(ultest-summary-toggle)', { desc = 'ULTest: toggle summary' })
-                vim.keymap.set('n', '<leader>to', '<Plug>(ultest-output-show)', { desc = 'ULTest: show test output' })
-            end,
-        }
-
-        use {
             'norcalli/nvim-colorizer.lua',
             config = function()
                 require('colorizer').setup()
@@ -886,6 +865,57 @@ return packer.startup {
                     local a = require 'align'
                     a.operator(a.align_to_char, { reverse = true })
                 end, o 'Align: aling a paragraph to 1 character, looking left')
+            end,
+        }
+
+        use {
+            'rcarriga/neotest',
+            cmd = { 'Neotest', 'NeotestRun' },
+            module = 'neotest',
+            requires = {
+                'nvim-lua/plenary.nvim',
+                'rcarriga/neotest-plenary',
+                -- 'rcarriga/neotest-vim-test',
+                'nvim-treesitter/nvim-treesitter',
+            },
+            setup = function()
+                vim.api.nvim_create_user_command('Neotest', function()
+                    require('neotest').run.run()
+                end, { desc = 'Neotest: run nearest test' })
+                vim.api.nvim_create_user_command('NeotestFile', function()
+                    require('neotest').run.run(vim.fn.expand '%')
+                end, { desc = 'Neotest: run the current file' })
+                vim.api.nvim_create_user_command('NeotestStop', function()
+                    require('neotest').run.stop()
+                end, { desc = 'Neotest: stop the nearest test' })
+
+                vim.keymap.set('n', '<leader>tf', function()
+                    require('neotest').run.run(vim.fn.expand '%')
+                end, { desc = 'Neotest: run all tests in file' })
+
+                vim.keymap.set('n', '<leader>tn', function()
+                    require('neotest').run.run()
+                end, { desc = 'Neotest: run nearest test' })
+
+                vim.keymap.set('n', '<leader>tl', function()
+                    require('neotest').run.run_last()
+                end, { desc = 'Neotest: run last test' })
+                vim.keymap.set('n', '<leader>ts', function()
+                    require('neotest').summary.toggle()
+                end, { desc = 'Neotest: toggle summary' })
+                vim.keymap.set('n', '<leader>to', function()
+                    require('neotest').output.open { enter = true }
+                end, { desc = 'Neotest: show test output' })
+            end,
+            config = function()
+                require('neotest').setup {
+                    adapters = {
+                        require 'neotest-plenary',
+                        -- require 'neotest-vim-test' {
+                        --     ignore_file_types = { 'vim', 'lua' },
+                        -- },
+                    },
+                }
             end,
         }
     end,
