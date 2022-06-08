@@ -388,16 +388,6 @@ return packer.startup {
         }
 
         use {
-            'godlygeek/tabular',
-            cmd = { 'Tabularize' },
-            opt = true,
-            setup = function()
-                vim.keymap.set('n', '<leader>a', ':Tabularize /', { desc = 'Tabularize: Align by pattern' })
-                vim.keymap.set('v', '<leader>a', ':Tabularize /', { desc = 'Tabularize: Align by pattern' })
-            end,
-        }
-
-        use {
             'sindrets/diffview.nvim',
             requires = 'kyazdani42/nvim-web-devicons',
             cmd = { 'DiffviewOpen' },
@@ -855,6 +845,47 @@ return packer.startup {
             'johmsalas/text-case.nvim',
             config = function()
                 require('textcase').setup {}
+            end,
+        }
+
+        use {
+            'Vonr/align.nvim',
+            keys = {
+                { 'x', '<leader>aa' },
+                { 'x', '<leader>as' },
+                { 'x', 'aw' },
+                { 'x', 'ar' },
+                { 'n', 'gaw' },
+                { 'n', 'gaa' },
+            },
+            config = function()
+                local function o(desc)
+                    return { noremap = true, silent = true, desc = desc }
+                end
+
+                vim.keymap.set('x', '<leader>aa', function()
+                    require('align').align_to_char(1, true)
+                end, o 'Align: aligns to 1 character, looking left')
+                vim.keymap.set('x', '<leader>as', function()
+                    require('align').align_to_char(2, true, true)
+                end, o 'Align: aligns to 2 characters, looking left and with previews')
+                vim.keymap.set('x', 'aw', function()
+                    require('align').align_to_string(false, true, true)
+                end, o 'Align: aligns to a string, looking left and with previews')
+
+                vim.keymap.set('x', 'ar', function()
+                    require('align').align_to_string(true, true, true)
+                end, o 'Align: aligns to a Lua pattern, looking left and with previews')
+
+                vim.keymap.set('n', 'gaw', function()
+                    local a = require 'align'
+                    a.operator(a.align_to_string, { is_pattern = false, reverse = true, preview = true })
+                end, o 'Align: align a paragraph to a string, looking left and with previews')
+
+                vim.keymap.set('n', 'gaa', function()
+                    local a = require 'align'
+                    a.operator(a.align_to_char, { reverse = true })
+                end, o 'Align: aling a paragraph to 1 character, looking left')
             end,
         }
     end,
