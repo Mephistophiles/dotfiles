@@ -24,7 +24,6 @@ return packer.startup {
 
         -- extended repeat ('.') for another plugins
         use 'tpope/vim-repeat'
-        use 'tpope/vim-abolish'
 
         use {
             'gpanders/editorconfig.nvim',
@@ -851,6 +850,13 @@ return packer.startup {
         }
 
         use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
+
+        use {
+            'johmsalas/text-case.nvim',
+            config = function()
+                require('textcase').setup {}
+            end,
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
