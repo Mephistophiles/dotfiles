@@ -789,6 +789,24 @@ return packer.startup {
         }
 
         use {
+            'koenverburg/peepsight.nvim',
+            cmd = { 'PeepsightEnable', 'PeepsightDisable' },
+            config = function()
+                require('peepsight').setup {
+                    -- go
+                    'function_declaration',
+                    'method_declaration',
+                    'func_literal',
+
+                    -- typescript
+                    'arrow_function',
+                    'function_declaration',
+                    'generator_function_declaration',
+                }
+            end,
+        }
+
+        use {
             'dhruvasagar/vim-table-mode',
             setup = function()
                 vim.keymap.set('n', '<leader>tm', ':TableModeToggle<cr>', { desc = 'TableMode: toggle' })
