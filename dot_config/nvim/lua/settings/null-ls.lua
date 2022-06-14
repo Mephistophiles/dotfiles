@@ -32,9 +32,11 @@ function M.setup()
         null_ls.builtins.formatting.prettier,
 
         -- diagnostics
-        null_ls.builtins.diagnostics.jsonlint,
+        null_ls.builtins.diagnostics.cppcheck,
         null_ls.builtins.diagnostics.eslint,
         null_ls.builtins.diagnostics.gitlint,
+        null_ls.builtins.diagnostics.jsonlint,
+        null_ls.builtins.diagnostics.staticcheck,
     }
 
     null_ls.setup {
