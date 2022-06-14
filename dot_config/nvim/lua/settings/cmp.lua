@@ -71,7 +71,8 @@ function M.setup()
         sources = {
             { name = 'luasnip' }, -- snippet engine
             { name = 'nvim_lsp' }, -- language server protocol
-            { name = 'cmp_tabnine' }, -- tabnine
+            -- { name = 'cmp_tabnine' }, -- tabnine
+            { name = 'copilot' }, -- copilot
             { name = 'path' }, -- completion from FS
             { name = 'buffer', keyword_length = 5 }, -- completion from buffer
             { name = 'crates' }, -- crates
