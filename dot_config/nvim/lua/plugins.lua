@@ -937,6 +937,30 @@ return packer.startup {
                 }
             end,
         }
+
+        use {
+            'nvim-neorg/neorg',
+            ft = 'norg',
+            after = 'nvim-treesitter',
+            config = function()
+                require('neorg').setup {
+                    load = {
+                        ['core.defaults'] = {},
+                        ['core.norg.completion'] = { config = { engine = 'nvim-cmp' } },
+                        ['core.norg.concealer'] = {},
+                        ['core.norg.dirman'] = {
+                            config = {
+                                workspaces = {
+                                    work = '~/notes/work',
+                                    home = '~/notes/home',
+                                },
+                            },
+                        },
+                    },
+                }
+            end,
+            requires = 'nvim-lua/plenary.nvim',
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
