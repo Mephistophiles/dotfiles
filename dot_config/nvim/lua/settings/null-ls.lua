@@ -71,9 +71,9 @@ function M.setup()
                     [[:'<,'>lua vim.lsp.buf.range_formatting()<cr>]],
                     { silent = true, buffer = true, desc = 'Format current selecton in document' }
                 )
-
-                lspconfig.key_bindings(client)
             end
+
+            lspconfig.key_bindings(client)
         end,
     }
 end
