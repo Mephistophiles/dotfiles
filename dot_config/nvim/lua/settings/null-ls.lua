@@ -31,12 +31,20 @@ function M.setup()
         null_ls.builtins.formatting.eslint,
         null_ls.builtins.formatting.prettier,
 
+        -- code actions
+        null_ls.builtins.code_actions.eslint,
+        null_ls.builtins.code_actions.gitrebase,
+        null_ls.builtins.code_actions.gitsigns,
+        null_ls.builtins.code_actions.shellcheck,
+
         -- diagnostics
         null_ls.builtins.diagnostics.cppcheck,
         null_ls.builtins.diagnostics.eslint,
         null_ls.builtins.diagnostics.gitlint,
         null_ls.builtins.diagnostics.jsonlint,
+        null_ls.builtins.diagnostics.shellcheck,
         null_ls.builtins.diagnostics.staticcheck,
+        null_ls.builtins.diagnostics.trail_space,
     }
 
     null_ls.setup {
