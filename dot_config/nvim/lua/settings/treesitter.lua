@@ -55,6 +55,42 @@ function M.config()
                     ['if'] = '@function.inner',
                     ['ac'] = '@call.outer',
                     ['ic'] = '@call.inner',
+                    ['al'] = '@loop.outer',
+                    ['il'] = '@loop.inner',
+                    ['aa'] = '@parameter.outer',
+                    ['ia'] = '@parameter.inner',
+                    ['i<space>'] = '@statement.outer',
+                },
+            },
+            swap = {
+                enable = true,
+                swap_next = {
+                    ['<M-right>'] = '@parameter.inner',
+                },
+                swap_previous = {
+                    ['<M-left>'] = '@parameter.inner',
+                },
+            },
+            move = {
+                enable = true,
+                set_jumps = true, -- whether to set jumps in the jumplist
+                goto_next_start = {
+                    [']]'] = '@block.outer',
+                    [']f'] = '@function.outer',
+                    [']p'] = '@parameter.outer',
+                },
+                goto_next_end = {
+                    [']F'] = '@function.outer',
+                    [']P'] = '@parameter.outer',
+                },
+                goto_previous_start = {
+                    ['[['] = '@block.outer',
+                    ['[f'] = '@function.outer',
+                    ['[p'] = '@parameter.outer',
+                },
+                goto_previous_end = {
+                    ['[F'] = '@function.outer',
+                    ['[P'] = '@parameter.outer',
                 },
             },
         },

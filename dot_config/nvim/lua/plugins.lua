@@ -339,32 +339,6 @@ return packer.startup {
                     module = 'tsht',
                 },
                 {
-                    'drybalka/tree-climber.nvim',
-                    config = function()
-                        ---@param desc string
-                        ---@return table
-                        local key = function(desc)
-                            return { noremap = true, silent = true, desc = desc }
-                        end
-                        vim.keymap.set(
-                            'n',
-                            '<M-o>',
-                            require('tree-climber').goto_parent,
-                            key 'TreeClimber: goto parent'
-                        )
-                        vim.keymap.set('n', '<M-i>', require('tree-climber').goto_child, key 'TreeClimber: goto child')
-                        vim.keymap.set('n', '<M-n>', require('tree-climber').goto_next, key 'TreeClimber: goto next')
-                        vim.keymap.set('n', '<M-p>', require('tree-climber').goto_prev, key 'TreeClimber: goto prev')
-                        vim.keymap.set(
-                            'n',
-                            '<M-right>',
-                            require('tree-climber').swap_next,
-                            key 'TreeClimber: swap next'
-                        )
-                        vim.keymap.set('n', '<M-left>', require('tree-climber').swap_prev, key 'TreeClimber: swap prev')
-                    end,
-                },
-                {
                     'nvim-treesitter/nvim-treesitter-refactor',
                 },
                 {
