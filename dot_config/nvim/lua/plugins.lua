@@ -830,6 +830,13 @@ return packer.startup {
                 { 'n', 'gaw' },
                 { 'n', 'gaa' },
             },
+            setup = function()
+                local due = os.time { year = 2022, month = 6, day = 20 }
+
+                if os.difftime(due, os.time()) < 0 then
+                    vim.notify 'CHECK THIS PLUGIN or delete'
+                end
+            end,
             config = function()
                 local function o(desc)
                     return { noremap = true, silent = true, desc = desc }
