@@ -24,8 +24,18 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 -- External libraries
+local unistd = require('posix.unistd')
 local scratch = require("scratch")
 local lfs = require("lfs") -- filesystem library
+
+
+-- CONSTS
+local AWESOMEWM_DIR = gears.filesystem.get_configuration_dir()
+local WALLPAPERS_DIR = AWESOMEWM_DIR .. "/wallpapers/"
+local USER_ID = unistd.getuid()
+local XIDLEHOOK_SOCKET = string.format("/var/run/user/%d/xidlehook.socket", USER_ID)
+local CAFFEINE_OFF_ICON = string.format("%s/icons/my-caffeine-off-symbolic.svg", AWESOMEWM_DIR)
+local CAFFEINE_ON_ICON = string.format("%s/icons/my-caffeine-on-symbolic.svg", AWESOMEWM_DIR)
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -58,14 +68,12 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 
-local awesomewm_dir = gears.filesystem.get_configuration_dir()
 local wallpapers = (function()
     local wallpapers = {}
-    local wallpapers_dir = awesomewm_dir .. "/wallpapers/"
 
-    for file in lfs.dir(wallpapers_dir) do
+    for file in lfs.dir(WALLPAPERS_DIR) do
         if file ~= "." and file ~= ".." then
-            table.insert(wallpapers, wallpapers_dir .. file)
+            table.insert(wallpapers, WALLPAPERS_DIR .. file)
         end
     end
 
@@ -73,10 +81,10 @@ local wallpapers = (function()
 end)()
 
 math.randomseed(os.time())
-local wallpaper = wallpapers[math.random(1, #wallpapers)]
+local selected_wallpaper = wallpapers[math.random(1, #wallpapers)]
 
 beautiful.wallpaper = function()
-    return wallpaper
+    return selected_wallpaper
 end
 
 local terminal = "kitty"
@@ -214,6 +222,43 @@ local SKIP = setmetatable({}, {
     end
 })
 
+local function caffeine_widget_toggle_active(widget, active)
+    local needed_active
+    local needed_icon
+    local needed_action
+
+    if active ~= nil then
+        needed_active = active
+    else
+        needed_active = not widget.data.active
+    end
+
+    if needed_active then
+        needed_icon = CAFFEINE_ON_ICON
+        needed_action = "Disable"
+    else
+        needed_icon = CAFFEINE_OFF_ICON
+        needed_action = "Enable"
+    end
+
+    awful.spawn({ "xidlehook-client", "--socket", XIDLEHOOK_SOCKET, "control", "--action", needed_action })
+
+    widget.data.active = needed_active
+    widget.image = needed_icon
+end
+
+local caffeine_widget = wibox.widget {
+    data = {
+        active = false
+    },
+    widget = wibox.widget.imagebox
+}
+caffeine_widget_toggle_active(caffeine_widget, false)
+
+caffeine_widget:connect_signal("button::press", function()
+    caffeine_widget_toggle_active(caffeine_widget)
+end)
+
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local mem_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
 
@@ -296,7 +341,7 @@ end
 
 local redminer_widget = has_redminer()
         and awful.widget.watch(
-            string.format("%s/redminer.sh", awesomewm_dir),
+            string.format("%s/redminer.sh", AWESOMEWM_DIR),
             5,
             function(widget, stdout)
                 if #stdout == 0 then
@@ -310,7 +355,7 @@ local redminer_widget = has_redminer()
     or SKIP
 
 local current_dm_version = awful.widget.watch(
-    { string.format("%s/dm_version.sh", awesomewm_dir) },
+    { string.format("%s/dm_version.sh", AWESOMEWM_DIR) },
     5,
     function(widget, stdout)
         if stdout and #stdout > 0 then
@@ -419,6 +464,7 @@ awful.screen.connect_for_each_screen(function(s)
         current_dm_version,
         redminer_widget,
         pushlocker_widget,
+        caffeine_widget,
         brightness_widget({program = 'brightnessctl'}),
         -- volume_widget({widget_type = 'arc', device = 'default'}),
         cpu_temp_widget,
@@ -511,7 +557,7 @@ globalkeys = gears.table.join(
         {description = "go back", group = "client"}),
 
     -- Standard program
-    awful.key({modkey,            }, [[\]], function() awful.spawn(awesomewm_dir .. 'awesome-lock.sh lock 2') end,
+    awful.key({modkey,            }, [[\]], function() awful.spawn(AWESOMEWM_DIR .. 'awesome-lock.sh lock 2') end,
               {description = 'lock a screen', group = 'launcher'}),
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
@@ -851,10 +897,11 @@ for _, prg in ipairs(autorun) do
     awful.spawn.once(prg)
 end
 
-local lock_scr = string.format("%sawesome-lock.sh", awesomewm_dir)
+local lock_scr = string.format("%sawesome-lock.sh", AWESOMEWM_DIR)
 awful.spawn("pkill xidlehook")
 awful.spawn.once({
     "xidlehook",
+    "--socket", XIDLEHOOK_SOCKET,
     "--not-when-fullscreen",
     "--timer", "60",
     lock_scr .. " lock 1",

@@ -4,7 +4,7 @@ set SCRIPT_DIR (realpath (dirname (status --current-filename)))
 
 function screen_lock
 	# Lock screen displaing this image
-	slock
+	i3lock -c 000000
 end
 
 function lock
