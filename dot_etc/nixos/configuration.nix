@@ -7,7 +7,7 @@
 
 let
   mypkgs = pkgs.callPackage pkgs/default.nix { inherit pkgs; };
-  graphics = "gnome";
+  graphics = "awesomewm";
 in
 {
   imports = [
@@ -203,7 +203,6 @@ in
     unstable.simple-http-server
     unstable.watchexec
     unstable.xh
-    unstable.xidlehook
     unstable.zoxide
 
     # gui

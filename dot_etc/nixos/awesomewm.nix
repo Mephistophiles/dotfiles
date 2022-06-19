@@ -9,10 +9,9 @@
       };
       windowManager.awesome = {
         enable = true;
-        luaModules = with pkgs.luaPackages; [ luafilesystem ];
+        luaModules = with pkgs.luaPackages; [ luafilesystem luaposix ];
       };
     };
   };
-  programs.slock.enable = true;
-  environment.systemPackages = with pkgs; [ unstable.flameshot ];
+  environment.systemPackages = with pkgs; [ unstable.flameshot unstable.xidlehook unstable.i3lock ];
 }
