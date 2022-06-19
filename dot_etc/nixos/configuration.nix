@@ -177,16 +177,12 @@ in
     # rust stuff
     unstable.alacritty
     unstable.bat
-    unstable.cargo-audit
     unstable.cargo-bloat
     unstable.cargo-cache
     unstable.cargo-diet
     unstable.cargo-edit
     unstable.cargo-expand
-    # unstable.cargo-generate
     unstable.cargo-outdated
-    unstable.cargo-release
-    unstable.cargo-tarpaulin
     unstable.cargo-udeps
     unstable.cargo-watch
     unstable.cargo-whatfeatures
@@ -321,9 +317,6 @@ in
 
     # social
     unstable.rocketchat-desktop
-    slack
-    teams
-    zoom-us
   ];
 
   documentation.dev.enable = true;

@@ -32,10 +32,7 @@
         builtins.elem (lib.getName pkg) [
           "clion"
           "rescuetime"
-          "slack"
           "vscode"
-          "teams"
-          "zoom"
         ];
 
       nixpkgs = inputs.nixpkgs;
