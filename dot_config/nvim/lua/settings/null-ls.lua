@@ -28,8 +28,12 @@ function M.setup()
         }, -- json
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.rustfmt,
-        null_ls.builtins.formatting.eslint,
-        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.formatting.eslint.with {
+            disabled_filetypes = { 'json' },
+        },
+        null_ls.builtins.formatting.prettier.with {
+            disabled_filetypes = { 'json' },
+        },
 
         -- code actions
         null_ls.builtins.code_actions.eslint,
