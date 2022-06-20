@@ -283,11 +283,13 @@ pushlocker_widget:buttons(awful.util.table.join(table.unpack({
     end),
 })))
 
-local get_pushlocker_text = function()
+local update_pushlocker_text = function()
     local ip_route_handle = io.popen("ip route list exact 192.168.161.0/24", "r")
 
     if ip_route_handle == nil then
-        return nil
+        pushlocker_widget.text = ""
+        pushlocker_widget.visible = false
+        return
     end
 
     local ip_route_out = ip_route_handle:read("*a")
@@ -296,43 +298,32 @@ local get_pushlocker_text = function()
     ip_route_handle:close()
 
     if not has_vpn then
-        return nil
-    end
-
-    local handle = io.popen("timeout 2s pushlockctl check")
-
-    if not handle then
-        return nil
-    end
-
-    local res = handle:read("*l")
-    local ret = select(3, handle:close())
-
-    if res == "Unknown error" or ret == 101 or ret == 124 then
-        return "🔥 Server Error"
-    elseif ret == 0 then
-        return "⚡️"
-    elseif ret == 1 then
-        return "🚧 " .. res
-    elseif ret == 2 then
-        return "👷 Locked by me"
-    elseif ret == 101 or ret == 124 then
-        return "🔥 Server Error"
-    end
-end
-
-local update_pushlocker = function()
-    local text = get_pushlocker_text()
-
-    if not text or text == "" then
         pushlocker_widget.text = ""
         pushlocker_widget.visible = false
-
         return
     end
 
-    pushlocker_widget.text = " " .. text .. " "
-    pushlocker_widget.visible = true
+    awful.spawn.easy_async("timeout 2s pushlockctl check", function(stdout, _, _, exit_code)
+        stdout = stdout:gsub("\n", "")
+
+        pushlocker_widget.visible = true
+
+        if stdout == "Unknown error" or exit_code == 101 or exit_code == 124 then
+            pushlocker_widget.text = " 🔥 Server Error "
+        elseif exit_code == 0 then
+            pushlocker_widget.text = " ⚡️ "
+        elseif exit_code == 1 then
+            pushlocker_widget.text = " 🚧 " .. stdout .. " "
+        elseif exit_code == 2 then
+            pushlocker_widget.text = " 👷 Locked by me "
+        elseif exit_code == 101 or exit_code == 124 then
+            pushlocker_widget.text = " 🔥 Server Error "
+        end
+    end)
+end
+
+local update_pushlocker = function()
+    update_pushlocker_text()
 end
 
 local has_redminer = function()
