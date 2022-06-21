@@ -25,6 +25,7 @@ require 'plugins'
 require('settings.rust-tools').setup()
 require('settings.lspconfig').setup()
 require('settings.cmp').setup()
+require('settings.review').setup()
 
 if ok then
     pcall(require, 'packer_compiled')
