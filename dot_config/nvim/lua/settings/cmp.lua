@@ -9,7 +9,6 @@ function M.setup()
         nvim_lsp = '[LSP]',
         luasnip = '[LuaSnip]',
         path = '[Path]',
-        cmp_tabnine = '[TabNine]',
         crates = '[Crates.io]',
     }
 
@@ -17,14 +16,7 @@ function M.setup()
         formatting = {
             format = function(entry, vim_item)
                 vim_item.kind = lspkind.presets.default[vim_item.kind]
-                local menu = source_mapping[entry.source.name]
-                if entry.source.name == 'cmp_tabnine' then
-                    if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-                        menu = entry.completion_item.data.detail .. ' ' .. menu
-                    end
-                    vim_item.kind = ''
-                end
-                vim_item.menu = menu
+                vim_item.menu = source_mapping[entry.source.name]
                 return vim_item
             end,
         },
@@ -70,7 +62,6 @@ function M.setup()
         },
         sources = {
             { name = 'luasnip' }, -- snippet engine
-            { name = 'cmp_tabnine' }, -- tabnine
             { name = 'nvim_lsp' }, -- language server protocol
             { name = 'neorg' },
             { name = 'path' }, -- completion from FS

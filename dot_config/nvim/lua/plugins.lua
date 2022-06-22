@@ -64,7 +64,6 @@ return packer.startup {
         use 'saadparwaiz1/cmp_luasnip' -- completion from snippets
         use 'onsails/lspkind-nvim' -- print completion source in menu
         use 'hrsh7th/cmp-path' -- completion for filesystem
-        use { 'tzachar/cmp-tabnine', run = './install.sh' } -- tabnine
 
         use 'wsdjeg/vim-fetch'
 
