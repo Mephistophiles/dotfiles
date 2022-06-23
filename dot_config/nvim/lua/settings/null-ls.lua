@@ -37,8 +37,6 @@ function M.setup()
 
         -- code actions
         null_ls.builtins.code_actions.eslint,
-        null_ls.builtins.code_actions.gitrebase,
-        null_ls.builtins.code_actions.gitsigns,
         null_ls.builtins.code_actions.shellcheck,
 
         -- diagnostics
@@ -48,7 +46,9 @@ function M.setup()
         null_ls.builtins.diagnostics.jsonlint,
         null_ls.builtins.diagnostics.shellcheck,
         null_ls.builtins.diagnostics.staticcheck,
-        null_ls.builtins.diagnostics.trail_space,
+        null_ls.builtins.diagnostics.trail_space.with {
+            disabled_filetypes = { 'patch', 'diff' },
+        },
     }
 
     null_ls.setup {
