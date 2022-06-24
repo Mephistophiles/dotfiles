@@ -261,6 +261,7 @@ end)
 
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local mem_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
+local top_mem_usage_widget = awful.widget.watch([[bash -c "ps -eo rss,comm --sort=-rss --no-header | head -1 | awk '$1>1048576' | numfmt --to=iec --from-unit=1024 --field 1 --padding 6"]], 15)
 
 local battery_widget = has_battery() and require("awesome-wm-widgets.batteryarc-widget.batteryarc")
     or SKIP
@@ -461,6 +462,7 @@ awful.screen.connect_for_each_screen(function(s)
         cpu_temp_widget,
         cpu_widget(),
         mem_widget(),
+        top_mem_usage_widget,
         battery_widget({show_current_level = true}),
         separator,
         mykeyboardlayout,
