@@ -226,6 +226,7 @@ in
     xfce.mousepad
     unstable.vscode
     # unstable.jetbrains.clion
+    unstable.obsidian
 
     # utils
     age
