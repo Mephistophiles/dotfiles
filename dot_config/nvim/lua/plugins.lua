@@ -120,6 +120,7 @@ return packer.startup {
         }
 
         use { 'tpope/vim-fugitive', cmd = { 'G', 'Git' }, opt = true }
+        use { 'TimUntersberger/neogit', cmd = { 'Neogit' }, requires = 'nvim-lua/plenary.nvim' }
 
         use {
             'echasnovski/mini.nvim', -- original author (blackCauldron7) has been deleted (unsupported repo)
