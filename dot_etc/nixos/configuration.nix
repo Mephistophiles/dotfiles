@@ -175,7 +175,6 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # rust stuff
-    unstable.alacritty
     unstable.bat
     unstable.cargo-bloat
     unstable.cargo-cache
@@ -224,10 +223,9 @@ in
     # text editors
     (unstable.neovim.override { vimAlias = true; })
     micro
-    python39Packages.pynvim
     xfce.mousepad
     unstable.vscode
-    unstable.jetbrains.clion
+    # unstable.jetbrains.clion
 
     # utils
     age
