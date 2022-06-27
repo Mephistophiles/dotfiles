@@ -47,7 +47,12 @@ function M.setup()
         null_ls.builtins.diagnostics.shellcheck,
         null_ls.builtins.diagnostics.staticcheck,
         null_ls.builtins.diagnostics.trail_space.with {
-            disabled_filetypes = { 'patch', 'diff' },
+            disabled_filetypes = {
+                'diff',
+                'git',
+                'gitcommit',
+                'patch',
+            },
         },
     }
 
