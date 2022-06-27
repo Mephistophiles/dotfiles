@@ -1,58 +1,41 @@
 local M = {}
+M.namespace = vim.api.nvim_create_namespace 'vim.lsp.review'
 
---- create a new quick fix item
---- @class QFItem
---- @field bufnr number
---- @field type 'E' | 'W' | 'I' | 'N' type of note
---- @field text string - text of note
---- @field lnum number - line number for start of note
---- @field end_lnum number - end of line for end of note
---- @field col number - column number for start of note
---- @field end_col number - column number for end of note
----
----@param bufnr number number of the buffer
----@param type 'E' | 'W' | 'I' | 'N' type of note
----@param text string text of note
----@return QFItem
-function M.create_qfitem(bufnr, type, text)
+function M.create_diagnostic_item(bufnr, severity, message)
     local start_pos = vim.api.nvim_buf_get_mark(0, [[<]])
     local end_pos = vim.api.nvim_buf_get_mark(0, [[>]])
 
     return {
         bufnr = bufnr,
-        type = type,
-        text = text,
-        lnum = start_pos[1],
-        end_lnum = end_pos[1],
-        col = start_pos[2] + 1,
-        end_col = end_pos[2] + 2,
+        severity = severity,
+        message = message,
+        lnum = start_pos[1] - 1,
+        end_lnum = end_pos[1] - 1,
+        col = start_pos[2],
+        end_col = end_pos[2] + 1,
     }
 end
 
 function M.append_note()
-    vim.ui.select({ 'E', 'W', 'I', 'N' }, { prompt = 'Select note level' }, function(choice)
+    vim.ui.select({ 'ERROR', 'HINT', 'INFO', 'WARN' }, { prompt = 'Select note severity' }, function(choice)
         vim.ui.input({ prompt = 'Enter note' }, function(input)
             local bufnr = vim.api.nvim_get_current_buf()
-            local item = M.create_qfitem(bufnr, choice, input)
-            local qflist = vim.fn.getqflist()
+            local item = M.create_diagnostic_item(bufnr, vim.diagnostic.severity[choice], input)
+            local diagnostics = vim.diagnostic.get(bufnr, { namespace = M.namespace })
 
-            table.insert(qflist, item)
-            vim.fn.setqflist(qflist)
-
-            vim.cmd 'cw'
+            table.insert(diagnostics, item)
+            vim.diagnostic.set(M.namespace, bufnr, diagnostics)
         end)
     end)
 end
 
----
----@param item QFItem
-local function dump_qfitem_to_string(item)
+local function dump_qflist_to_string(item)
     local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(item.bufnr), ':~:.')
     local error_mapping = {
         E = 'error',
-        W = 'warning',
+        N = 'hint',
         I = 'info',
-        N = 'note',
+        W = 'warn',
     }
 
     local line_range
@@ -67,7 +50,7 @@ local function dump_qfitem_to_string(item)
     if item.col == item.end_col then
         column_range = tostring(item.col)
     else
-        column_range = tostring(item.col) .. '-' .. tostring(item.end_col)
+        column_range = tostring(item.col) .. '-' .. tostring(item.end_col - 1)
     end
 
     return string.format(
@@ -80,16 +63,15 @@ local function dump_qfitem_to_string(item)
     )
 end
 
---- @return QFItem
-local function load_qfitem_from_string(s)
+local function load_diagnostic_from_string(s)
     local error_mapping = {
-        error = 'E',
-        warning = 'W',
-        info = 'I',
-        note = 'N',
+        error = vim.diagnostic.severity.ERROR,
+        hint = vim.diagnostic.severity.HINT,
+        info = vim.diagnostic.severity.INFO,
+        warn = vim.diagnostic.severity.WARN,
     }
 
-    local filename, line_info, text = table.unpack(vim.split(s, '|'))
+    local filename, line_info, message = table.unpack(vim.split(s, '|'))
     local lines, _, columns, type = table.unpack(vim.split(line_info, ' '))
     local line_start, line_end = table.unpack(vim.split(lines, '-'))
     local column_start, column_end = table.unpack(vim.split(columns, '-'))
@@ -103,12 +85,12 @@ local function load_qfitem_from_string(s)
 
     return {
         filename = filename,
-        lnum = tonumber(line_start),
-        end_lnum = tonumber(line_end),
+        lnum = tonumber(line_start) - 1,
+        end_lnum = tonumber(line_end) - 1,
         col = tonumber(column_start),
         end_col = tonumber(column_end),
-        type = error_mapping[type],
-        text = text,
+        severity = error_mapping[type],
+        message = message,
     }
 end
 
@@ -116,12 +98,9 @@ function M.dump_to_file()
     vim.ui.input(
         { default = 'code-review.txt', complete = '-complete=file_in_path', prompt = 'Select file name to dump' },
         function(input)
-            if vim.fn.filereadable(input) == '1' then
-                vim.notify('Failed to save file to ' .. input .. '. File exists!', vim.log.levels.ERROR)
-                return
-            end
-
-            local items = vim.fn.getqflist()
+            local items = vim.diagnostic.toqflist(
+                vim.diagnostic.get(vim.api.nvim_get_current_buf(), { namespace = M.namespace })
+            )
             local file = io.open(input, 'w')
 
             if not file then
@@ -130,7 +109,7 @@ function M.dump_to_file()
             end
 
             for _, item in ipairs(items) do
-                file:write(dump_qfitem_to_string(item))
+                file:write(dump_qflist_to_string(item))
             end
 
             file:close()
@@ -150,12 +129,11 @@ function M.load_from_file()
             local items = {}
 
             for line in io.lines(input) do
-                local item = load_qfitem_from_string(line)
-                print(vim.inspect(item))
+                local item = load_diagnostic_from_string(line)
                 table.insert(items, item)
             end
 
-            vim.fn.setqflist(items)
+            vim.diagnostic.set(M.namespace, vim.api.nvim_get_current_buf(), items)
         end
     )
 end
