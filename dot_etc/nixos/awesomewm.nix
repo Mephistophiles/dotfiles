@@ -9,7 +9,11 @@
       };
       windowManager.awesome = {
         enable = true;
-        luaModules = with pkgs.luaPackages; [ luafilesystem luaposix ];
+        luaModules = with pkgs.luaPackages; [
+          luafilesystem
+          luaposix
+          vicious
+        ];
       };
     };
   };

@@ -24,7 +24,8 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 -- External libraries
-local unistd = require('posix.unistd')
+local unistd = require("posix.unistd")
+local vicious = require("vicious")
 local scratch = require("scratch")
 local lfs = require("lfs") -- filesystem library
 
@@ -219,7 +220,7 @@ end
 local SKIP = setmetatable({}, {
     __call = function(self)
         return self
-    end
+    end,
 })
 
 local function caffeine_widget_toggle_active(widget, active)
@@ -247,27 +248,38 @@ local function caffeine_widget_toggle_active(widget, active)
     widget.image = needed_icon
 end
 
-local caffeine_widget = wibox.widget {
+local caffeine_widget = wibox.widget({
     data = {
-        active = false
+        active = false,
     },
-    widget = wibox.widget.imagebox
-}
+    widget = wibox.widget.imagebox,
+})
 caffeine_widget_toggle_active(caffeine_widget, false)
 
 caffeine_widget:connect_signal("button::press", function()
     caffeine_widget_toggle_active(caffeine_widget)
 end)
 
+local text_cpu_widget = wibox.widget.textbox()
+vicious.register(text_cpu_widget, vicious.widgets.cpu, "CPU: $1%")
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
-local mem_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
-local top_mem_usage_widget = awful.widget.watch([[bash -c "ps -eo rss,comm --sort=-rss --no-header | head -1 | awk '$1>1048576' | numfmt --to=iec --from-unit=1024 --field 1 --padding 6"]], 15)
+local mem_widget = wibox.widget.textbox()
+vicious.register(mem_widget, vicious.widgets.mem, "MEM: $1% SWP: $5%")
+local top_mem_usage_widget = awful.widget.watch(
+    [[bash -c "ps -eo rss,comm --sort=-rss --no-header | head -1 | awk '$1>1048576' | numfmt --to=iec --from-unit=1024 --field 1 --padding 6"]],
+    15
+)
 
-local battery_widget = has_battery() and require("awesome-wm-widgets.batteryarc-widget.batteryarc")
+local battery_widget = has_battery()
+        and (function()
+            local widget = wibox.widget.textbox()
+
+            vicious.register(widget, vicious.widgets.bat, "BAT: $2%", 60, "BAT0")
+
+            return widget
+        end)()
     or SKIP
-local brightness_widget = has_brightness()
-        and require("awesome-wm-widgets.brightness-widget.brightness")
-    or SKIP
+local brightness_widget = has_brightness() and require("awesome-wm-widgets.brightness-widget.brightness") or SKIP
 
 -- local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
@@ -328,22 +340,18 @@ local update_pushlocker = function()
 end
 
 local has_redminer = function()
-	return select(1, os.execute("~/bin/redminer timer list_porcelain"))
+    return select(1, os.execute("~/bin/redminer timer list_porcelain"))
 end
 
 local redminer_widget = has_redminer()
-        and awful.widget.watch(
-            string.format("%s/redminer.sh", AWESOMEWM_DIR),
-            5,
-            function(widget, stdout)
-                if #stdout == 0 then
-                    widget:set_visible(false)
-                else
-                    widget:set_markup(stdout)
-                    widget:set_visible(true)
-                end
+        and awful.widget.watch(string.format("%s/redminer.sh", AWESOMEWM_DIR), 5, function(widget, stdout)
+            if #stdout == 0 then
+                widget:set_visible(false)
+            else
+                widget:set_markup(stdout)
+                widget:set_visible(true)
             end
-        )
+        end)
     or SKIP
 
 local current_dm_version = awful.widget.watch(
@@ -452,42 +460,45 @@ awful.screen.connect_for_each_screen(function(s)
         spacing = 5,
     }
 
-    for widget in gears.table.iterate({
-        current_dm_version,
-        redminer_widget,
-        pushlocker_widget,
-        caffeine_widget,
-        brightness_widget({program = 'brightnessctl'}),
-        -- volume_widget({widget_type = 'arc', device = 'default'}),
-        cpu_temp_widget,
-        cpu_widget(),
-        mem_widget(),
-        top_mem_usage_widget,
-        battery_widget({show_current_level = true}),
-        separator,
-        mykeyboardlayout,
-        separator,
-        wibox.widget.systray(),
-        separator,
-        mytextclock,
-        s.mylayoutbox,
-    }, function(item)
-        if item == SKIP then
-            return false
-        end
+    for widget in
+        gears.table.iterate({
+            current_dm_version,
+            redminer_widget,
+            pushlocker_widget,
+            caffeine_widget,
+            brightness_widget({ program = "brightnessctl" }),
+            -- volume_widget({widget_type = 'arc', device = 'default'}),
+            text_cpu_widget,
+            cpu_temp_widget,
+            cpu_widget(),
+            mem_widget,
+            top_mem_usage_widget,
+            battery_widget,
+            separator,
+            mykeyboardlayout,
+            separator,
+            wibox.widget.systray(),
+            separator,
+            mytextclock,
+            s.mylayoutbox,
+        }, function(item)
+            if item == SKIP then
+                return false
+            end
 
-        return true
-    end) do
+            return true
+        end)
+    do
         table.insert(right_widgets, widget)
     end
 
     -- Add widgets to the wibox
-    s.mywibox:setup {
+    s.mywibox:setup({
         layout = wibox.layout.align.horizontal,
         left_widgets,
         s.mytasklist, -- Middle widget
         right_widgets,
-    }
+    })
 end)
 -- }}}
 

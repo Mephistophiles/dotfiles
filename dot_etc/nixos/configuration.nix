@@ -250,7 +250,6 @@ in
     procps
     psmisc
     rsync
-    solaar
     sshfs-fuse
     taskwarrior
     time
