@@ -279,7 +279,6 @@ local battery_widget = has_battery()
             return widget
         end)()
     or SKIP
-local brightness_widget = has_brightness() and require("awesome-wm-widgets.brightness-widget.brightness") or SKIP
 
 -- local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
@@ -335,10 +334,6 @@ local update_pushlocker_text = function()
     end)
 end
 
-local update_pushlocker = function()
-    update_pushlocker_text()
-end
-
 local has_redminer = function()
     return select(1, os.execute("~/bin/redminer timer list_porcelain"))
 end
@@ -385,7 +380,7 @@ gears.timer({
     call_now = true,
     autostart = true,
     callback = function()
-        update_pushlocker()
+        update_pushlocker_text()
     end,
 })
 
@@ -466,11 +461,10 @@ awful.screen.connect_for_each_screen(function(s)
             redminer_widget,
             pushlocker_widget,
             caffeine_widget,
-            brightness_widget({ program = "brightnessctl" }),
             -- volume_widget({widget_type = 'arc', device = 'default'}),
             text_cpu_widget,
-            cpu_temp_widget,
             cpu_widget(),
+            cpu_temp_widget,
             mem_widget,
             top_mem_usage_widget,
             battery_widget,
