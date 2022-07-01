@@ -200,8 +200,23 @@ local function set_wallpaper(s)
 end
 
 local function dir_is_empty(dir)
+    local file_is_ignored = setmetatable({
+        ".",
+        "hidpp_battery_",
+    }, {
+        __call = function(self, file)
+            for _, item in ipairs(self) do
+                if gears.string.startswith(file, item) then
+                    return true
+                end
+            end
+
+            return false
+        end,
+    })
+
     for file in lfs.dir(dir) do
-        if file ~= "." and file ~= ".." then
+        if not file_is_ignored(file) then
             return false
         end
     end
