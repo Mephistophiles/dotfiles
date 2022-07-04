@@ -13,19 +13,36 @@ local themes = setmetatable({}, {
 })
 
 function M.mappings()
+    local function add_search_previewer(opts)
+        return vim.tbl_deep_extend('force', opts, {
+            previewer = true,
+        })
+    end
+    local function add_search_refine(opts)
+        return vim.tbl_deep_extend('force', opts, {
+            mappings = {
+                i = {
+                    ['<c-space>'] = function(prompt_bufnr)
+                        require('telescope.actions.generate').refine(prompt_bufnr, {
+                            prompt_to_prefix = true,
+                            sorter = false,
+                        })
+                    end,
+                },
+            },
+        })
+    end
     vim.keymap.set('n', '<C-p>', function()
-        telescope.find_files(themes.get_ivy {})
+        telescope.find_files(add_search_refine(themes.get_ivy {}))
     end, { desc = 'Fuzzy find files in project' })
     vim.keymap.set('n', '<C-b>', function()
-        telescope.buffers(themes.get_ivy {})
+        telescope.buffers(add_search_refine(themes.get_ivy {}))
     end, { desc = 'Fuzzy find opened buffers' })
     vim.keymap.set('n', '<leader>lg', function()
-        telescope.live_grep(themes.get_ivy {})
+        telescope.live_grep(add_search_refine(themes.get_ivy {}))
     end, { desc = 'Fuzzy find with live grep' })
     vim.keymap.set('n', '<M-/>', function()
-        local opts = themes.get_ivy {}
-        opts.previewer = false
-        telescope.current_buffer_fuzzy_find(opts)
+        telescope.current_buffer_fuzzy_find(add_search_refine(add_search_previewer(themes.get_ivy {})))
     end, { desc = 'Fuzzy find in current buffer' })
 
     vim.keymap.set('n', '<leader>en', function()
