@@ -1,6 +1,27 @@
 local M = {}
 
 function M.config()
+    -- alt+<space>, alt+p -> swap next
+    -- alt+<backspace>, alt+p -> swap previous
+    local swap_next, swap_prev = (function()
+        local swap_objects = {
+            p = '@parameter.inner',
+            f = '@function.outer',
+            e = '@element',
+
+            -- Not ready, but I think it's my fault :)
+            -- v = "@variable",
+        }
+
+        local n, p = {}, {}
+        for key, obj in pairs(swap_objects) do
+            n[string.format('<M-Space><M-%s>', key)] = obj
+            p[string.format('<M-BS><M-%s>', key)] = obj
+        end
+
+        return n, p
+    end)()
+
     require('nvim-treesitter.configs').setup {
         autopairs = { enable = true },
         -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -64,12 +85,8 @@ function M.config()
             },
             swap = {
                 enable = true,
-                swap_next = {
-                    ['<M-right>'] = '@parameter.inner',
-                },
-                swap_previous = {
-                    ['<M-left>'] = '@parameter.inner',
-                },
+                swap_next = swap_next,
+                swap_previous = swap_prev,
             },
             move = {
                 enable = true,
