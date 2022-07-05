@@ -466,19 +466,103 @@ return packer.startup {
         use { 'cespare/vim-toml', ft = 'toml' }
 
         use {
+            'phaazon/hop.nvim',
+            opt = true,
+            module = 'hop',
+            rev = '1003f22213170627673dd46f9b1a2dfc4c842c02', -- https://github.com/phaazon/hop.nvim/issues/267
+            setup = function()
+                TODO_OR_DIE.issue_closed('phaazon', 'hop.nvim', '267')
+
+                vim.keymap.set('n', '<Leader>w', function()
+                    require('hop').hint_words {
+                        direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+                    }
+                end, {
+                    desc = 'Hop: Annotate all words after cursor in the current window with key sequences.',
+                })
+                vim.keymap.set('n', '<Leader>W', function()
+                    require('hop').hint_words { multi_windows = true }
+                end, {
+                    desc = 'Hop: Annotate all words after cursor in the all visible windows with key sequences.',
+                })
+                vim.keymap.set('n', '<Leader>b', function()
+                    require('hop').hint_words {
+                        direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
+                    }
+                end, {
+                    desc = 'Hop: Annotate all words before cursor in the current window with key sequences.',
+                })
+                vim.keymap.set('n', '<Leader>B', function()
+                    require('hop').hint_words { multi_windows = true }
+                end, {
+                    desc = 'Hop: Annotate all words before cursor in the all visible windows with key sequences.',
+                })
+                vim.keymap.set(
+                    'n',
+                    'f',
+                    function()
+                        require('hop').hint_char1 {
+                            direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+                            current_line_only = true,
+                        }
+                    end,
+                    { desc = 'Hop: Let the user type a key and immediately hint all of its occurrences after cursor.' }
+                )
+                vim.keymap.set(
+                    'n',
+                    'F',
+                    function()
+                        require('hop').hint_char1 {
+                            direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
+                            current_line_only = true,
+                        }
+                    end,
+                    { desc = 'Hop: Let the user type a key and immediately hint all of its occurrences before cursor.' }
+                )
+                vim.keymap.set(
+                    'n',
+                    't',
+                    function()
+                        require('hop').hint_char1 {
+                            direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+                            current_line_only = true,
+                            hint_offset = -1,
+                        }
+                    end,
+                    { desc = 'Hop: Let the user type a key and immediately hint all of its occurrences after cursor.' }
+                )
+                vim.keymap.set(
+                    'n',
+                    'T',
+                    function()
+                        require('hop').hint_char1 {
+                            direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
+                            current_line_only = true,
+                            hint_offset = -1,
+                        }
+                    end,
+                    { desc = 'Hop: Let the user type a key and immediately hint all of its occurrences before cursor.' }
+                )
+            end,
+            config = function()
+                require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
+            end,
+        }
+
+        use {
             'ggandor/leap.nvim',
             opt = true,
-            keys = { { 'n', '<leader>w' }, { 'n', '<leader>b' } },
+            keys = { { 'n', '<leader>s' }, { 'n', '<leader>S' } },
             config = function()
                 vim.keymap.set(
                     'n',
-                    '<leader>w',
+                    '<leader>s',
                     '<Plug>(leap-forward)',
                     { silent = true, desc = 'EasyMotion forward motion' }
                 )
                 vim.keymap.set(
                     'n',
-                    '<leader>b',
+                    '<leader>S',
                     '<Plug>(leap-backward)',
                     { silent = true, desc = 'EasyMotion backward motion' }
                 )
@@ -497,29 +581,6 @@ return packer.startup {
                         prev_group = '<tab>',
                         eol = '<space>',
                     },
-                }
-            end,
-        }
-
-        use {
-            'rlane/pounce.nvim',
-            disable = false,
-            opt = true,
-            module = 'pounce',
-            setup = function()
-                vim.keymap.set('n', '<leader>s', function()
-                    require('pounce').pounce {}
-                end, { desc = 'Pounce fuzzy search in page' })
-                vim.keymap.set('n', '<leader>S', function()
-                    require('pounce').pounce { do_repeat = true }
-                end, { desc = 'Pounce: repeat last search' })
-            end,
-            config = function()
-                require('pounce').setup {
-                    accept_keys = 'JFKDLSAHGNUVRBYTMICEOXWPQZ',
-                    accept_best_key = '<enter>',
-                    multi_window = true,
-                    debug = false,
                 }
             end,
         }
