@@ -110,16 +110,6 @@ in
         HibernateDelaySec=1h
       '';
     };
-    user.services = {
-      clipcat = {
-        enable = true;
-        description = "clipcat daemon";
-        wantedBy = [ "graphical-session.target" ];
-        after = [ "graphical-session.target" ];
-        serviceConfig.ExecStart =
-          "${pkgs.unstable.clipcat}/bin/clipcatd --no-daemon";
-      };
-    };
   };
 
   # Enable sound.
@@ -186,7 +176,6 @@ in
     unstable.cargo-watch
     unstable.cargo-whatfeatures
     unstable.choose
-    unstable.clipcat
     unstable.difftastic
     unstable.dua
     unstable.exa
@@ -235,6 +224,7 @@ in
     unstable.bottom
     brightnessctl
     unstable.chezmoi
+    copyq
     curl
     docker-compose
     dunst

@@ -901,6 +901,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- {{{ Autorun
 local autorun = {
+    "copyq", -- clipboard manager
     "flameshot", -- screenshot
     'solaar config "MX Master 2S" dpi 4000', -- logitech mouse
     'setxkbmap us,ru -option "grp:alt_shift_toggle,grp_led:scroll" -option "caps:backspace"', -- keyboard
