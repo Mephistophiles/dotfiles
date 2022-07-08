@@ -45,6 +45,10 @@ function M.mappings()
         telescope.current_buffer_fuzzy_find(add_search_refine(add_search_previewer(themes.get_ivy {})))
     end, { desc = 'Fuzzy find in current buffer' })
 
+    vim.keymap.set('n', '<leader>?', function()
+        telescope.oldfiles(add_search_refine(themes.get_ivy {}))
+    end, { desc = 'Fuzzy find recently opened files' })
+
     vim.keymap.set('n', '<leader>en', function()
         local opts_with_preview, opts_without_preview
         local actions = require 'telescope.actions'
