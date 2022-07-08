@@ -263,7 +263,6 @@ in
     unstable.nixpkgs-review
 
     # self packaged
-    # mypkgs.clipboard-sync
     # mypkgs.fw
     mypkgs.telegram-send
     mypkgs.pushlock
