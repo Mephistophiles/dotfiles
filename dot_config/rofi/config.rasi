@@ -1,0 +1,9 @@
+configuration {
+location: 0;
+matching: "fuzzy";
+sort: true;
+sorting-method: "fzf";
+xoffset: 0;
+yoffset: 0;
+}
+@theme "Arc-Dark"

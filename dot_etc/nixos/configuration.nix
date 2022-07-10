@@ -85,6 +85,7 @@ in
         "*/5 * * * *  mzhukov   /home/mzhukov/.etc/sync.sh"
         "*/5 * * * *  mzhukov   cat ~/.config/starship.toml > ~/.dotfiles/dot_config/readonly_starship.toml"
         "*/5 * * * *  mzhukov   cat ~/.config/alacritty/alacritty.yml > ~/.dotfiles/dot_config/alacritty/alacritty.yml"
+        "*/5 * * * *  mzhukov   cat ~/.config/rofi/config.rasi > ~/.dotfiles/dot_config/rofi/config.rasi"
       ];
     };
 

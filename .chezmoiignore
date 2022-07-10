@@ -6,6 +6,7 @@ README.md
 .config/fish/fishd.*
 
 {{- if eq .chezmoi.hostname "mzhukov-laptop" }}
-.config/starship.toml
 .config/alacritty/alacritty.yml
+.config/rofi/config.rasi
+.config/starship.toml
 {{- end }}
