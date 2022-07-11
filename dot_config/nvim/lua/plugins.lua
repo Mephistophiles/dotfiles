@@ -469,10 +469,7 @@ return packer.startup {
             'phaazon/hop.nvim',
             opt = true,
             module = 'hop',
-            rev = '1003f22213170627673dd46f9b1a2dfc4c842c02', -- https://github.com/phaazon/hop.nvim/issues/267
             setup = function()
-                TODO_OR_DIE.issue_closed('phaazon', 'hop.nvim', '267')
-
                 vim.keymap.set('n', '<Leader>w', function()
                     require('hop').hint_words {
                         direction = require('hop.hint').HintDirection.AFTER_CURSOR,
