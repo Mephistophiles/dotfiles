@@ -10,7 +10,7 @@
     neomutt = {
       enable = true;
       vimKeys = true;
-      editor = "vim";
+      editor = "nvim";
       sidebar = { enable = true; };
     };
 
