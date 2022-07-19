@@ -1,11 +1,28 @@
 #!/usr/bin/env julia
 
-function copy_nix_files(from, to, dry_run=false)
-	if dry_run
-		run(`rsync --dry-run --archive --verbose --include='*/' --include='*.nix' --exclude='*' $from/ $to`)
-	else
-		run(`rsync --archive --verbose --include='*/' --include='*.nix' --exclude='*' $from/ $to`)
+function copy_nix_files(from, to, verbose=false, dry_run=false)
+	args = [
+		"rclone",
+		"copy",
+		"--config",
+		"/dev/null",
+		"--include",
+		"*.nix",
+		"$from/",
+		"$to",
+	]
+
+	if verbose
+		insert!(args, 2, "-v")
 	end
+
+	if dry_run
+		insert!(args, 2, "--dry-run")
+	end
+
+	cmd = `$args`
+	@debug("run $cmd")
+	run(cmd)
 end
 
 uid = @ccall getuid()::Cint
@@ -27,11 +44,13 @@ mktempdir() do before
 		println("continue? ")
 
 		try
-			readline()
+			if lowercase(chomp(readline())) != "y"
+				return
+			end
 		catch
 			return
 		end
 
-		copy_nix_files(after, search_place)
+		copy_nix_files(after, search_place, true)
 	end
 end

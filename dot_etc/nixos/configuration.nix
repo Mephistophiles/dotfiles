@@ -240,6 +240,7 @@ in
     parallel-full
     procps
     psmisc
+    rclone
     rsync
     sshfs-fuse
     taskwarrior
