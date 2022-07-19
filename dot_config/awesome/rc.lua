@@ -228,10 +228,6 @@ local function has_battery()
     return not dir_is_empty("/sys/class/power_supply")
 end
 
-local function has_brightness()
-    return not dir_is_empty("/sys/class/backlight")
-end
-
 local SKIP = setmetatable({}, {
     __call = function(self)
         return self
