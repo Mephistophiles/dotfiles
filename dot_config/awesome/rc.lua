@@ -224,6 +224,19 @@ local function dir_is_empty(dir)
     return true
 end
 
+local function get_total_memory()
+    local pipe = io.popen("awk '/MemTotal/ {print $2}' /proc/meminfo", "r")
+
+    if not pipe then
+        return 0
+    end
+
+    local total_memory = pipe:read("*l")
+    pipe:close()
+
+    return tonumber(total_memory) or 0
+end
+
 local function has_battery()
     return not dir_is_empty("/sys/class/power_supply")
 end
@@ -276,9 +289,20 @@ vicious.register(text_cpu_widget, vicious.widgets.cpu, "CPU: $1%")
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local mem_widget = wibox.widget.textbox()
 vicious.register(mem_widget, vicious.widgets.mem, "MEM: $1% SWP: $5%")
+local total_memory = get_total_memory()
 local top_mem_usage_widget = awful.widget.watch(
-    [[bash -c "ps -eo rss,comm --sort=-rss --no-header | head -1 | awk '$1>1048576' | numfmt --to=iec --from-unit=1024 --field 1 --padding 6"]],
-    15
+    [[bash -c "ps -eo rss,comm --sort=-rss --no-header | head -1 | awk '{print \$1,\" \",\$1,\" \",\$2}' | numfmt --to=iec --from-unit=1024 --field 1"]],
+    15,
+    function(widget, stdout)
+        local pretty_memory, bytes, comm = table.unpack(gears.string.split(stdout, " "))
+
+        if tonumber(bytes) > total_memory / 8 then
+            widget:set_visible(true)
+            widget:set_text(pretty_memory .. " " .. comm)
+        else
+            widget:set_visible(false)
+        end
+    end
 )
 
 local battery_widget = has_battery()
