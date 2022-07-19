@@ -225,12 +225,12 @@ in
     unstable.bottom
     brightnessctl
     unstable.chezmoi
-    copyq
     curl
     docker-compose
     dunst
     file
     fzf
+    haskellPackages.greenclip
     htop
     kitty
     linuxPackages.cpupower
