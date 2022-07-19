@@ -627,6 +627,8 @@ globalkeys = gears.table.join(
               {description = "show the menubar", group = "launcher"}),
     -- DMenu
     awful.key({ modkey }, "d", function() awful.spawn('rofi -show run', false) end),
+    -- Rofi greenclip
+    awful.key({ modkey }, "c", function() awful.spawn('rofi -modi "clipboard:greenclip print" -show clipboard', false) end),
     -- Ulauncher
     awful.key({ modkey, "Shift" }, "p", function() awful.spawn('ulauncher', false) end,
               {description = "show the ulauncher", group = "launcher"}),
@@ -905,6 +907,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 local autorun = {
     "copyq", -- clipboard manager
     "flameshot", -- screenshot
+    "greenclip daemon", -- clipboard manager 2
     'solaar config "MX Master 2S" dpi 4000', -- logitech mouse
     'setxkbmap us,ru -option "grp:alt_shift_toggle,grp_led:scroll" -option "caps:backspace"', -- keyboard
 }
