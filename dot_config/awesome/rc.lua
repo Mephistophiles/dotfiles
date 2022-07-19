@@ -924,21 +924,18 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- {{{ Autorun
-local autorun = {
-    "copyq", -- clipboard manager
-    "flameshot", -- screenshot
-    "greenclip daemon", -- clipboard manager 2
-    'solaar config "MX Master 2S" dpi 4000', -- logitech mouse
-    'setxkbmap us,ru -option "grp:alt_shift_toggle,grp_led:scroll" -option "caps:backspace"', -- keyboard
-}
-
-for _, prg in ipairs(autorun) do
-    awful.spawn.once(prg)
-end
-
 local lock_scr = string.format("%sawesome-lock.sh", AWESOMEWM_DIR)
-awful.spawn("pkill xidlehook")
-awful.spawn.once({
+
+local function autorun(cmd)
+    awful.spawn("pkill " .. cmd[1])
+
+    awful.spawn.once(cmd, awful.spawn_once)
+end
+autorun({ "flameshot" })
+autorun({ "greenclip", "daemon" })
+autorun({ "solaar", "config", "MX Master 2S", "dpi", "4000" })
+autorun({ "setxkbmap", "us,ru", "-option", "grp:alt_shift_toggle,grp_led:scroll", "-option", "caps:backspace" })
+autorun({
     "xidlehook",
     "--socket", XIDLEHOOK_SOCKET,
     "--not-when-fullscreen",
