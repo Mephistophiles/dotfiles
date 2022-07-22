@@ -646,7 +646,8 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
     -- DMenu
-    awful.key({ modkey }, "d", function() awful.spawn('rofi -show run', false) end),
+    awful.key({ modkey }, "d", function() awful.spawn('rofi -modes "run,window,ssh" -show run', false) end),
+    awful.key({ modkey, "Shift" }, "d", function() awful.spawn('rofi -modi drun -show drun', false) end),
     -- Rofi greenclip
     awful.key({ modkey }, "c", function() awful.spawn('rofi -modi "clipboard:greenclip print" -show clipboard', false) end),
     -- Ulauncher
