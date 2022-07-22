@@ -686,9 +686,9 @@ return packer.startup {
             'anuvyklack/pretty-fold.nvim',
             config = function()
                 require('pretty-fold').setup {}
-                require('pretty-fold.preview').setup {}
+                require('fold-preview').setup()
             end,
-            requires = { 'anuvyklack/nvim-keymap-amend' },
+            requires = { 'anuvyklack/nvim-keymap-amend', 'anuvyklack/fold-preview.nvim' },
         }
 
         use 'stevearc/dressing.nvim'
