@@ -26,6 +26,17 @@ return packer.startup {
         use 'tpope/vim-repeat'
 
         use {
+            'anuvyklack/hydra.nvim',
+            setup = function()
+                require('settings.hydra').setup()
+            end,
+            config = function()
+                require('settings.hydra').config()
+            end,
+            requires = { 'mrjones2014/smart-splits.nvim' },
+        }
+
+        use {
             'gpanders/editorconfig.nvim',
         }
 
