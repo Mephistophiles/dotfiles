@@ -13,40 +13,21 @@ local themes = setmetatable({}, {
 })
 
 function M.mappings()
-    local function add_search_previewer(opts)
-        return vim.tbl_deep_extend('force', opts, {
-            previewer = true,
-        })
-    end
-    local function add_search_refine(opts)
-        return vim.tbl_deep_extend('force', opts, {
-            mappings = {
-                i = {
-                    ['<c-space>'] = function(prompt_bufnr)
-                        require('telescope.actions.generate').refine(prompt_bufnr, {
-                            prompt_to_prefix = true,
-                            sorter = false,
-                        })
-                    end,
-                },
-            },
-        })
-    end
     vim.keymap.set('n', '<C-p>', function()
-        telescope.find_files(add_search_refine(themes.get_ivy {}))
+        telescope.find_files(themes.get_ivy {})
     end, { desc = 'Fuzzy find files in project' })
     vim.keymap.set('n', '<C-b>', function()
-        telescope.buffers(add_search_refine(themes.get_ivy {}))
+        telescope.buffers(themes.get_ivy {})
     end, { desc = 'Fuzzy find opened buffers' })
     vim.keymap.set('n', '<leader>lg', function()
-        telescope.live_grep(add_search_refine(themes.get_ivy {}))
+        telescope.live_grep(themes.get_ivy {})
     end, { desc = 'Fuzzy find with live grep' })
     vim.keymap.set('n', '<M-/>', function()
-        telescope.current_buffer_fuzzy_find(add_search_refine(add_search_previewer(themes.get_ivy {})))
+        telescope.current_buffer_fuzzy_find(themes.get_ivy {})
     end, { desc = 'Fuzzy find in current buffer' })
 
     vim.keymap.set('n', '<leader>?', function()
-        telescope.oldfiles(add_search_refine(themes.get_ivy {}))
+        telescope.oldfiles(themes.get_ivy {})
     end, { desc = 'Fuzzy find recently opened files' })
 
     vim.keymap.set('n', '<leader>en', function()
@@ -77,7 +58,11 @@ function M.mappings()
                 vertical = { preview_height = 0.75 },
             },
 
-            mappings = { i = { ['<C-y>'] = false } },
+            mappings = {
+                i = {
+                    ['<C-y>'] = false,
+                },
+            },
 
             attach_mappings = function(_, map)
                 map('i', '<c-y>', set_prompt_to_entry_value)
@@ -105,6 +90,26 @@ end
 
 function M.setup()
     M.mappings()
+
+    require('telescope').setup {
+        defaults = {
+            mappings = {
+                i = {
+                    ['<c-space>'] = function(prompt_bufnr)
+                        require('telescope.actions.generate').refine(prompt_bufnr, {
+                            prompt_to_prefix = true,
+                            sorter = false,
+                        })
+                    end,
+                },
+            },
+        },
+        pickers = {
+            current_buffer_fuzzy_find = {
+                previewer = true,
+            },
+        },
+    }
 end
 
 return M
