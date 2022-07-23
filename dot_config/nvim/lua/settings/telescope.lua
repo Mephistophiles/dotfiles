@@ -90,11 +90,15 @@ end
 
 function M.setup()
     M.mappings()
+end
 
+function M.config()
     require('telescope').setup {
         defaults = {
             mappings = {
                 i = {
+                    ['<C-Down>'] = require('telescope.actions').cycle_history_next,
+                    ['<C-Up>'] = require('telescope.actions').cycle_history_prev,
                     ['<C-u>'] = false,
                     ['<c-space>'] = function(prompt_bufnr)
                         require('telescope.actions.generate').refine(prompt_bufnr, {
@@ -121,6 +125,8 @@ function M.setup()
             },
         },
     }
+    require('telescope').load_extension 'ui-select'
+    require('telescope').load_extension 'project'
 end
 
 return M
