@@ -95,6 +95,7 @@ function M.setup()
         defaults = {
             mappings = {
                 i = {
+                    ['<C-u>'] = false,
                     ['<c-space>'] = function(prompt_bufnr)
                         require('telescope.actions.generate').refine(prompt_bufnr, {
                             prompt_to_prefix = true,
