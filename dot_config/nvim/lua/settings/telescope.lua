@@ -106,6 +106,16 @@ function M.setup()
             },
         },
         pickers = {
+            buffers = {
+                mappings = {
+                    i = {
+                        ['<c-d>'] = require('telescope.actions').delete_buffer,
+                    },
+                    n = {
+                        ['<c-d>'] = require('telescope.actions').delete_buffer,
+                    },
+                },
+            },
             current_buffer_fuzzy_find = {
                 previewer = true,
             },
