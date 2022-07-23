@@ -22,6 +22,7 @@ function M.config()
         popup_border_style = 'rounded',
         enable_git_status = true,
         enable_diagnostics = true,
+        use_default_mappings = false,
         window = {
             position = 'left',
             width = 40,
@@ -40,14 +41,10 @@ function M.config()
                 ['/'] = 'fuzzy_finder',
                 ['f'] = 'filter_on_submit',
                 ['<c-x>'] = 'clear_filter',
-                ['w'] = '',
                 ['a'] = 'add',
                 ['A'] = 'add_directory',
                 ['d'] = 'delete',
                 ['r'] = 'rename',
-                ['y'] = '',
-                ['x'] = '',
-                ['p'] = '',
                 ['c'] = 'copy', -- takes text input for destination
                 ['m'] = 'move', -- takes text input for destination
                 ['q'] = 'close_window',
