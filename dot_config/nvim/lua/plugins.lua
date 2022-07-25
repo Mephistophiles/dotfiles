@@ -48,6 +48,13 @@ return packer.startup {
         }
 
         use {
+            'akinsho/toggleterm.nvim',
+            config = function()
+                require('toggleterm').setup()
+            end,
+        }
+
+        use {
             'anuvyklack/hydra.nvim',
             setup = function()
                 require('settings.hydra').setup()
