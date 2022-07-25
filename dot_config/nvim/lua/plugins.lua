@@ -77,6 +77,15 @@ return packer.startup {
         }
 
         use {
+            'stevearc/overseer.nvim',
+            config = function()
+                require('overseer').setup {
+                    strategy = 'terminal',
+                }
+            end,
+        }
+
+        use {
             'anuvyklack/hydra.nvim',
             setup = function()
                 require('settings.hydra').setup()
