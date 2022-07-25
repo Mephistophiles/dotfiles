@@ -40,10 +40,13 @@ return packer.startup {
 
         use {
             'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+            module = 'lsp_lines',
+            setup = function()
+                vim.keymap.set('n', '<leader>ll', require('lsp_lines').toggle, { desc = 'Toggle lsp_lines' })
+                vim.diagnostic.config { virtual_lines = false }
+            end,
             config = function()
                 require('lsp_lines').setup()
-                vim.diagnostic.config { virtual_lines = false } -- hide by default
-                vim.keymap.set('', '<Leader>l', require('lsp_lines').toggle, { desc = 'Toggle lsp_lines' })
             end,
         }
 
