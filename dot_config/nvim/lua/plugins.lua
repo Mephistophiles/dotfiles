@@ -25,6 +25,11 @@ return packer.startup {
         -- extended repeat ('.') for another plugins
         use 'tpope/vim-repeat'
 
+        -- mkdir
+        use {
+            'jghauser/mkdir.nvim',
+        }
+
         use {
             'anuvyklack/hydra.nvim',
             setup = function()
