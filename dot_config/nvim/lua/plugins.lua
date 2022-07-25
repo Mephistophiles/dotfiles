@@ -25,6 +25,13 @@ return packer.startup {
         -- extended repeat ('.') for another plugins
         use 'tpope/vim-repeat'
 
+        use {
+            'luukvbaal/stabilize.nvim',
+            config = function()
+                require('stabilize').setup()
+            end,
+        }
+
         -- mkdir
         use {
             'jghauser/mkdir.nvim',
