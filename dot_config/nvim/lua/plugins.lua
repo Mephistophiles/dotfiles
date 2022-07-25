@@ -49,8 +49,20 @@ return packer.startup {
 
         use {
             'akinsho/toggleterm.nvim',
+            setup = function()
+                vim.keymap.set('n', '<F12>', [[:ToggleTerm<CR>]], { silent = true, desc = 'Floaterm: toggle' })
+                vim.keymap.set(
+                    't',
+                    '<F12>',
+                    [[<C-\><C-n>:ToggleTerm<CR>]],
+                    { silent = true, desc = 'Terminal: toggle' }
+                )
+            end,
+            cmd = { 'ToggleTerm' },
             config = function()
-                require('toggleterm').setup()
+                require('toggleterm').setup {
+                    shell = 'fish',
+                }
             end,
         }
 
@@ -689,25 +701,6 @@ return packer.startup {
                 require('neogen').setup { enabled = true }
             end,
             requires = 'nvim-treesitter/nvim-treesitter',
-        }
-
-        use {
-            'voldikss/vim-floaterm',
-            config = function()
-                vim.g.floaterm_shell = 'fish'
-                vim.g.floaterm_width = 0.7
-                vim.g.floaterm_height = 0.7
-            end,
-            setup = function()
-                vim.keymap.set('n', '<F12>', [[:FloatermToggle<CR>]], { silent = true, desc = 'Floaterm: toggle' })
-                vim.keymap.set(
-                    't',
-                    '<F12>',
-                    [[<C-\><C-n>:FloatermToggle<CR>]],
-                    { silent = true, desc = 'Floaterm: toggle' }
-                )
-            end,
-            cmd = { 'FloatermNew', 'FloatermToggle' },
         }
 
         use {
