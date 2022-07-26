@@ -30,15 +30,6 @@ function M.config()
         mode = 'n',
         body = '<C-w>',
         heads = {
-            -- Move
-            { 'h', '<C-w>h' },
-            { 'j', '<C-w>j' },
-            { 'k', '<C-w>k' },
-            { 'l', '<C-w>l' },
-            -- Split
-            { 's', '<C-w>s' },
-            { 'v', '<C-w>v' },
-            { 'q', '<Cmd>Bwipeout<CR>', { desc = 'close window' } },
             -- Size
             {
                 '+',
