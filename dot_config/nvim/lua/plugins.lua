@@ -78,10 +78,12 @@ return packer.startup {
 
         use {
             'stevearc/overseer.nvim',
+            cmd = { 'OverseerRun', 'OverseerBuild', 'OverseerToggle' },
+            setup = function()
+                require('settings.overseer').setup()
+            end,
             config = function()
-                require('overseer').setup {
-                    strategy = 'terminal',
-                }
+                require('settings.overseer').config()
             end,
         }
 

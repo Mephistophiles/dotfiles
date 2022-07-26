@@ -58,3 +58,10 @@ MAP_CLEANUPS = {
     '<CMD>call clearmatches()<CR>',
     '<CMD>lua vim.notify.dismiss()<CR>',
 }
+
+--- Get nvim command
+---@param cmd string
+---@return string
+function CMD(cmd)
+    return '<cmd>' .. cmd .. '<cr>'
+end
