@@ -685,7 +685,7 @@ return packer.startup {
                 local notify_fn = require 'notify'
                 vim.notify = setmetatable({}, {
                     __call = function(_, msg, level, opts)
-                        if level and level > vim.log.levels.INFO then
+                        if vim.g.nvim_notify_stack_trace and level and level >= vim.log.levels.WARN then
                             msg = msg .. '\n' .. debug.traceback()
                         end
 
@@ -695,6 +695,15 @@ return packer.startup {
                         return notify_fn[key]
                     end,
                 })
+
+                vim.keymap.set('n', '<leader>n', function()
+                    vim.g.nvim_notify_stack_trace = not vim.g.nvim_notify_stack_trace
+                    vim.notify(
+                        'Stacktrace in notifications was '
+                            .. (vim.g.nvim_notify_stack_trace and 'enabled' or 'disabled'),
+                        vim.log.levels.INFO
+                    )
+                end, { desc = 'Notifications: toggle stacktrace from warn and above' })
             end,
         }
 
