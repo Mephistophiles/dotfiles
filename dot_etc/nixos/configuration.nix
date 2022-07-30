@@ -173,6 +173,7 @@ in
     unstable.cargo-edit
     unstable.cargo-expand
     unstable.cargo-outdated
+    unstable.cargo-release
     unstable.cargo-udeps
     unstable.cargo-watch
     unstable.cargo-whatfeatures
