@@ -291,8 +291,6 @@ return packer.startup {
                 'nvim-telescope/telescope-ui-select.nvim',
                 'nvim-telescope/telescope-project.nvim',
             },
-            cmd = { 'Telescope' },
-            module = 'telescope',
             setup = function()
                 require('settings.telescope').setup()
             end,
@@ -924,8 +922,11 @@ return packer.startup {
 
         use {
             'johmsalas/text-case.nvim',
+            setup = function()
+                require('settings.textcase').setup()
+            end,
             config = function()
-                require('textcase').setup {}
+                require('settings.textcase').config()
             end,
         }
 
