@@ -32,6 +32,13 @@ return packer.startup {
             end,
         }
 
+        use {
+            'declancm/maximize.nvim',
+            config = function()
+                require('maximize').setup()
+            end,
+        }
+
         -- mkdir
         use {
             'jghauser/mkdir.nvim',
