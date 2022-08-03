@@ -172,6 +172,7 @@ in
     unstable.cargo-diet
     unstable.cargo-edit
     unstable.cargo-expand
+    unstable.cargo-nextest
     unstable.cargo-outdated
     unstable.cargo-release
     unstable.cargo-udeps
