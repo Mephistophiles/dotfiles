@@ -447,7 +447,7 @@ return packer.startup {
         use {
             'AndrewRadev/switch.vim',
             cmd = 'Switch',
-            keys = { '-' },
+            keys = { { '', '-', 'Switch: toggle word under cursor' } },
             setup = function()
                 vim.g.switch_mapping = '-'
                 vim.g.switch_find_smallest_match = 0
@@ -515,7 +515,7 @@ return packer.startup {
         }
 
         use { 'LnL7/vim-nix', opt = true, ft = 'nix' }
-        use { 'tommcdo/vim-exchange', opt = true, keys = { 'cx' } }
+        use { 'tommcdo/vim-exchange', opt = true, keys = { { '', 'cx', 'Exchange: exchange word under cursor' } } }
 
         use {
             'rhysd/conflict-marker.vim',
@@ -615,19 +615,19 @@ return packer.startup {
         use {
             'ggandor/leap.nvim',
             opt = true,
-            keys = { { 'n', '<leader>s' }, { 'n', '<leader>S' } },
+            keys = { { 'n', '<leader>s', 'Leap: forward motion' }, { 'n', '<leader>S', 'Leap: backward motion' } },
             config = function()
                 vim.keymap.set(
                     'n',
                     '<leader>s',
                     '<Plug>(leap-forward)',
-                    { silent = true, desc = 'EasyMotion forward motion' }
+                    { silent = true, desc = 'Leap: forward motion' }
                 )
                 vim.keymap.set(
                     'n',
                     '<leader>S',
                     '<Plug>(leap-backward)',
-                    { silent = true, desc = 'EasyMotion backward motion' }
+                    { silent = true, desc = 'Leap: backward motion' }
                 )
                 require('leap').setup {
                     case_insensitive = true,
@@ -777,7 +777,7 @@ return packer.startup {
         use {
             'rhysd/git-messenger.vim',
             cmd = { 'GitMessenger' },
-            keys = { '<leader>gm' },
+            keys = { { '', '<leader>gm', 'GitMessenger: show git commit' } },
             setup = function()
                 vim.keymap.set('n', '<leader>gm', '<Plug>(git-messenger)', { desc = 'GitMessager: show git commit' })
             end,
@@ -940,12 +940,12 @@ return packer.startup {
         use {
             'Vonr/align.nvim',
             keys = {
-                { 'x', '<leader>aa' },
-                { 'x', '<leader>as' },
-                { 'x', 'aw' },
-                { 'x', 'ar' },
-                { 'n', 'gaw' },
-                { 'n', 'gaa' },
+                { 'x', '<leader>aa', 'Align: aligns to 1 character, looking left' },
+                { 'x', '<leader>as', 'Align: aligns to 2 characters, looking left and with previews' },
+                { 'x', 'aw', 'Align: aligns to a string, looking left and with previews' },
+                { 'x', 'ar', 'Align: aligns to a Lua pattern, looking left and with previews' },
+                { 'n', 'gaw', 'Align: align a paragraph to a string, looking left and with previews' },
+                { 'n', 'gaa', 'Align: aling a paragraph to 1 character, looking left' },
             },
             config = function()
                 local function o(desc)
