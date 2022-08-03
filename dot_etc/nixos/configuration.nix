@@ -279,7 +279,7 @@ in
     gitAndTools.gh
     gnumake
     lua
-    python39
+    python310
     stylua
     tig
     unstable.julia-stable-bin
