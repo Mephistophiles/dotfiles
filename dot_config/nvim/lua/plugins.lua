@@ -42,7 +42,7 @@ return packer.startup {
                 vim.keymap.set(
                     'n',
                     '<Leader>z',
-                    "<Cmd>lua require('windex').toggle_maximize()<CR>",
+                    "<Cmd>lua require('windex').toggle_nvim_maximize()<CR>",
                     { desc = 'Windex: Toggle maximizing the current window' }
                 )
             end,
