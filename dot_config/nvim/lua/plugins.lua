@@ -33,9 +33,18 @@ return packer.startup {
         }
 
         use {
-            'declancm/maximize.nvim',
+            'declancm/windex.nvim',
+            keys = { { 'n', '<leader>z', 'Windex: Toggle maximizing the current window' } },
             config = function()
-                require('maximize').setup()
+                require('windex').setup {
+                    default_keymaps = false,
+                }
+                vim.keymap.set(
+                    'n',
+                    '<Leader>z',
+                    "<Cmd>lua require('windex').toggle_maximize()<CR>",
+                    { desc = 'Windex: Toggle maximizing the current window' }
+                )
             end,
         }
 
