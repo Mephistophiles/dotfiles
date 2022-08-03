@@ -182,7 +182,6 @@ in
     unstable.dua
     unstable.exa
     unstable.fd
-    unstable.helix
     unstable.hyperfine
     unstable.inferno
     unstable.procs
