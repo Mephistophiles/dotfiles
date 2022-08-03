@@ -175,6 +175,7 @@ in
     unstable.cargo-nextest
     unstable.cargo-outdated
     unstable.cargo-release
+    unstable.cargo-tarpaulin
     unstable.cargo-udeps
     unstable.cargo-watch
     unstable.cargo-whatfeatures
