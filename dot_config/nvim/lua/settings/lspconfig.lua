@@ -156,6 +156,38 @@ function M.setup()
     end
 end
 
+local function smart_goto(fn)
+    for _, severity in ipairs {
+        vim.diagnostic.severity.ERROR,
+        vim.diagnostic.severity.WARN,
+        vim.diagnostic.severity.INFO,
+        vim.diagnostic.severity.HINT,
+    } do
+        local diagnostic = vim.diagnostic.get(0, { severity = severity })
+
+        if #diagnostic > 0 then
+            fn(severity)
+            break
+        end
+    end
+end
+
+local function smart_goto_next()
+    smart_goto(function(severity)
+        vim.diagnostic.goto_next {
+            severity = severity,
+        }
+    end)
+end
+
+local function smart_goto_prev()
+    smart_goto(function(severity)
+        vim.diagnostic.goto_prev {
+            severity = severity,
+        }
+    end)
+end
+
 function M.key_bindings(client)
     local telescope, themes = require('settings.telescope').instance()
 
@@ -210,12 +242,18 @@ function M.key_bindings(client)
     end, { remap = true, buffer = true, desc = 'LSP: renames all references to the symbol under the cursor' })
     -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
     vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { buffer = true, desc = 'LSP: Show diagnostic info' })
-    vim.keymap.set('n', '[d', function()
-        vim.diagnostic.goto_next()
-    end, { buffer = true, desc = 'LSP: move to the next diagnostic' })
-    vim.keymap.set('n', ']d', function()
+    vim.keymap.set('n', '[D', function()
         vim.diagnostic.goto_prev()
+    end, { buffer = true, desc = 'LSP: move to the previous diagnostic (whole severities)' })
+    vim.keymap.set('n', ']D', function()
+        vim.diagnostic.goto_next()
+    end, { buffer = true, desc = 'LSP: move to the next diagnostic (whole severities)' })
+    vim.keymap.set('n', '[d', function()
+        smart_goto_prev()
     end, { buffer = true, desc = 'LSP: move to the previous diagnostic' })
+    vim.keymap.set('n', ']d', function()
+        smart_goto_next()
+    end, { buffer = true, desc = 'LSP: move to the next diagnostic' })
     vim.keymap.set('n', '<leader>q', function()
         vim.diagnostic.setloclist()
     end, { buffer = true, desc = 'LSP: add buffer diagnostics to the location list' })
