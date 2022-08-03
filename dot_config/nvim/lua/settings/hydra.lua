@@ -62,6 +62,16 @@ function M.config()
             { '<Esc>', nil, { exit = true } },
         },
     }
+
+    Hydra {
+        name = 'Line movement',
+        mode = 'v',
+        body = '<M-Space>',
+        heads = {
+            { 'j', [[:m '>+1<CR>gv=gv]], { desc = 'Move line down' } },
+            { 'k', [[:m '<-2<CR>gv=gv]], { desc = 'Move line up' } },
+        },
+    }
 end
 
 return M

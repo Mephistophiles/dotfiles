@@ -79,8 +79,6 @@ end, { desc = 'Toggle fold' })
 vim.keymap.set('n', 'Y', 'y$', { desc = 'Yank to end of line' })
 vim.keymap.set('n', 'n', 'nzz', { desc = 'Goto to next search with possible unfold' })
 vim.keymap.set('n', 'N', 'Nzz', { desc = 'Goto to previous search with possible unfold' })
-vim.keymap.set('v', 'J', [[:m '>+1<CR>gv=gv]], { desc = 'Move line down' })
-vim.keymap.set('v', 'K', [[:m '<-2<CR>gv=gv]], { desc = 'Move line up' })
 
 -- replace paste without save in registers
 vim.keymap.set('v', '<leader>p', '"_dP', { desc = 'Paste without save in registers' })
