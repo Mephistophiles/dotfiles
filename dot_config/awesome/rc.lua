@@ -650,9 +650,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift" }, "d", function() awful.spawn('rofi -modi drun -show drun', false) end),
     -- Rofi greenclip
     awful.key({ modkey }, "c", function() awful.spawn('rofi -modi "clipboard:greenclip print" -show clipboard', false) end),
-    -- Ulauncher
-    awful.key({ modkey, "Shift" }, "p", function() awful.spawn('ulauncher', false) end,
-              {description = "show the ulauncher", group = "launcher"}),
+    -- wallpaper
+    awful.key({ modkey, "Shift" }, "w", function ()
+        awful.spawn('rofi -modi "wallpaper:'..AWESOMEWM_DIR..'/set_wallpaper.sh" -show wallpaper', false)
+    end,
+              {description = "Select wallpaper", group = "awesome"}),
     -- Media
     awful.key({}, 'XF86AudioRaiseVolume',
               function() awful.spawn('amixer -q set Master 2%+', false) end,
