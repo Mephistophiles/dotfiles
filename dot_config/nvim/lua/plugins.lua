@@ -212,37 +212,10 @@ return packer.startup {
         use { 'TimUntersberger/neogit', cmd = { 'Neogit' }, requires = 'nvim-lua/plenary.nvim' }
 
         use {
-            'echasnovski/mini.nvim', -- original author (blackCauldron7) has been deleted (unsupported repo)
+            'kylechui/nvim-surround',
             config = function()
-                require('mini.surround').setup {
-                    custom_surroundings = {
-                        ['b'] = {
-                            input = { find = '%b()', extract = '^(.).*(.)$' },
-                            output = { left = '(', right = ')' },
-                        },
-                        ['B'] = {
-                            input = { find = '%b{}', extract = '^(.).*(.)$' },
-                            output = { left = '{', right = '}' },
-                        },
-                    },
-                    -- Number of lines within which surrounding is searched
-                    n_lines = 20,
-
-                    -- How to search for surrounding (first inside current line, then inside
-                    -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
-                    -- 'cover_or_nearest'. For more details, see `:h MiniSurround.config`.
-                    search_method = 'cover',
-
-                    -- Module mappings. Use `''` (empty string) to disable one.
-                    mappings = {
-                        add = 'ys', -- Add surrounding
-                        delete = 'ds', -- Delete surrounding
-                        find = '', -- Find surrounding (to the right)
-                        find_left = '', -- Find surrounding (to the left)
-                        highlight = '', -- Highlight surrounding
-                        replace = 'cs', -- Replace surrounding
-                        update_n_lines = '', -- Update `n_lines`
-                    },
+                require('nvim-surround').setup {
+                    -- Configuration here, or leave empty to use defaults
                 }
             end,
         }
