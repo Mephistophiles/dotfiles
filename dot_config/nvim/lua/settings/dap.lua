@@ -29,46 +29,80 @@ function M.setup()
     end, { desc = 'DAP: display hover information about the current variable' })
 end
 
-function M.config()
+function M.configurations()
+    local dap = require 'dap'
+
+    dap.adapters.lldb = {
+        name = 'lldb',
+
+        type = 'executable',
+        command = 'lldb-vscode',
+        env = {
+            LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = 'YES',
+        },
+    }
+
+    dap.configurations.c = {
+        {
+            name = 'Launch binary cli',
+            type = 'lldb',
+            request = 'launch',
+            program = '/home/builder/sdk/output/host/usr/bin/cli',
+            args = {
+                '-i',
+                '192.168.0.1',
+                '-a',
+                'admin:admin',
+            },
+            cwd = nil,
+            environment = nil,
+            externalConsole = true,
+            MIMode = 'lldb',
+        },
+    }
+
     local vscode_lldp = vim.fn.exepath 'lldb-vscode'
 
-    if vscode_lldp == nil or vscode_lldp == '' then
-        return
-    end
+    if vscode_lldp ~= nil and vscode_lldp ~= '' then
+        dap.configurations.cpp = {
+            {
+                name = 'Launch',
+                type = 'lldb',
+                request = 'launch',
+                program = function()
+                    return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                end,
+                cwd = '${workspaceFolder}',
+                stopOnEntry = false,
+                args = {},
 
+                -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+                --
+                --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+                --
+                -- Otherwise you might get the following error:
+                --
+                --    Error on launch: Failed to attach to the target process
+                --
+                -- But you should be aware of the implications:
+                -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+                runInTerminal = false,
+            },
+        }
+
+        -- If you want to use this for rust and c, add something like this:
+        dap.configurations.rust = dap.configurations.cpp
+    end
+end
+
+function M.config()
     local dap = require 'dap'
     local dap_ui = require 'dapui'
 
+    M.configurations()
+
     require('nvim-dap-virtual-text').setup()
     dap_ui.setup()
-
-    dap.adapters.lldb = { type = 'executable', command = vscode_lldp, name = 'lldb' }
-
-    dap.configurations.cpp = {
-        {
-            name = 'Launch',
-            type = 'lldb',
-            request = 'launch',
-            program = function()
-                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-            end,
-            cwd = '${workspaceFolder}',
-            stopOnEntry = false,
-            args = {},
-
-            -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-            --
-            --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-            --
-            -- Otherwise you might get the following error:
-            --
-            --    Error on launch: Failed to attach to the target process
-            --
-            -- But you should be aware of the implications:
-            -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-            runInTerminal = false,
-        },
-    }
 
     dap.listeners.after.event_initialized['dapui_config'] = function()
         dap_ui.open()
@@ -79,10 +113,6 @@ function M.config()
     dap.listeners.before.event_exited['dapui_config'] = function()
         dap_ui.close()
     end
-
-    -- If you want to use this for rust and c, add something like this:
-    dap.configurations.c = dap.configurations.cpp
-    dap.configurations.rust = dap.configurations.cpp
 end
 
 return M
