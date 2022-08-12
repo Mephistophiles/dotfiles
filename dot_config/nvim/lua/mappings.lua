@@ -3,16 +3,6 @@ vim.g.mapleader = ' '
 -- Toggle paste
 vim.o.pastetoggle = '<F6>'
 
-local function number_toggle()
-    if vim.o.relativenumber then
-        vim.notify 'Disable relative numbers'
-        vim.o.relativenumber = false
-    else
-        vim.notify 'Enable relative numbers'
-        vim.o.relativenumber = true
-    end
-end
-
 local function paste_git_signoff()
     local username = io.popen('git config user.name', 'r'):read '*l'
     local email = io.popen('git config user.email', 'r'):read '*l'
@@ -21,11 +11,6 @@ local function paste_git_signoff()
 
     return true
 end
-
--- toggle show invisible symbols
-vim.keymap.set({ 'n', 'i' }, '<F2>', function()
-    number_toggle()
-end, { desc = 'Toggle numbers/relativenumbers' })
 
 -- toggle spelling
 vim.keymap.set('n', '<F7>', [[:set spell!<CR>]], { desc = 'Toggle spelling' })

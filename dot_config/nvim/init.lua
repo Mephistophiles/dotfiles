@@ -16,6 +16,7 @@ end
 
 require 'globals'
 require 'mappings'
+require 'relativenumbers'
 require 'options'
 
 pcall(require, 'host')

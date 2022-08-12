@@ -1,19 +1,3 @@
-vim.opt.number = true -- Default number mode
-vim.opt.relativenumber = true -- Set relative number
-
--- relative number only in normal mode
-local relative_numbers_group = vim.api.nvim_create_augroup('ToggleRelativeNumber', { clear = true })
-vim.api.nvim_create_autocmd('InsertEnter', {
-    group = relative_numbers_group,
-    pattern = '*',
-    command = 'setlocal norelativenumber',
-})
-vim.api.nvim_create_autocmd('InsertLeave', {
-    group = relative_numbers_group,
-    pattern = '*',
-    command = 'setlocal relativenumber',
-})
-
 -- highlight yanked text
 local highlight_yank_group = vim.api.nvim_create_augroup('highlight_yank', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
