@@ -62,26 +62,34 @@ return packer.startup {
         }
 
         use {
-            'otavioschwanck/cool-substitute.nvim',
+            'gbprod/substitute.nvim',
             config = function()
-                require('cool-substitute').setup {
-                    setup_keybindings = true,
-                    -- mappings = {
-                    --   start = 'gm', -- Mark word / region
-                    --   start_and_edit = 'gM', -- Mark word / region and also edit
-                    --   start_and_edit_word = 'g!M', -- Mark word / region and also edit.  Edit only full word.
-                    --   start_word = 'g!m', -- Mark word / region. Edit only full word
-                    --   apply_substitute_and_next = 'M', -- Start substitution / Go to next substitution
-                    --   apply_substitute_and_prev = '<C-b>', -- same as M but backwards
-                    --   apply_substitute_all = 'ga', -- Substitute all
-                    --   force_terminate_substitute = 'g!!' -- Terminate macro (if some bug happens)
-                    -- },
-                    -- reg_char = 'o', -- letter to save macro (Dont use number or uppercase here)
-                    -- mark_char = 't', -- mark the position at start of macro
-                    -- writing_substitution_color = "#ECBE7B", -- for status line
-                    -- applying_substitution_color = "#98be65", -- for status line
-                    -- edit_word_when_starting_with_substitute_key = true (press M to mark and edit when not executing anything anything)
+                require('substitute').setup {
+                    -- your configuration comes here
+                    -- or leave it empty to use the default settings
+                    -- refer to the configuration section below
                 }
+                vim.keymap.set('n', 's', "<cmd>lua require('substitute').operator()<cr>", { noremap = true })
+                vim.keymap.set('n', 'ss', "<cmd>lua require('substitute').line()<cr>", { noremap = true })
+                vim.keymap.set('n', 'S', "<cmd>lua require('substitute').eol()<cr>", { noremap = true })
+                vim.keymap.set('x', 's', "<cmd>lua require('substitute').visual()<cr>", { noremap = true })
+                vim.keymap.set(
+                    'n',
+                    '<leader>s',
+                    "<cmd>lua require('substitute.range').operator()<cr>",
+                    { noremap = true }
+                )
+                vim.keymap.set(
+                    'x',
+                    '<leader>s',
+                    "<cmd>lua require('substitute.range').visual()<cr>",
+                    { noremap = true }
+                )
+                vim.keymap.set('n', '<leader>ss', "<cmd>lua require('substitute.range').word()<cr>", { noremap = true })
+                vim.keymap.set('n', 'sx', "<cmd>lua require('substitute.exchange').operator()<cr>", { noremap = true })
+                vim.keymap.set('n', 'sxx', "<cmd>lua require('substitute.exchange').line()<cr>", { noremap = true })
+                vim.keymap.set('x', 'X', "<cmd>lua require('substitute.exchange').visual()<cr>", { noremap = true })
+                vim.keymap.set('n', 'sxc', "<cmd>lua require('substitute.exchange').cancel()<cr>", { noremap = true })
             end,
         }
 
@@ -521,7 +529,6 @@ return packer.startup {
         }
 
         use { 'LnL7/vim-nix', opt = true, ft = 'nix' }
-        use { 'tommcdo/vim-exchange', opt = true, keys = { { '', 'cx', 'Exchange: exchange word under cursor' } } }
 
         use {
             'rhysd/conflict-marker.vim',
@@ -615,42 +622,6 @@ return packer.startup {
             end,
             config = function()
                 require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
-            end,
-        }
-
-        use {
-            'ggandor/leap.nvim',
-            opt = true,
-            keys = { { 'n', '<leader>s', 'Leap: forward motion' }, { 'n', '<leader>S', 'Leap: backward motion' } },
-            config = function()
-                vim.keymap.set(
-                    'n',
-                    '<leader>s',
-                    '<Plug>(leap-forward)',
-                    { silent = true, desc = 'Leap: forward motion' }
-                )
-                vim.keymap.set(
-                    'n',
-                    '<leader>S',
-                    '<Plug>(leap-backward)',
-                    { silent = true, desc = 'Leap: backward motion' }
-                )
-                require('leap').setup {
-                    case_insensitive = true,
-                    -- Leaving the appropriate list empty effectively disables "smart" mode,
-                    -- and forces auto-jump to be on or off.
-                    -- safe_labels = { . . . },
-                    -- labels = { . . . },
-                    -- These keys are captured directly by the plugin at runtime.
-                    special_keys = {
-                        repeat_search = '<enter>',
-                        next_match = '<enter>',
-                        prev_match = '<tab>',
-                        next_group = '<space>',
-                        prev_group = '<tab>',
-                        eol = '<space>',
-                    },
-                }
             end,
         }
 
