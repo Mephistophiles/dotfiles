@@ -822,13 +822,6 @@ return packer.startup {
         use { 'timcharper/textile.vim', ft = 'textile' }
 
         use {
-            'norcalli/nvim-colorizer.lua',
-            config = function()
-                require('colorizer').setup()
-            end,
-        }
-
-        use {
             'klen/nvim-config-local',
             config = function()
                 require('config-local').setup {
@@ -864,24 +857,6 @@ return packer.startup {
             cmd = { 'Twilight', 'TwilightEnable' },
             config = function()
                 require('twilight').setup {}
-            end,
-        }
-
-        use {
-            'koenverburg/peepsight.nvim',
-            cmd = { 'PeepsightEnable', 'PeepsightDisable' },
-            config = function()
-                require('peepsight').setup {
-                    -- go
-                    'function_declaration',
-                    'method_declaration',
-                    'func_literal',
-
-                    -- typescript
-                    'arrow_function',
-                    'function_declaration',
-                    'generator_function_declaration',
-                }
             end,
         }
 
