@@ -484,6 +484,14 @@ return packer.startup {
 
         use {
             'aserowy/tmux.nvim',
+            keys = {
+                { 'n', '<c-h>', 'Left movement' },
+                { 'n', '<c-l>', 'Right movement' },
+                { 'n', '<a-h>', 'Left movement' },
+                { 'n', '<a-j>', 'Bottom movement' },
+                { 'n', '<a-k>', 'Top movement' },
+                { 'n', '<a-l>', 'Right movement' },
+            },
             config = function()
                 require('tmux').setup {
                     -- overwrite default configuration
@@ -717,6 +725,7 @@ return packer.startup {
 
         use {
             'anuvyklack/pretty-fold.nvim',
+            event = { 'CursorHold' },
             config = function()
                 require('pretty-fold').setup {}
                 require('fold-preview').setup()
