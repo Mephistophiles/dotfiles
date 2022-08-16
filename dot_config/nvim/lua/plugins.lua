@@ -56,7 +56,9 @@ return packer.startup {
         use {
             'lcheylus/overlength.nvim',
             config = function()
-                require('overlength').setup()
+                require('overlength').setup {
+                    disable_ft = { 'diff', 'gitcommit', 'json' },
+                }
             end,
         }
 
@@ -198,7 +200,7 @@ return packer.startup {
 
         use {
             'tjdevries/express_line.nvim',
-            requires = { 'nvim-lua/plenary.nvim' },
+            requires = { 'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons' },
             setup = function()
                 require('settings.express_line').setup()
             end,
