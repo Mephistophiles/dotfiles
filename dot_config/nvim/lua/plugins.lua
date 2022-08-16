@@ -200,7 +200,7 @@ return packer.startup {
             'tjdevries/express_line.nvim',
             requires = { 'nvim-lua/plenary.nvim' },
             setup = function()
-                require('settings.express_line').setup ()
+                require('settings.express_line').setup()
             end,
             config = function()
                 require('settings.express_line').config()
@@ -811,8 +811,6 @@ return packer.startup {
                 require('settings.dap').config()
             end,
         }
-
-        use 'rhysd/committia.vim'
 
         use {
             'chrisbra/NrrwRgn',
