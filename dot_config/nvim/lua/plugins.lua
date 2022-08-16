@@ -197,17 +197,13 @@ return packer.startup {
         use 'wsdjeg/vim-fetch'
 
         use {
-            'hoob3rt/lualine.nvim',
-            requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+            'tjdevries/express_line.nvim',
+            requires = { 'nvim-lua/plenary.nvim' },
+            setup = function()
+                require('settings.express_line').setup ()
+            end,
             config = function()
-                require('lualine').setup {
-                    options = { theme = 'tokyonight' },
-                    sections = {
-                        lualine_c = {
-                            { 'filename', file_status = true, path = 1 },
-                        },
-                    },
-                }
+                require('settings.express_line').config()
             end,
         }
         use {
