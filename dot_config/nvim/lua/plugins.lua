@@ -54,6 +54,13 @@ return packer.startup {
         }
 
         use {
+            'lcheylus/overlength.nvim',
+            config = function()
+                require('overlength').setup()
+            end,
+        }
+
+        use {
             'goolord/alpha-nvim',
             requires = { 'kyazdani42/nvim-web-devicons' },
             config = function()
