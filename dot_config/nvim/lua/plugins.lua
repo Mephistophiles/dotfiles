@@ -464,26 +464,22 @@ return packer.startup {
         }
 
         use {
-            'AndrewRadev/switch.vim',
+            'monaqa/dial.nvim',
             cmd = 'Switch',
-            keys = { { '', '-', 'Switch: toggle word under cursor' } },
+            keys = {
+                { 'n', '<C-a>', 'Increment' },
+                { 'n', '<C-x>', 'Decrement' },
+                { 'v', '<C-a>', 'Increment' },
+                { 'v', '<C-x>', 'Decrement' },
+                { 'v', 'g<C-a>', 'Increment' },
+                { 'v', 'g<C-x>', 'Decrement' },
+            },
             setup = function()
-                vim.g.switch_mapping = '-'
-                vim.g.switch_find_smallest_match = 0
-                vim.g.switch_custom_definitions = {
-                    { 'd_str_t', 'd_str_auto_t' },
-                    { 'json_t', 'json_auto_t' },
-                    { 'd_jrpcmsg_t', 'd_jrpcmsg_auto_t' },
-                    { 'd_dynarray_t', 'd_dynarray_auto_t' },
-                    { 'd_vect_t', 'd_vect_auto_t' },
-                    { 'json_object_set_nocheck', 'json_object_set_new_nocheck' },
-                    { 'json_object_set', 'json_object_set_new' },
-                    { 'json_array_append', 'json_array_append_new' },
-                    {
-                        ['^\\(\\k\\+\\)=y'] = '# \\1 is not set',
-                        ['^# \\(\\k\\+\\) is not set'] = '\\1=y',
-                    },
-                }
+                require('settings.dial').setup()
+            end,
+
+            config = function()
+                require('settings.dial').config()
             end,
         }
 
@@ -683,7 +679,7 @@ return packer.startup {
                 vim.notify = setmetatable({}, {
                     __call = function(_, msg, level, opts)
                         if vim.g.nvim_notify_stack_trace and level and level >= vim.log.levels.WARN then
-                            msg = msg .. '\n' .. debug.traceback()
+                            msg = msg .. '\n' .. debug.traceback('Trace', 2)
                         end
 
                         notify_fn(msg, level, opts)
