@@ -13,6 +13,20 @@ function M.config()
         }
     end
 
+    local pattern = function(from, to)
+        return augend.user.new {
+            find = require('dial.augend.common').find_pattern(from),
+            add = function(text, _, cursor)
+                local option = text:match(from)
+                local out = string.format(to, option)
+                return {
+                    text = out,
+                    cursor = cursor,
+                }
+            end,
+        }
+    end
+
     require('dial.config').augends:register_group {
         -- default augends used when no group name is specified
         default = {
@@ -32,28 +46,8 @@ function M.config()
             cycle { 'json_object_set_nocheck', 'json_object_set_new_nocheck' },
             cycle { 'json_object_set', 'json_object_set_new' },
             cycle { 'json_array_append', 'json_array_append_new' },
-            augend.user.new {
-                find = require('dial.augend.common').find_pattern '^(%S+)=y$',
-                add = function(text, _, cursor)
-                    local option = text:match '^(%S+)=y$'
-                    local out = string.format('# %s is not set', option)
-                    return {
-                        text = out,
-                        cursor = cursor,
-                    }
-                end,
-            },
-            augend.user.new {
-                find = require('dial.augend.common').find_pattern '^# (%S+) is not set$',
-                add = function(text, _, cursor)
-                    local option = text:match '^# (%S+) is not set$'
-                    local out = string.format('%s=y', option)
-                    return {
-                        text = out,
-                        cursor = cursor,
-                    }
-                end,
-            },
+            pattern('^(%S+)=y$', '# %s is not set'),
+            pattern('^# (%S+) is not set$', '%s=y'),
         },
     }
 
