@@ -65,10 +65,6 @@ vim.keymap.set('n', 'Y', 'y$', { desc = 'Yank to end of line' })
 vim.keymap.set('n', 'n', 'nzz', { desc = 'Goto to next search with possible unfold' })
 vim.keymap.set('n', 'N', 'Nzz', { desc = 'Goto to previous search with possible unfold' })
 
--- replace paste without save in registers
-vim.keymap.set('v', '<leader>p', '"_dP', { desc = 'Paste without save in registers' })
-vim.keymap.set('v', '<leader>d', '"_d', { desc = 'Delete without save in registers' })
-
 -- copy in clipboard
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Copy to clipboard' })
 vim.keymap.set('n', '<leader>Y', 'gg"+yG', { desc = 'Copy to clipboard all file' })
