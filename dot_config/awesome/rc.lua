@@ -317,85 +317,6 @@ local battery_widget = has_battery()
 
 -- local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
-local pushlocker_widget = wibox.widget.textbox()
-pushlocker_widget:buttons(awful.util.table.join(table.unpack({
-    awful.button({}, 1, function()
-        local _, _, ret = os.execute("timeout 2s pushlockctl check")
-
-        if ret == 0 then
-            awful.spawn("pushlockctl lock", false)
-        elseif ret == 2 then
-            awful.spawn("pushlockctl unlock", false)
-        end
-    end),
-})))
-
-local update_pushlocker_text = function()
-    local ip_route_handle = io.popen("ip route list exact 192.168.161.0/24", "r")
-
-    if ip_route_handle == nil then
-        pushlocker_widget.text = ""
-        pushlocker_widget.visible = false
-        return
-    end
-
-    local ip_route_out = ip_route_handle:read("*a")
-    local has_vpn = ip_route_out and ip_route_out:match("^192.168.161.0/24") ~= nil
-
-    ip_route_handle:close()
-
-    if not has_vpn then
-        pushlocker_widget.text = ""
-        pushlocker_widget.visible = false
-        return
-    end
-
-    awful.spawn.easy_async("timeout 2s pushlockctl check", function(stdout, _, _, exit_code)
-        stdout = stdout:gsub("\n", "")
-
-        pushlocker_widget.visible = true
-
-        if stdout == "Unknown error" or exit_code == 101 or exit_code == 124 then
-            pushlocker_widget.text = " 🔥 Server Error "
-        elseif exit_code == 0 then
-            pushlocker_widget.text = " ⚡️ "
-        elseif exit_code == 1 then
-            pushlocker_widget.text = " 🚧 " .. stdout .. " "
-        elseif exit_code == 2 then
-            pushlocker_widget.text = " 👷 Locked by me "
-        elseif exit_code == 101 or exit_code == 124 then
-            pushlocker_widget.text = " 🔥 Server Error "
-        end
-    end)
-end
-
-local has_redminer = function()
-    return select(1, os.execute("~/bin/redminer timer list_porcelain"))
-end
-
-local redminer_widget = has_redminer()
-        and awful.widget.watch(string.format("%s/redminer.sh", AWESOMEWM_DIR), 5, function(widget, stdout)
-            if #stdout == 0 then
-                widget:set_visible(false)
-            else
-                widget:set_markup(stdout)
-                widget:set_visible(true)
-            end
-        end)
-    or SKIP
-
-local current_dm_version = awful.widget.watch(
-    { string.format("%s/dm_version.sh", AWESOMEWM_DIR) },
-    5,
-    function(widget, stdout)
-        if stdout and #stdout > 0 then
-            widget:set_visible(true)
-            widget:set_text(" v" .. stdout .. " ")
-        else
-            widget:set_visible(false)
-        end
-    end
-)
 
 local cpu_temp_widget = awful.widget.watch(
     { "bash", "-c", [[sensors 'k10temp-*' -u | grep input: | head | cut -d' ' -f4 | head -1]] },
@@ -492,9 +413,6 @@ awful.screen.connect_for_each_screen(function(s)
 
     for widget in
         gears.table.iterate({
-            current_dm_version,
-            redminer_widget,
-            pushlocker_widget,
             caffeine_widget,
             -- volume_widget({widget_type = 'arc', device = 'default'}),
             text_cpu_widget,
