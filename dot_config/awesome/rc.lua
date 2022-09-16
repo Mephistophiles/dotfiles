@@ -331,15 +331,6 @@ local cpu_temp_widget = awful.widget.watch(
     end
 )
 
-gears.timer({
-    timeout = 3,
-    call_now = true,
-    autostart = true,
-    callback = function()
-        update_pushlocker_text()
-    end,
-})
-
 local separator = wibox.widget({
     widget = wibox.widget.separator,
     orientation = "vertical",
