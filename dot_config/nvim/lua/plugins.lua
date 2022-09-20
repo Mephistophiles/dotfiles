@@ -701,8 +701,6 @@ return packer.startup {
             end,
         }
 
-        use { 'wakatime/vim-wakatime' }
-
         use { 'michaeljsmith/vim-indent-object' }
 
         use 'simrat39/rust-tools.nvim'
