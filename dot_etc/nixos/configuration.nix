@@ -205,6 +205,7 @@ in
     gnome3.gnome-disk-utility
     gnome3.gnome-themes-extra
     gnome3.nautilus
+    josm
     libreoffice
     meld
     thunderbird
