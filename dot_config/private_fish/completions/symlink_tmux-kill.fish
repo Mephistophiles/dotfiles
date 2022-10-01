@@ -1,1 +1,0 @@
-tmux-ctrl.fish
