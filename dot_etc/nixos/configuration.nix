@@ -268,9 +268,7 @@ in
     unstable.nixpkgs-review
 
     # self packaged
-    # mypkgs.fw
     mypkgs.telegram-send
-    mypkgs.pushlock
 
     # programming
     cmake
