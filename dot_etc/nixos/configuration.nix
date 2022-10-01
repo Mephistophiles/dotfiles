@@ -346,19 +346,19 @@ in
       font-awesome
       fontconfig
       freetype
-      hack-font
+      #hack-font
       jetbrains-mono
-      liberation_ttf
+      #liberation_ttf
       material-icons
-      nerdfonts
+      #nerdfonts
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
-      siji
-      source-code-pro
-      source-sans-pro
-      source-serif-pro
-      ubuntu_font_family
+      #siji
+      #source-code-pro
+      #source-sans-pro
+      #source-serif-pro
+      #ubuntu_font_family
       weather-icons
     ];
 
