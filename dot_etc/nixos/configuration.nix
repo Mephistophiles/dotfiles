@@ -197,6 +197,7 @@ in
     unstable.zoxide
 
     # gui
+    arandr
     evince
     firefox
     gimp
