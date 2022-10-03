@@ -28,6 +28,7 @@ local unistd = require("posix.unistd")
 local vicious = require("vicious")
 local scratch = require("scratch")
 local lfs = require("lfs") -- filesystem library
+local xrandr = require("xrandr")
 
 
 -- CONSTS
@@ -507,6 +508,8 @@ globalkeys = gears.table.join(
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
+
+    awful.key({ modkey, "Shift"   }, "p", function() xrandr.xrandr() end),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
