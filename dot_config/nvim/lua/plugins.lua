@@ -26,6 +26,41 @@ return packer.startup {
         use 'tpope/vim-repeat'
 
         use {
+            'RRethy/vim-illuminate',
+            config = function()
+                local augroup = vim.api.nvim_create_augroup('IlluminatedAugroup', { clear = true })
+
+                vim.api.nvim_create_autocmd('VimEnter', {
+                    group = augroup,
+                    pattern = '*',
+                    desc = 'Override highlight',
+                    callback = function()
+                        vim.api.nvim_set_hl(0, 'IlluminatedWordText', { underline = true })
+                        vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { underline = true })
+                        vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { underline = true, bold = true })
+                    end,
+                })
+
+                -- default configuration
+                require('illuminate').configure {
+                    -- providers: provider used to get references in the buffer, ordered by priority
+                    providers = {
+                        'lsp',
+                        'treesitter',
+                        'regex',
+                    },
+                    -- delay: delay in milliseconds
+                    delay = 100,
+                    -- filetypes_denylist: filetypes to not illuminate, this overrides filetypes_allowlist
+                    filetypes_denylist = {
+                        'dirvish',
+                        'fugitive',
+                    },
+                }
+            end,
+        }
+
+        use {
             'luukvbaal/stabilize.nvim',
             config = function()
                 require('stabilize').setup()
