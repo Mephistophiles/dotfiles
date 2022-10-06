@@ -103,22 +103,29 @@ vim.opt.listchars:append {
 }
 
 vim.keymap.set('n', '<F4>', function()
-    local current_mode = vim.b.listchars_mode or 'Full'
+    local indent_blankline_commands = require 'indent_blankline.commands'
+    local current_mode = vim.g.listchars_mode or 'Full'
     -- {"Off", "Partial", "Full"}
     if current_mode == 'Off' then
         vim.opt.list = true
-        vim.b.listchars_mode = 'Partial'
+        vim.g.listchars_mode = 'Partial'
     elseif current_mode == 'Partial' then
         vim.opt.listchars:append { space = '·', eol = '↴' }
-        vim.b.listchars_mode = 'Full'
+        vim.g.listchars_mode = 'Full'
     elseif current_mode == 'Full' then
         vim.opt.list = false
         vim.opt.listchars:remove { 'space', 'eol' }
-        vim.b.listchars_mode = 'Off'
+        vim.g.listchars_mode = 'Off'
     end
 
-    require('indent_blankline.commands').refresh(true)
-    vim.notify('Current list mode: ' .. vim.b.listchars_mode)
+    if vim.g.listchars_mode == 'Full' and not vim.g.indent_blankline_enabled then
+        indent_blankline_commands.enable(true)
+    elseif vim.g.listchars_mode ~= 'Full' and vim.g.indent_blankline_enabled then
+        indent_blankline_commands.disable(true)
+    end
+    indent_blankline_commands.refresh(true)
+
+    vim.notify('Current list mode: ' .. vim.g.listchars_mode)
 end, { desc = 'Show/Hide whitespaces' })
 
 -- Set completeopt to have a better completion experience
