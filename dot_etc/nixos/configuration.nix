@@ -103,6 +103,7 @@ in
     };
 
     upower = { enable = true; };
+    autorandr = { enable = true; };
   };
 
   systemd = {
@@ -128,6 +129,7 @@ in
       shell = pkgs.fish;
       isNormalUser = true;
       extraGroups = [
+        "dialout"
         "plugdev"
         "docker"
         "networkmanager"
@@ -197,6 +199,8 @@ in
     unstable.zoxide
 
     # gui
+    unstable.pulseview
+    unstable.saleae-logic-2
     arandr
     evince
     firefox
