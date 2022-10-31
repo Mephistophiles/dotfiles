@@ -577,14 +577,37 @@ return packer.startup {
         use { 'LnL7/vim-nix', opt = true, ft = 'nix' }
 
         use {
-            'rhysd/conflict-marker.vim',
-            opt = true,
-            cond = function()
-                return vim.opt.diff:get()
-            end,
-            setup = function()
-                -- matchit is not installed
-                vim.g.conflict_marker_enable_matchit = 0
+            'akinsho/git-conflict.nvim',
+            config = function()
+                require('git-conflict').setup {
+                    highlights = { -- They must have background color, otherwise the default color will be used
+                        incoming = 'Visual',
+                        current = 'Visual',
+                        ancestor = 'Visual',
+                    },
+                }
+
+                local augroup = vim.api.nvim_create_augroup('GitConflictAugroup', { clear = true })
+                vim.api.nvim_create_autocmd('User', {
+                    group = augroup,
+                    pattern = 'GitConflictDetected',
+                    callback = function()
+                        local CURRENT_HL = 'GitConflictCurrent'
+                        local INCOMING_HL = 'GitConflictIncoming'
+                        local ANCESTOR_HL = 'GitConflictAncestor'
+                        local CURRENT_LABEL_HL = 'GitConflictCurrentLabel'
+                        local INCOMING_LABEL_HL = 'GitConflictIncomingLabel'
+                        local ANCESTOR_LABEL_HL = 'GitConflictAncestorLabel'
+                        local visual_hl = vim.api.nvim_get_hl_by_name('Visual', true)
+
+                        vim.api.nvim_set_hl(0, CURRENT_HL, { background = visual_hl.background, bold = true })
+                        vim.api.nvim_set_hl(0, INCOMING_HL, { background = visual_hl.background, bold = true })
+                        vim.api.nvim_set_hl(0, ANCESTOR_HL, { background = visual_hl.background, bold = true })
+                        vim.api.nvim_set_hl(0, CURRENT_LABEL_HL, { background = visual_hl.background })
+                        vim.api.nvim_set_hl(0, INCOMING_LABEL_HL, { background = visual_hl.background })
+                        vim.api.nvim_set_hl(0, ANCESTOR_LABEL_HL, { background = visual_hl.background })
+                    end,
+                })
             end,
         }
 
