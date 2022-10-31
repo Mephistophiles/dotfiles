@@ -56,7 +56,11 @@ function M.setup()
         null_ls.builtins.code_actions.shellcheck,
 
         -- diagnostics
-        null_ls.builtins.diagnostics.cppcheck,
+        null_ls.builtins.diagnostics.cppcheck.with {
+            condition = function()
+                return vim.fn.exepath 'cppcheck' ~= ''
+            end,
+        },
         null_ls.builtins.diagnostics.eslint,
         null_ls.builtins.diagnostics.gitlint,
         null_ls.builtins.diagnostics.jsonlint,
