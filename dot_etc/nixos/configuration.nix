@@ -155,12 +155,8 @@ in
     acpid = {
       enable = true;
       handlers = {
-        LOCK = {
-          action = "for display in $(ps e | grep -Po ' DISPLAY=[\.0-9A-Za-z:]* ' | sort -u); do env $display /home/mzhukov/.config/awesome/awesome-lock.sh lock 2; done";
-          event = "button/lid LID close";
-        };
         LID = {
-          action = "${pkgs.autorandr}/bin/autorandr --batch --change --default default";
+          action = "${pkgs.unstable.autorandr}/bin/autorandr --batch --change --default default";
           event = "button/lid.*";
         };
       };
@@ -346,6 +342,10 @@ in
     lua
     python310
     stylua
+    tla
+    tlaplusToolbox
+    tlaps
+
     tig
     unstable.julia-stable-bin
     unstable.lazydocker
