@@ -73,11 +73,10 @@ local custom_attach = function(client, bufnr)
 end
 
 function M.make_default_opts()
-    local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
-    updated_capabilities.textDocument.codeLens = { dynamicRegistration = false }
-    updated_capabilities = require('cmp_nvim_lsp').update_capabilities(updated_capabilities)
+    local updated_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     -- TODO: check if this is the problem.
+    --updated_capabilities.textDocument.codeLens.dynamicRegistration = false
     updated_capabilities.textDocument.completion.completionItem.insertReplaceSupport = false
 
     return {
