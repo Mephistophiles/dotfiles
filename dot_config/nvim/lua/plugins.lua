@@ -590,7 +590,7 @@ return packer.startup {
                 local augroup = vim.api.nvim_create_augroup('GitConflictAugroup', { clear = true })
                 vim.api.nvim_create_autocmd('User', {
                     group = augroup,
-                    pattern = 'GitConflictDetected',
+                    pattern = 'GitConflictResolved',
                     callback = function()
                         local CURRENT_HL = 'GitConflictCurrent'
                         local INCOMING_HL = 'GitConflictIncoming'
