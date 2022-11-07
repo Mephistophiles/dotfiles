@@ -90,14 +90,16 @@ function M.setup()
                     end,
                 })
 
-                vim.keymap.set('n', '<leader>f', function()
-                    formatter.format_document()
-                end, { silent = true, buffer = true, desc = 'Format current document' })
-                -- TODO: range formatting is not supported: https://github.com/neovim/neovim/issues/18371
+                vim.keymap.set(
+                    'n',
+                    '<leader>f',
+                    [[<CMD>lua require('settings.formatter').format_document()<cr>]],
+                    { silent = true, buffer = true, desc = 'Format current document' }
+                )
                 vim.keymap.set(
                     'v',
                     '<leader>f',
-                    [[:'<,'>lua vim.lsp.buf.range_formatting()<cr>]],
+                    [[<CMD>lua require('settings.formatter').format_document()<cr>]],
                     { silent = true, buffer = true, desc = 'Format current selecton in document' }
                 )
             end
