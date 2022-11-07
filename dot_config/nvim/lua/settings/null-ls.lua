@@ -86,20 +86,20 @@ function M.setup()
                     desc = 'Format document on save',
                     buffer = 0,
                     callback = function()
-                        formatter.format_document(bufnr)
+                        formatter.format_document(false, bufnr)
                     end,
                 })
 
                 vim.keymap.set(
                     'n',
                     '<leader>f',
-                    [[<CMD>lua require('settings.formatter').format_document()<cr>]],
+                    [[<CMD>lua require('settings.formatter').format_document(true)<cr>]],
                     { silent = true, buffer = true, desc = 'Format current document' }
                 )
                 vim.keymap.set(
                     'v',
                     '<leader>f',
-                    [[<CMD>lua require('settings.formatter').format_document()<cr>]],
+                    [[<CMD>lua require('settings.formatter').format_document(true)<cr>]],
                     { silent = true, buffer = true, desc = 'Format current selecton in document' }
                 )
             end

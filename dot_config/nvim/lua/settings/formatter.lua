@@ -296,12 +296,12 @@ function M.setup_formatter()
     vim.lsp.buf.format = FORMAT_POLYFILL
 end
 
-function M.format_document(bufnr)
-    if vim.b.disable_formatter then
+function M.format_document(force, bufnr)
+    if not force and vim.b.disable_formatter then
         return
     end
 
-    if is_blacklisted_file(vim.api.nvim_buf_get_name(0)) then
+    if not force and is_blacklisted_file(vim.api.nvim_buf_get_name(0)) then
         return
     end
 
