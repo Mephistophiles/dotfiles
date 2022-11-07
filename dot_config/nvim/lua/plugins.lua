@@ -618,76 +618,17 @@ return packer.startup {
             opt = true,
             module = 'hop',
             setup = function()
+                local direction = require('hop.hint').HintDirection
                 vim.keymap.set('n', '<Leader>w', function()
-                    require('hop').hint_words {
-                        direction = require('hop.hint').HintDirection.AFTER_CURSOR,
-                    }
+                    require('hop').hint_words { direction = direction.AFTER_CURSOR }
                 end, {
                     desc = 'Hop: Annotate all words after cursor in the current window with key sequences.',
                 })
-                vim.keymap.set('n', '<Leader>W', function()
-                    require('hop').hint_words { multi_windows = true }
-                end, {
-                    desc = 'Hop: Annotate all words after cursor in the all visible windows with key sequences.',
-                })
                 vim.keymap.set('n', '<Leader>b', function()
-                    require('hop').hint_words {
-                        direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
-                    }
+                    require('hop').hint_words { direction = direction.BEFORE_CURSOR }
                 end, {
                     desc = 'Hop: Annotate all words before cursor in the current window with key sequences.',
                 })
-                vim.keymap.set('n', '<Leader>B', function()
-                    require('hop').hint_words { multi_windows = true }
-                end, {
-                    desc = 'Hop: Annotate all words before cursor in the all visible windows with key sequences.',
-                })
-                vim.keymap.set(
-                    'n',
-                    'f',
-                    function()
-                        require('hop').hint_char1 {
-                            direction = require('hop.hint').HintDirection.AFTER_CURSOR,
-                            current_line_only = true,
-                        }
-                    end,
-                    { desc = 'Hop: Let the user type a key and immediately hint all of its occurrences after cursor.' }
-                )
-                vim.keymap.set(
-                    'n',
-                    'F',
-                    function()
-                        require('hop').hint_char1 {
-                            direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
-                            current_line_only = true,
-                        }
-                    end,
-                    { desc = 'Hop: Let the user type a key and immediately hint all of its occurrences before cursor.' }
-                )
-                vim.keymap.set(
-                    'n',
-                    't',
-                    function()
-                        require('hop').hint_char1 {
-                            direction = require('hop.hint').HintDirection.AFTER_CURSOR,
-                            current_line_only = true,
-                            hint_offset = -1,
-                        }
-                    end,
-                    { desc = 'Hop: Let the user type a key and immediately hint all of its occurrences after cursor.' }
-                )
-                vim.keymap.set(
-                    'n',
-                    'T',
-                    function()
-                        require('hop').hint_char1 {
-                            direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
-                            current_line_only = true,
-                            hint_offset = -1,
-                        }
-                    end,
-                    { desc = 'Hop: Let the user type a key and immediately hint all of its occurrences before cursor.' }
-                )
             end,
             config = function()
                 require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
