@@ -90,18 +90,13 @@ function M.setup()
                     end,
                 })
 
-                vim.keymap.set(
-                    'n',
-                    '<leader>f',
-                    [[<CMD>lua require('settings.formatter').format_document(true)<cr>]],
-                    { silent = true, buffer = true, desc = 'Format current document' }
-                )
-                vim.keymap.set(
-                    'v',
-                    '<leader>f',
-                    [[<CMD>lua require('settings.formatter').format_document(true)<cr>]],
-                    { silent = true, buffer = true, desc = 'Format current selecton in document' }
-                )
+                vim.keymap.set('n', '<leader>f', function()
+                    formatter.format_document(true)
+                end, { silent = true, buffer = true, desc = 'Format current document' })
+                vim.keymap.set('v', '<leader>f', function()
+                    formatter.format_document(true)
+                    vim.api.nvim_input '<Esc>'
+                end, { silent = true, buffer = true, desc = 'Format current selecton in document' })
             end
 
             lspconfig.key_bindings(client)
