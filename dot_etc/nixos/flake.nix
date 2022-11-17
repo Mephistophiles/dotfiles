@@ -19,6 +19,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-22.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    nur.url = github:nix-community/NUR;
     # nixpkgs-trunk.url = "nixpkgs/master";
 
     home-manager.url = "github:nix-community/home-manager/release-22.05";
@@ -41,6 +42,7 @@
       nixpkgs-unstable = inputs.nixpkgs-unstable;
       # nixpkgs-trunk = inputs.nixpkgs-trunk;
       home-manager = inputs.home-manager;
+      nur = inputs.nur;
 
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
@@ -80,6 +82,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           home-manager.nixosModules.home-manager
+          nur.nixosModules.nur
 
           ({ pkgs, ... }: {
             nixpkgs = nixpkgs-overlay;
