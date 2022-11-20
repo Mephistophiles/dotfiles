@@ -69,6 +69,28 @@ return packer.startup {
         }
 
         use {
+            'cshuaimin/ssr.nvim',
+            module = 'ssr',
+            setup = function()
+                vim.keymap.set({ 'n', 'x' }, '<leader>sr', function()
+                    require('ssr').open()
+                end)
+            end,
+            config = function()
+                require('ssr').setup {
+                    min_width = 50,
+                    min_height = 5,
+                    keymaps = {
+                        close = 'q',
+                        next_match = 'n',
+                        prev_match = 'N',
+                        replace_all = '<leader><cr>',
+                    },
+                }
+            end,
+        }
+
+        use {
             'declancm/windex.nvim',
             keys = { { 'n', '<leader>z', 'Windex: Toggle maximizing the current window' } },
             config = function()
