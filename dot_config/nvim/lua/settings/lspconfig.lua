@@ -150,6 +150,8 @@ local setup_server = function(server, config)
 end
 
 function M.setup()
+    vim.lsp.set_log_level 'off'
+
     for server, config in pairs(servers) do
         setup_server(server, config)
     end
