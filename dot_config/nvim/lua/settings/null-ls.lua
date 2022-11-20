@@ -2,8 +2,27 @@ local M = {}
 
 function M.setup()
     local null_ls = require 'null-ls'
+    local methods = require 'null-ls.methods'
+    local helpers = require 'null-ls.helpers'
+
     local lspconfig = require 'settings.lspconfig'
     local formatter = require 'settings.formatter'
+
+    local clang_tidy = helpers.make_builtin {
+        method = methods.internal.DIAGNOSTICS_ON_SAVE,
+        filetypes = { 'c', 'c++' },
+        command = 'clang-tidy',
+        generator_opts = {
+            args = { '--quiet', '$FILENAME' },
+            format = 'line',
+            ignore_stderr = true,
+            on_output = helpers.diagnostics.from_pattern(
+                ':(%d+):(%d+): (%w+): (.*)$',
+                { 'row', 'col', 'severity', 'message' }
+            ),
+        },
+        factory = helpers.generator_factory,
+    }
 
     local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
@@ -59,6 +78,11 @@ function M.setup()
         null_ls.builtins.diagnostics.cppcheck.with {
             condition = function()
                 return vim.fn.exepath 'cppcheck' ~= ''
+            end,
+        },
+        clang_tidy.with {
+            condition = function()
+                return vim.fn.exepath 'clang-tidy' ~= ''
             end,
         },
         null_ls.builtins.diagnostics.eslint,
