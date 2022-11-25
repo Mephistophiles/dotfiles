@@ -18,7 +18,15 @@ function M.setup()
             ignore_stderr = true,
             on_output = helpers.diagnostics.from_pattern(
                 ':(%d+):(%d+): (%w+): (.*)$',
-                { 'row', 'col', 'severity', 'message' }
+                { 'row', 'col', 'severity', 'message' },
+                {
+                    severities = {
+                        ['fatal error'] = helpers.diagnostics.severities.error,
+                        ['error'] = helpers.diagnostics.severities.error,
+                        ['note'] = helpers.diagnostics.severities.information,
+                        ['warning'] = helpers.diagnostics.severities.warning,
+                    },
+                }
             ),
         },
         factory = helpers.generator_factory,
