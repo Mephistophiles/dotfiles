@@ -12,6 +12,11 @@ function M.config()
                 end,
             },
         },
+        function_extensions = {
+            ['c'] = function()
+                vim.bo.expandtab = true
+            end,
+        },
     }
 end
 
