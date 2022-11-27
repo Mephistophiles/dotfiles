@@ -120,6 +120,7 @@ local servers = {
     teal_ls = vim.fn.exepath 'tl' ~= '',
     -- rust_analyzer = true,
     clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
+    dhall_lsp_server = true,
     vuels = true,
     tsserver = true,
     gopls = true,

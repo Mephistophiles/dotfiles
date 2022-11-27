@@ -1031,6 +1031,11 @@ return packer.startup {
             end,
             requires = 'nvim-lua/plenary.nvim',
         }
+
+        use {
+            'vmchale/dhall-vim',
+            ft = 'dhall',
+        }
     end,
     config = {
         -- Move to lua dir so impatient.nvim can cache it
