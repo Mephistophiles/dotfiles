@@ -2,17 +2,17 @@
 
 pkgs.python3Packages.buildPythonPackage rec {
   pname = "telegram-send";
-  version = "0.25";
+  version = "0.34";
 
   src = pkgs.python3Packages.fetchPypi {
     inherit pname version;
-    sha256 = "e6cda001a89e1cd02317fcd0456288a0cdd5aa56970dec6fbd83ad9af1db05ac";
+    sha256 = "sha256-KR9mU8FvA+vOz4FCIljrFk9XCNthC8d55of5Pta/oyQ=";
   };
 
   propagatedBuildInputs = [
-    pkgs.python39Packages.appdirs
-    pkgs.python39Packages.colorama
-    pkgs.python39Packages.python-telegram-bot
+    pkgs.python310Packages.appdirs
+    pkgs.python310Packages.colorama
+    pkgs.python310Packages.python-telegram-bot
   ];
 
   doCheck = false;
