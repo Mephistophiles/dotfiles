@@ -17,12 +17,12 @@
 
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-22.05";
+    nixpkgs.url = "nixpkgs/nixos-22.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nur.url = github:nix-community/NUR;
     # nixpkgs-trunk.url = "nixpkgs/master";
 
-    home-manager.url = "github:nix-community/home-manager/release-22.05";
+    home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -40,33 +40,32 @@
       # nixpkgs-trunk = inputs.nixpkgs-trunk;
       home-manager = inputs.home-manager;
       nur = inputs.nur;
+      system = "x86_64-linux";
+      config = { };
 
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
-          system = "x86_64-linux";
+          system = system;
           config.allowUnfreePredicate = unfreePredicate;
         };
         # trunk = import nixpkgs-trunk {
-        #   system = "x86_64-linux";
+        #   system = system;
         #   config.allowUnfreePredicate = unfreePredicate;
         # };
       };
+      overlays = [ overlay-unstable ];
       nixpkgs-overlay = {
         config.allowUnfreePredicate = unfreePredicate;
-        overlays = [ overlay-unstable ];
+        inherit overlays;
       };
     in
     {
       homeConfigurations = {
         mzhukov = home-manager.lib.homeManagerConfiguration {
-          system = "x86_64-linux";
-          homeDirectory = "/home/mzhukov";
-          username = "mzhukov";
-          configuration = { pkgs, config, ... }: {
-            nixpkgs = nixpkgs-overlay;
-            programs.home-manager.enable = true;
-            imports = [ ./home.nix ];
-          };
+          pkgs = import nixpkgs { inherit system config overlays; };
+          modules = [
+            ./home.nix
+          ];
         };
       };
 

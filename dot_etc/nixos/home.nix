@@ -102,6 +102,7 @@
   # paths it should manage.
   home.username = "mzhukov";
   home.homeDirectory = "/home/mzhukov";
+  home.stateVersion = "22.11";
 
   home.file.".config/fish/conf.d/add_bin_to_path.fish".text = ''
     fish_add_path "$HOME/bin"
