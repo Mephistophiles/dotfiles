@@ -233,6 +233,7 @@ in
     unstable.cargo-expand
     unstable.cargo-nextest
     unstable.cargo-outdated
+    unstable.cargo-public-api
     unstable.cargo-release
     unstable.cargo-tarpaulin
     unstable.cargo-udeps
@@ -256,8 +257,6 @@ in
     unstable.zoxide
 
     # gui
-    unstable.pulseview
-    unstable.saleae-logic-2
     arandr
     evince
     firefox
@@ -271,9 +270,7 @@ in
     libreoffice
     meld
     thunderbird
-    unstable.rescuetime
     unstable.tdesktop
-    unstable.ulauncher
 
     # text editors
     (unstable.neovim.override { vimAlias = true; })
@@ -281,7 +278,7 @@ in
     xfce.mousepad
     unstable.vscode
     # unstable.jetbrains.clion
-    unstable.obsidian
+    # unstable.obsidian
 
     # utils
     age
@@ -342,9 +339,6 @@ in
     lua
     python310
     stylua
-    tla
-    tlaplusToolbox
-    tlaps
 
     tig
     unstable.julia-stable-bin
@@ -356,7 +350,7 @@ in
 
     # programming LSP
     clang-tools
-    efm-langserver
+    # efm-langserver
     gdb
     llvmPackages_latest.clang
     llvmPackages_latest.llvm
@@ -365,13 +359,10 @@ in
     unstable.nodePackages.typescript-language-server
     unstable.nodePackages.vls
     # unstable.python310Packages.python-lsp-server
-    unstable.vscode-extensions.llvm-org.lldb-vscode
+    # unstable.vscode-extensions.llvm-org.lldb-vscode
 
     # file systems
     btrfs-progs
-
-    # social
-    unstable.rocketchat-desktop
   ];
 
   documentation.dev.enable = true;

@@ -31,10 +31,7 @@
       inherit (nixpkgs) lib;
       unfreePredicate = pkg:
         builtins.elem (lib.getName pkg) [
-          "obsidian"
-          "saleae-logic"
           # "clion"
-          "rescuetime"
           "vscode"
         ];
 
