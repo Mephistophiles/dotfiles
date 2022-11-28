@@ -16,6 +16,9 @@ function M.config()
             ['c'] = function()
                 vim.bo.expandtab = true
             end,
+            ['gitcommit'] = function()
+                vim.wo.spell = true
+            end,
         },
     }
 end
