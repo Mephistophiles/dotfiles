@@ -91,6 +91,21 @@ return packer.startup {
         }
 
         use {
+            'petertriho/nvim-scrollbar',
+            config = function()
+                require('scrollbar').setup()
+            end,
+        }
+
+        use {
+            'kevinhwang91/nvim-hlslens',
+            config = function()
+                -- require('hlslens').setup()
+                require('scrollbar.handlers.search').setup {} -- use it instead of hlsens
+            end,
+        }
+
+        use {
             'declancm/windex.nvim',
             keys = { { 'n', '<leader>z', 'Windex: Toggle maximizing the current window' } },
             config = function()
@@ -365,6 +380,8 @@ return packer.startup {
                         )
                     end,
                 }
+
+                require('scrollbar.handlers.gitsigns').setup()
             end,
         }
 
