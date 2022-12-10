@@ -861,8 +861,6 @@ return packer.startup {
             end,
         }
 
-        use { 'timcharper/textile.vim', ft = 'textile' }
-
         use {
             'klen/nvim-config-local',
             config = function()
@@ -875,30 +873,6 @@ return packer.startup {
                     silent = true, -- Disable plugin messages (Config loaded/ignored)
                     lookup_parents = true, -- Lookup config files in parent directories
                 }
-            end,
-        }
-
-        use {
-            'folke/zen-mode.nvim',
-            cmd = { 'ZenMode' },
-            config = function()
-                require('zen-mode').setup {
-                    plugins = {
-                        gitsigns = { enabled = true },
-                        tmux = { enabled = true },
-                        kitty = {
-                            enabled = true,
-                            font = '+4', -- font size increment
-                        },
-                    },
-                }
-            end,
-        }
-        use {
-            'folke/twilight.nvim',
-            cmd = { 'Twilight', 'TwilightEnable' },
-            config = function()
-                require('twilight').setup {}
             end,
         }
 
