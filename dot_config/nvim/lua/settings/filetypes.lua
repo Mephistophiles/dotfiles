@@ -6,19 +6,9 @@ function M.config()
             extensions = {
                 tl = 'teal',
             },
-            function_complex = {
-                ['Config.in'] = function()
-                    vim.bo.filetype = 'kconfig'
-                end,
+            literal = {
+                ['Config.in'] = 'kconfig',
             },
-        },
-        function_extensions = {
-            ['c'] = function()
-                vim.bo.expandtab = true
-            end,
-            ['gitcommit'] = function()
-                vim.wo.spell = true
-            end,
         },
     }
 end
