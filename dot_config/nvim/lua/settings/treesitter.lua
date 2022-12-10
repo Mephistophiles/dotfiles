@@ -36,13 +36,17 @@ function M.config()
             'julia', --
             'lua', --
             'make', --
+            'markdown', --
+            'markdown_inline', --
             'norg', --
             'org', --
             'python', --
             'query', --
+            'regex', --
             'rust', --
             'teal', --
             'typescript', --
+            'vim', --
         },
         ignore_install = {}, -- List of parsers to ignore installing
         highlight = {
