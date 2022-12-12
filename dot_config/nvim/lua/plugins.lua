@@ -842,16 +842,7 @@ return packer.startup {
                 'theHamsta/nvim-dap-virtual-text',
                 'nvim-telescope/telescope-dap.nvim',
             },
-            keys = {
-                { 'n', '<leader>db', 'DAP: toggle breakpoint in the current line' },
-                { 'n', '<leader>dB', 'DAP: toggle conditional breakpoint in the current line' },
-                { 'n', '<leader>dc', 'DAP: continue' },
-                { 'n', '<leader>ds', 'DAP: step over' },
-                { 'n', '<leader>di', 'DAP: step into' },
-                { 'n', '<leader>do', 'DAP: step out' },
-                { 'n', '<leader>dr', 'DAP: open repl' },
-                { 'n', '<leader>dh', 'DAP: display hover information about the current variable' },
-            },
+            module = 'dap',
             setup = function()
                 require('settings.dap').setup()
             end,
