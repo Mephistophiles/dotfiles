@@ -40,25 +40,6 @@ function M.configurations()
         },
     }
 
-    dap.configurations.c = {
-        {
-            name = 'Launch binary cli',
-            type = 'lldb',
-            request = 'launch',
-            program = '/home/builder/sdk/output/host/usr/bin/cli',
-            args = {
-                '-i',
-                '192.168.0.1',
-                '-a',
-                'admin:admin',
-            },
-            cwd = nil,
-            environment = nil,
-            externalConsole = true,
-            MIMode = 'lldb',
-        },
-    }
-
     local vscode_lldp = vim.fn.exepath 'lldb-vscode'
 
     if vscode_lldp ~= nil and vscode_lldp ~= '' then
