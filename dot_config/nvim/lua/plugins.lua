@@ -336,25 +336,18 @@ return packer.startup {
             event = { 'CursorHold', 'InsertEnter' },
             requires = { 'nvim-lua/plenary.nvim' },
             config = function()
-                require('gitsigns').setup {
+                local gitsigns = require 'gitsigns'
+                gitsigns.setup {
                     current_line_blame = true,
 
                     on_attach = function()
                         local gs = package.loaded.gitsigns
 
                         -- Navigation
-                        vim.keymap.set(
-                            'n',
-                            ']c',
-                            [[&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>']],
-                            { expr = true, desc = 'Git: Goto next hunk' }
-                        )
-                        vim.keymap.set(
-                            'n',
-                            '[c',
-                            [[&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>']],
-                            { expr = true, desc = 'Git: Goto prev hunk' }
-                        )
+                        if not vim.api.nvim_win_get_option(0, 'diff') then
+                            vim.keymap.set('n', ']c', gs.next_hunk, { desc = 'Git: Goto next hunk' })
+                            vim.keymap.set('n', '[c', gs.prev_hunk, { desc = 'Git: Goto prev hunk' })
+                        end
 
                         -- Actions
                         vim.keymap.set({ 'n', 'v' }, '<leader>hs', gs.stage_hunk, { desc = 'Git: Stage hunk' })
