@@ -30,17 +30,19 @@ end
 function M.configurations()
     local dap = require 'dap'
 
+    local lldb_exe = 'lldb-vscode'
+
     dap.adapters.lldb = {
         name = 'lldb',
 
         type = 'executable',
-        command = 'lldb-vscode',
+        command = lldb_exe,
         env = {
             LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = 'YES',
         },
     }
 
-    local vscode_lldp = vim.fn.exepath 'lldb-vscode'
+    local vscode_lldp = vim.fn.exepath(lldb_exe)
 
     if vscode_lldp ~= nil and vscode_lldp ~= '' then
         dap.configurations.cpp = {
