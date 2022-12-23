@@ -38,7 +38,6 @@ function M.config()
             'make', --
             'markdown', --
             'markdown_inline', --
-            'norg', --
             'org', --
             'python', --
             'query', --
@@ -56,7 +55,7 @@ function M.config()
             -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
             -- Using this option may slow down your editor, and you may see some duplicate highlights.
             -- Instead of true it can also be a list of languages
-            -- additional_vim_regex_highlighting = { 'org' }, -- Required since TS highlighter doesn't support all syntax features (conceal)
+            additional_vim_regex_highlighting = { 'org' }, -- Required since TS highlighter doesn't support all syntax features (conceal)
         },
         incremental_selection = {
             enable = true,

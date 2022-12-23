@@ -980,27 +980,17 @@ return packer.startup {
         }
 
         use {
-            'nvim-neorg/neorg',
-            ft = 'norg',
+            'nvim-orgmode/orgmode',
             after = 'nvim-treesitter',
             config = function()
-                require('neorg').setup {
-                    load = {
-                        ['core.defaults'] = {},
-                        ['core.norg.completion'] = { config = { engine = 'nvim-cmp' } },
-                        ['core.norg.concealer'] = {},
-                        ['core.norg.dirman'] = {
-                            config = {
-                                workspaces = {
-                                    work = '~/notes/work',
-                                    home = '~/notes/home',
-                                },
-                            },
-                        },
-                    },
+                require('orgmode').setup {
+                    org_agenda_files = { '~/Documents/orgs/**/*' },
+                    org_default_notes_file = '~/Documents/orgs/refile.org',
                 }
+                require('orgmode').setup_ts_grammar()
+                require('org-bullets').setup()
             end,
-            requires = 'nvim-lua/plenary.nvim',
+            requires = { 'akinsho/org-bullets.nvim' },
         }
 
         use {
