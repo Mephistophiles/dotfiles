@@ -338,6 +338,7 @@ return packer.startup {
                 'nvim-lua/plenary.nvim',
                 'nvim-telescope/telescope-ui-select.nvim',
                 'nvim-telescope/telescope-project.nvim',
+                'debugloop/telescope-undo.nvim',
             },
             setup = function()
                 require('settings.telescope').setup()
@@ -465,15 +466,6 @@ return packer.startup {
             'sindrets/diffview.nvim',
             requires = 'kyazdani42/nvim-web-devicons',
             cmd = { 'DiffviewOpen' },
-            opt = true,
-        }
-
-        use {
-            'mbbill/undotree',
-            cmd = 'UndotreeToggle',
-            setup = function()
-                vim.keymap.set('n', '<F3>', '<cmd>UndotreeToggle<CR>', { desc = 'Undotree: toggle' })
-            end,
             opt = true,
         }
 
