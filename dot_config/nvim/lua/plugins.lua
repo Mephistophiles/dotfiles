@@ -854,6 +854,10 @@ return packer.startup {
 
         use {
             'johmsalas/text-case.nvim',
+            keys = {
+                { 'v', 'ga.', 'text-case: convert case' },
+                { 'n', 'ga.', 'text-case: convert case' },
+            },
             setup = function()
                 TODO_OR_DIE.after_date(2023, 01, 14)
                 require('settings.textcase').setup()
