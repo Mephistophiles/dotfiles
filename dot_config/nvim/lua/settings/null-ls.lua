@@ -84,26 +84,40 @@ function M.setup()
 
         -- diagnostics
         null_ls.builtins.diagnostics.cppcheck.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
             condition = function()
                 return vim.fn.exepath 'cppcheck' ~= ''
             end,
         },
         clang_tidy.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
             condition = function()
                 return vim.fn.exepath 'clang-tidy' ~= ''
             end,
         },
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.diagnostics.gitlint,
-        null_ls.builtins.diagnostics.jsonlint,
-        null_ls.builtins.diagnostics.shellcheck,
-        null_ls.builtins.diagnostics.staticcheck,
+        null_ls.builtins.diagnostics.eslint.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+        },
+        null_ls.builtins.diagnostics.gitlint.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+        },
+        null_ls.builtins.diagnostics.jsonlint.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+        },
+        null_ls.builtins.diagnostics.shellcheck.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+        },
+        null_ls.builtins.diagnostics.staticcheck.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+        },
         null_ls.builtins.diagnostics.trail_space.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
             disabled_filetypes = {
                 'diff',
                 'git',
                 'gitcommit',
                 'patch',
+                'strace',
             },
         },
     }
