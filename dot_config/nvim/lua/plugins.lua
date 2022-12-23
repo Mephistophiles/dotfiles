@@ -127,15 +127,6 @@ return packer.startup {
         }
 
         use {
-            'lcheylus/overlength.nvim',
-            config = function()
-                require('overlength').setup {
-                    disable_ft = { 'diff', 'gitcommit', 'json' },
-                }
-            end,
-        }
-
-        use {
             'goolord/alpha-nvim',
             requires = { 'kyazdani42/nvim-web-devicons' },
             config = function()
@@ -176,18 +167,6 @@ return packer.startup {
         }
 
         use {
-            'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-            module = 'lsp_lines',
-            setup = function()
-                vim.keymap.set('n', '<leader>ll', require('lsp_lines').toggle, { desc = 'Toggle lsp_lines' })
-                vim.diagnostic.config { virtual_lines = false }
-            end,
-            config = function()
-                require('lsp_lines').setup()
-            end,
-        }
-
-        use {
             'akinsho/toggleterm.nvim',
             setup = function()
                 vim.keymap.set('n', '<F12>', [[:ToggleTerm<CR>]], { silent = true, desc = 'Floaterm: toggle' })
@@ -204,32 +183,6 @@ return packer.startup {
                     shell = 'fish',
                 }
             end,
-        }
-
-        use {
-            'stevearc/overseer.nvim',
-            cmd = { 'OverseerRun', 'OverseerBuild', 'OverseerToggle' },
-            setup = function()
-                require('settings.overseer').setup()
-            end,
-            config = function()
-                require('settings.overseer').config()
-            end,
-        }
-
-        use {
-            'anuvyklack/hydra.nvim',
-            setup = function()
-                require('settings.hydra').setup()
-            end,
-            config = function()
-                require('settings.hydra').config()
-            end,
-            requires = { 'mrjones2014/smart-splits.nvim' },
-        }
-
-        use {
-            'gpanders/editorconfig.nvim',
         }
 
         use {
@@ -699,7 +652,6 @@ return packer.startup {
             end,
         }
 
-        use { 'teal-language/vim-teal', ft = 'teal' }
         use { 'andymass/vim-matchup' }
         use {
             'rcarriga/nvim-notify',
@@ -846,15 +798,6 @@ return packer.startup {
         }
 
         use {
-            'chrisbra/NrrwRgn',
-            cmd = { 'NR', 'NW', 'WR', 'NRV', 'NUD', 'NRP', 'NRM', 'NRS', 'NRN', 'NRL' },
-            setup = function()
-                vim.g.nrrw_rgn_nomap_nr = 1
-                vim.g.nrrw_rgn_nomap_Nr = 1
-            end,
-        }
-
-        use {
             'chentoast/marks.nvim',
             event = { 'CursorHold', 'InsertEnter' },
             config = function()
@@ -912,6 +855,7 @@ return packer.startup {
         use {
             'johmsalas/text-case.nvim',
             setup = function()
+                TODO_OR_DIE.after_date(2023, 01, 14)
                 require('settings.textcase').setup()
             end,
             config = function()
@@ -930,6 +874,8 @@ return packer.startup {
                 { 'n', 'gaa', 'Align: aling a paragraph to 1 character, looking left' },
             },
             config = function()
+                -- Remove if I do not use it
+                TODO_OR_DIE.after_date(2023, 01, 14)
                 local function o(desc)
                     return { noremap = true, silent = true, desc = desc }
                 end
@@ -957,25 +903,6 @@ return packer.startup {
                     local a = require 'align'
                     a.operator(a.align_to_char, { reverse = true })
                 end, o 'Align: aling a paragraph to 1 character, looking left')
-            end,
-        }
-
-        use {
-            'rcarriga/neotest',
-            cmd = { 'Neotest', 'NeotestRun' },
-            module = 'neotest',
-            requires = {
-                'nvim-lua/plenary.nvim',
-                'rcarriga/neotest-plenary',
-                'rouge8/neotest-rust',
-                -- 'rcarriga/neotest-vim-test',
-                'nvim-treesitter/nvim-treesitter',
-            },
-            setup = function()
-                require('settings.neotest').setup()
-            end,
-            config = function()
-                require('settings.neotest').config()
             end,
         }
 
