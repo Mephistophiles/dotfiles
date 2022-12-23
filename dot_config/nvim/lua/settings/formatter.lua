@@ -1,5 +1,5 @@
 local cache_path = vim.fn.stdpath 'cache'
-local cache_file = cache_path .. '/formatter_blacklist.msgpack'
+local cache_file = cache_path .. '/formatter_ignorelist.msgpack'
 
 local M = {}
 
@@ -13,45 +13,46 @@ local lsp_formatting = function(bufnr)
     }
 end
 
---- @class Blacklist
-local BLACKLIST = {}
+--- @class Ignorelist
+local IGNORELIST = {}
 
-local function blacklist_file(file)
-    local blacklist = BLACKLIST.get()
+local function ignore_file(file)
+    local ignorelist = IGNORELIST.get()
 
-    if not vim.tbl_contains(blacklist, file) then
-        table.insert(blacklist, file)
+    if not vim.tbl_contains(ignorelist, file) then
+        table.insert(ignorelist, file)
     end
 
-    BLACKLIST.set(blacklist)
+    IGNORELIST.set(ignorelist)
 end
 
-local function gc_blacklist(blacklist)
-    blacklist = vim.tbl_filter(function(file)
+local function gc_ignorelist(ignorelist)
+    ignorelist = vim.tbl_filter(function(file)
         local st = vim.loop.fs_stat(file)
         return st ~= nil -- and (st.type == 'file' or st.type == 'directory')
-    end, blacklist)
+    end, ignorelist)
 
-    BLACKLIST.set(blacklist)
+    IGNORELIST.set(ignorelist)
 
-    return blacklist
+    return ignorelist
 end
 
-local function unblacklist_file(file)
-    local blacklist = BLACKLIST.get()
+local function unignore_file(file)
+    local ignorelist = IGNORELIST.get()
 
-    blacklist = vim.tbl_filter(function(f)
+    ignorelist = vim.tbl_filter(function(f)
         return f ~= file
-    end, blacklist)
+    end, ignorelist)
 
-    BLACKLIST.set(blacklist)
+    IGNORELIST.set(ignorelist)
 end
 
-local function is_blacklisted_file(file)
-    local blacklist = BLACKLIST.get()
+local function is_ignored_file(file)
+    local denylist = IGNORELIST.get()
 
-    for _, f in ipairs(blacklist) do
-        if vim.startswith(file, f) then
+    for _, pattern in ipairs(denylist) do
+        local pattern_regex = vim.regex(vim.fn.glob2regpat(pattern))
+        if pattern_regex:match_str(file) then
             return true
         end
     end
@@ -59,16 +60,16 @@ local function is_blacklisted_file(file)
     return false
 end
 
-function BLACKLIST.empty()
+function IGNORELIST.empty()
     return {}
 end
 
---- Gets the current blacklist
---- @return Blacklist
-function BLACKLIST.get()
+--- Gets the current ignorelist
+--- @return Ignorelist
+function IGNORELIST.get()
     local opened, cache = pcall(vim.fn.readfile, cache_file, 'b')
     if not opened then
-        return BLACKLIST.empty()
+        return IGNORELIST.empty()
     end
     local parsed, ret = pcall(vim.fn.msgpackparse, cache)
 
@@ -76,18 +77,18 @@ function BLACKLIST.get()
         return ret
     else
         vim.loop.fs_unlink(cache_file)
-        return BLACKLIST.empty()
+        return IGNORELIST.empty()
     end
 end
 
---- Override current blacklist
---- @param blacklist Blacklist
-function BLACKLIST.set(blacklist)
-    vim.fn.writefile(vim.fn.msgpackdump(blacklist), cache_file, 'b')
+--- Override current ignorelist
+--- @param ignorelist Ignorelist
+function IGNORELIST.set(ignorelist)
+    vim.fn.writefile(vim.fn.msgpackdump(ignorelist), cache_file, 'b')
 end
 
-function M.on_menu_save(blacklist)
-    BLACKLIST.set(blacklist)
+function M.on_menu_save(ignorelist)
+    IGNORELIST.set(ignorelist)
 end
 
 function M.setup()
@@ -101,24 +102,24 @@ function M.setup()
         end
     end, { desc = 'Formatter: toggle formatter in current document' })
 
-    vim.keymap.set('n', '<leader>mb', function()
-        blacklist_file(vim.api.nvim_buf_get_name(0))
+    vim.keymap.set('n', '<leader>mi', function()
+        ignore_file(vim.api.nvim_buf_get_name(0))
         vim.b.disable_formatter = true
         vim.notify 'Permanently disable format on save'
     end, { desc = 'Formatter: permanently disable format for current file' })
     vim.keymap.set('n', '<leader>mu', function()
-        unblacklist_file(vim.api.nvim_buf_get_name(0))
+        unignore_file(vim.api.nvim_buf_get_name(0))
         vim.b.disable_formatter = false
-        vim.notify 'Remove current file from the blacklist'
-    end, { desc = 'Formatter: remove current file from the blacklist' })
+        vim.notify 'Remove current file from the ignorelist'
+    end, { desc = 'Formatter: remove current file from the ignorelist' })
     vim.keymap.set('n', '<leader>mc', function()
-        local before = BLACKLIST.get()
-        local after = gc_blacklist(before)
-        vim.notify(string.format('GC blacklist: %d -> %d entries', #before, #after))
-    end, { desc = 'Formatter: run garbage collector in blacklist' })
+        local before = IGNORELIST.get()
+        local after = gc_ignorelist(before)
+        vim.notify(string.format('GC ignorelist: %d -> %d entries', #before, #after))
+    end, { desc = 'Formatter: run garbage collector in ignorelist' })
     vim.keymap.set('n', '<leader>ml', function()
-        require('settings.formatter_ui').toggle_quick_menu(BLACKLIST.get())
-    end, { desc = 'Formatter: open blacklist menu' })
+        require('settings.formatter_ui').toggle_quick_menu(IGNORELIST.get())
+    end, { desc = 'Formatter: open ignorelistmenu' })
 end
 
 function M.format_document(force, bufnr)
@@ -126,7 +127,7 @@ function M.format_document(force, bufnr)
         return
     end
 
-    if not force and is_blacklisted_file(vim.api.nvim_buf_get_name(0)) then
+    if not force and is_ignored_file(vim.api.nvim_buf_get_name(0)) then
         return
     end
 

@@ -59,7 +59,7 @@ local function get_menu_items()
     return indices
 end
 
-function M.toggle_quick_menu(blacklist)
+function M.toggle_quick_menu(ignorelist)
     if Formatter_win_id ~= nil and vim.api.nvim_win_is_valid(Formatter_win_id) then
         close_menu()
         return
@@ -72,7 +72,7 @@ function M.toggle_quick_menu(blacklist)
 
     vim.api.nvim_win_set_option(Formatter_win_id, 'number', true)
     vim.api.nvim_buf_set_name(Formatter_bufh, 'formatter-menu')
-    vim.api.nvim_buf_set_lines(Formatter_bufh, 0, #blacklist, false, blacklist)
+    vim.api.nvim_buf_set_lines(Formatter_bufh, 0, #ignorelist, false, ignorelist)
     vim.api.nvim_buf_set_option(Formatter_bufh, 'filetype', 'formatter')
     vim.api.nvim_buf_set_option(Formatter_bufh, 'buftype', 'acwrite')
     vim.api.nvim_buf_set_option(Formatter_bufh, 'bufhidden', 'delete')
