@@ -256,19 +256,29 @@ return packer.startup {
         }
 
         use {
-            'nvim-neo-tree/neo-tree.nvim',
-            -- cmd = { 'Neotree' },
+            'nvim-tree/nvim-tree.lua',
             requires = {
-                'nvim-lua/plenary.nvim',
-                'kyazdani42/nvim-web-devicons', -- not strictly required, but recommended
-                'MunifTanjim/nui.nvim',
+                'kyazdani42/nvim-web-devicons',
             },
+            opt = true,
+            module = 'nvim-tree',
             setup = function()
-                require('settings.neo-tree').setup()
+                vim.keymap.set('n', [[<C-\>]], function()
+                    local bufnr = vim.api.nvim_get_current_buf()
+                    local bufname = vim.api.nvim_buf_get_name(bufnr)
+                    local filepath = vim.fn.fnamemodify(bufname, ':p')
+
+                    require('nvim-tree.api').tree.open()
+                    require('nvim-tree.api').tree.find_file(filepath)
+                end, { desc = 'Nvimtree: select current file' })
+                vim.keymap.set('n', [[<leader><leader>]], function()
+                    require('nvim-tree.api').tree.toggle(false, true)
+                end, { desc = 'Nvimtree: toggle' })
             end,
             config = function()
-                require('settings.neo-tree').config()
+                require('nvim-tree').setup { sync_root_with_cwd = true, respect_buf_cwd = true }
             end,
+            tag = 'nightly', -- optional, updated every week. (see issue #1193)
         }
 
         use { 'tpope/vim-fugitive', cmd = { 'G', 'Git' }, opt = true }
@@ -755,13 +765,6 @@ return packer.startup {
             keys = { { '', '<leader>gm', 'GitMessenger: show git commit' } },
             setup = function()
                 vim.keymap.set('n', '<leader>gm', '<Plug>(git-messenger)', { desc = 'GitMessager: show git commit' })
-            end,
-        }
-
-        use {
-            'j-hui/fidget.nvim',
-            config = function()
-                require('fidget').setup { text = { spinner = 'dots' }, align = { bottom = true } }
             end,
         }
 
