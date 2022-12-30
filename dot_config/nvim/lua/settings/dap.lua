@@ -1,32 +1,5 @@
 local M = {}
 
-function M.setup()
-    vim.keymap.set('n', '<leader>db', function()
-        require('dap').toggle_breakpoint()
-    end, { desc = 'DAP: toggle breakpoint in the current line' })
-    vim.keymap.set('n', '<leader>dB', function()
-        require('dap').toggle_breakpoint(vim.fn.input 'Breakpoint condition: ')
-    end, { desc = 'DAP: toggle conditional breakpoint in the current line' })
-    vim.keymap.set('n', '<leader>dc', function()
-        require('dap').continue()
-    end, { desc = 'DAP: continue' })
-    vim.keymap.set('n', '<leader>ds', function()
-        require('dap').step_over()
-    end, { desc = 'DAP: step over' })
-    vim.keymap.set('n', '<leader>di', function()
-        require('dap').step_into()
-    end, { desc = 'DAP: step into' })
-    vim.keymap.set('n', '<leader>do', function()
-        require('dap').step_out()
-    end, { desc = 'DAP: step out' })
-    vim.keymap.set('n', '<leader>dr', function()
-        require('dap').repl.open()
-    end, { desc = 'DAP: open repl' })
-    vim.keymap.set('n', '<leader>dh', function()
-        require('dap.ui.variables').hover()
-    end, { desc = 'DAP: display hover information about the current variable' })
-end
-
 function M.configurations()
     local dap = require 'dap'
 

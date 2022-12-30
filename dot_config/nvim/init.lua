@@ -1,18 +1,12 @@
-local execute = vim.api.nvim_command
-local fn = vim.fn
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 
-local ok, impatient = pcall(require, 'impatient')
-
-if ok then
-    impatient.enable_profile()
+if not vim.loop.fs_stat(lazypath) then
+    if not vim.loop.fs_stat(lazypath) then
+        vim.fn.system { 'git', 'clone', '--filter=blob:none', 'https://github.com/folke/lazy.nvim.git', lazypath }
+        vim.fn.system { 'git', '-C', lazypath, 'checkout', 'tags/stable' } -- last stable release
+    end
 end
-
-local install_path = fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system { 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path }
-    execute 'packadd packer.nvim'
-end
+vim.opt.rtp:prepend(lazypath)
 
 require 'globals'
 require 'mappings'
@@ -22,15 +16,6 @@ require 'options'
 pcall(require, 'host')
 
 require 'plugins'
-
-require('settings.rust-tools').setup()
-require('settings.lspconfig').setup()
-require('settings.cmp').setup()
-require('settings.review').setup()
-
-if ok then
-    pcall(require, 'packer_compiled')
-end
 
 -- cleanups
 vim.keymap.set('n', '<leader><enter>', table.concat(MAP_CLEANUPS, ''), { desc = 'Clean all notifications/selections' })

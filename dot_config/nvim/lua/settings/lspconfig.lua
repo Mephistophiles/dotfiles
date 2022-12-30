@@ -1,9 +1,5 @@
 local M = {}
 
-local lspconfig = require 'lspconfig'
-local configs = require 'lspconfig.configs'
-local nvim_lsp_signature = require 'lsp_signature'
-
 local custom_init = function(client)
     client.config.flags = client.config.flags or {}
     client.config.flags.allow_incremental_sync = true
@@ -18,7 +14,7 @@ local filetype_attach = setmetatable({ go = function() end, rust = function() en
 local custom_attach = function(client, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
-    nvim_lsp_signature.on_attach(client, bufnr)
+    require('lsp_signature').on_attach(client, bufnr)
 
     M.key_bindings(client)
 
@@ -147,7 +143,7 @@ local setup_server = function(server, config)
 
     config = vim.tbl_deep_extend('force', M.make_default_opts(), config)
 
-    lspconfig[server].setup(config)
+    require('lspconfig')[server].setup(config)
 end
 
 function M.setup()

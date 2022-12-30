@@ -66,6 +66,9 @@ function M.config()
                 node_decremental = 'grm',
             },
         },
+        matchup = {
+            enable = true,
+        },
         textobjects = {
             select = {
                 enable = true,

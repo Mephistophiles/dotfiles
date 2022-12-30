@@ -50,13 +50,6 @@ function M.config()
             pattern('^# (%S+) is not set$', '%s=y'),
         },
     }
-
-    vim.api.nvim_set_keymap('n', '<C-a>', require('dial.map').inc_normal(), { noremap = true, desc = 'Increment' })
-    vim.api.nvim_set_keymap('n', '<C-x>', require('dial.map').dec_normal(), { noremap = true, desc = 'Decrement' })
-    vim.api.nvim_set_keymap('v', '<C-a>', require('dial.map').inc_visual(), { noremap = true, desc = 'Increment' })
-    vim.api.nvim_set_keymap('v', '<C-x>', require('dial.map').dec_visual(), { noremap = true, desc = 'Decrement' })
-    vim.api.nvim_set_keymap('v', 'g<C-a>', require('dial.map').inc_gvisual(), { noremap = true, desc = 'Increment' })
-    vim.api.nvim_set_keymap('v', 'g<C-x>', require('dial.map').dec_gvisual(), { noremap = true, desc = 'Decrement' })
 end
 
 return M
