@@ -254,10 +254,11 @@ in
     unstable.tdesktop
 
     # text editors
-    (unstable.neovim.override { vimAlias = true; })
     micro
-    xfce.mousepad
+    (neovim.override { vimAlias = true; })
+    unstable.helix
     unstable.vscode
+    xfce.mousepad
     # unstable.jetbrains.clion
     # unstable.obsidian
 
