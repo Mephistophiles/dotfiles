@@ -12,7 +12,7 @@ require('lazy').setup {
 
     {
         'tjdevries/express_line.nvim',
-        priority = 999,
+        event = 'VeryLazy',
         dependencies = { 'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons' },
         init = function()
             require('settings.express_line').setup()
