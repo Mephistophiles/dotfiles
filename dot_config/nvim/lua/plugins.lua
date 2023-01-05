@@ -177,7 +177,7 @@ require('lazy').setup {
 
     {
         'petertriho/nvim-scrollbar',
-        event = 'CursorHold',
+        event = 'VeryLazy',
         config = function()
             require('scrollbar').setup()
         end,
@@ -185,7 +185,7 @@ require('lazy').setup {
 
     {
         'kevinhwang91/nvim-hlslens',
-        event = 'CursorHold',
+        event = 'VeryLazy',
         config = function()
             -- require('hlslens').setup()
             require('scrollbar.handlers.search').setup {} -- use it instead of hlsens
@@ -391,7 +391,7 @@ require('lazy').setup {
 
     {
         'lewis6991/gitsigns.nvim',
-        event = { 'CursorHold', 'InsertEnter' },
+        event = 'VeryLazy',
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             local gitsigns = require 'gitsigns'
@@ -827,7 +827,7 @@ require('lazy').setup {
 
     {
         'anuvyklack/pretty-fold.nvim',
-        event = { 'CursorHold' },
+        event = 'VeryLazy',
         config = function()
             require('pretty-fold').setup {}
             require('fold-preview').setup()
@@ -966,7 +966,7 @@ require('lazy').setup {
 
     {
         'chentoast/marks.nvim',
-        event = { 'CursorHold', 'InsertEnter' },
+        event = 'VeryLazy',
         config = function()
             require('marks').setup { default_mappings = true }
         end,
