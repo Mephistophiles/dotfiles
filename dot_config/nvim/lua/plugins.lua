@@ -37,7 +37,6 @@ require('lazy').setup {
 
     {
         'NMAC427/guess-indent.nvim',
-        event = 'InsertEnter',
         config = function()
             require('guess-indent').setup {}
         end,
@@ -45,7 +44,6 @@ require('lazy').setup {
 
     {
         'luukvbaal/stabilize.nvim',
-        event = 'CursorHold',
         config = function()
             require('stabilize').setup()
         end,
