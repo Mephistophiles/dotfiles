@@ -256,6 +256,15 @@ function M.key_bindings(client)
         vim.diagnostic.setloclist()
     end, { buffer = true, desc = 'LSP: add buffer diagnostics to the location list' })
 
+    if client.supports_method 'document/Formatting' then
+        vim.keymap.set(
+            'n',
+            '<leader>f',
+            vim.lsp.buf.format,
+            { buffer = true, desc = 'LSP: format document by lsp engine' }
+        )
+    end
+
     if client.supports_method 'textDocument/codeLens' then
         vim.keymap.set(
             'n',
