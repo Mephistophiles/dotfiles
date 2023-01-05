@@ -23,7 +23,6 @@ function M.config()
     end)()
 
     require('nvim-treesitter.configs').setup {
-        autopairs = { enable = true },
         -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = {
             'bash', --
@@ -31,9 +30,7 @@ function M.config()
             'cmake', --
             'fish', --
             'go', --
-            'javascript', --
             'json', --
-            'julia', --
             'lua', --
             'make', --
             'markdown', --
@@ -43,8 +40,6 @@ function M.config()
             'query', --
             'regex', --
             'rust', --
-            'teal', --
-            'typescript', --
             'vim', --
         },
         ignore_install = {}, -- List of parsers to ignore installing
