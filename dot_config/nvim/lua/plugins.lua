@@ -1,6 +1,5 @@
 require('lazy').setup {
-    -- filedetect drop-in-placement
-    {
+    { -- A faster version of filetype.vim
         'nathom/filetype.nvim',
         init = function()
             vim.g.did_load_filetypes = 1
@@ -10,7 +9,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Statusline written in pure lua. Supports co-routines, functions and jobs.
         'tjdevries/express_line.nvim',
         event = 'VeryLazy',
         dependencies = { 'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons' },
@@ -21,7 +20,7 @@ require('lazy').setup {
             require('settings.express_line').config()
         end,
     },
-    {
+    { -- A clean, dark Neovim theme written in Lua, with support for lsp, treesitter and lots of plugins. Includes additional themes for Kitty, Alacritty, iTerm and Fish.
         'folke/tokyonight.nvim',
         priority = 1000,
         init = function()
@@ -32,23 +31,25 @@ require('lazy').setup {
             vim.cmd.colorscheme 'tokyonight'
         end,
     },
-    -- extended repeat ('.') for another plugins
-    { 'tpope/vim-repeat' },
+    { -- enable repeating supported plugin maps with "."
+        'tpope/vim-repeat',
+    },
 
-    {
+    { -- Automatic indentation style detection for Neovim
         'NMAC427/guess-indent.nvim',
         config = function()
             require('guess-indent').setup {}
         end,
     },
 
-    {
+    { -- Neovim plugin to stabilize window open/close events.
         'luukvbaal/stabilize.nvim',
         config = function()
             require('stabilize').setup()
         end,
     },
-    {
+
+    { -- The superior project management solution for neovim.
         'ahmedkhalf/project.nvim',
         config = function()
             require('project_nvim').setup {
@@ -58,8 +59,7 @@ require('lazy').setup {
         end,
     },
 
-    -- illuminate.vim - (Neo)Vim plugin for automatically highlighting other uses of the word under the cursor using either LSP, Tree-sitter, or regex matching.
-    {
+    { -- (Neo)Vim plugin for automatically highlighting other uses of the word under the cursor using either LSP, Tree-sitter, or regex matching.
         'RRethy/vim-illuminate',
         event = 'CursorHold',
         config = function()
@@ -96,7 +96,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- A fancy, configurable, notification manager for NeoVim
         'rcarriga/nvim-notify',
         config = function()
             local notify_fn = require 'notify'
@@ -122,7 +122,7 @@ require('lazy').setup {
             end, { desc = 'Notifications: toggle stacktrace from warn and above' })
         end,
     },
-    {
+    { -- Create key bindings that stick. WhichKey is a lua plugin for Neovim 0.5 that displays a popup with possible keybindings of the command you started typing.
         'folke/which-key.nvim',
         config = function()
             require('which-key').setup {
@@ -132,7 +132,7 @@ require('lazy').setup {
             }
         end,
     },
-    {
+    { -- Indent guides for Neovim
         'lukas-reineke/indent-blankline.nvim',
         config = function()
             require('indent_blankline').setup {
@@ -142,7 +142,7 @@ require('lazy').setup {
             }
         end,
     },
-    {
+    { -- Treesitter based structural search and replace plugin for Neovim.
         'cshuaimin/ssr.nvim',
         keys = {
             {
@@ -175,7 +175,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Extensible Neovim Scrollbar
         'petertriho/nvim-scrollbar',
         event = 'VeryLazy',
         config = function()
@@ -183,7 +183,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Hlsearch Lens for Neovim
         'kevinhwang91/nvim-hlslens',
         event = 'VeryLazy',
         config = function()
@@ -192,7 +192,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Clean window maximizing, terminal toggling, window/tmux pane movements and more!
         'declancm/windex.nvim',
         keys = {
             {
@@ -208,7 +208,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- a lua powered greeter like vim-startify / dashboard-nvim
         'goolord/alpha-nvim',
         cond = function()
             -- don't start when opening a file
@@ -254,7 +254,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Neovim plugin introducing a new operators motions to quickly replace and exchange text.
         'gbprod/substitute.nvim',
         keys = {
             { 's', "<cmd>lua require('substitute').operator()<cr>", noremap = true },
@@ -278,7 +278,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- A neovim lua plugin to help easily manage multiple terminal windows
         'akinsho/toggleterm.nvim',
         keys = {
             { '<F12>', [[:ToggleTerm<CR>]], silent = true, desc = 'Floaterm: toggle' },
@@ -292,7 +292,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Quickstart configs for Nvim LSP
         'neovim/nvim-lspconfig',
         name = 'lspconfig',
         dependencies = {
@@ -312,7 +312,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
         'jose-elias-alvarez/null-ls.nvim',
         event = 'CursorHold',
         config = function()
@@ -321,7 +321,7 @@ require('lazy').setup {
         dependencies = { 'nvim-lua/plenary.nvim' },
     },
 
-    {
+    { -- A completion plugin for neovim coded in Lua.
         'hrsh7th/nvim-cmp',
         event = 'InsertEnter',
         dependencies = {
@@ -343,7 +343,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- A file explorer tree for neovim written in lua
         'nvim-tree/nvim-tree.lua',
         dependencies = {
             'kyazdani42/nvim-web-devicons',
@@ -375,10 +375,17 @@ require('lazy').setup {
         version = 'nightly', -- optional, updated every week. (see issue #1193)
     },
 
-    { 'tpope/vim-fugitive', cmd = { 'G', 'Git' } },
-    { 'TimUntersberger/neogit', cmd = { 'Neogit' }, dependencies = 'nvim-lua/plenary.nvim' },
+    { -- fugitive.vim: A Git wrapper so awesome, it should be illegal
+        'tpope/vim-fugitive',
+        cmd = { 'G', 'Git' },
+    },
+    { -- magit for neovim
+        'TimUntersberger/neogit',
+        cmd = { 'Neogit' },
+        dependencies = 'nvim-lua/plenary.nvim',
+    },
 
-    {
+    { -- Add/change/delete surrounding delimiter pairs with ease. Written with heart in Lua.
         'kylechui/nvim-surround',
         event = 'InsertEnter',
         version = '*',
@@ -389,7 +396,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Git integration for buffers
         'lewis6991/gitsigns.nvim',
         event = 'VeryLazy',
         dependencies = { 'nvim-lua/plenary.nvim' },
@@ -431,7 +438,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Find, Filter, Preview, Pick. All lua, all the time.
         'nvim-telescope/telescope.nvim',
         dependencies = {
             'nvim-lua/popup.nvim',
@@ -449,7 +456,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Find the enemy and replace them with dark power.
         'windwp/nvim-spectre',
         keys = {
             {
@@ -491,7 +498,7 @@ require('lazy').setup {
         },
     },
 
-    {
+    { -- Smart and powerful comment plugin for neovim. Supports treesitter, dot repeat, left-right/up-down motions, hooks, and more
         'numToStr/Comment.nvim',
         event = 'InsertEnter',
         config = function()
@@ -499,7 +506,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- A tree like view for symbols in Neovim using the Language Server Protocol. Supports all your favourite languages.
         'simrat39/symbols-outline.nvim',
         cmd = { 'SymbolsOutline' },
         keys = {
@@ -507,7 +514,7 @@ require('lazy').setup {
         },
     },
 
-    {
+    { -- Nvim Treesitter configurations and abstraction layer
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         config = function()
@@ -549,19 +556,19 @@ require('lazy').setup {
             },
         },
     },
-    {
+    { -- Treesitter playground integrated into Neovim
         'nvim-treesitter/playground',
         cmd = 'TSPlaygroundToggle',
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
     },
 
-    {
+    { -- Single tabpage interface for easily cycling through diffs for all modified files for any git rev.
         'sindrets/diffview.nvim',
         dependencies = 'kyazdani42/nvim-web-devicons',
         cmd = { 'DiffviewOpen' },
     },
 
-    {
+    { -- enhanced increment/decrement plugin for Neovim.
         'monaqa/dial.nvim',
         cmd = 'Switch',
         keys = {
@@ -621,7 +628,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- tmux integration for nvim features pane movement and resizing from within nvim.
         'aserowy/tmux.nvim',
         keys = {
             { '<c-h>', '<cmd>lua require("tmux").move_left()<cr>', desc = 'Left movement' },
@@ -644,12 +651,12 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- kconfig runtime files for Vim
         'chrisbra/vim-kconfig',
         ft = 'kconfig',
     },
 
-    {
+    { -- eunuch.vim: Helpers for UNIX
         'tpope/vim-eunuch',
         cmd = {
             'Delete',
@@ -663,9 +670,12 @@ require('lazy').setup {
         },
     },
 
-    { 'LnL7/vim-nix', ft = 'nix' },
+    { -- Vim configuration files for Nix http://nixos.org/nix
+        'LnL7/vim-nix',
+        ft = 'nix',
+    },
 
-    {
+    { -- A plugin to visualise and resolve merge conflicts in neovim
         'akinsho/git-conflict.nvim',
         version = '*',
         cond = function()
@@ -707,9 +717,12 @@ require('lazy').setup {
         end,
     },
 
-    { 'cespare/vim-toml', ft = 'toml' },
+    { -- Vim syntax for TOML
+        'cespare/vim-toml',
+        ft = 'toml',
+    },
 
-    {
+    { -- Neovim motions on speed!
         'phaazon/hop.nvim',
         keys = {
             {
@@ -732,9 +745,12 @@ require('lazy').setup {
         end,
     },
 
-    { 'rafcamlet/nvim-luapad', cmd = { 'Luapad' } },
+    { -- Interactive real time neovim scratchpad for embedded lua engine - type and watch!
+        'rafcamlet/nvim-luapad',
+        cmd = { 'Luapad' },
+    },
 
-    {
+    { -- Quick change harpooned buffers
         'ThePrimeagen/harpoon',
         dependencies = { 'nvim-lua/plenary.nvim', 'nvim-lua/popup.nvim' },
         keys = {
@@ -797,16 +813,18 @@ require('lazy').setup {
         },
     },
 
-    { 'michaeljsmith/vim-indent-object' },
+    { -- Vim plugin that defines a new text object representing lines of code at the same indent level. Useful for python/vim scripts, etc.
+        'michaeljsmith/vim-indent-object',
+    },
 
-    {
+    { -- Tools for better development in rust using neovim's builtin lsp
         'simrat39/rust-tools.nvim',
         ft = 'rust',
         config = function()
             require('settings.rust-tools').setup()
         end,
     },
-    {
+    { -- A neovim plugin that helps managing crates.io dependencies
         'saecki/crates.nvim',
         ft = 'rust',
         event = { 'BufRead Cargo.toml' },
@@ -816,7 +834,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- A better annotation generator. Supports multiple languages and annotation conventions.
         'danymat/neogen',
         cmd = 'Neogen',
         config = function()
@@ -825,7 +843,7 @@ require('lazy').setup {
         dependencies = 'nvim-treesitter/nvim-treesitter',
     },
 
-    {
+    { -- Foldtext customization in Neovim
         'anuvyklack/pretty-fold.nvim',
         event = 'VeryLazy',
         config = function()
@@ -835,9 +853,12 @@ require('lazy').setup {
         dependencies = { 'anuvyklack/nvim-keymap-amend', 'anuvyklack/fold-preview.nvim' },
     },
 
-    { 'stevearc/dressing.nvim', event = 'VeryLazy' },
+    { -- Neovim plugin to improve the default vim.ui interfaces
+        'stevearc/dressing.nvim',
+        event = 'VeryLazy',
+    },
 
-    {
+    { -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.
         'folke/trouble.nvim',
         dependencies = 'kyazdani42/nvim-web-devicons',
         cmd = { 'Trouble', 'TroubleToggle' },
@@ -850,7 +871,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Highlight, list and search todo comments in your projects
         'folke/todo-comments.nvim',
         event = 'VeryLazy',
         dependencies = 'nvim-lua/plenary.nvim',
@@ -880,20 +901,20 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Vim and Neovim plugin to reveal the commit messages under the cursor
         'rhysd/git-messenger.vim',
         cmd = { 'GitMessenger' },
         keys = { { '<leader>gm', '<Plug>(git-messenger)', desc = 'GitMessenger: show git commit' } },
     },
 
-    {
+    { --  Peek lines just when you intend
         'nacro90/numb.nvim',
         config = function()
             require('numb').setup()
         end,
     },
 
-    {
+    { -- Debug Adapter Protocol client implementation for Neovim
         'mfussenegger/nvim-dap',
         keys = {
             {
@@ -964,7 +985,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- A better user experience for viewing and interacting with Vim marks.
         'chentoast/marks.nvim',
         event = 'VeryLazy',
         config = function()
@@ -972,7 +993,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- VIM Table Mode for instant table creation.
         'dhruvasagar/vim-table-mode',
         keys = {
             { '<leader>tm', ':TableModeToggle<cr>', desc = 'TableMode: toggle' },
@@ -980,9 +1001,12 @@ require('lazy').setup {
         cmd = { 'TableModeToggle' },
     },
 
-    { 'kevinhwang91/nvim-bqf', ft = 'qf' },
+    { -- Better quickfix window in Neovim, polish old quickfix window.
+        'kevinhwang91/nvim-bqf',
+        ft = 'qf',
+    },
 
-    {
+    { -- An all in one plugin for converting text case in Neovim
         'johmsalas/text-case.nvim',
         keys = {
             { 'ga.', '<cmd>TextCaseOpenTelescope<CR>', 'v', desc = 'text-case: convert case' },
@@ -997,7 +1021,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- A minimal plugin for NeoVim for aligning lines
         'Vonr/align.nvim',
         keys = {
             {
@@ -1061,7 +1085,7 @@ require('lazy').setup {
         end,
     },
 
-    {
+    { -- Orgmode clone written in Lua for Neovim 0.7+.
         'nvim-orgmode/orgmode',
         ft = 'org',
         init = function()
