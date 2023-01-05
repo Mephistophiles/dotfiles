@@ -517,8 +517,11 @@ require('lazy').setup {
     { -- Nvim Treesitter configurations and abstraction layer
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
+        event = 'VeryLazy',
         config = function()
+            require('nvim-treesitter').setup()
             require('settings.treesitter').config()
+            vim.cmd 'TSEnable highlight'
         end,
         dependencies = {
             { 'p00f/nvim-ts-rainbow' },
