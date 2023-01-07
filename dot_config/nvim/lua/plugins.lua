@@ -197,7 +197,7 @@ require('lazy').setup {
         keys = {
             {
                 '<leader>z',
-                "<Cmd>lua require('windex').toggle_nvim_maximize()<CR>",
+                CMD "lua require('windex').toggle_nvim_maximize()",
                 desc = 'Windex: Toggle maximizing the current window',
             },
         },
@@ -257,17 +257,17 @@ require('lazy').setup {
     { -- Neovim plugin introducing a new operators motions to quickly replace and exchange text.
         'gbprod/substitute.nvim',
         keys = {
-            { 's', "<cmd>lua require('substitute').operator()<cr>", noremap = true },
-            { 'ss', "<cmd>lua require('substitute').line()<cr>", noremap = true },
-            { 'S', "<cmd>lua require('substitute').eol()<cr>", noremap = true },
-            { 's', "<cmd>lua require('substitute').visual()<cr>", 'x', noremap = true },
-            { '<leader>s', "<cmd>lua require('substitute.range').operator()<cr>", noremap = true },
-            { '<leader>s', "<cmd>lua require('substitute.range').visual()<cr>", 'x', noremap = true },
-            { '<leader>ss', "<cmd>lua require('substitute.range').word()<cr>", noremap = true },
-            { 'sx', "<cmd>lua require('substitute.exchange').operator()<cr>", noremap = true },
-            { 'sxx', "<cmd>lua require('substitute.exchange').line()<cr>", noremap = true },
-            { 'X', "<cmd>lua require('substitute.exchange').visual()<cr>", 'x', noremap = true },
-            { 'sxc', "<cmd>lua require('substitute.exchange').cancel()<cr>", noremap = true },
+            { 's', CMD "lua require('substitute').operator()", noremap = true },
+            { 'ss', CMD "lua require('substitute').line()", noremap = true },
+            { 'S', CMD "lua require('substitute').eol()", noremap = true },
+            { 's', CMD "lua require('substitute').visual()", 'x', noremap = true },
+            { '<leader>s', CMD "lua require('substitute.range').operator()", noremap = true },
+            { '<leader>s', CMD "lua require('substitute.range').visual()", 'x', noremap = true },
+            { '<leader>ss', CMD "lua require('substitute.range').word()", noremap = true },
+            { 'sx', CMD "lua require('substitute.exchange').operator()", noremap = true },
+            { 'sxx', CMD "lua require('substitute.exchange').line()", noremap = true },
+            { 'X', CMD "lua require('substitute.exchange').visual()", 'x', noremap = true },
+            { 'sxc', CMD "lua require('substitute.exchange').cancel()", noremap = true },
         },
         config = function()
             require('substitute').setup {
@@ -281,8 +281,8 @@ require('lazy').setup {
     { -- A neovim lua plugin to help easily manage multiple terminal windows
         'akinsho/toggleterm.nvim',
         keys = {
-            { '<F12>', [[:ToggleTerm<CR>]], silent = true, desc = 'Floaterm: toggle' },
-            { '<F12>', [[<C-\><C-n>:ToggleTerm<CR>]], 't', silent = true, desc = 'Terminal: toggle' },
+            { '<F12>', CMD 'ToggleTerm', silent = true, desc = 'Floaterm: toggle' },
+            { '<F12>', ([[<C-\><C-n>]] .. CMD 'ToggleTerm'), 't', silent = true, desc = 'Terminal: toggle' },
         },
         cmd = { 'ToggleTerm' },
         config = function()
@@ -430,7 +430,7 @@ require('lazy').setup {
                     end, { desc = 'Git: Run diff this' })
 
                     -- Text object
-                    vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'Git: Select hunk' })
+                    vim.keymap.set({ 'o', 'x' }, 'ih', CMD '<C-U>Gitsigns select_hunk', { desc = 'Git: Select hunk' })
                 end,
             }
 
@@ -461,12 +461,12 @@ require('lazy').setup {
         keys = {
             {
                 '<leader>/',
-                ':lua require("spectre").open()<cr>',
+                CMD 'lua require("spectre").open()',
                 desc = 'Spectre: Open search panel',
             },
             {
                 '<leader>*',
-                ':lua require("spectre").open_visual { select_word = true }<cr>',
+                CMD 'lua require("spectre").open_visual { select_word = true }',
                 desc = 'Spectre: Search word under cursor',
             },
         },
@@ -475,17 +475,17 @@ require('lazy').setup {
                 mapping = {
                     ['open_in_vsplit'] = {
                         map = '<c-v>',
-                        cmd = '<cmd>lua require("settings.spectre").vsplit()<CR>',
+                        cmd = CMD 'lua require("settings.spectre").vsplit()',
                         desc = 'open in vertical split',
                     },
                     ['open_in_split'] = {
                         map = '<c-s>',
-                        cmd = '<cmd>lua require("settings.spectre").split()<CR>',
+                        cmd = CMD 'lua require("settings.spectre").split()',
                         desc = 'open in horizontal split',
                     },
                     ['open_in_tab'] = {
                         map = '<c-t>',
-                        cmd = '<cmd>lua require("settings.spectre").tabsplit()<CR>',
+                        cmd = CMD 'lua require("settings.spectre").tabsplit()',
                         desc = 'open in new tab',
                     },
                 },
@@ -510,7 +510,7 @@ require('lazy').setup {
         'simrat39/symbols-outline.nvim',
         cmd = { 'SymbolsOutline' },
         keys = {
-            { '<F5>', '<cmd>SymbolsOutline<cr>', desc = 'SymbolsOutline: Open symbols outline' },
+            { '<F5>', CMD 'SymbolsOutline', desc = 'SymbolsOutline: Open symbols outline' },
         },
     },
 
@@ -538,7 +538,7 @@ require('lazy').setup {
                     },
                     {
                         'm',
-                        ':lua require("tsht").nodes()<cr>',
+                        CMD 'lua require("tsht").nodes()',
                         'v',
                         silent = true,
                         desc = 'Treesitter: Show treesitter select hints',
@@ -634,12 +634,12 @@ require('lazy').setup {
     { -- tmux integration for nvim features pane movement and resizing from within nvim.
         'aserowy/tmux.nvim',
         keys = {
-            { '<c-h>', '<cmd>lua require("tmux").move_left()<cr>', desc = 'Left movement' },
-            { '<c-l>', '<cmd>lua require("tmux").move_right()<cr>', desc = 'Right movement' },
-            { '<a-h>', '<cmd>lua require("tmux").move_left()<cr>', desc = 'Left movement' },
-            { '<a-j>', '<cmd>lua require("tmux").move_bottom()<cr>', desc = 'Bottom movement' },
-            { '<a-k>', '<cmd>lua require("tmux").move_top()<cr>', desc = 'Top movement' },
-            { '<a-l>', '<cmd>lua require("tmux").move_right()<cr>', desc = 'Right movement' },
+            { '<c-h>', CMD 'lua require("tmux").move_left()', desc = 'Left movement' },
+            { '<c-l>', CMD 'lua require("tmux").move_right()', desc = 'Right movement' },
+            { '<a-h>', CMD 'lua require("tmux").move_left()', desc = 'Left movement' },
+            { '<a-j>', CMD 'lua require("tmux").move_bottom()', desc = 'Bottom movement' },
+            { '<a-k>', CMD 'lua require("tmux").move_top()', desc = 'Top movement' },
+            { '<a-l>', CMD 'lua require("tmux").move_right()', desc = 'Right movement' },
         },
         config = function()
             require('tmux').setup {
@@ -1000,7 +1000,7 @@ require('lazy').setup {
     { -- VIM Table Mode for instant table creation.
         'dhruvasagar/vim-table-mode',
         keys = {
-            { '<leader>tm', ':TableModeToggle<cr>', desc = 'TableMode: toggle' },
+            { '<leader>tm', CMD 'TableModeToggle', desc = 'TableMode: toggle' },
         },
         cmd = { 'TableModeToggle' },
     },
@@ -1013,8 +1013,8 @@ require('lazy').setup {
     { -- An all in one plugin for converting text case in Neovim
         'johmsalas/text-case.nvim',
         keys = {
-            { 'ga.', '<cmd>TextCaseOpenTelescope<CR>', 'v', desc = 'text-case: convert case' },
-            { 'ga.', '<cmd>TextCaseOpenTelescope<CR>', desc = 'text-case: convert case' },
+            { 'ga.', CMD 'TextCaseOpenTelescope', 'v', desc = 'text-case: convert case' },
+            { 'ga.', CMD 'TextCaseOpenTelescope', desc = 'text-case: convert case' },
         },
         init = function()
             TODO_OR_DIE.after_date(2023, 01, 14)
