@@ -856,11 +856,6 @@ require('lazy').setup {
         dependencies = { 'anuvyklack/nvim-keymap-amend', 'anuvyklack/fold-preview.nvim' },
     },
 
-    { -- Neovim plugin to improve the default vim.ui interfaces
-        'stevearc/dressing.nvim',
-        event = 'VeryLazy',
-    },
-
     { -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.
         'folke/trouble.nvim',
         dependencies = 'kyazdani42/nvim-web-devicons',
