@@ -305,6 +305,9 @@ require('lazy').setup {
                     }
                 end,
             },
+            {
+                'SmiteshP/nvim-navic',
+            },
         },
         priority = 20,
         config = function()
@@ -547,9 +550,6 @@ require('lazy').setup {
             },
             {
                 'nvim-treesitter/nvim-treesitter-refactor',
-            },
-            {
-                'lewis6991/nvim-treesitter-context',
             },
             {
                 'andymass/vim-matchup',

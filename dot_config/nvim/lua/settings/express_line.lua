@@ -69,6 +69,14 @@ function M.config()
         return icon .. ' ' .. filetype
     end
 
+    local navic = require 'nvim-navic'
+
+    local navic_output = function()
+        if navic.is_available() then
+            return navic.get_location()
+        end
+    end
+
     require('el').setup {
         -- An example generator can be seen in `Setup`.
         -- A default one is supplied if you do not want to customize it.
@@ -92,6 +100,7 @@ function M.config()
                     builtin.help_list,
                     builtin.readonly_list,
                 },
+                navic_output,
                 sep_right,
                 sections.collapse_builtin {
                     '[',
