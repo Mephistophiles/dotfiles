@@ -567,66 +567,6 @@ require('lazy').setup {
         cmd = { 'DiffviewOpen' },
     },
 
-    { -- enhanced increment/decrement plugin for Neovim.
-        'monaqa/dial.nvim',
-        cmd = 'Switch',
-        keys = {
-            {
-                '<C-a>',
-                function()
-                    require('dial.map').inc_normal()
-                end,
-                desc = 'Increment',
-            },
-            {
-                '<C-x>',
-                function()
-                    require('dial.map').dec_normal()
-                end,
-                desc = 'Decrement',
-            },
-            {
-                '<C-a>',
-                function()
-                    require('dial.map').inc_visual()
-                end,
-                'v',
-                desc = 'Increment',
-            },
-            {
-                '<C-x>',
-                function()
-                    require('dial.map').dec_visual()
-                end,
-                'v',
-                desc = 'Decrement',
-            },
-            {
-                'g<C-a>',
-                function()
-                    require('dial.map').inc_gvisual()
-                end,
-                'v',
-                desc = 'Increment',
-            },
-            {
-                'g<C-x>',
-                function()
-                    require('dial.map').dec_gvisual()
-                end,
-                'v',
-                desc = 'Decrement',
-            },
-        },
-        init = function()
-            require('settings.dial').setup()
-        end,
-
-        config = function()
-            require('settings.dial').config()
-        end,
-    },
-
     { -- tmux integration for nvim features pane movement and resizing from within nvim.
         'aserowy/tmux.nvim',
         keys = {
@@ -1132,6 +1072,23 @@ require('lazy').setup {
         cmd = { 'OverseerRun', 'OverseerBuild', 'OverseerToggle' },
         config = function()
             require('settings.overseer').config()
+        end,
+    },
+
+    {
+        'ckolkey/ts-node-action',
+        keys = {
+            {
+                '-',
+                function()
+                    require('ts-node-action').node_action()
+                end,
+                desc = 'Trigger Node Action',
+            },
+        },
+        dependencies = { 'nvim-treesitter' },
+        config = function() -- Optional
+            require('ts-node-action').setup {}
         end,
     },
 }
