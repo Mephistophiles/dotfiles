@@ -13,9 +13,6 @@ require('lazy').setup {
         'tjdevries/express_line.nvim',
         event = 'VeryLazy',
         dependencies = { 'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons' },
-        init = function()
-            require('settings.express_line').setup()
-        end,
         config = function()
             require('settings.express_line').config()
         end,
@@ -309,7 +306,6 @@ require('lazy').setup {
                 'SmiteshP/nvim-navic',
             },
         },
-        priority = 20,
         config = function()
             require('settings.lspconfig').setup()
         end,
@@ -317,7 +313,7 @@ require('lazy').setup {
 
     { -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
         'jose-elias-alvarez/null-ls.nvim',
-        event = 'CursorHold',
+        event = 'VeryLazy',
         config = function()
             require('settings.null-ls').setup()
         end,
