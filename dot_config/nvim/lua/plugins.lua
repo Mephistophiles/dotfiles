@@ -1110,4 +1110,37 @@ require('lazy').setup {
         end,
         dependencies = { 'nvim-treesitter/nvim-treesitter', 'akinsho/org-bullets.nvim' },
     },
+
+    { -- A small Neovim plugin to highlight too long lines
+        'lcheylus/overlength.nvim',
+        config = function()
+            require('overlength').setup {
+                disable_ft = {
+                    'NvimTree',
+                    'Telescope',
+                    'WhichKey',
+                    'diff',
+                    'gitcommit',
+                    'help',
+                    'json',
+                    'man',
+                    'packer',
+                    'qf',
+                },
+            }
+        end,
+    },
+
+    {
+        'stevearc/overseer.nvim',
+        keys = {
+            { '<leader>ot', CMD 'OverseerToggle', desc = 'Overseer: Toggle' },
+            { '<leader>or', CMD 'OverseerRun', desc = 'Overseer: Run' },
+            { '<leader>ob', CMD 'OverseerBuild', desc = 'Overseer: Build' },
+        },
+        cmd = { 'OverseerRun', 'OverseerBuild', 'OverseerToggle' },
+        config = function()
+            require('settings.overseer').config()
+        end,
+    },
 }
