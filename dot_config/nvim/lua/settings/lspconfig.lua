@@ -262,7 +262,7 @@ function M.key_bindings(client)
     if client.supports_method 'document/Formatting' then
         vim.keymap.set(
             'n',
-            '<leader>f',
+            '<leader>lf',
             vim.lsp.buf.format,
             { buffer = true, desc = 'LSP: format document by lsp engine' }
         )
