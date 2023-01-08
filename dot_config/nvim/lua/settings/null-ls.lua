@@ -71,16 +71,6 @@ function M.setup()
                 return { '--edition=2021' }
             end,
         },
-        null_ls.builtins.formatting.eslint.with {
-            disabled_filetypes = { 'json' },
-        },
-        null_ls.builtins.formatting.prettier.with {
-            disabled_filetypes = { 'json' },
-        },
-
-        -- code actions
-        null_ls.builtins.code_actions.eslint,
-        null_ls.builtins.code_actions.shellcheck,
 
         -- diagnostics
         null_ls.builtins.diagnostics.cppcheck.with {
@@ -94,9 +84,6 @@ function M.setup()
             condition = function()
                 return vim.fn.exepath 'clang-tidy' ~= ''
             end,
-        },
-        null_ls.builtins.diagnostics.eslint.with {
-            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
         },
         null_ls.builtins.diagnostics.gitlint.with {
             method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
