@@ -121,6 +121,7 @@ require('lazy').setup {
     },
     { -- Create key bindings that stick. WhichKey is a lua plugin for Neovim 0.5 that displays a popup with possible keybindings of the command you started typing.
         'folke/which-key.nvim',
+        event = 'VeryLazy',
         config = function()
             require('which-key').setup {
                 -- your configuration comes here
@@ -131,6 +132,7 @@ require('lazy').setup {
     },
     { -- Indent guides for Neovim
         'lukas-reineke/indent-blankline.nvim',
+        event = 'VeryLazy',
         config = function()
             require('indent_blankline').setup {
                 space_char_blankline = ' ',
