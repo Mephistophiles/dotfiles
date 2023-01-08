@@ -292,23 +292,24 @@ require('lazy').setup {
     { -- Quickstart configs for Nvim LSP
         'neovim/nvim-lspconfig',
         name = 'lspconfig',
-        dependencies = {
-            {
-                'ray-x/lsp_signature.nvim',
-                config = function()
-                    require('lsp_signature').setup {
-                        toggle_key = '<C-S>',
-                        floating_window = false,
-                    }
-                end,
-            },
-            {
-                'SmiteshP/nvim-navic',
-            },
-        },
         config = function()
             require('settings.lspconfig').setup()
         end,
+    },
+    -- LSP modules
+    {
+        'ray-x/lsp_signature.nvim',
+        lazy = true,
+        config = function()
+            require('lsp_signature').setup {
+                toggle_key = '<C-S>',
+                floating_window = false,
+            }
+        end,
+    },
+    {
+        'SmiteshP/nvim-navic',
+        lazy = true,
     },
 
     { -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
