@@ -93,6 +93,9 @@ require('lazy').setup {
                     'dirvish',
                     'fugitive',
                 },
+                -- modes_denylist: modes to not illuminate, this overrides modes_allowlist
+                -- See `:help mode()` for possible values
+                modes_denylist = { 'i', 't', 'nt', 'ntT' },
             }
         end,
     },
