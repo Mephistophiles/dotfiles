@@ -292,10 +292,13 @@ local mem_widget = wibox.widget.textbox()
 vicious.register(mem_widget, vicious.widgets.mem, "MEM: $1% SWP: $5%")
 local total_memory = get_total_memory()
 local top_mem_usage_widget = awful.widget.watch(
-    [[bash -c "ps -eo rss,comm --sort=-rss --no-header | head -1 | awk '{print \$1,\" \",\$1,\" \",\$2}' | numfmt --to=iec --from-unit=1024 --field 1"]],
+    [[bash -c "ps -eo rss,comm --sort=-rss --no-header | head -1 | awk '{printf \"%s %s %s\", \$1, \$1, \$2}' | numfmt --to=iec --from-unit=1024 --field 1"]],
     15,
     function(widget, stdout)
-        local pretty_memory, bytes, comm = table.unpack(gears.string.split(stdout, " "))
+        local tokens = gears.string.split(stdout, " ")
+        local pretty_memory = tokens[1]
+        local bytes = tokens[2]
+        local comm = tokens[3]:match("%S+")
 
         if tonumber(bytes) > total_memory / 8 then
             widget:set_visible(true)
