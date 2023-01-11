@@ -285,9 +285,7 @@ require('lazy').setup {
         },
         cmd = { 'ToggleTerm' },
         config = function()
-            require('toggleterm').setup {
-                shell = 'fish',
-            }
+            require('toggleterm').setup {}
         end,
     },
 

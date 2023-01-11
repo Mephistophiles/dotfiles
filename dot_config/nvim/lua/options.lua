@@ -18,9 +18,6 @@ vim.opt.incsearch = true
 vim.opt.ignorecase = true -- Ignore case for search
 vim.opt.smartcase = true -- turn smartcase search
 
--- Fish doesn't play all that well with others
-vim.opt.shell = vim.fn.exepath 'bash'
-
 vim.opt.inccommand = 'split' -- split preview for replace preview
 
 vim.opt.wildmenu = true -- Set menu auto complete for command mode
