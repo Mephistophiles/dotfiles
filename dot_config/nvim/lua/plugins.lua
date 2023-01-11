@@ -25,7 +25,11 @@ require('lazy').setup {
             vim.opt.termguicolors = true
         end,
         config = function()
-            vim.cmd.colorscheme 'tokyonight'
+            require('tokyonight').setup {
+                style = 'moon', -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+            }
+            -- vim.cmd.colorscheme 'tokyonight-storm'
+            vim.cmd.colorscheme 'tokyonight-moon'
         end,
     },
     { -- enable repeating supported plugin maps with "."
