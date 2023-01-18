@@ -25,22 +25,22 @@ function M.config()
     require('nvim-treesitter.configs').setup {
         -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = {
-            'bash', --
-            'c', --
-            'cmake', --
-            'fish', --
-            'go', --
-            'json', --
-            'lua', --
-            'make', --
-            'markdown', --
-            'markdown_inline', --
-            'org', --
-            'python', --
-            'query', --
-            'regex', --
-            'rust', --
-            'vim', --
+            'bash',
+            'c',
+            'cmake',
+            'fish',
+            'go',
+            'json',
+            'lua',
+            'make',
+            'markdown',
+            'markdown_inline',
+            'org',
+            'python',
+            'query',
+            'regex',
+            'rust',
+            'vim',
         },
         ignore_install = {}, -- List of parsers to ignore installing
         highlight = {
