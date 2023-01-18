@@ -157,14 +157,7 @@ require('lazy').setup {
                 function()
                     require('ssr').open()
                 end,
-                desc = 'SSR: Open popup',
-            },
-            {
-                '<leader>sr',
-                function()
-                    require('ssr').open()
-                end,
-                'x',
+                { 'n', 'x' },
                 desc = 'SSR: Open popup',
             },
         },
@@ -288,24 +281,9 @@ require('lazy').setup {
     { -- A neovim lua plugin to help easily manage multiple terminal windows
         'akinsho/toggleterm.nvim',
         keys = {
-            { '<F12>', CMD 'exe v:count1 . "ToggleTerm"', silent = true, desc = 'Toggleterm: toggle' },
+            { '<F12>', CMD 'exe v:count1 . "ToggleTerm"', { 'n', 't' }, silent = true, desc = 'Toggleterm: toggle' },
         },
         cmd = { 'ToggleTerm' },
-        init = function()
-            local group = vim.api.nvim_create_augroup('ToggleTermAttach', { clear = true })
-
-            vim.api.nvim_create_autocmd('TermEnter', {
-                callback = function()
-                    vim.keymap.set(
-                        't',
-                        '<F12>',
-                        CMD 'exe v:count1 . "ToggleTerm"',
-                        { silent = true, desc = 'Toggleterm: toggle' }
-                    )
-                end,
-                group = group,
-            })
-        end,
         config = function()
             require('toggleterm').setup {}
         end,
