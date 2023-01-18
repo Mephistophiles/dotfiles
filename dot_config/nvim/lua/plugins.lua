@@ -512,6 +512,9 @@ require('lazy').setup {
         keys = {
             { '<F5>', CMD 'SymbolsOutline', desc = 'SymbolsOutline: Open symbols outline' },
         },
+        config = function()
+            require('symbols-outline').setup()
+        end,
     },
 
     { -- Nvim Treesitter configurations and abstraction layer
