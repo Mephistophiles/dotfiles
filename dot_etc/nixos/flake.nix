@@ -20,6 +20,7 @@
     nixpkgs.url = "nixpkgs/nixos-22.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nur.url = github:nix-community/NUR;
+    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     # nixpkgs-trunk.url = "nixpkgs/master";
 
     home-manager.url = "github:nix-community/home-manager/release-22.11";
