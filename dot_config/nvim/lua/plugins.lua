@@ -26,10 +26,11 @@ require('lazy').setup {
         end,
         config = function()
             require('tokyonight').setup {
-                style = 'moon', -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+                style = 'storm', -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+                -- style = 'moon', -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
             }
-            -- vim.cmd.colorscheme 'tokyonight-storm'
-            vim.cmd.colorscheme 'tokyonight-moon'
+            vim.cmd.colorscheme 'tokyonight-storm'
+            -- vim.cmd.colorscheme 'tokyonight-moon'
         end,
     },
     { -- enable repeating supported plugin maps with "."
