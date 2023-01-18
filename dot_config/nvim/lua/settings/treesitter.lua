@@ -30,6 +30,7 @@ function M.config()
             'cmake',
             'fish',
             'go',
+            'haskell',
             'json',
             'lua',
             'make',
