@@ -121,6 +121,7 @@ local servers = {
     gopls = true,
     pylsp = true,
     rnix = true,
+    hls = true,
 }
 
 local setup_server = function(server, config)
