@@ -1,7 +1,6 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "e89df176e8b38e931b7e71a470f923a317976d86" },
   "LuaSnip": { "branch": "master", "commit": "5d57303efde86fcb0959c52b1a6d40f923940f34" },
-  "align.nvim": { "branch": "master", "commit": "2004d263bb1b1ec28e55cf56c35944ec4ea23f8b" },
   "alpha-nvim": { "branch": "main", "commit": "21a0f2520ad3a7c32c0822f943368dc063a569fb" },
   "cmp-buffer": { "branch": "main", "commit": "3022dbc9166796b644a841a02de8dd1cc1d311fa" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "59224771f91b86d1de12570b4070fe4ad7cd1eeb" },
@@ -48,8 +47,6 @@
   "nvim-ts-hint-textobject": { "branch": "master", "commit": "54d6646809d82da0c5d864fb3126ab1961a11f48" },
   "nvim-ts-rainbow": { "branch": "master", "commit": "ef95c15a935f97c65a80e48e12fe72d49aacf9b9" },
   "nvim-web-devicons": { "branch": "master", "commit": "6c38926351372ea87034dec26182b62c835ff3bc" },
-  "org-bullets.nvim": { "branch": "main", "commit": "345a351a387e957a5cb3b8072e96d748f4693540" },
-  "orgmode": { "branch": "master", "commit": "dadf56334d2be7d9e8ad1e22c697a6e75f0164b7" },
   "overlength.nvim": { "branch": "master", "commit": "3715b66d10ae0a68667e50c650c2ef3e5ab9f1e7" },
   "overseer.nvim": { "branch": "master", "commit": "5d4aa5786af479a0408b55a06d3aff260c8b2a91" },
   "playground": { "branch": "master", "commit": "8a887bcf66017bd775a0fb19c9d8b7a4d6759c48" },

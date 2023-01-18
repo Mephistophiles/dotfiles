@@ -952,98 +952,12 @@ require('lazy').setup {
             { 'ga.', CMD 'TextCaseOpenTelescope', desc = 'text-case: convert case' },
         },
         init = function()
-            TODO_OR_DIE.after_date(2023, 01, 14)
+            TODO_OR_DIE.after_date(2023, 01, 30)
             require('settings.textcase').setup()
         end,
         config = function()
             require('settings.textcase').config()
         end,
-    },
-
-    { -- A minimal plugin for NeoVim for aligning lines
-        'Vonr/align.nvim',
-        keys = {
-            {
-                '<leader>aa',
-                function()
-                    require('align').align_to_char(1, true)
-                end,
-                'x',
-                desc = 'Align: aligns to 1 character, looking left',
-                silent = true,
-            },
-            {
-                '<leader>as',
-                function()
-                    require('align').align_to_char(2, true, true)
-                end,
-                'x',
-                desc = 'Align: aligns to 2 characters, looking left and with previews',
-                silent = true,
-            },
-            {
-                'aw',
-                function()
-                    require('align').align_to_string(false, true, true)
-                end,
-                'x',
-                desc = 'Align: aligns to a string, looking left and with previews',
-                silent = true,
-            },
-            {
-                'ar',
-                function()
-                    require('align').align_to_string(true, true, true)
-                end,
-                'x',
-                desc = 'Align: aligns to a Lua pattern, looking left and with previews',
-                silent = true,
-            },
-            {
-                'gaw',
-                function()
-                    local a = require 'align'
-                    a.operator(a.align_to_string, { is_pattern = false, reverse = true, preview = true })
-                end,
-                desc = 'Align: align a paragraph to a string, looking left and with previews',
-                silent = true,
-            },
-            {
-                'gaa',
-                function()
-                    local a = require 'align'
-                    a.operator(a.align_to_char, { reverse = true })
-                end,
-                desc = 'Align: aling a paragraph to 1 character, looking left',
-                silent = true,
-            },
-        },
-        config = function()
-            -- Remove if I do not use it
-            TODO_OR_DIE.after_date(2023, 01, 14)
-        end,
-    },
-
-    { -- Orgmode clone written in Lua for Neovim 0.7+.
-        'nvim-orgmode/orgmode',
-        ft = 'org',
-        init = function()
-            vim.keymap.set('n', '<Leader>oa', function()
-                require('orgmode').action 'agenda.prompt'
-            end, { desc = 'Orgmode: open agenda view' })
-            vim.keymap.set('n', '<Leader>oc', function()
-                require('orgmode').action 'capture.prompt'
-            end, { desc = 'Orgmode: open capture view' })
-        end,
-        config = function()
-            require('orgmode').setup {
-                org_agenda_files = { '~/Documents/orgs/**/*' },
-                org_default_notes_file = '~/Documents/orgs/refile.org',
-            }
-            require('orgmode').setup_ts_grammar()
-            require('org-bullets').setup {}
-        end,
-        dependencies = { 'nvim-treesitter/nvim-treesitter', 'akinsho/org-bullets.nvim' },
     },
 
     { -- A small Neovim plugin to highlight too long lines
