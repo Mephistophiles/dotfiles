@@ -82,8 +82,6 @@ function M.config()
         return ''
     end
 
-    lsp_progress.register()
-
     require('el').setup {
         -- An example generator can be seen in `Setup`.
         -- A default one is supplied if you do not want to customize it.
@@ -109,7 +107,7 @@ function M.config()
                 },
                 sep_right,
                 navic_output,
-                lsp_progress.format_func(),
+                lsp_progress.format_func(sep_right),
                 sections.collapse_builtin {
                     '[',
                     builtin.line_with_width(3),
