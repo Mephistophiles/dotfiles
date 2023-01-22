@@ -5,6 +5,14 @@ local custom_init = function(client)
     client.config.flags.allow_incremental_sync = true
 end
 
+local exe_resolve = function(name, default)
+    if vim.fn.exepath(name) then
+        return name
+    end
+
+    return default
+end
+
 local filetype_attach = setmetatable({ go = function() end, rust = function() end }, {
     __index = function()
         return function() end
@@ -119,9 +127,10 @@ local servers = {
     -- rust_analyzer = true, -- via rust-tools
     clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
     gopls = true,
+    hls = true,
+    jsonls = { cmd = { exe_resolve('vscode-json-languageserver', 'vscode-json-language-server'), '--stdio' } },
     pylsp = true,
     rnix = true,
-    hls = true,
 }
 
 local setup_server = function(server, config)

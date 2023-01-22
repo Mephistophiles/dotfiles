@@ -339,6 +339,8 @@ in
     rnix-lsp
     sumneko-lua-language-server
     unstable.nodePackages.typescript-language-server
+    unstable.nodePackages.vscode-json-languageserver
+    unstable.nodePackages.jsonlint
     unstable.nodePackages.vls
     # unstable.python310Packages.python-lsp-server
     # unstable.vscode-extensions.llvm-org.lldb-vscode
