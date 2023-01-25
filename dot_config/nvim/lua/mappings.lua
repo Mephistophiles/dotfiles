@@ -73,12 +73,6 @@ vim.keymap.set('n', '<leader>Y', 'gg"+yG', { desc = 'Copy to clipboard all file'
 -- inoremap <C-c> <Esc>
 vim.keymap.set('i', '<C-c>', '<Esc>', { desc = 'Emulate <ESC> by Ctrl+C' })
 
--- resize
-vim.keymap.set('n', '<C-w>K', ':resize -5<CR>', { desc = 'Decrease horizontal size of split' })
-vim.keymap.set('n', '<C-w>J', ':resize +5<CR>', { desc = 'Increase horizontal size of split' })
-vim.keymap.set('n', '<C-w>H', ':vertical resize -5<CR>', { desc = 'Decrease vertical size of split' })
-vim.keymap.set('n', '<C-w>L', ':vertical resize +5<CR>', { desc = 'Increase vertical size of split' })
-
 -- quickfix
 vim.keymap.set('n', ']q', ':cnext<CR>', { desc = 'QuickFix: goto next error' })
 vim.keymap.set('n', '[q', ':cprev<CR>', { desc = 'QuickFix: goto previous error' })
