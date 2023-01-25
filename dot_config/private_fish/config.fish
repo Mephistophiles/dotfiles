@@ -27,7 +27,6 @@ abbr -a scu-stop systemctl --user stop
 abbr -a scu-status systemctl --user status
 
 set -U fish_user_paths $fish_user_paths $HOME/bin
-set -U fish_user_paths $fish_user_paths $HOME/builder_bin
 set -U fish_user_paths $fish_user_paths $HOME/.cargo/bin/
 set -U fish_user_paths $fish_user_paths $HOME/go/bin/
 
