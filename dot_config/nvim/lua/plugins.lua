@@ -407,30 +407,31 @@ require('lazy').setup {
 
                 on_attach = function()
                     local gs = package.loaded.gitsigns
-
-                    -- Navigation
-                    if not vim.api.nvim_win_get_option(0, 'diff') then
-                        vim.keymap.set('n', ']c', gs.next_hunk, { desc = 'Git: Goto next hunk' })
-                        vim.keymap.set('n', '[c', gs.prev_hunk, { desc = 'Git: Goto prev hunk' })
+                    local map = function(mode, lhs, rhs, desc)
+                        vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = true })
                     end
 
+                    -- Navigation
+                    map('n', ']c', gs.next_hunk, 'Git: Goto next hunk')
+                    map('n', '[c', gs.prev_hunk, 'Git: Goto prev hunk')
+
                     -- Actions
-                    vim.keymap.set({ 'n', 'v' }, '<leader>hs', gs.stage_hunk, { desc = 'Git: Stage hunk' })
-                    vim.keymap.set({ 'n', 'v' }, '<leader>hr', gs.reset_hunk, { desc = 'Git: Reset hunk' })
-                    vim.keymap.set('n', '<leader>hS', gs.stage_buffer, { desc = 'Git: Stage buffer' })
-                    vim.keymap.set('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Git: Undo stage hunk' })
-                    vim.keymap.set('n', '<leader>hR', gs.reset_buffer, { desc = 'Git: Reset buffer' })
-                    vim.keymap.set('n', '<leader>hp', gs.preview_hunk, { desc = 'Git: Preview hunk' })
-                    vim.keymap.set('n', '<leader>hb', function()
+                    map({ 'n', 'v' }, '<leader>hs', gs.stage_hunk, 'Git: Stage hunk')
+                    map({ 'n', 'v' }, '<leader>hr', gs.reset_hunk, 'Git: Reset hunk')
+                    map('n', '<leader>hS', gs.stage_buffer, 'Git: Stage buffer')
+                    map('n', '<leader>hu', gs.undo_stage_hunk, 'Git: Undo stage hunk')
+                    map('n', '<leader>hR', gs.reset_buffer, 'Git: Reset buffer')
+                    map('n', '<leader>hp', gs.preview_hunk, 'Git: Preview hunk')
+                    map('n', '<leader>hb', function()
                         gs.blame_line { full = true }
-                    end, { desc = 'Git: Blame line' })
-                    vim.keymap.set('n', '<leader>hd', gs.diffthis, { desc = 'Git: Diff this file' })
-                    vim.keymap.set('n', '<leader>hD', function()
+                    end, 'Git: Blame line')
+                    map('n', '<leader>hd', gs.diffthis, 'Git: Diff this file')
+                    map('n', '<leader>hD', function()
                         gs.diffthis '~'
-                    end, { desc = 'Git: Run diff this' })
+                    end, 'Git: Run diff this')
 
                     -- Text object
-                    vim.keymap.set({ 'o', 'x' }, 'ih', CMD '<C-U>Gitsigns select_hunk', { desc = 'Git: Select hunk' })
+                    map({ 'o', 'x' }, 'ih', CMD '<C-U>Gitsigns select_hunk', 'Git: Select hunk')
                 end,
             }
 
@@ -621,9 +622,6 @@ require('lazy').setup {
     { -- A plugin to visualise and resolve merge conflicts in neovim
         'akinsho/git-conflict.nvim',
         version = '*',
-        cond = function()
-            return vim.opt.diff:get()
-        end,
         config = function()
             require('git-conflict').setup {
                 default_mappings = true,
