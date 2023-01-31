@@ -943,21 +943,6 @@ require('lazy').setup {
         ft = 'qf',
     },
 
-    { -- An all in one plugin for converting text case in Neovim
-        'johmsalas/text-case.nvim',
-        keys = {
-            { 'ga.', CMD 'TextCaseOpenTelescope', 'v', desc = 'text-case: convert case' },
-            { 'ga.', CMD 'TextCaseOpenTelescope', desc = 'text-case: convert case' },
-        },
-        init = function()
-            TODO_OR_DIE.after_date(2023, 01, 30)
-            require('settings.textcase').setup()
-        end,
-        config = function()
-            require('settings.textcase').config()
-        end,
-    },
-
     { -- A small Neovim plugin to highlight too long lines
         'lcheylus/overlength.nvim',
         config = function()
