@@ -91,6 +91,9 @@ function M.setup()
         null_ls.builtins.diagnostics.jsonlint.with {
             method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
         },
+        null_ls.builtins.diagnostics.pylint.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+        },
         null_ls.builtins.diagnostics.shellcheck.with {
             method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
         },
