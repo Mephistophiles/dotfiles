@@ -8,6 +8,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
+-- Disable linenumbers for terminal
+local terminal_group = vim.api.nvim_create_augroup('terminal_nonumbers', { clear = true })
+vim.api.nvim_create_autocmd('TermOpen', {
+    group = terminal_group,
+    pattern = '*',
+    command = 'setlocal nonumber norelativenumber',
+})
+
 vim.opt.tabstop = 4 -- by default 4 spaces in tab
 vim.opt.shiftwidth = 4 -- by default 4 spaces in tab
 vim.opt.smartindent = true -- detect indent in file
