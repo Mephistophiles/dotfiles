@@ -118,7 +118,7 @@ require('lazy').setup {
                 end,
             })
 
-            vim.keymap.set('n', '<leader>n', function()
+            vim.keymap.set('n', '<F3>', function()
                 vim.g.nvim_notify_stack_trace = not vim.g.nvim_notify_stack_trace
                 vim.notify(
                     'Stacktrace in notifications was ' .. (vim.g.nvim_notify_stack_trace and 'enabled' or 'disabled'),
@@ -350,7 +350,7 @@ require('lazy').setup {
         },
         keys = {
             {
-                [[<C-\>]],
+                [[<leader>n]],
                 function()
                     local bufnr = vim.api.nvim_get_current_buf()
                     local bufname = vim.api.nvim_buf_get_name(bufnr)
@@ -362,7 +362,7 @@ require('lazy').setup {
                 desc = 'Nvimtree: select current file',
             },
             {
-                [[<leader><leader>]],
+                [[<C-n>]],
                 function()
                     require('nvim-tree.api').tree.toggle(false, true)
                 end,
