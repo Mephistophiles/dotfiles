@@ -5,7 +5,6 @@
 {
   imports = [
     ./variables.nix
-    ./home/alacritty.nix
     ./home/git.nix
     ./home/i3status.nix
     ./home/mail.nix
