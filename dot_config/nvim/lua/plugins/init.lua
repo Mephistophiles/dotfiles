@@ -1,4 +1,4 @@
-require('lazy').setup {
+return {
     { -- A faster version of filetype.vim
         'nathom/filetype.nvim',
         init = function()

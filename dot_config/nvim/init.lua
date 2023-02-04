@@ -15,7 +15,7 @@ require 'options'
 
 pcall(require, 'host')
 
-require 'plugins'
+require('lazy').setup 'plugins'
 
 -- cleanups
 vim.keymap.set('n', '<leader><enter>', table.concat(MAP_CLEANUPS, ''), { desc = 'Clean all notifications/selections' })
