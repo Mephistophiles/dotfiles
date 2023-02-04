@@ -550,7 +550,7 @@ require('lazy').setup {
             vim.cmd 'TSEnable highlight'
         end,
         dependencies = {
-            { 'HiPhish/nvim-ts-rainbow2' },
+            { 'mrjones2014/nvim-ts-rainbow' },
             'nvim-treesitter/nvim-treesitter-textobjects',
             {
                 'mfussenegger/nvim-ts-hint-textobject',
