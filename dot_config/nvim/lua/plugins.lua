@@ -157,7 +157,7 @@ require('lazy').setup {
                 function()
                     require('ssr').open()
                 end,
-                { 'n', 'x' },
+                mode = { 'n', 'x' },
                 desc = 'SSR: Open popup',
             },
         },
@@ -260,13 +260,13 @@ require('lazy').setup {
             { 's', CMD "lua require('substitute').operator()", noremap = true },
             { 'ss', CMD "lua require('substitute').line()", noremap = true },
             { 'S', CMD "lua require('substitute').eol()", noremap = true },
-            { 's', CMD "lua require('substitute').visual()", 'x', noremap = true },
+            { 's', CMD "lua require('substitute').visual()", mode = 'x', noremap = true },
             { '<leader>s', CMD "lua require('substitute.range').operator()", noremap = true },
-            { '<leader>s', CMD "lua require('substitute.range').visual()", 'x', noremap = true },
+            { '<leader>s', CMD "lua require('substitute.range').visual()", mode = 'x', noremap = true },
             { '<leader>ss', CMD "lua require('substitute.range').word()", noremap = true },
             { 'sx', CMD "lua require('substitute.exchange').operator()", noremap = true },
             { 'sxx', CMD "lua require('substitute.exchange').line()", noremap = true },
-            { 'X', CMD "lua require('substitute.exchange').visual()", 'x', noremap = true },
+            { 'X', CMD "lua require('substitute.exchange').visual()", mode = 'x', noremap = true },
             { 'sxc', CMD "lua require('substitute.exchange').cancel()", noremap = true },
         },
         config = function()
@@ -281,7 +281,13 @@ require('lazy').setup {
     { -- A neovim lua plugin to help easily manage multiple terminal windows
         'akinsho/toggleterm.nvim',
         keys = {
-            { '<F12>', CMD 'exe v:count1 . "ToggleTerm"', { 'n', 't' }, silent = true, desc = 'Toggleterm: toggle' },
+            {
+                '<F12>',
+                CMD 'exe v:count1 . "ToggleTerm"',
+                mode = { 'n', 't' },
+                silent = true,
+                desc = 'Toggleterm: toggle',
+            },
         },
         cmd = { 'ToggleTerm' },
         config = function()
@@ -536,14 +542,14 @@ require('lazy').setup {
                     {
                         'm',
                         '<C-U>:lua require("tsht").nodes()<cr>',
-                        'o',
+                        mode = 'o',
                         silent = true,
                         desc = 'Treesitter: Show treesitter select hints',
                     },
                     {
                         'm',
                         CMD 'lua require("tsht").nodes()',
-                        'v',
+                        mode = 'v',
                         silent = true,
                         desc = 'Treesitter: Show treesitter select hints',
                     },
