@@ -1,4 +1,4 @@
-local utils = require 'settings.express_line.utils'
+local utils = require 'plugins.express_line.utils'
 local M = {}
 
 function M.format_func(separator)

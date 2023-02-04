@@ -118,7 +118,7 @@ function M.setup()
         vim.notify(string.format('GC ignorelist: %d -> %d entries', #before, #after))
     end, { desc = 'Formatter: run garbage collector in ignorelist' })
     vim.keymap.set('n', '<leader>ml', function()
-        require('settings.formatter_ui').toggle_quick_menu(IGNORELIST.get())
+        require('plugins.formatter.formatter_ui').toggle_quick_menu(IGNORELIST.get())
     end, { desc = 'Formatter: open ignorelistmenu' })
 end
 

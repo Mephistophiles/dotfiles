@@ -1,5 +1,5 @@
 local popup = require 'plenary.popup'
-local formatter = require 'settings.formatter'
+local formatter = require 'plugins.formatter.formatter'
 
 local M = {}
 
@@ -12,7 +12,7 @@ local function close_menu(force_save)
     force_save = force_save or false
 
     if force_save then
-        require('settings.formatter_ui').on_menu_save()
+        require('plugins.formatter.formatter_ui').on_menu_save()
     end
 
     vim.api.nvim_win_close(Formatter_win_id, true)
