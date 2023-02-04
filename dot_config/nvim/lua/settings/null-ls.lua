@@ -37,6 +37,7 @@ function M.setup()
     formatter.setup()
 
     local sources = {
+        null_ls.builtins.formatting.autopep8,
         null_ls.builtins.formatting.clang_format.with {
             condition = function(utils)
                 return utils.root_has_file '.clang-format'
@@ -89,6 +90,9 @@ function M.setup()
             method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
         },
         null_ls.builtins.diagnostics.jsonlint.with {
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+        },
+        null_ls.builtins.diagnostics.mypy.with {
             method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
         },
         null_ls.builtins.diagnostics.pylint.with {

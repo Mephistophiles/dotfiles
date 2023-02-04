@@ -130,6 +130,7 @@ local servers = {
     hls = true,
     jsonls = { cmd = { exe_resolve('vscode-json-languageserver', 'vscode-json-language-server'), '--stdio' } },
     pylsp = true,
+    pyright = true,
     rnix = true,
 }
 
