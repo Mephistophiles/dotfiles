@@ -366,7 +366,7 @@ require('lazy').setup {
         },
         keys = {
             {
-                [[<leader>n]],
+                [[<leader>g]],
                 function()
                     local bufnr = vim.api.nvim_get_current_buf()
                     local bufname = vim.api.nvim_buf_get_name(bufnr)
@@ -378,7 +378,7 @@ require('lazy').setup {
                 desc = 'Nvimtree: select current file',
             },
             {
-                [[<C-n>]],
+                [[<C-g>]],
                 function()
                     require('nvim-tree.api').tree.toggle(false, true)
                 end,
