@@ -1,5 +1,9 @@
 local M = {}
 
+local navic = require 'nvim-navic'
+local web_devicons = require 'nvim-web-devicons'
+local wpm = require 'wpm'
+
 function M.config()
     local sep_left = ' ❯ '
     local sep_right = ' ❮ '
@@ -63,12 +67,10 @@ function M.config()
 
     local filetype = function(_, buffer)
         local filetype = buffer.filetype
-        local icon = require('nvim-web-devicons').get_icon(buffer.name, buffer.extension, { default = true })
+        local icon = web_devicons.get_icon(buffer.name, buffer.extension, { default = true })
 
         return icon .. ' ' .. filetype
     end
-
-    local navic = require 'nvim-navic'
 
     local navic_output = function()
         if navic.is_available() then
@@ -114,6 +116,12 @@ function M.config()
                     ':',
                     builtin.column_with_width(2),
                     ']',
+                },
+                sep_right,
+                sections.collapse_builtin {
+                    wpm.wpm,
+                    ' | ',
+                    wpm.historic_graph,
                 },
                 sep_right,
                 filetype,

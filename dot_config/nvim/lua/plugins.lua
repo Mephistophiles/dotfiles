@@ -12,7 +12,17 @@ require('lazy').setup {
     { -- Statusline written in pure lua. Supports co-routines, functions and jobs.
         'tjdevries/express_line.nvim',
         event = 'VeryLazy',
-        dependencies = { 'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons' },
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'kyazdani42/nvim-web-devicons',
+            {
+
+                'jcdickinson/wpm.nvim',
+                config = function()
+                    require('wpm').setup {}
+                end,
+            },
+        },
         config = function()
             require('settings.express_line').config()
         end,
