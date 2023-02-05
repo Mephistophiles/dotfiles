@@ -1,14 +1,14 @@
 return { -- Find the enemy and replace them with dark power.
-    'windwp/nvim-spectre',
+    'nvim-pack/nvim-spectre',
     keys = {
         {
             '<leader>/',
-            CMD 'lua require("plugins.nvim-spectre.utils").open()',
+            CMD 'lua require"spectre".open()',
             desc = 'Spectre: Open search panel',
         },
         {
             '<leader>*',
-            CMD 'lua require("plugins.nvim-spectre.utils").open_visual { select_word = true }',
+            CMD 'lua require"spectre".open_visual({ select_word = true })',
             desc = 'Spectre: Search word under cursor',
         },
     },
@@ -17,17 +17,17 @@ return { -- Find the enemy and replace them with dark power.
             mapping = {
                 ['open_in_vsplit'] = {
                     map = '<c-v>',
-                    cmd = CMD 'lua require("plugins.nvim-spectre.utils").vsplit()',
+                    cmd = CMD 'lua vim.cmd("vsplit " .. require("spectre.actions").get_current_entry().filename)',
                     desc = 'open in vertical split',
                 },
                 ['open_in_split'] = {
                     map = '<c-s>',
-                    cmd = CMD 'lua require("plugins.nvim-spectre.utils").split()',
+                    cmd = CMD 'lua vim.cmd("split " .. require("spectre.actions").get_current_entry().filename)',
                     desc = 'open in horizontal split',
                 },
                 ['open_in_tab'] = {
                     map = '<c-t>',
-                    cmd = CMD 'lua require("plugins.nvim-spectre.utils").tabsplit()',
+                    cmd = CMD 'lua vim.cmd("tab split " .. require("spectre.actions").get_current_entry().filename)',
                     desc = 'open in new tab',
                 },
             },

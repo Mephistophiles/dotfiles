@@ -18,8 +18,8 @@ return { -- A completion plugin for neovim coded in Lua.
                     enable_autosnippets = true,
                 }
 
-                ls.add_snippets('c', require 'plugins.luasnip.c')
-                ls.add_snippets('gitcommit', require 'plugins.luasnip.gitcommit')
+                ls.add_snippets('c', require 'plugins.utils.luasnip.c')
+                ls.add_snippets('gitcommit', require 'plugins.utils.luasnip.gitcommit')
             end,
         }, -- snippet engine
         'hrsh7th/cmp-nvim-lsp', -- language server protocol

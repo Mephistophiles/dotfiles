@@ -1,4 +1,4 @@
-local utils = require 'plugins.lsp.utils'
+local utils = require 'plugins.utils.lsp'
 
 local exe_resolve = function(name, default)
     if vim.fn.exepath(name) then

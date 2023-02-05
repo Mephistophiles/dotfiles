@@ -3,7 +3,7 @@ return {
         'simrat39/rust-tools.nvim',
         ft = 'rust',
         config = function()
-            local server = vim.tbl_deep_extend('force', require('plugins.lsp.utils').make_default_opts(), {
+            local server = vim.tbl_deep_extend('force', require('plugins.utils.lsp').make_default_opts(), {
                 flags = { allow_incremental_sync = true },
                 settings = {
                     ['rust-analyzer'] = {

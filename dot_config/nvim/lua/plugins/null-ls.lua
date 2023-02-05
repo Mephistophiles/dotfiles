@@ -6,8 +6,8 @@ return { -- Use Neovim as a language server to inject LSP diagnostics, code acti
         local methods = require 'null-ls.methods'
         local helpers = require 'null-ls.helpers'
 
-        local lspconfig = require 'plugins.lsp.utils'
-        local formatter = require 'plugins.formatter.formatter'
+        local lspconfig = require 'plugins.utils.lsp'
+        local formatter = require 'plugins.utils.formatter'
 
         local clang_tidy = helpers.make_builtin {
             method = methods.internal.DIAGNOSTICS_ON_SAVE,
