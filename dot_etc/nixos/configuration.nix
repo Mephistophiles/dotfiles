@@ -3,11 +3,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   mypkgs = pkgs.callPackage pkgs/default.nix { inherit pkgs; };
   graphics = "awesomewm";
+  #graphics = "gnome";
 in
 {
   imports = [
@@ -68,9 +69,14 @@ in
       enable = true;
 
       desktopManager = { xterm.enable = false; };
+      displayManager.sessionCommands = ''
+        ${lib.getBin pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource 1 0
+      '';
 
       # Enable touchpad support (enabled default in most desktopManager).
       libinput = { enable = true; };
+
+      videoDrivers = [ "displaylink" "modesetting" ];
 
       # Configure keymap in X11
       layout = "us,ru";

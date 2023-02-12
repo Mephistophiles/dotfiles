@@ -13,21 +13,13 @@
     (self: super: {
       gnomeExtensions = super.gnomeExtensions // {
         paperwm = super.gnomeExtensions.paperwm.overrideDerivation (old: {
-          version = "pre-41.0";
+          version = "develop";
           src = super.fetchFromGitHub {
             owner = "PaperWM-community";
             repo = "PaperWM";
-            rev = "b66aaf13e8f4cdf0e2f9078fb3e75703535b822c";
-            sha256 = "sha256-6AUUu63oWxRw9Wpxe0f7xvt7iilvQfhpAB8SYG4yP8Q=";
+            rev = "f590f8b30f0c1962e2bc18f1a39355b0a72636cb";
+            sha256 = "sha256-ngyTsls0RYQyepfwvNJDPdlGMRC2+woFCW4RVjsaPRU=";
           };
-          patches = old.patches or [ ] ++ [
-            (self.fetchpatch {
-              name = "pr-25.patch";
-              url =
-                "https://patch-diff.githubusercontent.com/raw/PaperWM-community/PaperWM/pull/25.patch";
-              sha256 = "sha256-N66a0c0doKN9km2uktFpbYVDEaD0H6seotMv81XUr04=";
-            })
-          ];
         });
       };
     })
