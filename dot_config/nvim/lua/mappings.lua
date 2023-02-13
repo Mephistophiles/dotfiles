@@ -66,3 +66,5 @@ vim.keymap.set('n', '[b', CMD 'bprev', { desc = 'Buffers: goto previous buffer' 
 
 vim.keymap.set('n', ']q', CMD 'cnext', { desc = 'QuickFix: goto next error' })
 vim.keymap.set('n', '[q', CMD 'cprev', { desc = 'QuickFix: goto previous error' })
+
+vim.keymap.set('i', '<C-c>', '<Esc>', { desc = 'Handle C-c as Esc, otherwise some operations can be aborted' })
