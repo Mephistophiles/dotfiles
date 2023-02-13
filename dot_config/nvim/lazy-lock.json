@@ -81,6 +81,5 @@
   "vim-table-mode": { "branch": "master", "commit": "9555a3e6e5bcf285ec181b7fc983eea90500feb4" },
   "vim-toml": { "branch": "main", "commit": "d36caa6b1cf508a4df1c691f915572fc02143258" },
   "which-key.nvim": { "branch": "main", "commit": "684e96c5e8477f1ee9b3f2e9a12d802fd12c5531" },
-  "windex.nvim": { "branch": "master", "commit": "1e86cba6f6f55ced60d17d6c6ebd51388a637b86" },
-  "wpm.nvim": { "branch": "main", "commit": "968c213143311cd07acb299ebe5445f68ae57a67" }
+  "windex.nvim": { "branch": "master", "commit": "1e86cba6f6f55ced60d17d6c6ebd51388a637b86" }
 }

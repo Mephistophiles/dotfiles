@@ -5,18 +5,10 @@ return
         dependencies = {
             'nvim-lua/plenary.nvim',
             'kyazdani42/nvim-web-devicons',
-            {
-
-                'jcdickinson/wpm.nvim',
-                config = function()
-                    require('wpm').setup {}
-                end,
-            },
         },
         config = function()
             local navic = require 'nvim-navic'
             local web_devicons = require 'nvim-web-devicons'
-            local wpm = require 'wpm'
 
             local sep_left = ' ❯ '
             local sep_right = ' ❮ '
@@ -129,12 +121,6 @@ return
                             ':',
                             builtin.column_with_width(2),
                             ']',
-                        },
-                        sep_right,
-                        sections.collapse_builtin {
-                            wpm.wpm,
-                            ' | ',
-                            wpm.historic_graph,
                         },
                         sep_right,
                         filetype,
