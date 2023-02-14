@@ -9,7 +9,6 @@
   "crates.nvim": { "branch": "main", "commit": "1bca9122ddc4bf4c6573402bf6686fc084470a7e" },
   "diffview.nvim": { "branch": "main", "commit": "ab3757c1ea1b84ef59f7dda54f11d10022e0e3b7" },
   "express_line.nvim": { "branch": "master", "commit": "30f04edb9647d9ea7c08d0bdbfad33faf5bcda57" },
-  "filetype.nvim": { "branch": "main", "commit": "b522628a45a17d58fc0073ffd64f9dc9530a8027" },
   "fold-preview.nvim": { "branch": "main", "commit": "b7920cb0aba2b48a6b679bff45f98c3ebc0f0b89" },
   "git-conflict.nvim": { "branch": "main", "commit": "80bc8931d4ed8c8c4d289a08e1838fcf4741408d" },
   "git-messenger.vim": { "branch": "master", "commit": "8a61bdfa351d4df9a9118ee1d3f45edbed617072" },

@@ -8,7 +8,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.did_load_filetypes = false
+vim.g.do_filetype_lua = true
+
 require 'globals'
+require 'filetype'
 require 'mappings'
 require 'relativenumbers'
 require 'options'
