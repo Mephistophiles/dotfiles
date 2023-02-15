@@ -35,7 +35,7 @@ return { -- Quickstart configs for Nvim LSP
     name = 'lspconfig',
     config = function()
         local servers = {
-            sumneko_lua = function()
+            lua_ls = function()
                 local runtime_path = vim.split(package.path, ';')
                 table.insert(runtime_path, 'lua/?.lua')
                 table.insert(runtime_path, 'lua/?/init.lua')
