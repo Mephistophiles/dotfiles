@@ -34,6 +34,7 @@
         builtins.elem (lib.getName pkg) [
           "displaylink"
           # "clion"
+          "obsidian"
           "vscode"
         ];
 
