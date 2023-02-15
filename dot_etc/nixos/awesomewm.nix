@@ -4,14 +4,15 @@
   services = {
     xserver = {
       displayManager = {
-        lightdm = {
-          enable = true;
-          extraSeatDefaults = ''
-            display-setup-script=${pkgs.writeShellScript "autorandr-test" ''
-              ${pkgs.unstable.autorandr}/bin/autorandr --batch --change --default default
-            ''}
-          '';
-        };
+        gdm.enable = true;
+        #lightdm = {
+        #  enable = true;
+        #  extraSeatDefaults = ''
+        #    display-setup-script=${pkgs.writeShellScript "autorandr-test" ''
+        #      ${pkgs.unstable.autorandr}/bin/autorandr --batch --change --default default
+        #    ''}
+        #  '';
+        #};
         defaultSession = "none+awesome";
       };
       windowManager.awesome = {
