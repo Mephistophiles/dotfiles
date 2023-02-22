@@ -5,7 +5,7 @@ return { -- A file explorer tree for neovim written in lua
     },
     keys = {
         {
-            [[<leader>g]],
+            [[<C-g>]],
             function()
                 local bufnr = vim.api.nvim_get_current_buf()
                 local bufname = vim.api.nvim_buf_get_name(bufnr)
@@ -17,7 +17,7 @@ return { -- A file explorer tree for neovim written in lua
             desc = 'Nvimtree: select current file',
         },
         {
-            [[<C-g>]],
+            [[<leader><leader>]],
             function()
                 require('nvim-tree.api').tree.toggle(false, true)
             end,
