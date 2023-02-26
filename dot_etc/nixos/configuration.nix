@@ -310,6 +310,7 @@ in
 
     # nixos
     deadnix
+    nix-alien
     nix-index
     nix-prefetch
     nixos-option

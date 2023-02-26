@@ -20,6 +20,8 @@
     nixpkgs.url = "nixpkgs/nixos-22.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
+    nix-alien.url = "github:thiagokokada/nix-alien";
+
     home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -37,6 +39,7 @@
 
       inherit (inputs) nixpkgs;
       inherit (inputs) nixpkgs-unstable;
+      inherit (inputs) nix-alien;
       inherit (inputs) home-manager;
       system = "x86_64-linux";
       config = { };
@@ -66,7 +69,7 @@
           inherit (final.linuxPackages_latest) evdi;
         };
       };
-      overlays = [ overlay-unstable linux-override ];
+      overlays = [ overlay-unstable linux-override nix-alien.overlays.default ];
       nixpkgs-overlay = {
         config.allowUnfreePredicate = unfreePredicate;
         inherit overlays;
