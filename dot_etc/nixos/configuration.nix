@@ -263,14 +263,11 @@ in
     unstable.tdesktop
 
     # text editors
-    micro
     (neovim.override { vimAlias = true; })
     unstable.helix
     unstable.obsidian
     unstable.vscode
     xfce.mousepad
-    # unstable.jetbrains.clion
-    # unstable.obsidian
 
     # utils
     age
@@ -345,7 +342,6 @@ in
 
     # programming LSP
     clang-tools
-    # efm-langserver
     gdb
     llvmPackages_latest.clang
     llvmPackages_latest.llvm

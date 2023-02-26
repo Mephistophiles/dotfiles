@@ -15,7 +15,6 @@
 
   home.packages = with pkgs; [
     unstable.evans
-    unstable.evince
     unstable.jq
     unstable.tree-sitter
     acpi
@@ -57,43 +56,6 @@
       '' + ''
         allow-loopback-pinentry
       '';
-    };
-    dunst = {
-      enable = true;
-      waylandDisplay = lib.mkIf config.variables.withWayland "wayland-1";
-      settings = {
-        global = {
-          geometry = "300x5-30+20";
-          transparency = 0;
-          frame_width = 0;
-          frame_color = "#FFFFFF";
-          font = "Monospace 6";
-          format = ''
-            <b>%s</b>
-            %b'';
-          indicate_hidden = "yes";
-          ignore_newline = "no";
-        };
-        urgency_low = {
-          # IMPORTANT: colors have to be defined in quotation marks.
-          # Otherwise the '#' and following  would be interpreted as a comment.
-          background = "#222222";
-          foreground = "#888888";
-          timeout = 10;
-        };
-        urgency_normal = {
-          background = "#285577";
-          foreground = "#ffffff";
-          timeout = 10;
-        };
-
-        urgency_critical = {
-          background = "#900000";
-          foreground = "#ffffff";
-          frame_color = "#ff0000";
-          timeout = 10;
-        };
-      };
     };
   };
 
