@@ -124,11 +124,11 @@ in
               enable = true;
               primary = true;
               position = "0x0";
-              mode = mode;
+              inherit mode;
             };
           };
         };
-        huawei_mateview = ident: fingerprint: monitor_setup "3440x1440" ident fingerprint;
+        huawei_mateview = monitor_setup "3440x1440";
       in
       {
         enable = true;

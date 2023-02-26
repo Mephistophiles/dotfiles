@@ -19,7 +19,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-22.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
-    nur.url = github:nix-community/NUR;
+    nur.url = "github:nix-community/NUR";
     # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     # nixpkgs-trunk.url = "nixpkgs/master";
 
@@ -38,17 +38,17 @@
           "vscode"
         ];
 
-      nixpkgs = inputs.nixpkgs;
-      nixpkgs-unstable = inputs.nixpkgs-unstable;
+      inherit (inputs) nixpkgs;
+      inherit (inputs) nixpkgs-unstable;
       # nixpkgs-trunk = inputs.nixpkgs-trunk;
-      home-manager = inputs.home-manager;
-      nur = inputs.nur;
+      inherit (inputs) home-manager;
+      inherit (inputs) nur;
       system = "x86_64-linux";
       config = { };
 
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
-          system = system;
+          inherit system;
           config.allowUnfreePredicate = unfreePredicate;
         };
         # trunk = import nixpkgs-trunk {
