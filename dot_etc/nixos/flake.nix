@@ -19,9 +19,6 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-22.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
-    nur.url = "github:nix-community/NUR";
-    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    # nixpkgs-trunk.url = "nixpkgs/master";
 
     home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -40,9 +37,7 @@
 
       inherit (inputs) nixpkgs;
       inherit (inputs) nixpkgs-unstable;
-      # nixpkgs-trunk = inputs.nixpkgs-trunk;
       inherit (inputs) home-manager;
-      inherit (inputs) nur;
       system = "x86_64-linux";
       config = { };
 
@@ -51,10 +46,6 @@
           inherit system;
           config.allowUnfreePredicate = unfreePredicate;
         };
-        # trunk = import nixpkgs-trunk {
-        #   system = system;
-        #   config.allowUnfreePredicate = unfreePredicate;
-        # };
       };
       linux-override = final: prev: {
         linuxPackages_latest =
@@ -100,7 +91,6 @@
         specialArgs = { inherit inputs; };
         modules = [
           home-manager.nixosModules.home-manager
-          nur.nixosModules.nur
 
           ({ pkgs, ... }: {
             nixpkgs = nixpkgs-overlay;
@@ -108,7 +98,6 @@
             nix.package = pkgs.nixFlakes;
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.registry.nixpkgs-unstable.flake = nixpkgs-unstable;
-            # nix.registry.nixpkgs-trunk.flake = nixpkgs-trunk;
             home-manager.useGlobalPkgs = true;
           })
 
