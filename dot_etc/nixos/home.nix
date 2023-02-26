@@ -15,12 +15,10 @@
 
   home.packages = with pkgs; [
     unstable.evans
-    unstable.jq
     unstable.tree-sitter
     acpi
     gopass
     gopls
-    nodejs
     pavucontrol
     vlc
     unstable.rustup

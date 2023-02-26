@@ -215,6 +215,7 @@ in
   environment.systemPackages = with pkgs; [
     # rust stuff
     unstable.bat
+    unstable.bottom
     unstable.cargo-bloat
     unstable.cargo-cache
     unstable.cargo-diet
@@ -273,7 +274,6 @@ in
     age
     bitwarden
     bitwarden-cli
-    unstable.bottom
     brightnessctl
     unstable.chezmoi
     curl
@@ -304,6 +304,7 @@ in
     wget
     xclip
     zip
+    unstable.jq
 
     # nixos
     deadnix
