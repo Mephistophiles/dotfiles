@@ -315,6 +315,7 @@ in
     nix-prefetch
     nixos-option
     nixpkgs-fmt
+    nvd
     statix
     unstable.home-manager
     unstable.nixpkgs-review

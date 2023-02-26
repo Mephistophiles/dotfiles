@@ -10,21 +10,11 @@ mktempdir() do path
 	if current_user == "root"
 		println("Run nixos-rebuild...")
 		run(`nixos-rebuild build`)
-		update_report = read(`nix store diff-closures /run/current-system result/`, String)
+		run(`nvd diff /run/current-system result/`)
 	else
 		println("Run home-manager...")
 		run(`home-manager build --flake /etc/nixos`)
-		update_report = read(`nix store diff-closures /nix/var/nix/profiles/per-user/mzhukov/home-manager result/`, String)
+		run(`nvd diff /nix/var/nix/profiles/per-user/mzhukov/home-manager result/`)
 	end
-
-
-	if isempty(strip(update_report))
-		println("System is up to date")
-		return
-	end
-
-	println("---")
-
-	print(update_report)
 end
 
