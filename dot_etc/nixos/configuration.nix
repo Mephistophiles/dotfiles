@@ -311,6 +311,7 @@ in
     # nixos
     deadnix
     nix-alien
+    nix-du
     nix-index
     nix-prefetch
     nixos-option
