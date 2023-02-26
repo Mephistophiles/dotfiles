@@ -188,6 +188,7 @@ in
   environment.variables = {
     PATH = "$HOME/.cargo/bin:$HOME/bin:$HOME/go/bin";
     WINIT_X11_SCALE_FACTOR = "1.2";
+    LIBGL_DRI3_DISABLE = "true";
     EDITOR = "vim";
   };
 
