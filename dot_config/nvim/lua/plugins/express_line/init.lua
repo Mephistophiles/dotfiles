@@ -16,7 +16,6 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
         local builtin = require 'el.builtin'
         local diagnostic = require 'el.diagnostic'
         local extensions = require 'el.extensions'
-        local lsp_statusline = require 'el.plugins.lsp_status'
         local sections = require 'el.sections'
         local subscribe = require 'el.subscribe'
 
@@ -61,14 +60,6 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
             return extensions.git_changes(window, buffer)
         end)
 
-        local show_current_func = function(window, buffer)
-            if buffer.filetype == 'lua' then
-                return ''
-            end
-
-            return lsp_statusline.current_function(window, buffer)
-        end
-
         local filetype = function(_, buffer)
             local filetype = buffer.filetype
             local icon = web_devicons.get_icon(buffer.name, buffer.extension, { default = true })
@@ -93,15 +84,14 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
                     sections.maximum_width(builtin.file_relative, 0.60),
                     sections.collapse_builtin { { ' ' }, { builtin.modified_flag } },
                     sections.split,
-                    show_current_func,
+                    ts_context.format_func(sep_right),
+                    lsp_progress.format_func(sep_right),
                     git_changes,
                     sections.collapse_builtin {
                         builtin.help_list,
                         builtin.readonly_list,
                     },
                     sep_right,
-                    ts_context.format_func(sep_right),
-                    lsp_progress.format_func(sep_right),
                     sections.collapse_builtin {
                         '[',
                         builtin.line_with_width(3),
