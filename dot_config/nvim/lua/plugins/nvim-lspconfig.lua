@@ -92,9 +92,5 @@ return { -- Quickstart configs for Nvim LSP
                 }
             end,
         },
-        {
-            'SmiteshP/nvim-navic',
-            lazy = true,
-        },
     },
 }
