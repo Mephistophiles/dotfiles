@@ -6,7 +6,7 @@ function M.format_func(separator)
         local output = {}
         local cache = {}
 
-        for _, c in pairs(vim.lsp.get_active_clients()) do
+        for _, c in pairs(vim.lsp.buf_get_clients()) do
             if c.name ~= 'null-ls' then
                 for _, ctx in pairs(c.messages.progress) do
                     if not ctx.done then
