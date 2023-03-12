@@ -11,7 +11,6 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
         local sep_left = ' ❯ '
         local sep_right = ' ❮ '
         local lsp_progress = require 'plugins.express_line.lsp_progress'
-        local ts_context = require 'plugins.express_line.ts-context'
 
         local builtin = require 'el.builtin'
         local diagnostic = require 'el.diagnostic'
@@ -84,7 +83,6 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
                     sections.maximum_width(builtin.file_relative, 0.60),
                     sections.collapse_builtin { { ' ' }, { builtin.modified_flag } },
                     sections.split,
-                    ts_context.format_func(sep_right),
                     lsp_progress.format_func(sep_right),
                     git_changes,
                     sections.collapse_builtin {

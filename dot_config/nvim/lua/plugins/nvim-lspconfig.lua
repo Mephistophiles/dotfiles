@@ -76,6 +76,8 @@ return { -- Quickstart configs for Nvim LSP
 
         vim.lsp.set_log_level 'off'
 
+        require('breadcrumb').init()
+
         for server, config in pairs(servers) do
             setup_server(server, config)
         end
@@ -92,5 +94,6 @@ return { -- Quickstart configs for Nvim LSP
                 }
             end,
         },
+        { 'loctvl842/breadcrumb.nvim', config = {}, dependencies = { 'kyazdani42/nvim-web-devicons' } },
     },
 }

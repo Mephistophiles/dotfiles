@@ -135,6 +135,10 @@ local filetype_attach = setmetatable({ go = function() end, rust = function() en
 local custom_attach = function(client, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
+    if client.server_capabilities.documentSymbolProvider then
+        require('breadcrumb').attach(client, bufnr)
+    end
+
     require('lsp_signature').on_attach(client, bufnr)
 
     M.key_bindings(client)
