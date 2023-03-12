@@ -11,6 +11,7 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
         local sep_left = ' ❯ '
         local sep_right = ' ❮ '
         local lsp_progress = require 'plugins.express_line.lsp_progress'
+        local utils = require 'plugins.express_line.utils'
 
         local builtin = require 'el.builtin'
         local diagnostic = require 'el.diagnostic'
@@ -66,6 +67,18 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
             return icon .. ' ' .. filetype
         end
 
+        local progress = utils.throttle_fn(function()
+            local cur = vim.fn.line '.'
+            local total = vim.fn.line '$'
+            if cur == 1 then
+                return 'Top'
+            elseif cur == total then
+                return 'Bot'
+            else
+                return math.floor(cur / total * 100) .. '%%'
+            end
+        end)
+
         require('el').setup {
             -- An example generator can be seen in `Setup`.
             -- A default one is supplied if you do not want to customize it.
@@ -95,6 +108,8 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
                         builtin.line_with_width(3),
                         ':',
                         builtin.column_with_width(2),
+                        ' ',
+                        progress,
                         ']',
                     },
                     sep_right,
