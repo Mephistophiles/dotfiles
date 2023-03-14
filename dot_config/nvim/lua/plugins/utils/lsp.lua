@@ -1,4 +1,5 @@
 local M = {}
+local breadcrumb_inited = false
 
 local function smart_goto(fn)
     for _, severity in ipairs {
@@ -136,6 +137,11 @@ local custom_attach = function(client, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
     if client.server_capabilities.documentSymbolProvider then
+        if not breadcrumb_inited then
+            require('breadcrumb').init()
+            breadcrumb_inited = true
+        end
+
         require('breadcrumb').attach(client, bufnr)
     end
 

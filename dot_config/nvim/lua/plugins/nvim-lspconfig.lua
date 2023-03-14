@@ -30,70 +30,71 @@ local setup_server = function(server, config)
     require('lspconfig')[server].setup(config)
 end
 
-return { -- Quickstart configs for Nvim LSP
-    'neovim/nvim-lspconfig',
-    name = 'lspconfig',
-    config = function()
-        local servers = {
-            lua_ls = function()
-                local runtime_path = vim.split(package.path, ';')
-                table.insert(runtime_path, 'lua/?.lua')
-                table.insert(runtime_path, 'lua/?/init.lua')
+return {
+    { -- Quickstart configs for Nvim LSP
+        'neovim/nvim-lspconfig',
+        name = 'lspconfig',
+        config = function()
+            local servers = {
+                lua_ls = function()
+                    local runtime_path = vim.split(package.path, ';')
+                    table.insert(runtime_path, 'lua/?.lua')
+                    table.insert(runtime_path, 'lua/?/init.lua')
 
-                return {
-                    settings = {
-                        Lua = {
-                            runtime = {
-                                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                                version = 'LuaJIT',
+                    return {
+                        settings = {
+                            Lua = {
+                                runtime = {
+                                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                                    version = 'LuaJIT',
 
-                                -- Setup your lua path
-                                path = runtime_path,
+                                    -- Setup your lua path
+                                    path = runtime_path,
+                                },
+                                diagnostics = {
+                                    -- Get the language server to recognize the `vim` global
+                                    globals = { 'vim' },
+                                },
+                                workspace = {
+                                    -- Make the server aware of Neovim runtime files
+                                    library = vim.api.nvim_get_runtime_file('', true),
+                                },
+                                -- Do not send telemetry data containing a randomized but unique identifier
+                                telemetry = { enable = false },
                             },
-                            diagnostics = {
-                                -- Get the language server to recognize the `vim` global
-                                globals = { 'vim' },
-                            },
-                            workspace = {
-                                -- Make the server aware of Neovim runtime files
-                                library = vim.api.nvim_get_runtime_file('', true),
-                            },
-                            -- Do not send telemetry data containing a randomized but unique identifier
-                            telemetry = { enable = false },
                         },
-                    },
-                }
-            end,
-            -- rust_analyzer = true, -- via rust-tools
-            clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
-            gopls = true,
-            hls = true,
-            jsonls = { cmd = { exe_resolve('vscode-json-languageserver', 'vscode-json-language-server'), '--stdio' } },
-            pylsp = true,
-            pyright = true,
-            rnix = true,
-        }
+                    }
+                end,
+                -- rust_analyzer = true, -- via rust-tools
+                clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
+                gopls = true,
+                hls = true,
+                jsonls = {
+                    cmd = { exe_resolve('vscode-json-languageserver', 'vscode-json-language-server'), '--stdio' },
+                },
+                pylsp = true,
+                pyright = true,
+                rnix = true,
+            }
 
-        vim.lsp.set_log_level 'off'
+            vim.lsp.set_log_level 'off'
 
-        require('breadcrumb').init()
-
-        for server, config in pairs(servers) do
-            setup_server(server, config)
-        end
-    end,
-    dependencies = {
-        -- LSP modules
-        {
-            'ray-x/lsp_signature.nvim',
-            lazy = true,
-            config = function()
-                require('lsp_signature').setup {
-                    toggle_key = '<C-S>',
-                    floating_window = false,
-                }
-            end,
+            for server, config in pairs(servers) do
+                setup_server(server, config)
+            end
+        end,
+        dependencies = {
+            -- LSP modules
         },
-        { 'loctvl842/breadcrumb.nvim', config = {}, dependencies = { 'kyazdani42/nvim-web-devicons' } },
     },
+    {
+        'ray-x/lsp_signature.nvim',
+        event = 'VeryLazy',
+        config = {
+            toggle_key = '<C-S>',
+            floating_window = false,
+        },
+        dependencies = { 'neovim/nvim-lspconfig', name = 'lspconfig' },
+    },
+    { 'loctvl842/breadcrumb.nvim', event = 'VeryLazy', config = {}, dependencies = { 'kyazdani42/nvim-web-devicons' } },
 }
