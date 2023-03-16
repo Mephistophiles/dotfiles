@@ -76,8 +76,6 @@ in
       # Enable touchpad support (enabled default in most desktopManager).
       libinput = { enable = true; };
 
-      videoDrivers = [ "displaylink" "modesetting" ];
-
       # Configure keymap in X11
       layout = "us,ru";
       xkbOptions = "grp:alt_shift_toggle,grp_led:scroll,caps:backspace";
@@ -188,7 +186,7 @@ in
   environment.variables = {
     PATH = "$HOME/.cargo/bin:$HOME/bin:$HOME/go/bin";
     WINIT_X11_SCALE_FACTOR = "1.2";
-    LIBGL_DRI3_DISABLE = "true";
+    #LIBGL_DRI3_DISABLE = "true";
     EDITOR = "vim";
   };
 
