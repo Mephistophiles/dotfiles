@@ -284,6 +284,7 @@ in
     nix-du
     nix-index
     nix-prefetch
+    nix-tree
     nixos-option
     nixpkgs-fmt
     nvd
