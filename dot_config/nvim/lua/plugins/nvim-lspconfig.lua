@@ -106,27 +106,27 @@ return {
             local original_cpo = vim.opt.cpoptions
 
             local function lsp_lines_toggle()
+                enabled = not enabled
+
                 if enabled then
-                    vim.diagnostic.config {
-                        virtual_text = true, -- Since we're using lsp_lines
-                    }
-                    vim.opt.cpoptions = original_cpo
-                else
                     vim.diagnostic.config {
                         virtual_text = false, -- Since we're using lsp_lines
                     }
                     vim.opt.cpoptions:remove 'n'
+                else
+                    vim.diagnostic.config {
+                        virtual_text = true, -- Since we're using lsp_lines
+                    }
+                    vim.opt.cpoptions = original_cpo
                 end
 
                 if bootstrap then
                     require('lsp_lines').setup()
+                    require('lsp_lines').toggle() -- hack for right init
                     bootstrap = false
-                else
-                    require('lsp_lines').toggle()
                 end
+                require('lsp_lines').toggle()
             end
-
-            lsp_lines_toggle()
 
             vim.keymap.set('', '<leader>ll', function()
                 lsp_lines_toggle()
