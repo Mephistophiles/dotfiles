@@ -54,10 +54,6 @@ in
       [ "en_US.UTF-8/UTF-8" "en_IE.UTF-8/UTF-8" "ru_RU.UTF-8/UTF-8" ];
     extraLocaleSettings = { LC_TIME = "en_IE.UTF-8"; };
   };
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
 
   virtualisation.docker.enable = true;
 
@@ -69,9 +65,6 @@ in
       enable = true;
 
       desktopManager = { xterm.enable = false; };
-      displayManager.sessionCommands = ''
-        ${lib.getBin pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource 1 0
-      '';
 
       # Enable touchpad support (enabled default in most desktopManager).
       libinput = { enable = true; };
@@ -88,7 +81,6 @@ in
       systemCronJobs = [
         "*/5 * * * *  mzhukov   /home/mzhukov/.etc/sync.sh"
         "*/5 * * * *  mzhukov   cat ~/.config/starship.toml > ~/.dotfiles/dot_config/readonly_starship.toml"
-        "*/5 * * * *  mzhukov   cat ~/.config/alacritty/alacritty.yml > ~/.dotfiles/dot_config/alacritty/alacritty.yml"
         "*/5 * * * *  mzhukov   cat ~/.config/rofi/config.rasi > ~/.dotfiles/dot_config/rofi/config.rasi"
       ];
     };
@@ -167,7 +159,6 @@ in
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
-    # defaultUserShell = "/run/current-system/sw/bin/fish";
     extraUsers.mzhukov = {
       shell = pkgs.fish;
       isNormalUser = true;
@@ -186,24 +177,11 @@ in
   environment.variables = {
     PATH = "$HOME/.cargo/bin:$HOME/bin:$HOME/go/bin";
     WINIT_X11_SCALE_FACTOR = "1.2";
-    #LIBGL_DRI3_DISABLE = "true";
     EDITOR = "vim";
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   programs = {
     fish.enable = true;
-    wireshark = {
-      enable = true;
-      package = pkgs.wireshark;
-    };
     dconf.enable = true;
     fuse = { userAllowOther = true; };
   };
@@ -214,27 +192,27 @@ in
     # rust stuff
     unstable.bat
     unstable.bottom
-    unstable.cargo-bloat
+    # unstable.cargo-bloat
     unstable.cargo-cache
-    unstable.cargo-diet
-    unstable.cargo-edit
-    unstable.cargo-expand
-    unstable.cargo-insta
-    unstable.cargo-nextest
-    unstable.cargo-outdated
-    unstable.cargo-public-api
-    unstable.cargo-release
-    unstable.cargo-tarpaulin
-    unstable.cargo-udeps
-    unstable.cargo-watch
-    unstable.cargo-whatfeatures
-    unstable.choose
-    unstable.difftastic
+    # unstable.cargo-diet
+    # unstable.cargo-edit
+    # unstable.cargo-expand
+    # unstable.cargo-insta
+    # unstable.cargo-nextest
+    # unstable.cargo-outdated
+    # unstable.cargo-public-api
+    # unstable.cargo-release
+    # unstable.cargo-tarpaulin
+    # unstable.cargo-udeps
+    # unstable.cargo-watch
+    # unstable.cargo-whatfeatures
+    # unstable.choose
+    # unstable.difftastic
     unstable.dua
     unstable.exa
     unstable.fd
     unstable.hyperfine
-    unstable.inferno
+    # unstable.inferno
     unstable.procs
     unstable.ripgrep
     unstable.ruplacer
@@ -249,13 +227,12 @@ in
     arandr
     evince
     firefox
-    gimp
     gnome3.file-roller
     gnome3.gnome-calculator
     gnome3.gnome-disk-utility
     gnome3.gnome-themes-extra
     gnome3.nautilus
-    unstable.josm
+    # unstable.josm
     libreoffice
     meld
     thunderbird
@@ -276,7 +253,6 @@ in
     unstable.chezmoi
     curl
     docker-compose
-    dunst
     file
     fzf
     haskellPackages.greenclip
@@ -292,9 +268,7 @@ in
     rclone
     rsync
     sshfs-fuse
-    taskwarrior
     time
-    unp
     unzip
     vifm
     wally-cli
@@ -336,7 +310,6 @@ in
     unstable.lazydocker
     unstable.lazygit
     unstable.zlib
-    valgrind
     yarn
 
     # programming LSP
@@ -372,19 +345,6 @@ in
     networkmanager.enable = true;
 
     wg-quick = { interfaces.wg0 = config.vault.wireguard; };
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-    #
-    # removed hosts
-    # 192.168.161.102 clipboard
-    extraHosts = ''
-      192.168.161.7 rd
-      192.168.161.102 taskd
-      192.168.100.3 listserv.msk.dlink.ru
-      192.168.100.23 mailman.dlink.ru
-    '';
   };
 
   fonts = {
@@ -395,19 +355,12 @@ in
       font-awesome
       fontconfig
       freetype
-      #hack-font
       jetbrains-mono
-      #liberation_ttf
       material-icons
       nerdfonts
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
-      #siji
-      #source-code-pro
-      #source-sans-pro
-      #source-serif-pro
-      #ubuntu_font_family
       weather-icons
     ];
 
@@ -426,6 +379,6 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.11"; # Did you read the comment?
+  system.stateVersion = "23.03"; # Did you read the comment?
 }
 
