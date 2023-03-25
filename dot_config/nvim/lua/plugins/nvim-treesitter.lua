@@ -5,27 +5,6 @@ return {
         event = 'VeryLazy',
         config = function()
             require('nvim-treesitter').setup()
-            -- alt+<space>, alt+p -> swap next
-            -- alt+<backspace>, alt+p -> swap previous
-            local swap_next, swap_prev = (function()
-                local swap_objects = {
-                    p = '@parameter.inner',
-                    f = '@function.outer',
-                    e = '@element',
-
-                    -- Not ready, but I think it's my fault :)
-                    -- v = "@variable",
-                }
-
-                local n, p = {}, {}
-                for key, obj in pairs(swap_objects) do
-                    n[string.format('<M-Space><M-%s>', key)] = obj
-                    p[string.format('<M-BS><M-%s>', key)] = obj
-                end
-
-                return n, p
-            end)()
-
             require('nvim-treesitter.configs').setup {
                 -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
                 ensure_installed = {
@@ -94,9 +73,7 @@ return {
                         },
                     },
                     swap = {
-                        enable = true,
-                        swap_next = swap_next,
-                        swap_previous = swap_prev,
+                        enable = false,
                     },
                     move = {
                         enable = true,
@@ -209,6 +186,10 @@ return {
                     separator = nil,
                     zindex = 20, -- The Z-index of the context window
                 },
+            },
+            {
+                'Wansmer/sibling-swap.nvim',
+                config = {},
             },
         },
     },
