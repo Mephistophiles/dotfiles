@@ -25,34 +25,24 @@ return { -- A completion plugin for neovim coded in Lua.
         'hrsh7th/cmp-nvim-lsp', -- language server protocol
         'hrsh7th/cmp-buffer', -- completion from current buffer
         'saadparwaiz1/cmp_luasnip', -- completion from snippets
-        'onsails/lspkind-nvim', -- print completion source in menu
         'hrsh7th/cmp-path', -- completion for filesystem
     },
     priority = 19,
     config = function()
         local cmp = require 'cmp'
-        local lspkind = require 'lspkind'
         local luasnip = require 'luasnip'
         local source_mapping = {
             buffer = '[Buffer]',
             nvim_lsp = '[LSP]',
             luasnip = '[LuaSnip]',
             path = '[Path]',
-            -- cmp_tabnine = '[TabNine]',
             crates = '[Crates.io]',
         }
 
         cmp.setup {
             formatting = {
                 format = function(entry, vim_item)
-                    vim_item.kind = lspkind.presets.default[vim_item.kind]
                     local menu = source_mapping[entry.source.name]
-                    --[[ if entry.source.name == 'cmp_tabnine' then
-                    if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-                        menu = entry.completion_item.data.detail .. ' ' .. menu
-                    end
-                    vim_item.kind = ''
-                end ]]
                     vim_item.menu = menu
                     return vim_item
                 end,
@@ -100,7 +90,6 @@ return { -- A completion plugin for neovim coded in Lua.
             sources = {
                 { name = 'luasnip' }, -- snippet engine
                 { name = 'nvim_lsp' }, -- language server protocol
-                -- { name = 'cmp_tabnine' }, -- tabnine
                 { name = 'orgmode' },
                 { name = 'path' }, -- completion from FS
                 { name = 'buffer', keyword_length = 5 }, -- completion from buffer
@@ -125,6 +114,7 @@ return { -- A completion plugin for neovim coded in Lua.
                     require('luasnip').lsp_expand(args.body)
                 end,
             },
+            preselect = cmp.PreselectMode.None,
             view = { entries = 'native' },
             experimental = { ghost_text = true },
         }

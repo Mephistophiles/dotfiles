@@ -36,7 +36,5 @@ return { -- Git integration for buffers
                 map({ 'o', 'x' }, 'ih', CMD '<C-U>Gitsigns select_hunk', 'Git: Select hunk')
             end,
         }
-
-        require('scrollbar.handlers.gitsigns').setup()
     end,
 }

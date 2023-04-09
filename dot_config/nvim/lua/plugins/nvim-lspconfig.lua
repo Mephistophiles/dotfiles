@@ -87,15 +87,6 @@ return {
             -- LSP modules
         },
     },
-    {
-        'ray-x/lsp_signature.nvim',
-        event = 'VeryLazy',
-        config = {
-            toggle_key = '<C-S>',
-            floating_window = false,
-        },
-        dependencies = { 'neovim/nvim-lspconfig', name = 'lspconfig' },
-    },
     { 'loctvl842/breadcrumb.nvim', event = 'VeryLazy', config = {}, dependencies = { 'nvim-tree/nvim-web-devicons' } },
     {
         'https://git.sr.ht/~whynothugo/lsp_lines.nvim',

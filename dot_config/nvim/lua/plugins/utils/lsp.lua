@@ -145,8 +145,6 @@ local custom_attach = function(client, bufnr)
         require('breadcrumb').attach(client, bufnr)
     end
 
-    require('lsp_signature').on_attach(client, bufnr)
-
     M.key_bindings(client)
 
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
