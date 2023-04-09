@@ -34,7 +34,7 @@ return { -- Find the enemy and replace them with dark power.
         }
     end,
     dependencies = {
-        'kyazdani42/nvim-web-devicons',
+        'nvim-tree/nvim-web-devicons',
         'nvim-lua/popup.nvim',
         'nvim-lua/plenary.nvim',
     },

@@ -1,7 +1,7 @@
 return { -- A file explorer tree for neovim written in lua
     'nvim-tree/nvim-tree.lua',
     dependencies = {
-        'kyazdani42/nvim-web-devicons',
+        'nvim-tree/nvim-web-devicons',
     },
     keys = {
         {

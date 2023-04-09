@@ -3,7 +3,7 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
     event = 'VeryLazy',
     dependencies = {
         'nvim-lua/plenary.nvim',
-        'kyazdani42/nvim-web-devicons',
+        'nvim-tree/nvim-web-devicons',
     },
     config = function()
         local web_devicons = require 'nvim-web-devicons'

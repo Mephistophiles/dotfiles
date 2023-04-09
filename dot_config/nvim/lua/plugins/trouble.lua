@@ -1,6 +1,6 @@
 return { -- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.
     'folke/trouble.nvim',
-    dependencies = 'kyazdani42/nvim-web-devicons',
+    dependencies = 'nvim-tree/nvim-web-devicons',
     cmd = { 'Trouble', 'TroubleToggle' },
     config = function()
         require('trouble').setup {

@@ -38,7 +38,7 @@ return { -- a lua powered greeter like vim-startify / dashboard-nvim
 
         return true
     end,
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
         require('alpha').setup(require('alpha.themes.startify').config)
     end,

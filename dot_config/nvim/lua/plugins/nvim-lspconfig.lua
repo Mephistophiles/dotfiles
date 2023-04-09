@@ -96,7 +96,7 @@ return {
         },
         dependencies = { 'neovim/nvim-lspconfig', name = 'lspconfig' },
     },
-    { 'loctvl842/breadcrumb.nvim', event = 'VeryLazy', config = {}, dependencies = { 'kyazdani42/nvim-web-devicons' } },
+    { 'loctvl842/breadcrumb.nvim', event = 'VeryLazy', config = {}, dependencies = { 'nvim-tree/nvim-web-devicons' } },
     {
         'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
         event = 'VeryLazy',
