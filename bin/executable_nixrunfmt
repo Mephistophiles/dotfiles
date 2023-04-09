@@ -1,56 +1,60 @@
-#!/usr/bin/env julia
+#!/usr/bin/env python
 
-function copy_nix_files(from, to, verbose=false, dry_run=false)
-	args = [
-		"rclone",
-		"copy",
-		"--config",
-		"/dev/null",
-		"--include",
-		"*.nix",
-		"$from/",
-		"$to",
-	]
+import os
+import sys
+import shlex
+import logging
+import subprocess
+from tempfile import TemporaryDirectory
 
-	if verbose
-		insert!(args, 2, "-v")
-	end
+def run(*args: str):
+    subprocess.run(args, check=True)
 
-	if dry_run
-		insert!(args, 2, "--dry-run")
-	end
+def copy_nix_files(f: str, to: str, verbose: bool = False, dry_run: bool = False):
+    args = [
+        "rclone",
+        "copy",
+        "--config",
+        "/dev/null",
+        "--include",
+        "*.nix",
+        f + '/',
+        to,
+    ]
 
-	cmd = `$args`
-	@debug("run $cmd")
-	run(cmd)
-end
+    if verbose:
+        args.insert(2, '-v')
 
-uid = @ccall getuid()::Cint
+    if dry_run:
+        args.insert(2, '--dry-run')
+
+    logging.debug('run ' + shlex.join(args))
+    run(*args)
+
+uid = os.getuid()
 
 search_place = "/etc/nixos/"
 
-if uid != 0
-	error("Invalid permissions: you must be root")
-end
+if uid != 0:
+	raise Exception("Invalid permissions: you must be root")
 
-mktempdir() do before
-	mktempdir() do after
-		copy_nix_files(search_place, before)
-		copy_nix_files(search_place, after)
+with TemporaryDirectory() as before:
+    with TemporaryDirectory() as after:
+        copy_nix_files(search_place, before)
+        copy_nix_files(search_place, after)
 
-		run(`nixpkgs-fmt $after`)
+        run('nixpkgs-fmt', after)
 
-		status = run(ignorestatus(pipeline(`diff --recursive -U3 $before $after`, `delta --paging never`)))
-		println("continue? ")
+        diff = subprocess.Popen(['diff', '--recursive', '-U3', before, after], stdout=subprocess.PIPE)
+        delta = subprocess.run(['delta', '--paging', 'never'], stdin=diff.stdout, check=False)
 
-		try
-			if lowercase(chomp(readline())) != "y"
-				return
-			end
-		catch
-			return
-		end
+        print('continue? ')
 
-		copy_nix_files(after, search_place, true)
-	end
-end
+        try:
+            if sys.stdin.readline().strip().lower() != 'y':
+                sys.exit(0)
+
+            copy_nix_files(after, search_place, True)
+        except KeyboardInterrupt:
+            pass
+

@@ -1,3 +1,9 @@
-#!/usr/bin/env julia
-run(`nix-collect-garbage -d`)
-run(`/nix/var/nix/profiles/system/bin/switch-to-configuration switch`)
+#!/usr/bin/env python
+
+import subprocess
+
+def run(*args: str):
+	subprocess.run(args, check=True)
+
+run('nix-collect-garbage', '-d')
+run('/nix/var/nix/profiles/system/bin/switch-to-configuration', 'switch')

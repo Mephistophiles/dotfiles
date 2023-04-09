@@ -230,12 +230,7 @@ in
     gnome3.file-roller
     gnome3.gnome-calculator
     gnome3.gnome-disk-utility
-    gnome3.gnome-themes-extra
     gnome3.nautilus
-    # unstable.josm
-    libreoffice
-    meld
-    thunderbird
     unstable.tdesktop
 
     # text editors
@@ -307,8 +302,6 @@ in
     stylua
 
     tig
-    unstable.julia-stable-bin
-    unstable.lazydocker
     unstable.lazygit
     unstable.zlib
     yarn
@@ -320,7 +313,6 @@ in
     llvmPackages_latest.llvm
     rnix-lsp
     sumneko-lua-language-server
-    unstable.nodePackages.typescript-language-server
     unstable.nodePackages.vscode-json-languageserver
     unstable.nodePackages.jsonlint
     unstable.nodePackages.vls
@@ -345,7 +337,7 @@ in
     # replicates the default behaviour.
     networkmanager.enable = true;
 
-    wg-quick = { interfaces.wg0 = config.vault.wireguard; };
+    # wg-quick = { interfaces.wg0 = config.vault.wireguard; };
   };
 
   fonts = {

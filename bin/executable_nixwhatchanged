@@ -1,20 +1,25 @@
-#!/usr/bin/env julia
-#
-current_user = readchomp(`whoami`)
+#!/usr/bin/env python3
 
-mktempdir() do path
-	cd(path)
+import os
+import shutil
+import subprocess
 
-	update_report = nothing
+from typing import List
+from tempfile import TemporaryDirectory
 
-	if current_user == "root"
-		println("Run nixos-rebuild...")
-		run(`nixos-rebuild build`)
-		run(`nvd diff /run/current-system result/`)
-	else
-		println("Run home-manager...")
-		run(`home-manager build --flake /etc/nixos`)
-		run(`nvd diff /nix/var/nix/profiles/per-user/mzhukov/home-manager result/`)
-	end
-end
+current_user = os.getuid()
 
+def run(*args: str):
+	subprocess.run(args, check=True)
+
+with TemporaryDirectory() as path:
+	os.chdir(path)
+
+	if current_user == 0:
+		print("Run nixos-rebuild...")
+		run('nixos-rebuild', 'build')
+		run('nvd', 'diff', '/run/current-system', 'result/')
+	else:
+		print("Run home-manager...")
+		run('home-manager', 'build', '--flake', '/etc/nixos')
+		run('nvd', 'diff', '/nix/var/nix/profiles/per-user/mzhukov/home-manager', 'result/')
