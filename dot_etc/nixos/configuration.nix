@@ -3,7 +3,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, options, ... }:
 
 let
   mypkgs = pkgs.callPackage pkgs/default.nix { inherit pkgs; };
@@ -230,11 +230,12 @@ in
     gnome3.file-roller
     gnome3.gnome-calculator
     gnome3.gnome-disk-utility
+    gnome3.gnome-themes-extra
     gnome3.nautilus
     unstable.tdesktop
 
     # text editors
-    (unstable.neovim.override { vimAlias = true; })
+    (neovim.override { vimAlias = true; })
     unstable.helix
     unstable.obsidian
     unstable.vscode

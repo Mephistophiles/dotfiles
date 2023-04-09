@@ -46,7 +46,6 @@
     gpaste.enable = true;
   };
   environment.systemPackages = with pkgs; [
-    gnome3.gnome-themes-extra
     gnome3.adwaita-icon-theme
     gnomeExtensions.caffeine
     unstable.gnomeExtensions.cpufreq
