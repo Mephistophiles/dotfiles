@@ -56,7 +56,7 @@ TODO_OR_DIE = {
 MAP_CLEANUPS = {
     '<CMD>noh<CR>',
     '<CMD>call clearmatches()<CR>',
-    '<CMD>lua vim.notify.dismiss()<CR>',
+    '<CMD>lua require("noice.view.backend.notify").dismiss()<CR>',
 }
 
 --- Get nvim command
