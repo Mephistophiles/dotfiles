@@ -52,7 +52,7 @@
       };
 
 
-      overlays = [ overlay-unstable nix-alien.overlays.default (import overlays/neovim-overlay.nix) ];
+      overlays = [ overlay-unstable nix-alien.overlays.default ];
       nixpkgs-overlay = {
         config.allowUnfreePredicate = unfreePredicate;
         inherit overlays;

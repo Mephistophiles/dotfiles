@@ -235,7 +235,7 @@ in
     unstable.tdesktop
 
     # text editors
-    (neovim.override { vimAlias = true; })
+    (unstable.neovim.override { vimAlias = true; })
     unstable.helix
     unstable.obsidian
     unstable.vscode
