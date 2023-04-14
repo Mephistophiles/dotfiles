@@ -79,6 +79,18 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
             end
         end)
 
+        local selected = utils.throttle_fn(function()
+            local visual_chars = vim.fn.wordcount().visual_chars
+
+            if visual_chars == 1 then
+                return sep_right .. tostring(visual_chars) .. ' char'
+            elseif visual_chars then
+                return sep_right .. tostring(visual_chars) .. ' chars'
+            else
+                return ''
+            end
+        end)
+
         require('el').setup {
             -- An example generator can be seen in `Setup`.
             -- A default one is supplied if you do not want to customize it.
@@ -108,10 +120,11 @@ return { -- Statusline written in pure lua. Supports co-routines, functions and 
                         builtin.line_with_width(3),
                         ':',
                         builtin.column_with_width(2),
-                        ' ',
-                        progress,
                         ']',
                     },
+                    sep_right,
+                    progress,
+                    selected,
                     sep_right,
                     filetype,
                 }
