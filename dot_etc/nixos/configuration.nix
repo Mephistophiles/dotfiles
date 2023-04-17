@@ -238,7 +238,7 @@ in
     # text editors
     (unstable.neovim.override { vimAlias = true; })
     unstable.helix
-    unstable.obsidian
+    # unstable.obsidian
     unstable.vscode
     xfce.mousepad
 
