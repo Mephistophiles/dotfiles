@@ -52,7 +52,7 @@
       };
 
 
-      overlays = [ overlay-unstable nix-alien.overlays.default ];
+      overlays = [ overlay-unstable nix-alien.overlays.default (import overlays/autorandr.nix) ];
       nixpkgs-overlay = {
         config.allowUnfreePredicate = unfreePredicate;
         inherit overlays;
