@@ -195,6 +195,7 @@ in
     unstable.bottom
     # unstable.cargo-bloat
     unstable.cargo-cache
+    unstable.cargo-criterion
     # unstable.cargo-diet
     # unstable.cargo-edit
     # unstable.cargo-expand
@@ -252,6 +253,7 @@ in
     docker-compose
     file
     fzf
+    gnuplot
     haskellPackages.greenclip
     htop
     kitty
@@ -319,7 +321,7 @@ in
     unstable.nodePackages.jsonlint
     unstable.nodePackages.vls
     unstable.python310Packages.python-lsp-server
-    # unstable.vscode-extensions.llvm-org.lldb-vscode
+    unstable.vscode-extensions.vadimcn.vscode-lldb
 
     # file systems
     btrfs-progs

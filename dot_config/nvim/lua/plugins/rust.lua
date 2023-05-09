@@ -17,7 +17,14 @@ return {
                 },
             })
 
-            local opts = { server = server }
+            local dap = {
+                adapter = {
+                    type = 'executable',
+                    name = 'lldb',
+                },
+            }
+
+            local opts = { server = server, dap = dap }
 
             require('rust-tools').setup(opts)
         end,
