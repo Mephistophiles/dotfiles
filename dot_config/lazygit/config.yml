@@ -7,10 +7,6 @@ os:
   editPreset: "nvim"
 
 keybinding:
-  # universal:
-  # exit: '<esc>'
-  # return: 'q'
-
   commits:
     moveDownCommit: "<c-n>" # move commit down one
     moveUpCommit: "<c-p>" # move commit up one
