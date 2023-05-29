@@ -88,43 +88,4 @@ return {
         },
     },
     { 'loctvl842/breadcrumb.nvim', event = 'VeryLazy', config = {}, dependencies = { 'nvim-tree/nvim-web-devicons' } },
-    {
-        'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-        event = 'VeryLazy',
-        config = function()
-            local enabled = false
-            local bootstrap = true
-            local original_cpo = vim.opt.cpoptions
-
-            local function lsp_lines_toggle()
-                enabled = not enabled
-
-                if enabled then
-                    vim.diagnostic.config {
-                        virtual_text = false, -- Since we're using lsp_lines
-                    }
-                    vim.opt.cpoptions:remove 'n'
-                else
-                    vim.diagnostic.config {
-                        virtual_text = true, -- Since we're using lsp_lines
-                    }
-                    vim.opt.cpoptions = original_cpo
-                end
-
-                if bootstrap then
-                    require('lsp_lines').setup()
-                    require('lsp_lines').toggle() -- hack for right init
-                    bootstrap = false
-                end
-                require('lsp_lines').toggle()
-            end
-
-            vim.keymap.set('', '<leader>ll', function()
-                lsp_lines_toggle()
-            end, { desc = 'LspLines: Toggle lsp lines' })
-            vim.api.nvim_create_user_command('LspLinesToggle', function()
-                lsp_lines_toggle()
-            end, { nargs = 0 })
-        end,
-    },
 }
