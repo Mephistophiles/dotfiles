@@ -37,17 +37,6 @@ vim.api.nvim_create_user_command('WQa', 'wqa', { desc = 'Fix typo :WQa -> :wqa' 
 vim.api.nvim_create_user_command('Wqa', 'wqa', { desc = 'Fix typo :Wqa -> :wqa' })
 vim.api.nvim_create_user_command('Q', 'q', { desc = 'Fix typo :Q -> :q' })
 
--- folding
-vim.keymap.set('n', '<tab>', function()
-    local current_level = vim.fn.foldlevel '.'
-
-    if current_level > 0 then
-        vim.api.nvim_input 'za'
-    else
-        vim.api.nvim_input '<tab>'
-    end
-end, { desc = 'Toggle fold' })
-
 -- Better usage
 vim.keymap.set('n', 'Y', 'y$', { desc = 'Yank to end of line' })
 vim.keymap.set('n', 'n', 'nzz', { desc = 'Goto to next search with possible unfold' })
