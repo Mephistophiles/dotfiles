@@ -1,4 +1,4 @@
 return {
     'sindrets/winshift.nvim',
-    cmds = { 'WinShift' },
+    cmd = { 'WinShift' },
 }
