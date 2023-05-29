@@ -26,7 +26,7 @@ in
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    tmpOnTmpfs = true;
+    tmp.useTmpfs = true;
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;

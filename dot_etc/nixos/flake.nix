@@ -17,12 +17,12 @@
 
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-22.11";
+    nixpkgs.url = "nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
     nix-alien.url = "github:thiagokokada/nix-alien";
 
-    home-manager.url = "github:nix-community/home-manager/release-22.11";
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -52,7 +52,7 @@
       };
 
 
-      overlays = [ overlay-unstable nix-alien.overlays.default (import overlays/autorandr.nix) ];
+      overlays = [ overlay-unstable nix-alien.overlays.default ];
       nixpkgs-overlay = {
         config.allowUnfreePredicate = unfreePredicate;
         inherit overlays;
