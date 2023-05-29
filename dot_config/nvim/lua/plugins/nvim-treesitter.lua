@@ -45,9 +45,6 @@ return {
                         node_decremental = 'grm',
                     },
                 },
-                matchup = {
-                    enable = true,
-                },
                 textobjects = {
                     select = {
                         enable = true,
@@ -164,12 +161,6 @@ return {
             },
             {
                 'nvim-treesitter/nvim-treesitter-refactor',
-            },
-            {
-                'andymass/vim-matchup',
-                init = function()
-                    vim.g.matchup_matchparen_offscreen = { method = 'popup' }
-                end,
             },
             {
                 'nvim-treesitter/nvim-treesitter-context',
