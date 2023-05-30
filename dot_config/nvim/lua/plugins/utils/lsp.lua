@@ -1,5 +1,4 @@
 local M = {}
-local breadcrumb_inited = false
 
 local function smart_goto(fn)
     for _, severity in ipairs {
@@ -33,75 +32,45 @@ local function smart_goto_prev()
     end)
 end
 
-function M.key_bindings(client)
-    local telescope, themes = require('plugins.telescope.utils').instance()
+local function keymap(key, cmd, user_opts)
+    local default_opts = { remap = true, buffer = true }
+    local opts = vim.tbl_extend('force', default_opts, user_opts or {})
 
+    vim.keymap.set('n', key, cmd, opts)
+end
+
+function M.key_bindings(client)
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { remap = true, buffer = true, desc = 'LSP: goto declaration' })
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { remap = true, buffer = true, desc = 'LSP: goto definition' })
-    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, { buffer = true, desc = 'LSP: goto type definition' })
+    keymap('gD', CMD 'Lspsaga goto_declaration', { desc = 'LSP: goto declaration' })
+    keymap('gd', CMD 'Lspsaga goto_definition', { desc = 'LSP: goto definition' })
+    keymap('<leader>D', CMD 'Lspsaga peek_type_definition', { desc = 'LSP: goto type definition' })
+    keymap('gr', CMD 'Lspsaga lsp_finder', { desc = 'LSP: show the definition, reference and implementation' })
+    keymap('<leader>ca', CMD 'Lspsaga code_action', { desc = 'LSP: show code actions' })
 
-    vim.keymap.set('n', 'gi', function()
-        telescope.lsp_implementations {
-            layout_strategy = 'vertical',
-            layout_config = { prompt_position = 'top' },
-            sorting_strategy = 'ascending',
-            ignore_filename = false,
-        }
-    end, { buffer = true, desc = 'LSP: goto implementation' })
+    -- Call hierarchy
+    keymap('<Leader>ci', '<cmd>Lspsaga incoming_calls<CR>')
+    keymap('<Leader>co', '<cmd>Lspsaga outgoing_calls<CR>')
 
-    vim.keymap.set('n', 'gr', function()
-        telescope.lsp_references {
-            layout_strategy = 'vertical',
-            layout_config = { prompt_position = 'top' },
-            sorting_strategy = 'ascending',
-            ignore_filename = false,
-        }
-    end, { buffer = true, desc = 'LSP: goto references' })
-    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = true, desc = 'LSP: show code actions' })
-    vim.keymap.set('n', '<leader>cs', function()
-        telescope.lsp_document_symbols(themes.get_ivy {})
-    end, { buffer = true, desc = 'LSP: show document symbols' })
-    vim.keymap.set('n', '<leader>cS', function()
-        telescope.lsp_workspace_symbols(themes.get_ivy {})
-    end, { buffer = true, desc = 'LSP: show workspace symbols' })
-    vim.keymap.set('n', '<leader>cd', function()
-        telescope.lsp_dynamic_workspace_symbols(themes.get_ivy {})
-    end, { buffer = true, desc = 'LSP: show dynamic workspace symbols' })
-
-    vim.keymap.set(
-        'n',
-        'K',
-        vim.lsp.buf.hover,
-        { buffer = true, desc = 'LSP: display hover information about the symbol under ther cursor' }
-    )
-    vim.keymap.set(
-        'n',
-        '<C-s>',
-        vim.lsp.buf.signature_help,
-        { buffer = true, desc = 'LSP: display signature information about the symbol under the cursor' }
-    )
-    vim.keymap.set('n', '<leader>rn', function()
-        vim.lsp.buf.rename()
-    end, { remap = true, buffer = true, desc = 'LSP: renames all references to the symbol under the cursor' })
+    keymap('K', vim.lsp.buf.hover, { desc = 'LSP: display hover information about the symbol under ther cursor' })
+    keymap('<leader>rn', CMD 'Lspsaga rename', { desc = 'LSP: renames all references to the symbol under the cursor' })
     -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
-    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { buffer = true, desc = 'LSP: Show diagnostic info' })
-    vim.keymap.set('n', '[D', function()
-        vim.diagnostic.goto_prev()
-    end, { buffer = true, desc = 'LSP: move to the previous diagnostic (whole severities)' })
-    vim.keymap.set('n', ']D', function()
-        vim.diagnostic.goto_next()
-    end, { buffer = true, desc = 'LSP: move to the next diagnostic (whole severities)' })
-    vim.keymap.set('n', '[d', function()
+    keymap('<leader>d', CMD 'Lspsaga show_line_diagnostics', { desc = 'LSP: Show diagnostic info' })
+    keymap(
+        '[D',
+        CMD 'Lspsaga diagnostic_jump_prev',
+        { desc = 'LSP: move to the previous diagnostic (whole severities)' }
+    )
+    keymap(']D', CMD 'Lspsaga diagnostic_jump_next', { desc = 'LSP: move to the next diagnostic (whole severities)' })
+    keymap('[d', function()
         smart_goto_prev()
-    end, { buffer = true, desc = 'LSP: move to the previous diagnostic' })
-    vim.keymap.set('n', ']d', function()
+    end, { desc = 'LSP: move to the previous diagnostic' })
+    keymap(']d', function()
         smart_goto_next()
-    end, { buffer = true, desc = 'LSP: move to the next diagnostic' })
-    vim.keymap.set('n', '<leader>q', function()
+    end, { desc = 'LSP: move to the next diagnostic' })
+    keymap('<leader>q', function()
         vim.diagnostic.setloclist()
-    end, { buffer = true, desc = 'LSP: add buffer diagnostics to the location list' })
+    end, { desc = 'LSP: add buffer diagnostics to the location list' })
 
     if client.supports_method 'document/Formatting' then
         vim.keymap.set(
@@ -135,15 +104,6 @@ local filetype_attach = setmetatable({ go = function() end, rust = function() en
 
 local custom_attach = function(client, bufnr)
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
-
-    if client.server_capabilities.documentSymbolProvider then
-        if not breadcrumb_inited then
-            require('breadcrumb').init()
-            breadcrumb_inited = true
-        end
-
-        require('breadcrumb').attach(client, bufnr)
-    end
 
     M.key_bindings(client)
 
