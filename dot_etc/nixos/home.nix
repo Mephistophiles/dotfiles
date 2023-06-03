@@ -13,12 +13,6 @@
     ./home/vault.nix
   ];
 
-  nixpkgs.overlays = [
-    (self: super: {
-      fcitx-engines = pkgs.fcitx5;
-    })
-  ];
-
   home.packages = with pkgs; [
     unstable.evans
     unstable.tree-sitter
