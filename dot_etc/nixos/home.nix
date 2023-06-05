@@ -14,6 +14,7 @@
   ];
 
   home.packages = with pkgs; [
+    unstable.direnv
     unstable.evans
     unstable.tree-sitter
     acpi
