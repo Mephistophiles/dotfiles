@@ -6,6 +6,39 @@ local exe_resolve = function(name)
     end
 end
 
+local servers = {
+    lua_ls = {
+        settings = {
+            Lua = {
+                runtime = {
+                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                    version = 'LuaJIT',
+                },
+                diagnostics = {
+                    -- Get the language server to recognize the `vim` global
+                    globals = { 'vim' },
+                },
+                workspace = {
+                    -- Make the server aware of Neovim runtime files
+                    library = vim.api.nvim_get_runtime_file('', true),
+                },
+                -- Do not send telemetry data containing a randomized but unique identifier
+                telemetry = {
+                    enable = false,
+                },
+            },
+        },
+    },
+    -- rust_analyzer = true, -- via rust-tools
+    clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
+    gopls = true,
+    jsonls = {
+        cmd = { exe_resolve 'vscode-json-languageserver' or 'vscode-json-language-server', '--stdio' },
+    },
+    pylsp = true,
+    pyright = true,
+}
+
 local setup_server = function(server, config)
     if not config then
         return
@@ -31,52 +64,15 @@ end
 return {
     { -- Quickstart configs for Nvim LSP
         'neovim/nvim-lspconfig',
+        event = { 'BufRead', 'BufWinEnter', 'BufNewFile' },
         name = 'lspconfig',
         config = function()
-            local servers = {
-                lua_ls = {
-                    settings = {
-                        Lua = {
-                            runtime = {
-                                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                                version = 'LuaJIT',
-                            },
-                            diagnostics = {
-                                -- Get the language server to recognize the `vim` global
-                                globals = { 'vim' },
-                            },
-                            workspace = {
-                                -- Make the server aware of Neovim runtime files
-                                library = vim.api.nvim_get_runtime_file('', true),
-                            },
-                            -- Do not send telemetry data containing a randomized but unique identifier
-                            telemetry = {
-                                enable = false,
-                            },
-                        },
-                    },
-                },
-                -- rust_analyzer = true, -- via rust-tools
-                clangd = { capabilities = { offsetEncoding = { 'utf-16' } } },
-                gopls = true,
-                hls = true,
-                jsonls = {
-                    cmd = { exe_resolve 'vscode-json-languageserver' or 'vscode-json-language-server', '--stdio' },
-                },
-                pylsp = true,
-                pyright = true,
-                rnix = true,
-            }
-
             vim.lsp.set_log_level 'off'
 
             for server, config in pairs(servers) do
                 setup_server(server, config)
             end
         end,
-        dependencies = {
-            -- LSP modules
-        },
     },
     {
         'glepnir/lspsaga.nvim',

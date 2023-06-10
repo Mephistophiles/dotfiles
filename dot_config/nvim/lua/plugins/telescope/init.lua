@@ -2,6 +2,8 @@ local utils = require 'plugins.telescope.utils'
 
 return { -- Find, Filter, Preview, Pick. All lua, all the time.
     'nvim-telescope/telescope.nvim',
+    module = 'telescope',
+    cmd = 'Telescope',
     dependencies = {
         'nvim-lua/popup.nvim',
         'nvim-lua/plenary.nvim',
@@ -9,31 +11,33 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         'nvim-telescope/telescope-project.nvim',
         'debugloop/telescope-undo.nvim',
     },
-    cmd = 'Telescope',
     init = function()
         local telescope, themes = utils.instance()
+        local key = function(key, fn, desc)
+            vim.keymap.set('n', key, fn, { desc = desc })
+        end
 
-        vim.keymap.set('n', '<C-p>', function()
+        key('<C-p>', function()
             telescope.find_files(themes.get_ivy {})
-        end, { desc = 'Fuzzy find files in project' })
-        vim.keymap.set('n', '<leader>ld', function()
+        end, 'Fuzzy find files in project')
+        key('<leader>ld', function()
             telescope.find_files(themes.get_ivy {})
-        end, { desc = 'Fuzzy find files in project' })
-        vim.keymap.set('n', '<C-b>', function()
+        end, 'Fuzzy find files in project')
+        key('<C-b>', function()
             telescope.buffers(themes.get_ivy {})
-        end, { desc = 'Fuzzy find opened buffers' })
-        vim.keymap.set('n', '<leader>lg', function()
+        end, 'Fuzzy find opened buffers')
+        key('<leader>lg', function()
             telescope.multi_rg(themes.get_ivy {})
-        end, { desc = 'Fuzzy find with live grep' })
-        vim.keymap.set('n', '<M-/>', function()
+        end, 'Fuzzy find with live grep')
+        key('<M-/>', function()
             telescope.current_buffer_fuzzy_find(themes.get_ivy {})
-        end, { desc = 'Fuzzy find in current buffer' })
+        end, 'Fuzzy find in current buffer')
 
-        vim.keymap.set('n', '<leader>?', function()
+        key('<leader>?', function()
             telescope.oldfiles(themes.get_ivy {})
-        end, { desc = 'Fuzzy find recently opened files' })
+        end, 'Fuzzy find recently opened files')
 
-        vim.keymap.set('n', '<leader>en', function()
+        key('<leader>en', function()
             local opts_with_preview, opts_without_preview
             local actions = require 'telescope.actions'
             local action_state = require 'telescope.actions.state'
@@ -84,7 +88,7 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
             opts_without_preview.previewer = false
 
             require('telescope.builtin').find_files(opts_with_preview)
-        end, { desc = 'Fuzzy find neovim configuration files' })
+        end, 'Fuzzy find neovim configuration files')
     end,
     config = function()
         require('telescope').setup {
