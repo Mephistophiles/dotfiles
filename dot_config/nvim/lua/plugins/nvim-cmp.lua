@@ -1,6 +1,6 @@
 return { -- A completion plugin for neovim coded in Lua.
     'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
+    event = { 'InsertEnter', 'LspAttach' },
     dependencies = {
         {
             'L3MON4D3/LuaSnip',
