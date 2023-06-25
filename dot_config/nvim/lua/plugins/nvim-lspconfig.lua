@@ -243,6 +243,7 @@ return {
                         },
                     },
                 },
+                tsserver = true,
             }
 
             for server, config in pairs(servers) do
