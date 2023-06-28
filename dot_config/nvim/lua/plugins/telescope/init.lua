@@ -14,8 +14,10 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
     init = function()
         local telescope, themes = utils.instance()
         local key = function(key, fn, desc)
-            vim.keymap.set('n', key, fn, { desc = desc })
+            vim.keymap.set('n', key, fn, { desc = 'Telescope: ' .. desc })
         end
+
+        key('<leader>u', CMD 'Telescope undo', 'Show undo history')
 
         key('<C-p>', function()
             telescope.find_files(themes.get_ivy {})
