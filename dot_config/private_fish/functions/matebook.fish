@@ -14,3 +14,4 @@ function matebook --description "switch matebook battery modes"
     echo $mode | sudo tee /sys/bus/platform/devices/huawei-wmi/charge_control_thresholds
 end
 
+complete -c matebook -a "home office travel off" -f
