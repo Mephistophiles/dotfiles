@@ -212,6 +212,7 @@ in
     # unstable.choose
     # unstable.difftastic
     unstable.dua
+    unstable.erdtree
     unstable.exa
     unstable.fd
     unstable.hyperfine
