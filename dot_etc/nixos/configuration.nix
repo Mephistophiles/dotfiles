@@ -280,6 +280,7 @@ in
     unstable.jq
 
     # nixos
+    devenv
     deadnix
     nix-alien
     nix-du
