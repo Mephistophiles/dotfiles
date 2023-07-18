@@ -1,31 +1,36 @@
+local supported_languages = {
+    'bash',
+    'c',
+    'cmake',
+    'diff',
+    'fish',
+    'gitcommit',
+    'go',
+    'haskell',
+    'json',
+    'lua',
+    'make',
+    'markdown',
+    'markdown_inline',
+    'org',
+    'python',
+    'query',
+    'regex',
+    'rust',
+    'vim',
+    'yaml',
+}
 return {
     { -- Nvim Treesitter configurations and abstraction layer
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
+        ft = supported_languages,
         event = 'VeryLazy',
         config = function()
             require('nvim-treesitter').setup()
             require('nvim-treesitter.configs').setup {
                 -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-                ensure_installed = {
-                    'bash',
-                    'c',
-                    'cmake',
-                    'fish',
-                    'go',
-                    'haskell',
-                    'json',
-                    'lua',
-                    'make',
-                    'markdown',
-                    'markdown_inline',
-                    'org',
-                    'python',
-                    'query',
-                    'regex',
-                    'rust',
-                    'vim',
-                },
+                ensure_installed = supported_languages,
                 ignore_install = {}, -- List of parsers to ignore installing
                 highlight = {
                     enable = true, -- false will disable the whole extension
