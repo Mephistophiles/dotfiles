@@ -4,5 +4,6 @@ vim.filetype.add {
     },
     filename = {
         ['Config.in'] = 'kconfig',
+        ['Justfile'] = 'make',
     },
 }
