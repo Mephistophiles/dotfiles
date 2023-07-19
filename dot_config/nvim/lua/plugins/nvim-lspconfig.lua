@@ -43,7 +43,7 @@ local function key_bindings(client)
     keymap('gD', CMD 'Lspsaga goto_declaration', { desc = 'LSP: goto declaration' })
     keymap('gd', CMD 'Lspsaga goto_definition', { desc = 'LSP: goto definition' })
     keymap('<leader>D', CMD 'Lspsaga peek_type_definition', { desc = 'LSP: goto type definition' })
-    keymap('gr', CMD 'Lspsaga lsp_finder', { desc = 'LSP: show the definition, reference and implementation' })
+    keymap('gr', CMD 'Lspsaga finder', { desc = 'LSP: show the definition, reference and implementation' })
     keymap('<leader>ca', CMD 'Lspsaga code_action', { desc = 'LSP: show code actions' })
 
     -- Call hierarchy
