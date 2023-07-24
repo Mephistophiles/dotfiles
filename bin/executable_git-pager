@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$S" ]; then
+if [ -n "$S" ]; then
   DELTA_ARGS="--word-diff-regex=''"
 fi
 
