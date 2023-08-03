@@ -353,12 +353,6 @@ return {
                 },
 
                 -- diagnostics
-                null_ls.builtins.diagnostics.cppcheck.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                    condition = function()
-                        return vim.fn.exepath 'cppcheck' ~= ''
-                    end,
-                },
                 clang_tidy.with {
                     method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
                     condition = function()
