@@ -4,5 +4,9 @@ if [ -n "$S" ]; then
   DELTA_ARGS="--word-diff-regex=''"
 fi
 
-delta --24-bit-color=always \
-  $DELTA_ARGS
+if [ -n "$T" ]; then
+  difft
+else
+  delta --24-bit-color=always \
+    $DELTA_ARGS
+fi
