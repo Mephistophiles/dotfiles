@@ -282,19 +282,20 @@ return {
         event = 'VeryLazy',
         config = function()
             local null_ls = require 'null-ls'
+            local formatter = require 'plugins.utils.formatter'
+            local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+
             local methods = require 'null-ls.methods'
             local helpers = require 'null-ls.helpers'
-
-            local formatter = require 'plugins.utils.formatter'
-
-            local clang_tidy = helpers.make_builtin {
+            local clang_analyzer = helpers.make_builtin {
                 method = methods.internal.DIAGNOSTICS_ON_SAVE,
                 filetypes = { 'c', 'c++' },
-                command = 'clang-tidy',
+                command = 'clang-analyzer',
                 generator_opts = {
-                    args = { '--quiet', '$FILENAME' },
+                    args = { '$FILENAME' },
                     format = 'line',
-                    ignore_stderr = true,
+                    from_stderr = true,
+                    -- <file>:167:5: warning: Value stored to 'size' is never read [deadcode.DeadStores]
                     on_output = helpers.diagnostics.from_pattern(
                         ':(%d+):(%d+): (%w+): (.*)$',
                         { 'row', 'col', 'severity', 'message' },
@@ -310,8 +311,6 @@ return {
                 },
                 factory = helpers.generator_factory,
             }
-
-            local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
             formatter.setup()
 
@@ -353,11 +352,8 @@ return {
                 },
 
                 -- diagnostics
-                clang_tidy.with {
+                clang_analyzer.with {
                     method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                    condition = function()
-                        return vim.fn.exepath 'clang-tidy' ~= ''
-                    end,
                 },
                 null_ls.builtins.diagnostics.gitlint.with {
                     method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
