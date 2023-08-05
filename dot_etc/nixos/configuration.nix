@@ -215,6 +215,7 @@ in
     unstable.erdtree
     unstable.exa
     unstable.fd
+    unstable.gping
     unstable.hyperfine
     # unstable.inferno
     unstable.procs
@@ -242,7 +243,7 @@ in
     (unstable.neovim.override { vimAlias = true; })
     unstable.helix
     unstable.obsidian
-    unstable.vscode
+    # unstable.vscode
     xfce.mousepad
 
     # utils
