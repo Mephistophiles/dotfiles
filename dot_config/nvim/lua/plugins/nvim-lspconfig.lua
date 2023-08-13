@@ -277,149 +277,103 @@ return {
             { 'nvim-treesitter/nvim-treesitter' },
         },
     },
-    { -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
-        'jose-elias-alvarez/null-ls.nvim',
-        event = 'VeryLazy',
+    {
+        'elentok/format-on-save.nvim',
+        event = 'LspAttach',
         config = function()
-            local null_ls = require 'null-ls'
-            local formatter = require 'plugins.utils.formatter'
-            local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+            local format_on_save = require 'format-on-save'
+            local formatters = require 'format-on-save.formatters'
 
-            local methods = require 'null-ls.methods'
-            local helpers = require 'null-ls.helpers'
-            local clang_analyzer = helpers.make_builtin {
-                method = methods.internal.DIAGNOSTICS_ON_SAVE,
-                filetypes = { 'c', 'c++' },
-                command = 'clang-analyzer',
-                generator_opts = {
-                    args = { '$FILENAME' },
-                    format = 'line',
-                    from_stderr = true,
-                    -- <file>:167:5: warning: Value stored to 'size' is never read [deadcode.DeadStores]
-                    on_output = helpers.diagnostics.from_pattern(
-                        ':(%d+):(%d+): (%w+): (.*)$',
-                        { 'row', 'col', 'severity', 'message' },
-                        {
-                            severities = {
-                                ['fatal error'] = helpers.diagnostics.severities.error,
-                                ['error'] = helpers.diagnostics.severities.error,
-                                ['note'] = helpers.diagnostics.severities.information,
-                                ['warning'] = helpers.diagnostics.severities.warning,
-                            },
-                        }
-                    ),
+            format_on_save.setup {
+                exclude_path_patterns = {
+                    '/node_modules/',
+                    '.local/share/nvim/lazy',
                 },
-                factory = helpers.generator_factory,
-            }
-
-            formatter.setup()
-
-            local sources = {
-                null_ls.builtins.formatting.autopep8,
-                null_ls.builtins.formatting.clang_format.with {
-                    condition = function(utils)
-                        return utils.root_has_file '.clang-format'
-                    end,
-                },
-                null_ls.builtins.formatting.gofmt,
-                null_ls.builtins.formatting.json_tool.with {
-                    command = 'jq',
-                    args = { '--indent', '4' },
-                    extra_args = function()
+                formatter_by_ft = {
+                    c = {
+                        formatters.if_file_exists {
+                            pattern = '.clang-format',
+                            formatter = formatters.shell { cmd = { 'clang-format', '/dev/stdin' } },
+                        },
+                    },
+                    cpp = formatters.lsp,
+                    go = formatters.lsp,
+                    python = formatters.lsp,
+                    rust = formatters.lsp,
+                    json = function()
                         if vim.b.formatter_sort_keys then
-                            return { '--sort-keys' }
+                            return formatters.shell { cmd = { 'jq', '--indent', '4', '--sort-keys' } }
+                        else
+                            return formatters.shell { cmd = { 'jq', '--indent', '4' } }
                         end
-                        return {}
                     end,
-                }, -- json
-                null_ls.builtins.formatting.stylua,
-                null_ls.builtins.formatting.rustfmt.with {
-                    extra_args = function(params)
-                        local Path = require 'plenary.path'
-                        local cargo_toml = Path:new(params.root .. '/' .. 'Cargo.toml')
-
-                        if cargo_toml:exists() and cargo_toml:is_file() then
-                            for _, line in ipairs(cargo_toml:readlines()) do
-                                local edition = line:match [[^edition%s*=%s*%"(%d+)%"]]
-                                if edition then
-                                    return { '--edition=' .. edition }
-                                end
-                            end
-                        end
-                        -- default edition when we don't find `Cargo.toml` or the `edition` in it.
-                        return { '--edition=2021' }
-                    end,
-                },
-
-                -- diagnostics
-                clang_analyzer.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.gitlint.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.jsonlint.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.mypy.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.pylint.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.shellcheck.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.staticcheck.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.trail_space.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                    disabled_filetypes = {
-                        'diff',
-                        'git',
-                        'gitcommit',
-                        'patch',
-                        'strace',
+                    lua = formatters.shell {
+                        cmd = {
+                            'stylua',
+                            '--search-parent-directories',
+                            '--stdin-filepath',
+                            '%',
+                            '-',
+                        },
                     },
                 },
-            }
 
-            null_ls.setup {
-                debug = false,
-                sources = sources,
-                on_attach = function(client, bufnr)
-                    if client.supports_method 'textDocument/formatting' then
-                        vim.api.nvim_create_autocmd('BufWritePre', {
-                            group = augroup,
-                            desc = 'Format document on save',
-                            buffer = 0,
-                            callback = function()
-                                formatter.format_document(false, bufnr)
-                            end,
-                        })
+                -- -- Optional: fallback formatter to use when no formatters match the current filetype
+                -- fallback_formatter = {
+                --     formatters.remove_trailing_whitespace,
+                -- },
 
-                        vim.keymap.set('n', '<leader>f', function()
-                            formatter.format_document(true)
-                        end, { silent = true, buffer = true, desc = 'Format current document' })
-                        vim.keymap.set('v', '<leader>f', function()
-                            formatter.format_document(true)
-                            vim.api.nvim_input '<Esc>'
-                        end, {
-                            silent = true,
-                            buffer = true,
-                            desc = 'Format current selecton in document',
-                        })
-                    end
-
-                    key_bindings(client)
-                end,
+                -- By default, all shell commands are prefixed with "sh -c" (see PR #3)
+                -- To prevent that set `run_with_sh` to `false`.
+                run_with_sh = true,
+                partial_update = true,
             }
         end,
-        dependencies = { 'nvim-lua/plenary.nvim' },
+    },
+    {
+        'mfussenegger/nvim-lint',
+        event = 'LspAttach',
+        config = function()
+            require('lint').linters.clang_analyzer = {
+                cmd = 'clang-analyzer',
+                stdin = false, -- or false if it doesn't support content input via stdin. In that case the filename is automatically added to the arguments.
+                append_fname = true, -- Automatically append the file name to `args` if `stdin = false` (default: true)
+                args = {}, -- list of arguments. Can contain functions with zero arguments that will be evaluated once the linter is used.
+                stream = 'stdout', -- ('stdout' | 'stderr' | 'both') configure the stream to which the linter outputs the linting result.
+                ignore_exitcode = false, -- set this to true if the linter exits with a code != 0 and that's considered normal.
+                env = nil, -- custom environment table to use with the external process. Note that this replaces the *entire* environment, it is not additive.
+                parser = require('lint.parser').from_pattern(
+                    ':(%d+):(%d+): (%w+): (.*)$',
+                    { 'row', 'col', 'severity', 'message' },
+                    {
+                        default_severity = {
+                            ['fatal error'] = vim.diagnostic.severity.ERROR,
+                            ['error'] = vim.diagnostic.severity.ERROR,
+                            ['note'] = vim.diagnostic.severity.INFO,
+                            ['warning'] = vim.diagnostic.severity.WARN,
+                        },
+                    },
+                    { ['source'] = 'clang-analyzer' },
+                    {}
+                ),
+            }
+            require('lint').linters_by_ft = {
+                c = { 'clang-analyzer' },
+                python = { 'ruff', 'mypy' },
+                sh = { 'shellcheck' },
+                bash = { 'shellcheck' },
+            }
+
+            vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+                callback = function()
+                    require('lint').try_lint()
+                end,
+            })
+        end,
     },
     {
         'someone-stole-my-name/yaml-companion.nvim',
+        event = { 'LspAttach' },
         module = 'yaml-companion',
         dependencies = {
             { 'neovim/nvim-lspconfig', name = 'lspconfig' },
