@@ -243,7 +243,7 @@ in
     (unstable.neovim.override { vimAlias = true; })
     unstable.helix
     unstable.obsidian
-    # unstable.vscode
+    unstable.vscode
     xfce.mousepad
 
     # utils
@@ -373,6 +373,11 @@ in
       };
     };
   };
+
+system.activationScripts.report-changes = ''
+    PATH=$PATH:${lib.makeBinPath [ pkgs.nvd pkgs.nix ]}
+    nvd diff $(ls -dv /nix/var/nix/profiles/system-*-link | tail -2)
+  '';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
