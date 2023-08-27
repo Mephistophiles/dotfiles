@@ -8,6 +8,7 @@ from typing import List
 from tempfile import TemporaryDirectory
 
 current_user = os.getuid()
+home = os.path.expanduser('~')
 
 def run(*args: str):
 	subprocess.run(args, check=True)
@@ -22,4 +23,4 @@ with TemporaryDirectory() as path:
 	else:
 		print("Run home-manager...")
 		run('home-manager', 'build', '--flake', '/etc/nixos')
-		run('nvd', 'diff', '/nix/var/nix/profiles/per-user/mzhukov/home-manager', 'result/')
+		run('nvd', 'diff', f'{home}/.local/state/nix/profiles/home-manager', 'result/')
