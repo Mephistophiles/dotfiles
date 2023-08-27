@@ -258,6 +258,7 @@ return {
                     },
                 },
                 tsserver = true,
+                hls = true,
             }
 
             for server, config in pairs(servers) do
@@ -278,97 +279,73 @@ return {
         },
     },
     {
-        'elentok/format-on-save.nvim',
-        event = 'LspAttach',
+        'nvimdev/guard.nvim',
+        -- event = 'VeryLazy',
         config = function()
-            local format_on_save = require 'format-on-save'
-            local formatters = require 'format-on-save.formatters'
+            local ft = require 'guard.filetype'
+            local diag_fmt = require('guard.lint').diag_fmt
 
-            format_on_save.setup {
-                exclude_path_patterns = {
-                    '/node_modules/',
-                    '.local/share/nvim/lazy',
-                },
-                formatter_by_ft = {
-                    c = {
-                        formatters.if_file_exists {
-                            pattern = '.clang-format',
-                            formatter = formatters.shell { cmd = { 'clang-format', '/dev/stdin' } },
-                        },
-                    },
-                    cpp = formatters.lsp,
-                    go = formatters.lsp,
-                    python = formatters.lsp,
-                    rust = formatters.lsp,
-                    json = function()
-                        if vim.b.formatter_sort_keys then
-                            return formatters.shell { cmd = { 'jq', '--indent', '4', '--sort-keys' } }
-                        else
-                            return formatters.shell { cmd = { 'jq', '--indent', '4' } }
-                        end
+            local clang_analyzer = function()
+                return {
+                    cmd = 'clang-analyzer',
+                    args = {},
+                    stdin = false,
+                    output_fmt = function(result, buf)
+                        local map = {
+                            'error',
+                            'warning',
+                            'information',
+                            'hint',
+                            'note',
+                        }
+
+                        local messages = vim.split(result, '\n')
+                        local diags = {}
+                        vim.tbl_map(function(mes)
+                            local message
+                            local severity
+                            for idx, t in ipairs(map) do
+                                local _, p = mes:find(t)
+                                if p then
+                                    message = mes:sub(p + 2, #mes)
+                                    severity = idx
+                                    local pos = mes:match [[(%d+:%d+)]]
+                                    local lnum, col = unpack(vim.split(pos, ':'))
+                                    diags[#diags + 1] = diag_fmt(
+                                        buf,
+                                        tonumber(lnum) - 1,
+                                        tonumber(col),
+                                        message,
+                                        severity > 4 and 4 or severity,
+                                        'clang-analyzer'
+                                    )
+                                end
+                            end
+                        end, messages)
+
+                        return diags
                     end,
-                    lua = formatters.shell {
-                        cmd = {
-                            'stylua',
-                            '--search-parent-directories',
-                            '--stdin-filepath',
-                            '%',
-                            '-',
-                        },
-                    },
-                },
+                }
+            end
 
-                -- -- Optional: fallback formatter to use when no formatters match the current filetype
-                -- fallback_formatter = {
-                --     formatters.remove_trailing_whitespace,
-                -- },
+            ft('c,cpp'):fmt({ cmd = 'clang-format', stdin = true, find = '.clang-format' }):lint(clang_analyzer())
+            ft('go'):fmt 'gofmt'
+            ft('python'):fmt 'lsp'
+            ft('rust'):fmt 'rustfmt'
+            ft('json'):fmt {
+                cmd = 'jq --indent 4',
+                stdin = true,
+            }
+            ft('lua'):fmt 'stylua'
+            ft('sh,bash'):lint 'shellcheck'
 
-                -- By default, all shell commands are prefixed with "sh -c" (see PR #3)
-                -- To prevent that set `run_with_sh` to `false`.
-                run_with_sh = true,
-                partial_update = true,
+            -- Call setup() LAST!
+            require('guard').setup {
+                -- the only options for the setup function
+                fmt_on_save = true,
+                -- Use lsp if no formatter was defined for this filetype
+                lsp_as_default_formatter = false,
             }
-        end,
-    },
-    {
-        'mfussenegger/nvim-lint',
-        event = 'LspAttach',
-        config = function()
-            require('lint').linters.clang_analyzer = {
-                cmd = 'clang-analyzer',
-                stdin = false, -- or false if it doesn't support content input via stdin. In that case the filename is automatically added to the arguments.
-                append_fname = true, -- Automatically append the file name to `args` if `stdin = false` (default: true)
-                args = {}, -- list of arguments. Can contain functions with zero arguments that will be evaluated once the linter is used.
-                stream = 'stdout', -- ('stdout' | 'stderr' | 'both') configure the stream to which the linter outputs the linting result.
-                ignore_exitcode = false, -- set this to true if the linter exits with a code != 0 and that's considered normal.
-                env = nil, -- custom environment table to use with the external process. Note that this replaces the *entire* environment, it is not additive.
-                parser = require('lint.parser').from_pattern(
-                    ':(%d+):(%d+): (%w+): (.*)$',
-                    { 'row', 'col', 'severity', 'message' },
-                    {
-                        default_severity = {
-                            ['fatal error'] = vim.diagnostic.severity.ERROR,
-                            ['error'] = vim.diagnostic.severity.ERROR,
-                            ['note'] = vim.diagnostic.severity.INFO,
-                            ['warning'] = vim.diagnostic.severity.WARN,
-                        },
-                    },
-                    { ['source'] = 'clang-analyzer' },
-                    {}
-                ),
-            }
-            require('lint').linters_by_ft = {
-                c = { 'clang-analyzer' },
-                python = { 'ruff', 'mypy' },
-                sh = { 'shellcheck' },
-                bash = { 'shellcheck' },
-            }
-
-            vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-                callback = function()
-                    require('lint').try_lint()
-                end,
-            })
         end,
     },
     {
