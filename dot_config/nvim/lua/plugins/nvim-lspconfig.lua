@@ -40,26 +40,26 @@ end
 local function key_bindings(client)
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    keymap('gD', CMD 'Lspsaga goto_declaration', { desc = 'LSP: goto declaration' })
-    keymap('gd', CMD 'Lspsaga goto_definition', { desc = 'LSP: goto definition' })
-    keymap('<leader>D', CMD 'Lspsaga peek_type_definition', { desc = 'LSP: goto type definition' })
-    keymap('gr', CMD 'Lspsaga finder', { desc = 'LSP: show the definition, reference and implementation' })
-    keymap('<leader>ca', CMD 'Lspsaga code_action', { desc = 'LSP: show code actions' })
+    keymap('gD', vim.lsp.buf.declaration, { desc = 'LSP: goto declaration' })
+    keymap('gd', vim.lsp.buf.definition, { desc = 'LSP: goto definition' })
+    keymap('<leader>D', vim.lsp.buf.type_definition, { desc = 'LSP: goto type definition' })
+    keymap('gr', vim.lsp.buf.references, { desc = 'LSP: show the definition, reference and implementation' })
+    keymap('<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP: show code actions' })
 
     -- Call hierarchy
-    keymap('<Leader>ci', '<cmd>Lspsaga incoming_calls<CR>')
-    keymap('<Leader>co', '<cmd>Lspsaga outgoing_calls<CR>')
+    keymap('<Leader>ci', vim.lsp.buf.incoming_calls, { desc = 'LSP: show all the call sites of the symbol' })
+    keymap(
+        '<Leader>co',
+        vim.lsp.buf.outgoing_calls,
+        { desc = 'LSP: show all the items that are called by the symbol under the cursor' }
+    )
 
     keymap('K', vim.lsp.buf.hover, { desc = 'LSP: display hover information about the symbol under ther cursor' })
-    keymap('<leader>rn', CMD 'Lspsaga rename', { desc = 'LSP: renames all references to the symbol under the cursor' })
-    -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, nil, "buffer")
-    keymap('<leader>d', CMD 'Lspsaga show_line_diagnostics', { desc = 'LSP: Show diagnostic info' })
-    keymap(
-        '[D',
-        CMD 'Lspsaga diagnostic_jump_prev',
-        { desc = 'LSP: move to the previous diagnostic (whole severities)' }
-    )
-    keymap(']D', CMD 'Lspsaga diagnostic_jump_next', { desc = 'LSP: move to the next diagnostic (whole severities)' })
+    keymap('<leader>rn', vim.lsp.buf.rename, { desc = 'LSP: renames all references to the symbol under the cursor' })
+    keymap('<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP: code actions' })
+    keymap('<leader>d', vim.diagnostic.open_float, { desc = 'LSP: Show diagnostic info' })
+    keymap('[D', vim.diagnostic.goto_prev, { desc = 'LSP: move to the previous diagnostic (whole severities)' })
+    keymap(']D', vim.diagnostic.goto_next, { desc = 'LSP: move to the next diagnostic (whole severities)' })
     keymap('[d', function()
         smart_goto_prev()
     end, { desc = 'LSP: move to the previous diagnostic' })
@@ -265,18 +265,6 @@ return {
                 setup_server(server, config)
             end
         end,
-    },
-    {
-        'glepnir/lspsaga.nvim',
-        event = 'LspAttach',
-        config = function()
-            require('lspsaga').setup {}
-        end,
-        dependencies = {
-            { 'nvim-tree/nvim-web-devicons' },
-            --Please make sure you install markdown and markdown_inline parser
-            { 'nvim-treesitter/nvim-treesitter' },
-        },
     },
     {
         'nvimdev/guard.nvim',
