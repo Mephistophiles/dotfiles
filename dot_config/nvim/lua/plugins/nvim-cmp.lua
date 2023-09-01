@@ -58,8 +58,8 @@ return { -- A completion plugin for neovim coded in Lua.
                 end,
             },
             mapping = {
-                ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                -- ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+                -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
                 ['<C-e>'] = cmp.mapping.close(),
                 ['<c-y>'] = cmp.mapping(
                     cmp.mapping.confirm {
