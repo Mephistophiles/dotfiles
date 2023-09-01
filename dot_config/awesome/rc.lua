@@ -24,6 +24,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 -- External libraries
+require('awesomewm-micky')
 local unistd = require("posix.unistd")
 local vicious = require("vicious")
 local scratch = require("scratch")
