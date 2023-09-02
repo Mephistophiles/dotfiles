@@ -1,7 +1,7 @@
 return {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons', 'arkav/lualine-lsp-progress' },
     config = function()
         require('lualine').setup {
             sections = {
@@ -13,16 +13,7 @@ return {
                 },
                 lualine_c = { { 'filename', path = 1 } },
                 lualine_x = {
-                    {
-                        require('noice').api.status.mode.get,
-                        cond = require('noice').api.status.mode.has,
-                        color = { fg = '#ff9e64' },
-                    },
-                    {
-                        require('noice').api.status.search.get,
-                        cond = require('noice').api.status.search.has,
-                        color = { fg = '#ff9e64' },
-                    },
+                    'lsp_progress',
                     'encoding',
                     'fileformat',
                     'filetype',

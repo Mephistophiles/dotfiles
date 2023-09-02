@@ -21,18 +21,24 @@ return { -- A completion plugin for neovim coded in Lua.
                 ls.add_snippets('c', require 'plugins.utils.luasnip.c')
                 ls.add_snippets('gitcommit', require 'plugins.utils.luasnip.gitcommit')
 
-                vim.cmd [[
-                    " press <Tab> to expand or jump in a snippet. These can also be mapped separately
-                    " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-                    imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-                    " -1 for jumping backwards.
-                    inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
-                    snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-                    snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
-                ]]
+                vim.keymap.set({ 'i' }, '<Tab>', function()
+                    ls.expand()
+                end, { silent = true, desc = 'LuaSnip: expand snippet' })
+                vim.keymap.set({ 's' }, '<Tab>', function()
+                    ls.jump(1)
+                end, { silent = true, desc = 'LuaSnip: jump forward' })
+                vim.keymap.set({ 's' }, '<S-Tab>', function()
+                    ls.jump(-1)
+                end, { silent = true, desc = 'LuaSnip: jump backward' })
+                vim.keymap.set({ 'i', 's' }, '<C-E>', function()
+                    if ls.choice_active() then
+                        ls.change_choice(1)
+                    end
+                end, { silent = true, desc = 'LuaSnip: activate choice' })
             end,
         }, -- snippet engine
         'hrsh7th/cmp-nvim-lsp', -- language server protocol
+        'hrsh7th/cmp-nvim-lsp-signature-help',
         'hrsh7th/cmp-buffer', -- completion from current buffer
         'saadparwaiz1/cmp_luasnip', -- completion from snippets
         'hrsh7th/cmp-path', -- completion for filesystem
@@ -58,8 +64,8 @@ return { -- A completion plugin for neovim coded in Lua.
                 end,
             },
             mapping = {
-                -- ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-                -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+                ['<C-f>'] = cmp.mapping.scroll_docs(4),
                 ['<C-e>'] = cmp.mapping.close(),
                 ['<c-y>'] = cmp.mapping(
                     cmp.mapping.confirm {
@@ -100,6 +106,7 @@ return { -- A completion plugin for neovim coded in Lua.
             sources = {
                 { name = 'luasnip' }, -- snippet engine
                 { name = 'nvim_lsp' }, -- language server protocol
+                { name = 'nvim_lsp_signature_help' },
                 { name = 'orgmode' },
                 { name = 'path' }, -- completion from FS
                 { name = 'buffer', keyword_length = 5 }, -- completion from buffer
@@ -123,6 +130,10 @@ return { -- A completion plugin for neovim coded in Lua.
                     -- For `luasnip` user.
                     require('luasnip').lsp_expand(args.body)
                 end,
+            },
+            window = {
+                completion = cmp.config.window.bordered(),
+                documentation = cmp.config.window.bordered(),
             },
             preselect = cmp.PreselectMode.None,
             view = { entries = 'native' },
