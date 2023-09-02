@@ -260,7 +260,7 @@ return {
     },
     {
         'nvimdev/guard.nvim',
-        -- event = 'VeryLazy',
+        event = { 'BufReadPre', 'BufNewFile' },
         config = function()
             local ft = require 'guard.filetype'
             local diag_fmt = require('guard.lint').diag_fmt
@@ -330,8 +330,7 @@ return {
     },
     { -- Tools for better development in rust using neovim's builtin lsp
         'simrat39/rust-tools.nvim',
-        ft = 'rust',
-        event = { 'BufRead', 'BufWinEnter', 'BufNewFile' },
+        event = { 'BufRead *.rs', 'BufWinEnter *.rs', 'BufNewFile *.rs' },
         dependencies = { 'neovim/nvim-lspconfig', name = 'lspconfig' },
         config = function()
             local server = vim.tbl_deep_extend('force', make_default_opts(), {
@@ -362,7 +361,6 @@ return {
     },
     { -- A neovim plugin that helps managing crates.io dependencies
         'saecki/crates.nvim',
-        ft = 'rust',
         event = { 'BufRead Cargo.toml' },
         dependencies = { { 'nvim-lua/plenary.nvim' } },
         opts = {},

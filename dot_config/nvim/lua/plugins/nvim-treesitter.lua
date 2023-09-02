@@ -20,12 +20,19 @@ local supported_languages = {
     'vim',
     'yaml',
 }
+
+local bufread_files = table.concat(
+    vim.tbl_map(function(item)
+        return '*.' .. item
+    end, supported_languages),
+    ','
+)
+
 return {
     { -- Nvim Treesitter configurations and abstraction layer
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
-        ft = supported_languages,
-        event = 'VeryLazy',
+        event = { 'BufReadPost ' .. bufread_files },
         config = function()
             require('nvim-treesitter').setup()
             require('nvim-treesitter.configs').setup {

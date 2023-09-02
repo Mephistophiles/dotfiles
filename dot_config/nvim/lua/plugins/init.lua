@@ -21,6 +21,7 @@ return {
 
     { -- Automatic indentation style detection for Neovim
         'NMAC427/guess-indent.nvim',
+        event = { 'BufReadPre' },
         config = function()
             require('guess-indent').setup {}
         end,
@@ -28,6 +29,7 @@ return {
 
     { -- The superior project management solution for neovim.
         'ahmedkhalf/project.nvim',
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require('project_nvim').setup {
                 detection_methods = { 'pattern' },

@@ -1,6 +1,7 @@
 return { -- A plugin to visualise and resolve merge conflicts in neovim
     'akinsho/git-conflict.nvim',
     version = '*',
+    event = 'BufReadPost',
     config = function()
         require('git-conflict').setup {
             default_mappings = true,
