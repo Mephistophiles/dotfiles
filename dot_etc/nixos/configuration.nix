@@ -214,6 +214,7 @@ in
     unstable.dua
     unstable.erdtree
     unstable.exa
+    unstable.fcp
     unstable.fd
     unstable.gping
     unstable.hyperfine
@@ -374,7 +375,7 @@ in
     };
   };
 
-system.activationScripts.report-changes = ''
+  system.activationScripts.report-changes = ''
     PATH=$PATH:${lib.makeBinPath [ pkgs.nvd pkgs.nix ]}
     nvd diff $(ls -dv /nix/var/nix/profiles/system-*-link | tail -2) || true
   '';
