@@ -6,11 +6,8 @@ return {
             vim.opt.background = 'dark'
             vim.opt.termguicolors = true
         end,
+        opts = { style = 'storm'},
         config = function()
-            require('tokyonight').setup {
-                style = 'storm', -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-                -- style = 'moon', -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-            }
             vim.cmd.colorscheme 'tokyonight-storm'
             -- vim.cmd.colorscheme 'tokyonight-moon'
         end,
