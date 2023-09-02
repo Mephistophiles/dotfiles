@@ -26,13 +26,6 @@ return {
         end,
     },
 
-    { -- Neovim plugin to stabilize window open/close events.
-        'luukvbaal/stabilize.nvim',
-        config = function()
-            require('stabilize').setup()
-        end,
-    },
-
     { -- The superior project management solution for neovim.
         'ahmedkhalf/project.nvim',
         config = function()

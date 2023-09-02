@@ -28,6 +28,8 @@ vim.opt.smartcase = true -- turn smartcase search
 
 vim.opt.inccommand = 'split' -- split preview for replace preview
 
+vim.opt.splitkeep = 'screen' -- keeps the same screen screen lines in all split windows
+
 vim.opt.wildmenu = true -- Set menu auto complete for command mode
 
 vim.opt.cursorline = true -- Highlight current line
