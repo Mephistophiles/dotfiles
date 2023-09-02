@@ -249,14 +249,6 @@ return {
                 },
                 pylsp = true,
                 pyright = true,
-                yamlls = require('yaml-companion').setup {
-                    schemas = {
-                        {
-                            name = 'Gitlab CI',
-                            uri = 'https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json',
-                        },
-                    },
-                },
                 tsserver = true,
                 hls = true,
             }
@@ -336,19 +328,6 @@ return {
             }
         end,
     },
-    {
-        'someone-stole-my-name/yaml-companion.nvim',
-        event = { 'LspAttach' },
-        module = 'yaml-companion',
-        dependencies = {
-            { 'neovim/nvim-lspconfig', name = 'lspconfig' },
-            { 'nvim-lua/plenary.nvim' },
-            { 'nvim-telescope/telescope.nvim' },
-        },
-        config = function()
-            require('telescope').load_extension 'yaml_schema'
-        end,
-    },
     { -- Tools for better development in rust using neovim's builtin lsp
         'simrat39/rust-tools.nvim',
         ft = 'rust',
@@ -386,8 +365,6 @@ return {
         ft = 'rust',
         event = { 'BufRead Cargo.toml' },
         dependencies = { { 'nvim-lua/plenary.nvim' } },
-        config = function()
-            require('crates').setup()
-        end,
+        opts = {},
     },
 }
