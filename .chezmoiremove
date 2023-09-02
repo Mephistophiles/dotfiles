@@ -1,2 +1,3 @@
 .config/nvim/lua/plugins/noice.lua
+.config/nvim/lua/plugins/vim-indent-object.lua
 

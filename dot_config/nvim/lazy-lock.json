@@ -72,7 +72,6 @@
   "ts-node-action": { "branch": "master", "commit": "bb1377868a2cdb7cb12da4f09b7f57cbaa516961" },
   "vim-eunuch": { "branch": "master", "commit": "67f3dd32b4dcd1c427085f42ff5f29c7adc645c6" },
   "vim-fugitive": { "branch": "master", "commit": "572c8510123cbde02e8a1dafcd376c98e1e13f43" },
-  "vim-indent-object": { "branch": "master", "commit": "5c5b24c959478929b54a9e831a8e2e651a465965" },
   "vim-kconfig": { "branch": "master", "commit": "1cbe92985ac14d98b7bdcbfdf9c29f392f852f5e" },
   "vim-nix": { "branch": "master", "commit": "1e8d3cc4d74f40fb384cd1739739543fe117ff61" },
   "vim-repeat": { "branch": "master", "commit": "24afe922e6a05891756ecf331f39a1f6743d3d5a" },
