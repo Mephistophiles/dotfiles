@@ -227,6 +227,7 @@ in
     unstable.rustup
     unstable.simple-http-server
     unstable.watchexec
+    unstable.wezterm
     unstable.xh
     unstable.zoxide
 
