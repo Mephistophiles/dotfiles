@@ -219,6 +219,7 @@ in
     unstable.gping
     unstable.hyperfine
     # unstable.inferno
+    unstable.igrep
     unstable.procs
     unstable.ripgrep
     unstable.ruplacer
