@@ -6,7 +6,7 @@ return {
             vim.opt.background = 'dark'
             vim.opt.termguicolors = true
         end,
-        opts = { style = 'storm'},
+        opts = { style = 'storm' },
         config = function()
             vim.cmd.colorscheme 'tokyonight-storm'
             -- vim.cmd.colorscheme 'tokyonight-moon'
@@ -26,7 +26,7 @@ return {
 
     { -- The superior project management solution for neovim.
         'ahmedkhalf/project.nvim',
-        event = { "BufReadPre", "BufNewFile" },
+        event = { 'BufReadPre', 'BufNewFile' },
         config = function()
             require('project_nvim').setup {
                 detection_methods = { 'pattern' },
