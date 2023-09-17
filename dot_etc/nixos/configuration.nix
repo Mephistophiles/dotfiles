@@ -213,7 +213,7 @@ in
     # unstable.difftastic
     unstable.dua
     unstable.erdtree
-    unstable.exa
+    unstable.eza
     unstable.fcp
     unstable.fd
     unstable.gping

@@ -5,8 +5,8 @@ export EDITOR=nvim
 alias vim='nvim'
 abbr -a vimdiff 'nvim -d'
 
-abbr --add ls "exa"
-abbr --add ll "exa -l"
+abbr --add ls "eza"
+abbr --add ll "eza -l"
 
 abbr --add cat "bat"
 
