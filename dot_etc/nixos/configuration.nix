@@ -229,6 +229,7 @@ in
     unstable.watchexec
     unstable.wezterm
     unstable.xh
+    unstable.yazi
     unstable.zoxide
 
     # gui
