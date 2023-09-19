@@ -1,10 +1,104 @@
+local empty = function()
+    return {}
+end
+local supported_languages = {
+    c = {
+        'clangd',
+        function()
+            return {
+                cmd = {
+                    -- see clangd --help-hidden
+                    'clangd',
+                    '--background-index',
+                    -- by default, clang-tidy use -checks=clang-diagnostic-*,clang-analyzer-*
+                    -- to add more checks, create .clang-tidy file in the root directory
+                    -- and add Checks key, see https://clang.llvm.org/extra/clang-tidy/
+                    '--clang-tidy',
+                    '--completion-style=bundled',
+                    '--cross-file-rename',
+                    '--header-insertion=iwyu',
+                },
+                capabilities = { offsetEncoding = { 'utf-16' } },
+            }
+        end,
+    },
+    go = {
+        'gopls',
+        empty,
+    },
+    json = {
+        'jsonls',
+        function()
+            local exe_resolve = function(name)
+                if vim.fn.exepath(name) then
+                    return name
+                end
+            end
+            return {
+                cmd = { exe_resolve 'vscode-json-languageserver' or 'vscode-json-language-server', '--stdio' },
+            }
+        end,
+    },
+    lua = {
+        'lua_ls',
+        function()
+            return {
+                settings = {
+                    Lua = {
+                        runtime = {
+                            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                            version = 'LuaJIT',
+                        },
+                        diagnostics = {
+                            -- Get the language server to recognize the `vim` global
+                            globals = { 'vim' },
+                        },
+                        workspace = {
+                            -- Make the server aware of Neovim runtime files
+                            library = vim.api.nvim_get_runtime_file('', true),
+                        },
+                        -- Do not send telemetry data containing a randomized but unique identifier
+                        telemetry = {
+                            enable = false,
+                        },
+                    },
+                },
+            }
+        end,
+    },
+    python = {
+        'pylsp',
+        empty,
+        'pyright',
+        empty,
+    },
+}
+
+local event_pattern = table.concat(
+    vim.tbl_map(function(ext)
+        return '*.' .. ext
+    end, vim.tbl_keys(supported_languages)),
+    ','
+)
+
 return {
     { -- Quickstart configs for Nvim LSP
         'neovim/nvim-lspconfig',
-        lazy = true,
+        event = { 'BufRead ' .. event_pattern, 'BufWinEnter ' .. event_pattern, 'BufNewFile ' .. event_pattern },
         name = 'lspconfig',
         config = function()
             vim.lsp.set_log_level 'off'
+            local lsp_config = require 'lspconfig'
+            local lsp_utils = require 'plugins.utils.lsp'
+
+            for _, configs in pairs(supported_languages) do
+                assert(#configs % 2 == 0, 'Must be pair like <lsp server name>, <config>')
+                for idx = 1, #configs, 2 do
+                    local server_name = configs[idx]
+                    local config_func = configs[idx + 1]
+                    lsp_config[server_name].setup(lsp_utils.make_default_opts(config_func()))
+                end
+            end
         end,
     },
     {
@@ -85,7 +179,7 @@ return {
         event = { 'BufRead *.rs', 'BufWinEnter *.rs', 'BufNewFile *.rs' },
         dependencies = { 'neovim/nvim-lspconfig', name = 'lspconfig' },
         config = function()
-            local server = vim.tbl_deep_extend('force', require('utils.lsp').make_default_opts(), {
+            local server = vim.tbl_deep_extend('force', require('plugins.utils.lsp').make_default_opts(), {
                 flags = { allow_incremental_sync = true },
                 settings = {
                     ['rust-analyzer'] = {
