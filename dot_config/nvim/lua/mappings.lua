@@ -1,8 +1,5 @@
 vim.g.mapleader = ' '
 
--- Toggle paste
-vim.o.pastetoggle = '<F6>'
-
 local function paste_git_signoff()
     local username = io.popen('git config user.name', 'r'):read '*l'
     local email = io.popen('git config user.email', 'r'):read '*l'
