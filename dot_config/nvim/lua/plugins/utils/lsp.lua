@@ -71,8 +71,8 @@ local function key_bindings(client)
     end, { desc = 'LSP: add buffer diagnostics to the location list' })
 
     vim.keymap.set(
-        'n',
-        '<leader>lf',
+        { 'v', 'n' },
+        '<leader>F',
         vim.lsp.buf.format,
         { buffer = true, desc = 'LSP: format document by lsp engine' }
     )
