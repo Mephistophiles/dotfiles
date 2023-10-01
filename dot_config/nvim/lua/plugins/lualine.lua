@@ -13,6 +13,7 @@ return {
                 },
                 lualine_c = { { 'filename', path = 1 } },
                 lualine_x = {
+                    'overseer',
                     'lsp_progress',
                     'encoding',
                     'fileformat',
