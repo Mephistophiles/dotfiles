@@ -129,15 +129,15 @@ return {
                     smart_rename = {
                         enable = true,
                         keymaps = {
-                            smart_rename = '<leader>re',
+                            smart_rename = '<leader>trn',
                         },
                     },
                     navigation = {
                         enable = true,
                         keymaps = {
-                            goto_definition = 'gd',
-                            list_definitions = 'gnd',
-                            list_definitions_toc = 'gO',
+                            goto_definition = '<leader>tgd',
+                            list_definitions = '<leader>tld',
+                            list_definitions_toc = '<leader>tgO',
                             goto_next_usage = '<a-*>',
                             goto_previous_usage = '<a-#>',
                         },
