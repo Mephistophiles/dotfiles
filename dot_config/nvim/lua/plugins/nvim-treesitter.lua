@@ -150,7 +150,7 @@ return {
             vim.cmd 'TSEnable highlight'
         end,
         dependencies = {
-            { 'HiPhish/nvim-ts-rainbow2' },
+            'p00f/nvim-ts-rainbow',
             'nvim-treesitter/nvim-treesitter-textobjects',
             {
                 'mfussenegger/nvim-ts-hint-textobject',
