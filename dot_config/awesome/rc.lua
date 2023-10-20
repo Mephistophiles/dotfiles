@@ -6,6 +6,7 @@ local awesome = assert(awesome)
 local client = assert(client)
 local screen = assert(screen)
 local root = assert(root)
+local mouse = assert(mouse)
 
 -- Standard awesome library
 local gears = require("gears")
@@ -24,7 +25,6 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 -- External libraries
-require('awesomewm-micky')
 local unistd = require("posix.unistd")
 local vicious = require("vicious")
 local scratch = require("scratch")
@@ -90,7 +90,7 @@ beautiful.wallpaper = function()
     return selected_wallpaper
 end
 
-local terminal = "wezterm"
+local terminal = "kitty" --"wezterm"
 local editor = os.getenv("EDITOR") or "nvim"
 local editor_cmd = terminal .. " -e " .. editor
 
@@ -838,8 +838,28 @@ client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+local function move_mouse_onto_focused_client()
+    local c = client.focus
+    if c then
+        local geometry = c:geometry()
+        local x = geometry.x + geometry.width/2
+        local y = geometry.y + geometry.height/2
+        mouse.coords({x = x, y = y}, true)
+    end
+end
+
+client.connect_signal("swapped", move_mouse_onto_focused_client)
+
+client.connect_signal("focus", function(c)
+    c.border_color = beautiful.border_focus
+
+    move_mouse_onto_focused_client()
+end)
+
+client.connect_signal("unfocus", function(c)
+    c.border_color = beautiful.border_normal
+end)
 -- }}}
 
 -- {{{ Autorun
@@ -852,8 +872,7 @@ local function autorun(cmd)
 end
 autorun({ "flameshot" })
 autorun({ "greenclip", "daemon" })
-autorun({ "solaar", "config", "MX Master 2S", "dpi", "4000" })
-autorun({ "setxkbmap", "us,ru", "-option", "grp:alt_shift_toggle,grp_led:scroll", "-option", "caps:backspace" })
+autorun({ "setxkbmap", "us,ru", "-option", "grp:alt_shift_toggle"})
 autorun({
     "xidlehook",
     "--socket", XIDLEHOOK_SOCKET,
