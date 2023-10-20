@@ -32,12 +32,6 @@ set -U fish_user_paths $fish_user_paths $HOME/go/bin/
 
 set -U fish_user_paths (printf '%s\n' $fish_user_paths | sort -u)
 
-if not functions -q fisher
-    set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
-    curl https://git.io/fisher --create-dirs -sLo $XDG_CONFIG_HOME/fish/functions/fisher.fish
-    fish -c fisher
-end
-
 starship init fish | source
 zoxide init fish | source
 direnv hook fish | source
