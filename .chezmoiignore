@@ -1,7 +1,7 @@
 LICENSE
 README.md
+.config/nvim/.luarc.json
 .config/nvim/spell/
-.config/nvim/lua/packer_compiled.lua
 .config/fish/fish_variables
 .config/fish/fishd.*
 
