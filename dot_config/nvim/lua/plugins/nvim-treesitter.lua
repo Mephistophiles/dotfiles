@@ -3,6 +3,7 @@ local supported_languages = {
     'c',
     'cmake',
     'diff',
+    'doxygen',
     'fish',
     'gitcommit',
     'go',
