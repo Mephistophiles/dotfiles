@@ -63,6 +63,13 @@ return { -- A completion plugin for neovim coded in Lua.
                     select = true,
                 },
             },
+            matching = {
+                disallow_fuzzy_matching = false,
+                disallow_fullfuzzy_matching = false,
+                disallow_partial_fuzzy_matching = false,
+                disallow_partial_matching = false,
+                disallow_prefix_unmatching = false,
+            },
             sources = {
                 { name = 'nvim_lsp' }, -- language server protocol
                 { name = 'nvim_lsp_signature_help' },
