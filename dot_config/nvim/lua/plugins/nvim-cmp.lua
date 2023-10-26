@@ -2,55 +2,17 @@ return { -- A completion plugin for neovim coded in Lua.
     'hrsh7th/nvim-cmp',
     event = { 'InsertEnter', 'LspAttach' },
     dependencies = {
-        {
-            'L3MON4D3/LuaSnip',
-            config = function()
-                local ls = require 'luasnip'
-                ls.config.set_config {
-                    -- This tells LuaSnip to remember to keep around the last snippet.
-                    -- You can jump back into it even if you move outside of the selection
-                    history = true,
-
-                    -- This one is cool cause if you have dynamic snippets, it updates as you type!
-                    updateevents = 'TextChanged,TextChangedI',
-
-                    -- Autosnippets:
-                    enable_autosnippets = true,
-                }
-
-                ls.add_snippets('c', require 'plugins.utils.luasnip.c')
-                ls.add_snippets('gitcommit', require 'plugins.utils.luasnip.gitcommit')
-
-                vim.keymap.set({ 'i' }, '<Tab>', function()
-                    ls.expand()
-                end, { silent = true, desc = 'LuaSnip: expand snippet' })
-                vim.keymap.set({ 's' }, '<Tab>', function()
-                    ls.jump(1)
-                end, { silent = true, desc = 'LuaSnip: jump forward' })
-                vim.keymap.set({ 's' }, '<S-Tab>', function()
-                    ls.jump(-1)
-                end, { silent = true, desc = 'LuaSnip: jump backward' })
-                vim.keymap.set({ 'i', 's' }, '<C-E>', function()
-                    if ls.choice_active() then
-                        ls.change_choice(1)
-                    end
-                end, { silent = true, desc = 'LuaSnip: activate choice' })
-            end,
-        }, -- snippet engine
         'hrsh7th/cmp-nvim-lsp', -- language server protocol
         'hrsh7th/cmp-nvim-lsp-signature-help',
         'hrsh7th/cmp-buffer', -- completion from current buffer
-        'saadparwaiz1/cmp_luasnip', -- completion from snippets
         'hrsh7th/cmp-path', -- completion for filesystem
     },
     priority = 19,
     config = function()
         local cmp = require 'cmp'
-        local luasnip = require 'luasnip'
         local source_mapping = {
             buffer = '[Buffer]',
             nvim_lsp = '[LSP]',
-            luasnip = '[LuaSnip]',
             path = '[Path]',
             crates = '[Crates.io]',
         }
@@ -90,8 +52,6 @@ return { -- A completion plugin for neovim coded in Lua.
                             if not cmp.confirm { select = true } then
                                 return
                             end
-                        elseif luasnip.expand_or_locally_jumpable() then
-                            luasnip.expand_or_jump()
                         else
                             cmp.complete()
                         end
@@ -104,7 +64,6 @@ return { -- A completion plugin for neovim coded in Lua.
                 },
             },
             sources = {
-                { name = 'luasnip' }, -- snippet engine
                 { name = 'nvim_lsp' }, -- language server protocol
                 { name = 'nvim_lsp_signature_help' },
                 { name = 'orgmode' },
@@ -127,8 +86,7 @@ return { -- A completion plugin for neovim coded in Lua.
             },
             snippet = {
                 expand = function(args)
-                    -- For `luasnip` user.
-                    require('luasnip').lsp_expand(args.body)
+                    vim.snippet.expand(args.body)
                 end,
             },
             window = {
@@ -139,5 +97,20 @@ return { -- A completion plugin for neovim coded in Lua.
             view = { entries = 'native' },
             experimental = { ghost_text = true },
         }
+
+        vim.keymap.set({ 'i', 's' }, '<Tab>', function()
+            if vim.snippet.jumpable(1) then
+                return '<cmd>lua vim.snippet.jump(1)<cr>'
+            else
+                return '<Tab>'
+            end
+        end, { expr = true })
+        vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
+            if vim.snippet.jumpable(-1) then
+                return '<cmd>lua vim.snippet.jump(-1)<cr>'
+            else
+                return '<Tab>'
+            end
+        end, { expr = true })
     end,
 }
