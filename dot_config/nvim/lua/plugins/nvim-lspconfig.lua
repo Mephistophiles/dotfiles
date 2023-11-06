@@ -1,6 +1,3 @@
-local empty = function()
-    return {}
-end
 local supported_languages = {
     c = {
         'clangd',
@@ -24,7 +21,6 @@ local supported_languages = {
     },
     go = {
         'gopls',
-        empty,
     },
     json = {
         'jsonls',
@@ -38,6 +34,10 @@ local supported_languages = {
                 cmd = { exe_resolve 'vscode-json-languageserver' or 'vscode-json-language-server', '--stdio' },
             }
         end,
+    },
+    nix = {
+        'rnix',
+        'nixd',
     },
     lua = {
         'lua_ls',
@@ -68,9 +68,7 @@ local supported_languages = {
     },
     python = {
         'pylsp',
-        empty,
         'pyright',
-        empty,
     },
 }
 
@@ -82,7 +80,8 @@ local event_pattern = table.concat(
 )
 
 return {
-    { -- Quickstart configs for Nvim LSP
+    {
+      -- Quickstart configs for Nvim LSP
         'neovim/nvim-lspconfig',
         event = { 'BufRead ' .. event_pattern, 'BufWinEnter ' .. event_pattern, 'BufNewFile ' .. event_pattern },
         name = 'lspconfig',
@@ -91,12 +90,25 @@ return {
             local lsp_config = require 'lspconfig'
             local lsp_utils = require 'plugins.utils.lsp'
 
-            for _, configs in pairs(supported_languages) do
-                assert(#configs % 2 == 0, 'Must be pair like <lsp server name>, <config>')
-                for idx = 1, #configs, 2 do
-                    local server_name = configs[idx]
-                    local config_func = configs[idx + 1]
-                    lsp_config[server_name].setup(lsp_utils.make_default_opts(config_func()))
+            for lang, configs in pairs(supported_languages) do
+                local lsp_servers = {}
+                local current_server = nil
+
+                for _, item in ipairs(configs) do
+                    if type(item) == 'string' then
+                        current_server = item
+                        lsp_servers[current_server] = {}
+                    elseif type(item) == 'function' then
+                        lsp_servers[current_server] = item()
+                    elseif type(item) == 'table' then
+                        lsp_servers[current_server] = item
+                    else
+                        error("Invalid type: " .. string(item))
+                    end
+                end
+
+                for server, config in pairs(lsp_servers) do
+                    lsp_config[server].setup(lsp_utils.make_default_opts(config))
                 end
             end
         end,
@@ -174,7 +186,8 @@ return {
             }
         end,
     },
-    { -- Tools for better development in rust using neovim's builtin lsp
+    {
+      -- Tools for better development in rust using neovim's builtin lsp
         'simrat39/rust-tools.nvim',
         event = { 'BufRead *.rs', 'BufWinEnter *.rs', 'BufNewFile *.rs' },
         dependencies = { 'neovim/nvim-lspconfig', name = 'lspconfig' },
@@ -205,7 +218,8 @@ return {
             require('rust-tools').setup(opts)
         end,
     },
-    { -- A neovim plugin that helps managing crates.io dependencies
+    {
+      -- A neovim plugin that helps managing crates.io dependencies
         'saecki/crates.nvim',
         event = { 'BufRead Cargo.toml' },
         dependencies = { { 'nvim-lua/plenary.nvim' } },
