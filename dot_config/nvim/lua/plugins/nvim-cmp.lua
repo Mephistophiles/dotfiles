@@ -1,11 +1,13 @@
-return { -- A completion plugin for neovim coded in Lua.
+return {
+    -- A completion plugin for neovim coded in Lua.
     'hrsh7th/nvim-cmp',
     event = { 'InsertEnter', 'LspAttach' },
     dependencies = {
         'hrsh7th/cmp-nvim-lsp', -- language server protocol
         'hrsh7th/cmp-nvim-lsp-signature-help',
-        'hrsh7th/cmp-buffer', -- completion from current buffer
-        'hrsh7th/cmp-path', -- completion for filesystem
+        'hrsh7th/cmp-buffer',   -- completion from current buffer
+        'hrsh7th/cmp-path',     -- completion for filesystem
+        'L3MON4D3/LuaSnip',
     },
     priority = 19,
     config = function()
@@ -18,6 +20,11 @@ return { -- A completion plugin for neovim coded in Lua.
         }
 
         cmp.setup {
+            snippet = {
+                expand = function(args)
+                    require('luasnip').lsp_expand(args.body)
+                end,
+            },
             formatting = {
                 format = function(entry, vim_item)
                     local menu = source_mapping[entry.source.name]
@@ -75,26 +82,24 @@ return { -- A completion plugin for neovim coded in Lua.
                 { name = 'nvim_lsp_signature_help' },
                 { name = 'orgmode' },
                 { name = 'path' }, -- completion from FS
-                { name = 'buffer', keyword_length = 5 }, -- completion from buffer
+                {
+                    name = 'buffer',
+                    keyword_length = 5
+                },                   -- completion from buffer
                 { name = 'crates' }, -- crates
             },
             sorting = {
                 priority_weight = 10,
                 comparators = {
-                    cmp.config.compare.offset, -- offset
-                    cmp.config.compare.exact, -- exact
+                    cmp.config.compare.offset,        -- offset
+                    cmp.config.compare.exact,         -- exact
                     cmp.config.compare.recently_used, -- resently used
-                    cmp.config.compare.score, -- score (priority based)
-                    cmp.config.compare.kind, -- kind based
-                    cmp.config.compare.sort_text, -- text based (alpha sort)
-                    cmp.config.compare.length, -- length sort
-                    cmp.config.compare.order, -- source order sort
+                    cmp.config.compare.score,         -- score (priority based)
+                    cmp.config.compare.kind,          -- kind based
+                    cmp.config.compare.sort_text,     -- text based (alpha sort)
+                    cmp.config.compare.length,        -- length sort
+                    cmp.config.compare.order,         -- source order sort
                 },
-            },
-            snippet = {
-                expand = function(args)
-                    vim.snippet.expand(args.body)
-                end,
             },
             window = {
                 completion = cmp.config.window.bordered(),
