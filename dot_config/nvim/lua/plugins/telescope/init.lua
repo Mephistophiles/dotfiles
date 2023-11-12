@@ -93,19 +93,15 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         end, 'Fuzzy find neovim configuration files')
     end,
     config = function()
+        local actions = require('telescope.actions')
         require('telescope').setup {
             defaults = {
                 mappings = {
                     i = {
-                        ['<C-Down>'] = require('telescope.actions').cycle_history_next,
-                        ['<C-Up>'] = require('telescope.actions').cycle_history_prev,
+                        ['<C-Down>'] = actions.cycle_history_next,
+                        ['<C-Up>'] = actions.cycle_history_prev,
                         ['<C-u>'] = false,
-                        ['<c-space>'] = function(prompt_bufnr)
-                            require('telescope.actions.generate').refine(prompt_bufnr, {
-                                prompt_to_prefix = true,
-                                sorter = false,
-                            })
-                        end,
+                        ['<C-space>'] = actions.to_fuzzy_refine,
                     },
                 },
             },
@@ -113,10 +109,10 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
                 buffers = {
                     mappings = {
                         i = {
-                            ['<c-d>'] = require('telescope.actions').delete_buffer,
+                            ['<c-d>'] = actions.delete_buffer,
                         },
                         n = {
-                            ['<c-d>'] = require('telescope.actions').delete_buffer,
+                            ['<c-d>'] = actions.delete_buffer,
                         },
                     },
                 },
