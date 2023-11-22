@@ -3,6 +3,16 @@ return {
     event = 'VeryLazy',
     dependencies = { 'nvim-tree/nvim-web-devicons', 'arkav/lualine-lsp-progress' },
     config = function()
+        local function current_lsp()
+            local lsp_info = {}
+
+            for _, client in ipairs(vim.lsp.get_clients()) do
+                table.insert(lsp_info, client.name)
+            end
+
+            return table.concat(lsp_info, '|')
+        end
+
         require('lualine').setup {
             sections = {
                 lualine_a = { 'mode' },
@@ -14,6 +24,7 @@ return {
                 lualine_c = { { 'filename', path = 1 } },
                 lualine_x = {
                     'overseer',
+                    current_lsp,
                     'lsp_progress',
                     'encoding',
                     'fileformat',
