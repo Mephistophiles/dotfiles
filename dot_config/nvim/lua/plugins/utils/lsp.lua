@@ -98,11 +98,8 @@ local filetype_attach = setmetatable({ go = function() end, rust = function() en
     end,
 })
 
-local custom_attach = function(
-    client,
-    _ --[[bufnr]]
-)
-    local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+local custom_attach = function(client, _ --[[bufnr]])
+    local filetype = vim.o.filetype
 
     key_bindings(client)
 
