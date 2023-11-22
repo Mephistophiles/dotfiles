@@ -26,11 +26,10 @@ abbr -a scu-restart systemctl --user restart
 abbr -a scu-stop systemctl --user stop
 abbr -a scu-status systemctl --user status
 
-set -U fish_user_paths $fish_user_paths $HOME/bin
-set -U fish_user_paths $fish_user_paths $HOME/.cargo/bin/
-set -U fish_user_paths $fish_user_paths $HOME/go/bin/
-
-set -U fish_user_paths (printf '%s\n' $fish_user_paths | sort -u)
+fish_add_path $HOME/bin
+fish_add_path $HOME/.local/bin/
+fish_add_path $HOME/.cargo/bin/
+fish_add_path $HOME/go/bin/
 
 starship init fish | source
 zoxide init fish | source
