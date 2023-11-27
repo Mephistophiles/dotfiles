@@ -146,28 +146,7 @@ return {
         dependencies = {
             'p00f/nvim-ts-rainbow',
             'nvim-treesitter/nvim-treesitter-textobjects',
-            {
-                'mfussenegger/nvim-ts-hint-textobject',
-                keys = {
-                    {
-                        'm',
-                        '<C-U>:lua require("tsht").nodes()<cr>',
-                        mode = 'o',
-                        silent = true,
-                        desc = 'Treesitter: Show treesitter select hints',
-                    },
-                    {
-                        'm',
-                        CMD 'lua require("tsht").nodes()',
-                        mode = 'v',
-                        silent = true,
-                        desc = 'Treesitter: Show treesitter select hints',
-                    },
-                },
-            },
-            {
-                'nvim-treesitter/nvim-treesitter-refactor',
-            },
+            'nvim-treesitter/nvim-treesitter-refactor',
             {
                 'nvim-treesitter/nvim-treesitter-context',
                 config = {
