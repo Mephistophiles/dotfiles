@@ -1,4 +1,5 @@
 .config/nvim/lua/plugins/noice.lua
 .config/nvim/lua/plugins/vim-indent-object.lua
 .config/nvim/lua/plugins/utils/luasnip
+.config/nvim/uncrustify.cfg
 
