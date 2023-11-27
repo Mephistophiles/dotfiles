@@ -53,15 +53,15 @@ TODO_OR_DIE = {
     end,
 }
 
-MAP_CLEANUPS = {
-    '<CMD>noh<CR>',
-    '<CMD>call clearmatches()<CR>',
-    '<CMD>lua require("noice.view.backend.notify").dismiss()<CR>',
-}
-
 --- Get nvim command
 ---@param cmd string
 ---@return string
 function CMD(cmd)
     return '<cmd>' .. cmd .. '<cr>'
 end
+
+
+MAP_CLEANUPS = {
+    CMD 'nohlsearch',
+    CMD 'call clearmatches()',
+}
