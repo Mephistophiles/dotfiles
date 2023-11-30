@@ -6,7 +6,6 @@
 { config, pkgs, lib, options, ... }:
 
 let
-  mypkgs = pkgs.callPackage pkgs/default.nix { inherit pkgs; };
   graphics = "awesomewm";
   #graphics = "gnome";
 in
@@ -324,9 +323,6 @@ in
     unstable.home-manager
     unstable.nixpkgs-review
 
-    # self packaged
-    mypkgs.telegram-send
-
     # programming
     cmake
     gcc_multi
@@ -335,7 +331,7 @@ in
     gitAndTools.gh
     gnumake
     lua
-    python310
+    python3
     stylua
 
     tig
@@ -354,7 +350,7 @@ in
     unstable.nodePackages.vscode-json-languageserver
     unstable.nodePackages.jsonlint
     unstable.nodePackages.vls
-    unstable.python310Packages.python-lsp-server
+    unstable.python3Packages.python-lsp-server
     unstable.vscode-extensions.vadimcn.vscode-lldb
 
     # file systems
@@ -379,8 +375,8 @@ in
   };
 
   fonts = {
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
+    enableDefaultPackages = true;
+    packages = with pkgs; [
       fira-code
       fira-code-symbols
       font-awesome
