@@ -4,24 +4,21 @@ return {
     opts = {
         -- add any custom options here
     },
-    config = function()
-        vim.keymap.set(
-            'n',
+    keys = {
+        {
             '<leader>gs',
             CMD 'lua require("persistence").load()',
-            { desc = 'Persistence: restore the session from the current directory' }
-        )
-        vim.keymap.set(
-            'n',
+            desc = 'Persistence: restore the session from the current directory',
+        },
+        {
             '<leader>gl',
             CMD 'lua require("persistence").load({ last = true })',
-            { desc = 'Persistence: restore the last session' }
-        )
-        vim.keymap.set(
-            'n',
+            desc = 'Persistence: restore the last session',
+        },
+        {
             '<leader>gl',
             CMD 'lua require("persistence").stop()',
-            { desc = 'Persistence: stop Persistence => session wont be saved on exit' }
-        )
-    end,
+            desc = 'Persistence: stop Persistence => session wont be saved on exit',
+        },
+    },
 }
