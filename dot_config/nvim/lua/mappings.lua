@@ -52,7 +52,7 @@ vim.keymap.set('n', 'N', 'Nzz', { desc = 'Goto to previous search with possible 
 
 -- copy in clipboard
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Copy to clipboard' })
-vim.keymap.set('n', '<leader>Y', '+y$', { desc = 'Copy to clipboard all file' })
+vim.keymap.set('n', '<leader>Y', '"+y$', { desc = 'Copy to clipboard all file' })
 
 -- tab/buffer/quickfix
 vim.keymap.set('n', ']t', CMD 'tabnext', { desc = 'Tabs: goto next tab' })
