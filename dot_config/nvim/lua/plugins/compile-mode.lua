@@ -19,4 +19,12 @@ return {
         -- no_baleia_support = true,
         default_command = 'make',
     },
+    config = function()
+        vim.api.nvim_create_autocmd({ 'FileType' }, {
+            pattern = 'compilation',
+            callback = function(event)
+                vim.keymap.set('n', 'g', CMD 'Recompile', { buffer = event.buf, desc = 'Compile Mode: recompile' })
+            end,
+        })
+    end,
 }
