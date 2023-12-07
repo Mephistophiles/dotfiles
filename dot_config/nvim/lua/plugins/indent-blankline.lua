@@ -1,5 +1,6 @@
 return { -- Indent guides for Neovim
     'lukas-reineke/indent-blankline.nvim',
+    enabled = false,
     event = 'VeryLazy',
     main = 'ibl',
     opts = {
