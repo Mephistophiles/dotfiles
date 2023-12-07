@@ -9,7 +9,6 @@
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
   "compile-mode.nvim": { "branch": "latest", "commit": "b27b754d2353bba2ef2fef6b60c90b6805caa2cc" },
   "crates.nvim": { "branch": "main", "commit": "b8ea20fda2e1029fbbb1bae7a9eab35c84037ca0" },
-  "dropbar.nvim": { "branch": "master", "commit": "2b7c2d53363cb3d93376904dac3ea6d52dd900c5" },
   "flash.nvim": { "branch": "main", "commit": "48817af25f51c0590653bbc290866e4890fe1cbe" },
   "git-conflict.nvim": { "branch": "main", "commit": "4e0191c9a0ae05d7fbdcdc7f15cd358f56d23bfb" },
   "git-messenger.vim": { "branch": "master", "commit": "8a61bdfa351d4df9a9118ee1d3f45edbed617072" },
