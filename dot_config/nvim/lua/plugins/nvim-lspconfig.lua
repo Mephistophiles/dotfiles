@@ -74,18 +74,13 @@ local supported_languages = {
     },
 }
 
-local event_pattern = table.concat(
-    vim.tbl_map(function(ext)
-        return '*.' .. ext
-    end, vim.tbl_keys(supported_languages)),
-    ','
-)
+local event_pattern = table.concat(vim.tbl_keys(supported_languages), ',')
 
 return {
     {
         -- Quickstart configs for Nvim LSP
         'neovim/nvim-lspconfig',
-        event = { 'BufRead ' .. event_pattern, 'BufWinEnter ' .. event_pattern, 'BufNewFile ' .. event_pattern },
+        event = { 'FileType ' .. event_pattern },
         name = 'lspconfig',
         config = function()
             vim.lsp.set_log_level 'off'
