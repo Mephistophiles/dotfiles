@@ -20,13 +20,15 @@ local supported_languages = {
     'yaml',
 }
 
-local supported_fts = table.concat(supported_languages, ',')
+local supported_fts = vim.tbl_map(function(ft)
+    return 'FileType ' .. ft
+end, supported_languages)
 
 return {
     { -- Nvim Treesitter configurations and abstraction layer
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
-        event = { 'FileType ' .. supported_fts },
+        event = supported_fts,
         config = function()
             require('nvim-treesitter').setup()
             require('nvim-treesitter.configs').setup {
