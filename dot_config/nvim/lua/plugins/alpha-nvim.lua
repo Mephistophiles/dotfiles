@@ -1,5 +1,6 @@
 return { -- a lua powered greeter like vim-startify / dashboard-nvim
     'goolord/alpha-nvim',
+    enabled = false,
     cond = function()
         -- don't start when opening a file
         if vim.fn.argc() > 0 then
