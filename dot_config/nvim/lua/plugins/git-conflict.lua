@@ -1,5 +1,6 @@
 return { -- A plugin to visualise and resolve merge conflicts in neovim
     'akinsho/git-conflict.nvim',
+    enabled = false,
     version = '*',
     event = 'BufReadPost',
     config = function()
@@ -25,7 +26,7 @@ return { -- A plugin to visualise and resolve merge conflicts in neovim
                 local CURRENT_LABEL_HL = 'GitConflictCurrentLabel'
                 local INCOMING_LABEL_HL = 'GitConflictIncomingLabel'
                 local ANCESTOR_LABEL_HL = 'GitConflictAncestorLabel'
-                local visual_hl = vim.api.nvim_get_hl_by_name('Visual', true)
+                local visual_hl = vim.api.nvim_get_hl(0, { name = 'Visual' })
 
                 vim.api.nvim_set_hl(0, CURRENT_HL, { background = visual_hl.background, bold = true })
                 vim.api.nvim_set_hl(0, INCOMING_HL, { background = visual_hl.background, bold = true })
