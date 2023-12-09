@@ -81,7 +81,7 @@ local event_pattern = table.concat(
 
 return {
     {
-      -- Quickstart configs for Nvim LSP
+        -- Quickstart configs for Nvim LSP
         'neovim/nvim-lspconfig',
         event = { 'BufRead ' .. event_pattern, 'BufWinEnter ' .. event_pattern, 'BufNewFile ' .. event_pattern },
         name = 'lspconfig',
@@ -99,17 +99,19 @@ return {
                         current_server = item
                         lsp_servers[current_server] = {}
                     elseif type(item) == 'function' then
-                        lsp_servers[current_server] = item()
+                        lsp_servers[assert(current_server)] = item()
                     elseif type(item) == 'table' then
-                        lsp_servers[current_server] = item
+                        lsp_servers[assert(current_server)] = item
                     else
-                        error("Invalid type: " .. string(item))
+                        error('Invalid type: ' .. string(item) .. ' for lang ' .. lang)
                     end
                 end
 
                 for server, config in pairs(lsp_servers) do
                     lsp_config[server].setup(lsp_utils.make_default_opts(config))
                 end
+
+                vim.diagnostic.config { severity_sort = true }
             end
         end,
     },
@@ -187,7 +189,7 @@ return {
         end,
     },
     {
-      -- Tools for better development in rust using neovim's builtin lsp
+        -- Tools for better development in rust using neovim's builtin lsp
         'simrat39/rust-tools.nvim',
         event = { 'BufRead *.rs', 'BufWinEnter *.rs', 'BufNewFile *.rs' },
         dependencies = { 'neovim/nvim-lspconfig', name = 'lspconfig' },
@@ -219,7 +221,7 @@ return {
         end,
     },
     {
-      -- A neovim plugin that helps managing crates.io dependencies
+        -- A neovim plugin that helps managing crates.io dependencies
         'saecki/crates.nvim',
         event = { 'BufRead Cargo.toml' },
         dependencies = { { 'nvim-lua/plenary.nvim' } },
