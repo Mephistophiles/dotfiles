@@ -106,37 +106,6 @@ return {
                     use_virtual_text = true,
                     lint_events = { 'BufWrite', 'CursorHold' },
                 },
-                rainbow = {
-                    enable = true,
-                    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-                    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-                    max_file_lines = nil, -- Do not enable for files with more than n lines, int
-                    -- colors = {}, -- table of hex strings
-                    -- termcolors = {} -- table of colour name strings
-                },
-                refactor = {
-                    highlight_definitions = {
-                        enable = true,
-                        -- Set to false if you have an `updatetime` of ~100.
-                        clear_on_cursor_move = true,
-                    },
-                    smart_rename = {
-                        enable = true,
-                        keymaps = {
-                            smart_rename = '<leader>trn',
-                        },
-                    },
-                    navigation = {
-                        enable = true,
-                        keymaps = {
-                            goto_definition = '<leader>tgd',
-                            list_definitions = '<leader>tld',
-                            list_definitions_toc = '<leader>tgO',
-                            goto_next_usage = '<a-*>',
-                            goto_previous_usage = '<a-#>',
-                        },
-                    },
-                },
             }
 
             vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
@@ -144,9 +113,7 @@ return {
             vim.cmd 'TSEnable highlight'
         end,
         dependencies = {
-            'p00f/nvim-ts-rainbow',
             'nvim-treesitter/nvim-treesitter-textobjects',
-            'nvim-treesitter/nvim-treesitter-refactor',
             {
                 'nvim-treesitter/nvim-treesitter-context',
                 config = {
@@ -180,18 +147,5 @@ return {
         'nvim-treesitter/playground',
         cmd = 'TSPlaygroundToggle',
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    },
-    {
-        'Wansmer/treesj',
-        dependencies = { 'nvim-treesitter/nvim-treesitter' },
-        cmd = { 'TSJToggle', 'TSJSplit', 'TSJJoin' },
-        keys = {
-            {
-                '<space>j',
-                CMD 'TSJToggle',
-                desc = 'TreeSJ: toggle node under cursor (split if one-line and join if multiline)',
-            },
-        },
-        opts = {},
     },
 }
