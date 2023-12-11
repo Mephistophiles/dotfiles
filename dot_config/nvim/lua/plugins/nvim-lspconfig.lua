@@ -116,6 +116,21 @@ return {
         end,
     },
     {
+        'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+        keys = {
+            {
+                '<leader>ll',
+                function()
+                    require('lsp_lines').toggle()
+                end,
+                desc = 'LspLines: toggle',
+            },
+        },
+        config = function()
+            require('lsp_lines').setup()
+        end,
+    },
+    {
         'nvimdev/guard.nvim',
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
