@@ -42,7 +42,7 @@ return {
                     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
                     -- Using this option may slow down your editor, and you may see some duplicate highlights.
                     -- Instead of true it can also be a list of languages
-                    additional_vim_regex_highlighting = { }, -- Required since TS highlighter doesn't support all syntax features (conceal)
+                    additional_vim_regex_highlighting = {}, -- Required since TS highlighter doesn't support all syntax features (conceal)
                 },
                 incremental_selection = {
                     enable = true,
@@ -112,7 +112,6 @@ return {
 
             vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
             vim.wo.foldmethod = 'expr'
-            vim.cmd 'TSEnable highlight'
         end,
         dependencies = {
             'nvim-treesitter/nvim-treesitter-textobjects',
