@@ -53,4 +53,5 @@ return {
             'SudoEdit',
         },
     },
+    { 'stevearc/profile.nvim', lazy = true },
 }
