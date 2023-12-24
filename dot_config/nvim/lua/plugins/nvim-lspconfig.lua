@@ -110,7 +110,12 @@ return {
                     lsp_config[server].setup(lsp_utils.make_default_opts(config))
                 end
 
-                vim.diagnostic.config { severity_sort = true }
+                vim.diagnostic.config {
+                    severity_sort = true,
+                    signs = true,
+                    update_in_insert = true,
+                    underline = true,
+                }
             end
         end,
     },
