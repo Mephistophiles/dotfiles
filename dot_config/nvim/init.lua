@@ -20,6 +20,7 @@ require 'options'
 pcall(require, 'host')
 
 require('lazy').setup 'plugins'
+vim.cmd.colorscheme 'tokyonight-storm'
 
 -- cleanups
 vim.keymap.set('n', '<leader><enter>', table.concat(MAP_CLEANUPS, ''), { desc = 'Clean all notifications/selections' })

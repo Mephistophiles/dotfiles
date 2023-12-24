@@ -1,16 +1,13 @@
 return {
     { -- A clean, dark Neovim theme written in Lua, with support for lsp, treesitter and lots of plugins. Includes additional themes for Kitty, Alacritty, iTerm and Fish.
         'folke/tokyonight.nvim',
+        lazy = true,
         priority = 1000,
         init = function()
             vim.opt.background = 'dark'
             vim.opt.termguicolors = true
         end,
         opts = { style = 'storm' },
-        config = function()
-            vim.cmd.colorscheme 'tokyonight-storm'
-            -- vim.cmd.colorscheme 'tokyonight-moon'
-        end,
     },
     { -- enable repeating supported plugin maps with "."
         'tpope/vim-repeat',
