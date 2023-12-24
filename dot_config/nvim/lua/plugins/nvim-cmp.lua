@@ -5,8 +5,8 @@ return {
     dependencies = {
         'hrsh7th/cmp-nvim-lsp', -- language server protocol
         'hrsh7th/cmp-nvim-lsp-signature-help',
-        'hrsh7th/cmp-buffer',   -- completion from current buffer
-        'hrsh7th/cmp-path',     -- completion for filesystem
+        'hrsh7th/cmp-buffer', -- completion from current buffer
+        'hrsh7th/cmp-path', -- completion for filesystem
         'L3MON4D3/LuaSnip',
     },
     priority = 19,
@@ -33,6 +33,8 @@ return {
                 end,
             },
             mapping = {
+                ['<C-p>'] = cmp.mapping.select_prev_item(),
+                ['<C-n>'] = cmp.mapping.select_next_item(),
                 ['<C-d>'] = cmp.mapping.scroll_docs(-4),
                 ['<C-f>'] = cmp.mapping.scroll_docs(4),
                 ['<C-e>'] = cmp.mapping.close(),
@@ -80,25 +82,25 @@ return {
             sources = {
                 { name = 'nvim_lsp' }, -- language server protocol
                 { name = 'nvim_lsp_signature_help' },
-                { name = 'orgmode' },
                 { name = 'path' }, -- completion from FS
                 {
                     name = 'buffer',
-                    keyword_length = 5
-                },                   -- completion from buffer
+                    keyword_length = 5,
+                }, -- completion from buffer
+                { name = 'nvim_lua' },
                 { name = 'crates' }, -- crates
             },
             sorting = {
                 priority_weight = 10,
                 comparators = {
-                    cmp.config.compare.offset,        -- offset
-                    cmp.config.compare.exact,         -- exact
+                    cmp.config.compare.offset, -- offset
+                    cmp.config.compare.exact, -- exact
                     cmp.config.compare.recently_used, -- resently used
-                    cmp.config.compare.score,         -- score (priority based)
-                    cmp.config.compare.kind,          -- kind based
-                    cmp.config.compare.sort_text,     -- text based (alpha sort)
-                    cmp.config.compare.length,        -- length sort
-                    cmp.config.compare.order,         -- source order sort
+                    cmp.config.compare.score, -- score (priority based)
+                    cmp.config.compare.kind, -- kind based
+                    cmp.config.compare.sort_text, -- text based (alpha sort)
+                    cmp.config.compare.length, -- length sort
+                    cmp.config.compare.order, -- source order sort
                 },
             },
             window = {
@@ -106,8 +108,6 @@ return {
                 documentation = cmp.config.window.bordered(),
             },
             preselect = cmp.PreselectMode.None,
-            view = { entries = 'native' },
-            experimental = { ghost_text = true },
         }
 
         vim.keymap.set({ 'i', 's' }, '<Tab>', function()
