@@ -251,6 +251,7 @@ in
     unstable.rust-analyzer
     unstable.rustup
     unstable.simple-http-server
+    unstable.tealdeer
     unstable.watchexec
     unstable.wezterm
     unstable.xh
