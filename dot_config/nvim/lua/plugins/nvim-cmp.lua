@@ -111,15 +111,15 @@ return {
         }
 
         vim.keymap.set({ 'i', 's' }, '<Tab>', function()
-            if vim.snippet.jumpable(1) then
-                return '<cmd>lua vim.snippet.jump(1)<cr>'
+            if require('luasnip').jumpable(1) then
+                return CMD 'lua require("luasnip").jump(1)'
             else
                 return '<Tab>'
             end
         end, { expr = true })
         vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
-            if vim.snippet.jumpable(-1) then
-                return '<cmd>lua vim.snippet.jump(-1)<cr>'
+            if require('luasnip').jumpable(-1) then
+                return CMD 'lua require("luasnip").jump(-1)'
             else
                 return '<Tab>'
             end
