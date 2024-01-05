@@ -73,6 +73,19 @@ local supported_languages = {
     },
     python = {
         'pylsp',
+        function()
+            return {
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            pylint = {
+                                enabled = true,
+                            },
+                        },
+                    },
+                },
+            }
+        end,
         'pyright',
     },
 }
