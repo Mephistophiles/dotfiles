@@ -9,9 +9,9 @@ return {
         'hrsh7th/cmp-path', -- completion for filesystem
         'L3MON4D3/LuaSnip',
     },
-    priority = 19,
     config = function()
         local cmp = require 'cmp'
+        local types = require 'cmp.types'
         local source_mapping = {
             buffer = '[Buffer]',
             nvim_lsp = '[LSP]',
@@ -97,10 +97,26 @@ return {
                     cmp.config.compare.exact, -- exact
                     cmp.config.compare.recently_used, -- resently used
                     cmp.config.compare.score, -- score (priority based)
-                    cmp.config.compare.kind, -- kind based
+                    -- cmp.config.compare.kind, -- kind based
+                    function(entry1, entry2)
+                        local kind1 = entry1:get_kind()
+                        local kind2 = entry2:get_kind()
+                        kind1 = kind1 == types.lsp.CompletionItemKind.Text and 100 or kind1
+                        kind2 = kind2 == types.lsp.CompletionItemKind.Text and 100 or kind2
+                        if kind1 ~= kind2 then
+                            local diff = kind1 - kind2
+                            if diff < 0 then
+                                return true
+                            elseif diff > 0 then
+                                return false
+                            end
+                        end
+                        return nil
+                    end,
                     cmp.config.compare.sort_text, -- text based (alpha sort)
                     cmp.config.compare.length, -- length sort
                     cmp.config.compare.order, -- source order sort
+                    cmp.config.compare.locality,
                 },
             },
             window = {
