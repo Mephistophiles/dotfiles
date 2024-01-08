@@ -29,6 +29,7 @@ abbr -a scu-status systemctl --user status
 fish_add_path $HOME/bin
 fish_add_path $HOME/.local/bin/
 fish_add_path $HOME/.cargo/bin/
+fish_add_path $HOME/.nimble/bin/
 fish_add_path $HOME/go/bin/
 
 starship init fish | source
