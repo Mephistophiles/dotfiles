@@ -151,6 +151,11 @@ return {
         end,
     },
     {
+        'doums/suit.nvim',
+        opts = {},
+        event = 'VeryLazy',
+    },
+    {
         'nvimdev/guard.nvim',
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
