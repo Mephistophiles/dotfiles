@@ -20,8 +20,7 @@
     nixpkgs.url = "nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
-    nix-alien.url = "github:thiagokokada/nix-alien";
-    devenv.url = "github:cachix/devenv/latest";
+    devenv.url = "github:cachix/devenv";
 
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -41,7 +40,6 @@
       inherit (inputs) devenv;
       inherit (inputs) nixpkgs;
       inherit (inputs) nixpkgs-unstable;
-      inherit (inputs) nix-alien;
       inherit (inputs) home-manager;
       system = "x86_64-linux";
       config = { };
@@ -57,7 +55,7 @@
         devenv = devenv.packages.${system}.devenv;
       };
 
-      overlays = [ overlay-unstable nix-alien.overlays.default devenv-overlay ];
+      overlays = [ overlay-unstable devenv-overlay ];
       nixpkgs-overlay = {
         config.allowUnfreePredicate = unfreePredicate;
         inherit overlays;

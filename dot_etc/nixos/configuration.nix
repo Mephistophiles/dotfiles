@@ -93,8 +93,6 @@ in
       lidSwitchExternalPower = "suspend";
       extraConfig = ''
         HandlePowerKey=suspend
-        IdleAction=suspend
-        IdleActionSec=5h
       '';
     };
 
@@ -168,14 +166,6 @@ in
     '';
   };
 
-  systemd = {
-    sleep = {
-      extraConfig = ''
-        HibernateDelaySec=1h
-      '';
-    };
-  };
-
   # Enable sound.
   sound.enable = true;
 
@@ -220,8 +210,8 @@ in
     unstable.bat
     unstable.bottom
     # unstable.cargo-bloat
-    unstable.cargo-cache
-    unstable.cargo-criterion
+    # unstable.cargo-cache
+    # unstable.cargo-criterion
     # unstable.cargo-diet
     # unstable.cargo-edit
     # unstable.cargo-expand
@@ -310,9 +300,7 @@ in
     unstable.jq
 
     # nixos
-    devenv
     deadnix
-    nix-alien
     nix-du
     nix-index
     nix-prefetch

@@ -14,6 +14,7 @@
   ];
 
   home.packages = with pkgs; [
+    devenv
     unstable.direnv
     unstable.evans
     unstable.tree-sitter
