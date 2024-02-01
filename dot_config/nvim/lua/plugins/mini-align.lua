@@ -1,5 +1,5 @@
 return {
-    'echasnovski/mini.nvim',
+    'echasnovski/mini.align',
     keys = {
         {
             'ga',
