@@ -1,1 +1,1 @@
-vim.cmd('GuardEnable')
+vim.b.format_on_save = true

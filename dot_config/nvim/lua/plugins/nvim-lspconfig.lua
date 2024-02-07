@@ -156,75 +156,150 @@ return {
         event = 'VeryLazy',
     },
     {
-        'nvimdev/guard.nvim',
+        'nvimtools/none-ls.nvim',
         event = { 'BufReadPre', 'BufNewFile' },
-        dependencies = {
-            'nvimdev/guard-collection',
-        },
         config = function()
-            local ft = require 'guard.filetype'
-            local diag_fmt = require('guard.lint').diag_fmt
+            local null_ls = require 'null-ls'
+            local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
-            local clang_analyzer = function()
-                return {
-                    cmd = 'clang-analyzer',
-                    args = {},
-                    stdin = false,
-                    output_fmt = function(result, buf)
-                        local map = {
-                            'error',
-                            'warning',
-                            'information',
-                            'hint',
-                            'note',
+            local methods = require 'null-ls.methods'
+            local helpers = require 'null-ls.helpers'
+
+            local clang_analyzer = helpers.make_builtin {
+                method = methods.internal.DIAGNOSTICS_ON_SAVE,
+                filetypes = { 'c', 'c++' },
+                command = 'clang-analyzer',
+                generator_opts = {
+                    args = { '$FILENAME' },
+                    format = 'line',
+                    from_stderr = true,
+                    -- <file>:167:5: warning: Value stored to 'size' is never read [deadcode.DeadStores]
+                    on_output = helpers.diagnostics.from_pattern(
+                        ':(%d+):(%d+): (%w+): (.*)$',
+                        { 'row', 'col', 'severity', 'message' },
+                        {
+                            severities = {
+                                ['fatal error'] = helpers.diagnostics.severities.error,
+                                ['error'] = helpers.diagnostics.severities.error,
+                                ['note'] = helpers.diagnostics.severities.information,
+                                ['warning'] = helpers.diagnostics.severities.warning,
+                            },
                         }
+                    ),
+                },
+                factory = helpers.generator_factory,
+            }
 
-                        local messages = vim.split(result, '\n')
-                        local diags = {}
-                        vim.tbl_map(function(mes)
-                            local message
-                            local severity
-                            for idx, t in ipairs(map) do
-                                local _, p = mes:find(t)
-                                if p then
-                                    message = mes:sub(p + 2, #mes)
-                                    severity = idx
-                                    local pos = mes:match [[(%d+:%d+)]]
-                                    local lnum, col = unpack(vim.split(pos, ':'))
-                                    diags[#diags + 1] = diag_fmt(
-                                        buf,
-                                        tonumber(lnum) - 1,
-                                        tonumber(col),
-                                        message,
-                                        severity > 4 and 4 or severity,
-                                        'clang-analyzer'
-                                    )
+            local sources = {
+                -- Formatters
+                null_ls.builtins.formatting.autopep8,
+                null_ls.builtins.formatting.clang_format.with {
+                    condition = function(utils)
+                        return utils.root_has_file '.clang-format'
+                    end,
+                },
+                null_ls.builtins.formatting.gofmt,
+                null_ls.builtins.formatting.json_tool.with {
+                    command = 'jq',
+                    args = { '--indent', '4' },
+                    extra_args = function()
+                        if vim.b.formatter_sort_keys then
+                            return { '--sort-keys' }
+                        end
+                        return {}
+                    end,
+                },
+                null_ls.builtins.formatting.stylua,
+                null_ls.builtins.formatting.rustfmt.with {
+                    extra_args = function(params)
+                        local Path = require 'plenary.path'
+                        local cargo_toml = Path:new(params.root .. '/' .. 'Cargo.toml')
+                        if cargo_toml:exists() and cargo_toml:is_file() then
+                            for _, line in ipairs(cargo_toml:readlines()) do
+                                local edition = line:match [[^edition%s*=%s*%"(%d+)%"]]
+                                if edition then
+                                    return { '--edition=' .. edition }
                                 end
                             end
-                        end, messages)
-
-                        return diags
+                            -- default edition when we don't find `Cargo.toml` or the `edition` in it.
+                            return { '--edition=2021' }
+                        end
                     end,
+                },
+                -- Diagnostics
+                clang_analyzer.with {
+                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+                },
+                null_ls.builtins.diagnostics.gitlint.with {
+                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+                },
+                null_ls.builtins.diagnostics.jsonlint.with {
+                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+                },
+                null_ls.builtins.diagnostics.mypy.with {
+                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+                },
+                null_ls.builtins.diagnostics.pylint.with {
+                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+                },
+                null_ls.builtins.diagnostics.shellcheck.with {
+                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+                },
+                null_ls.builtins.diagnostics.staticcheck.with {
+                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+                },
+                null_ls.builtins.diagnostics.trail_space.with {
+                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+                    disabled_filetypes = {
+                        'diff',
+                        'git',
+                        'gitcommit',
+                        'patch',
+                        'strace',
+                    },
+                },
+            }
+
+            local format_file = function()
+                vim.lsp.buf.format {
+                    filter = function(client)
+                        return client.name == 'null-ls'
+                    end,
+                    timeout_ms = 2000,
+                    bufnr = 0,
                 }
             end
 
-            ft('c,cpp'):fmt({ cmd = 'clang-format', stdin = true, find = '.clang-format' }):lint(clang_analyzer())
-            ft('go'):fmt 'gofmt'
-            ft('python'):fmt 'lsp'
-            ft('rust'):fmt 'rustfmt'
-            ft('json'):fmt {
-                cmd = 'jq --indent 4',
-                stdin = true,
-            }
-            ft('lua'):fmt { cmd = 'stylua', args = { '--search-parent-directories', '-' }, stdin = true }
-            ft('sh,bash'):lint 'shellcheck'
+            null_ls.setup {
+                debug = false,
+                sources = sources,
+                on_attach = function(client)
+                    if client.supports_method 'textDocument/formatting' then
+                        vim.keymap.set('n', '<leader>df', function()
+                            format_file()
+                        end, { silent = true, buffer = true, desc = 'Format current document' })
 
-            -- Call setup() LAST!
-            require('guard').setup {
-                -- the only options for the setup function
-                fmt_on_save = false,
-                -- Use lsp if no formatter was defined for this filetype
-                lsp_as_default_formatter = false,
+                        vim.keymap.set('n', '<C-f>', function()
+                            if vim.b.format_on_save then
+                                vim.notify 'Disable formatting on save'
+                            else
+                                vim.notify 'Enable formatting on save'
+                            end
+                            vim.b.format_on_save = not vim.b.format_on_save
+                        end, { silent = true, buffer = true, desc = 'Toggle formatting on save' })
+
+                        vim.api.nvim_create_autocmd('BufWritePre', {
+                            group = augroup,
+                            desc = 'Format document on save',
+                            buffer = 0,
+                            callback = function()
+                                if vim.b.format_on_save then
+                                    format_file()
+                                end
+                            end,
+                        })
+                    end
+                end,
             }
         end,
     },
