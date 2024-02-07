@@ -235,6 +235,7 @@ in
     unstable.hyperfine
     # unstable.inferno
     unstable.igrep
+    unstable.mcfly
     unstable.procs
     unstable.ripgrep
     unstable.ruplacer

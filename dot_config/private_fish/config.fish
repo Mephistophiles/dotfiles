@@ -35,3 +35,4 @@ fish_add_path $HOME/go/bin/
 starship init fish | source
 zoxide init fish | source
 direnv hook fish | source
+mcfly init fish | source
