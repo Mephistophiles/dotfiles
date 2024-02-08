@@ -19,7 +19,15 @@ require 'options'
 
 pcall(require, 'host')
 
-require('lazy').setup 'plugins'
+local plugin_dirs = {
+    { import = 'plugins' },
+}
+
+if vim.loop.fs_stat(vim.fn.stdpath 'config' .. '/lua/host/plugins/') then
+    table.insert(plugin_dirs, { import = 'host.plugins' })
+end
+
+require('lazy').setup(plugin_dirs)
 vim.cmd.colorscheme 'tokyonight-storm'
 
 -- cleanups

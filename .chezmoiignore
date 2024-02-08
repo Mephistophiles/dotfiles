@@ -2,6 +2,7 @@ LICENSE
 README.md
 .config/nvim/.luarc.json
 .config/nvim/spell/
+.config/nvim/lua/host/
 .config/fish/fish_variables
 .config/fish/fishd.*
 
