@@ -45,6 +45,12 @@ return {
                     },
                     { 'i', 'c' }
                 ),
+                ['<C-l>'] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        return cmp.complete_common_string()
+                    end
+                    fallback()
+                end, { 'i' }),
                 ['<right>'] = cmp.mapping(
                     cmp.mapping.confirm {
                         behavior = cmp.ConfirmBehavior.Insert,
@@ -54,11 +60,10 @@ return {
                 ),
                 ['<c-space>'] = cmp.mapping {
                     i = cmp.mapping.complete {},
-                    c = function(
-                        _ --[[fallback]]
-                    )
+                    c = function(fallback)
                         if cmp.visible() then
                             if not cmp.confirm { select = true } then
+                                fallback()
                                 return
                             end
                         else
