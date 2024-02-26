@@ -9,6 +9,7 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         'nvim-telescope/telescope-ui-select.nvim',
         'nvim-telescope/telescope-project.nvim',
         'debugloop/telescope-undo.nvim',
+        { 'polirritmico/telescope-lazy-plugins.nvim', opts = { name_only = true, show_disabled = true } },
     },
     init = function()
         local telescope, themes = utils.instance()
@@ -92,7 +93,7 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         end, 'Fuzzy find neovim configuration files')
     end,
     config = function()
-        local actions = require('telescope.actions')
+        local actions = require 'telescope.actions'
         require('telescope').setup {
             defaults = {
                 mappings = {
