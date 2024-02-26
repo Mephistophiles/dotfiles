@@ -856,7 +856,6 @@ local function autorun(cmd)
     awful.spawn.once(cmd, awful.spawn_once)
 end
 autorun({ "flameshot" })
-autorun({ "greenclip", "daemon" })
 autorun({ "setxkbmap", "us,ru", "-option", "grp:alt_shift_toggle"})
 autorun({
     "xidlehook",
