@@ -1,7 +1,13 @@
+.config/nvim/lua/plugins/barbar.lua
 .config/nvim/lua/plugins/dropbar.lua
-.config/nvim/lua/plugins/noice.lua
-.config/nvim/lua/plugins/vim-indent-object.lua
+.config/nvim/lua/plugins/indent-blankline.lua
+.config/nvim/lua/plugins/lualine
 .config/nvim/lua/plugins/mini-trailspace.lua
+.config/nvim/lua/plugins/multicursors.lua
+.config/nvim/lua/plugins/noice.lua
+.config/nvim/lua/plugins/numb.lua
+.config/nvim/lua/plugins/smartcolumn.lua
 .config/nvim/lua/plugins/utils/luasnip
+.config/nvim/lua/plugins/vim-indent-object.lua
+.config/nvim/lua/plugins/which-key.lua
 .config/nvim/uncrustify.cfg
-
