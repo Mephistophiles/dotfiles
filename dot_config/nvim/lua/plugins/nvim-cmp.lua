@@ -1,7 +1,17 @@
+vim.api.nvim_create_autocmd('LspAttach', {
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+        if client and client.name ~= 'null-ls' then
+            require('lazy').load { plugins = { 'nvim-cmp' } }
+        end
+    end,
+})
 return {
     -- A completion plugin for neovim coded in Lua.
     'hrsh7th/nvim-cmp',
-    event = { 'InsertEnter', 'LspAttach' },
+    lazy = true,
+    event = { 'InsertEnter' },
     dependencies = {
         'hrsh7th/cmp-nvim-lsp', -- language server protocol
         'hrsh7th/cmp-nvim-lsp-signature-help',
