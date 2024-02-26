@@ -28,6 +28,9 @@ vim.opt.smartcase = true -- turn smartcase search
 
 vim.opt.inccommand = 'split' -- split preview for replace preview
 
+-- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.scrolloff = 10
+
 vim.opt.splitkeep = 'screen' -- keeps the same screen screen lines in all split windows
 
 vim.opt.wildmenu = true -- Set menu auto complete for command mode
@@ -45,7 +48,7 @@ vim.opt.colorcolumn = { 80, 100 } -- Set column for code length
 vim.opt.showcmd = true -- Show incomplete commands
 
 -- Update time in msec
-vim.opt.updatetime = 500
+vim.opt.updatetime = 250
 
 vim.g.c_syntax_for_h = true
 
@@ -53,7 +56,8 @@ vim.g.c_syntax_for_h = true
 vim.o.guifont = 'FiraCode Nerd Font Mono:h10'
 
 -- Timeout
-vim.opt.timeoutlen = 1000
+-- -- Decrease update time
+vim.opt.timeoutlen = 300
 vim.opt.ttimeoutlen = 0
 
 -- Add new split below or right
@@ -136,7 +140,7 @@ vim.keymap.set('n', '<F4>', function()
 end, { desc = 'Show/Hide whitespaces' })
 
 -- Set completeopt to have a better completion experience
-vim.opt.completeopt = 'menu,menuone,noselect'
+vim.opt.completeopt = 'menu,menuone,noselect,preview'
 
 vim.opt.shortmess:append {
     c = true, -- Avoid showing message extra message when using completion
