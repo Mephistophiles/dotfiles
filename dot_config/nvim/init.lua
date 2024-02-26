@@ -31,6 +31,6 @@ require('lazy').setup(plugin_dirs)
 vim.cmd.colorscheme 'tokyonight-storm'
 
 -- cleanups
-vim.keymap.set('n', '<leader><enter>', table.concat(MAP_CLEANUPS, ''), { desc = 'Clean all notifications/selections' })
+vim.keymap.set('n', '<esc>', table.concat(MAP_CLEANUPS, ''), { desc = 'Clean all notifications/selections' })
 
 -- vim.cmd('syntax on') -- On syntax
