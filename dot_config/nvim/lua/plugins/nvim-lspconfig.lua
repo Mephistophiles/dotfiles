@@ -73,19 +73,6 @@ local supported_languages = {
     },
     python = {
         'pylsp',
-        function()
-            return {
-                settings = {
-                    pylsp = {
-                        plugins = {
-                            pylint = {
-                                enabled = true,
-                            },
-                        },
-                    },
-                },
-            }
-        end,
         'pyright',
     },
 }
@@ -191,6 +178,8 @@ return {
             }
 
             local sources = {
+                -- Code Actions
+                null_ls.builtins.code_actions.ts_node_action,
                 -- Formatters
                 null_ls.builtins.formatting.autopep8,
                 null_ls.builtins.formatting.clang_format.with {
