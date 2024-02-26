@@ -68,19 +68,7 @@ return {
                     },
                     { 'i' }
                 ),
-                ['<c-space>'] = cmp.mapping {
-                    i = cmp.mapping.complete {},
-                    c = function(fallback)
-                        if cmp.visible() then
-                            if not cmp.confirm { select = true } then
-                                fallback()
-                                return
-                            end
-                        else
-                            cmp.complete()
-                        end
-                    end,
-                },
+                ['<C-space>'] = cmp.mapping.complete(),
                 -- Testing
                 ['<c-q>'] = cmp.mapping.confirm {
                     behavior = cmp.ConfirmBehavior.Replace,
