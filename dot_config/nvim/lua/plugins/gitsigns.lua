@@ -4,8 +4,14 @@ return { -- Git integration for buffers
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
         local gitsigns = require 'gitsigns'
+
+        -- Keep signcolumn on by default
+        vim.opt.signcolumn = 'yes'
+
         gitsigns.setup {
             current_line_blame = true,
+
+            update_debounce = 1000,
 
             on_attach = function()
                 local gs = package.loaded.gitsigns
