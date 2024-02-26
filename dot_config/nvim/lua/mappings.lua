@@ -66,6 +66,10 @@ vim.keymap.set('n', '[q', CMD 'cprev', { desc = 'QuickFix: goto previous error' 
 
 vim.keymap.set('i', '<C-c>', '<Esc>', { desc = 'Handle C-c as Esc, otherwise some operations can be aborted' })
 
+-- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
+-- or just use <C-\><C-n> to exit terminal mode
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
 require('highlight').setup()
 
 vim.keymap.set('n', '<CR>', function()
