@@ -5,7 +5,6 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
     module = 'telescope',
     cmd = 'Telescope',
     dependencies = {
-        'nvim-lua/popup.nvim',
         'nvim-lua/plenary.nvim',
         'nvim-telescope/telescope-ui-select.nvim',
         'nvim-telescope/telescope-project.nvim',
