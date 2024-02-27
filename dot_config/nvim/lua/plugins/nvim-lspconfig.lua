@@ -74,6 +74,7 @@ local supported_languages = {
     python = {
         'pylsp',
         'pyright',
+        'ruff_lsp',
     },
 }
 
@@ -177,18 +178,11 @@ return {
                 factory = helpers.generator_factory,
             }
 
-            local sources = {
-                -- Code Actions
-                null_ls.builtins.code_actions.ts_node_action,
-                -- Formatters
-                null_ls.builtins.formatting.autopep8,
-                null_ls.builtins.formatting.clang_format.with {
-                    condition = function(utils)
-                        return utils.root_has_file '.clang-format'
-                    end,
-                },
-                null_ls.builtins.formatting.gofmt,
-                null_ls.builtins.formatting.json_tool.with {
+            local jq = helpers.make_builtin {
+                name = 'jq',
+                method = methods.internal.FORMATTING,
+                filetypes = { 'json' },
+                generator_opts = {
                     command = 'jq',
                     args = { '--indent', '4' },
                     extra_args = function()
@@ -197,24 +191,21 @@ return {
                         end
                         return {}
                     end,
+                    to_stdin = true,
                 },
-                null_ls.builtins.formatting.stylua,
-                null_ls.builtins.formatting.rustfmt.with {
-                    extra_args = function(params)
-                        local Path = require 'plenary.path'
-                        local cargo_toml = Path:new(params.root .. '/' .. 'Cargo.toml')
-                        if cargo_toml:exists() and cargo_toml:is_file() then
-                            for _, line in ipairs(cargo_toml:readlines()) do
-                                local edition = line:match [[^edition%s*=%s*%"(%d+)%"]]
-                                if edition then
-                                    return { '--edition=' .. edition }
-                                end
-                            end
-                            -- default edition when we don't find `Cargo.toml` or the `edition` in it.
-                            return { '--edition=2021' }
-                        end
+                factory = helpers.formatter_factory,
+            }
+
+            local sources = {
+                -- Formatters
+                null_ls.builtins.formatting.clang_format.with {
+                    condition = function(utils)
+                        return utils.root_has_file '.clang-format'
                     end,
                 },
+                null_ls.builtins.formatting.gofmt,
+                jq,
+                null_ls.builtins.formatting.stylua,
                 -- Diagnostics
                 clang_analyzer.with {
                     method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
@@ -222,17 +213,35 @@ return {
                 null_ls.builtins.diagnostics.gitlint.with {
                     method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
                 },
-                null_ls.builtins.diagnostics.jsonlint.with {
+                helpers.make_builtin {
+                    name = 'shellcheck',
+                    meta = {
+                        url = 'https://www.shellcheck.net/',
+                        description = 'A shell script static analysis tool.',
+                    },
                     method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.mypy.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.pylint.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-                },
-                null_ls.builtins.diagnostics.shellcheck.with {
-                    method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+                    filetypes = { 'sh' },
+                    generator_opts = {
+                        command = 'shellcheck',
+                        args = { '--format', 'json1', '--source-path=$DIRNAME', '--external-sources', '-' },
+                        to_stdin = true,
+                        format = 'json',
+                        check_exit_code = function(code)
+                            return code <= 1
+                        end,
+                        on_output = function(params)
+                            local parser = helpers.diagnostics.from_json {
+                                attributes = { code = 'code' },
+                                severities = {
+                                    info = helpers.diagnostics.severities['information'],
+                                    style = helpers.diagnostics.severities['hint'],
+                                },
+                            }
+
+                            return parser { output = params.output.comments }
+                        end,
+                    },
+                    factory = helpers.generator_factory,
                 },
                 null_ls.builtins.diagnostics.staticcheck.with {
                     method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
