@@ -1,3 +1,5 @@
+local M = {}
+
 local function smart_goto(fn)
     for _, severity in ipairs {
         vim.diagnostic.severity.ERROR,
@@ -92,16 +94,20 @@ local custom_init = function(client)
     client.config.flags.allow_incremental_sync = true
 end
 
-local filetype_attach = setmetatable({ go = function() end, rust = function() end }, {
+local filetype_attach = setmetatable({ go = function(_client) end, rust = function(_client) end }, {
     __index = function()
-        return function() end
+        return function(_client) end
     end,
 })
 
-local custom_attach = function(client, _ --[[bufnr]])
+function M.custom_attach(
+    client,
+    _ --[[bufnr]]
+)
     local filetype = vim.o.filetype
 
     key_bindings(client)
+    require('plugins.utils.formatter').attach_formatter(client)
 
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -153,7 +159,7 @@ local custom_attach = function(client, _ --[[bufnr]])
     filetype_attach[filetype](client)
 end
 
-local function make_default_opts(extra)
+function M.make_default_opts(extra)
     local updated_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     -- TODO: check if this is the problem.
@@ -162,12 +168,10 @@ local function make_default_opts(extra)
 
     return vim.tbl_deep_extend('force', {
         on_init = custom_init,
-        on_attach = custom_attach,
+        on_attach = M.custom_attach,
         capabilities = updated_capabilities,
         flags = { debounce_text_changes = 50 },
     }, extra or {})
 end
 
-return {
-    make_default_opts = make_default_opts,
-}
+return M

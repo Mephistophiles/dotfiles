@@ -148,7 +148,6 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
         config = function()
             local null_ls = require 'null-ls'
-            local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
             local methods = require 'null-ls.methods'
             local helpers = require 'null-ls.helpers'
@@ -258,45 +257,11 @@ return {
                 },
             }
 
-            local format_file = function()
-                vim.lsp.buf.format {
-                    filter = function(client)
-                        return client.name == 'null-ls'
-                    end,
-                    timeout_ms = 2000,
-                    bufnr = 0,
-                }
-            end
-
             null_ls.setup {
                 debug = false,
                 sources = sources,
                 on_attach = function(client)
-                    if client.supports_method 'textDocument/formatting' then
-                        vim.keymap.set('n', '<leader>df', function()
-                            format_file()
-                        end, { silent = true, buffer = true, desc = 'Format current document' })
-
-                        vim.keymap.set('n', '<C-f>', function()
-                            if vim.b.format_on_save then
-                                vim.notify 'Disable formatting on save'
-                            else
-                                vim.notify 'Enable formatting on save'
-                            end
-                            vim.b.format_on_save = not vim.b.format_on_save
-                        end, { silent = true, buffer = true, desc = 'Toggle formatting on save' })
-
-                        vim.api.nvim_create_autocmd('BufWritePre', {
-                            group = augroup,
-                            desc = 'Format document on save',
-                            buffer = 0,
-                            callback = function()
-                                if vim.b.format_on_save then
-                                    format_file()
-                                end
-                            end,
-                        })
-                    end
+                    require('plugins.utils.formatter').attach_formatter(client)
                 end,
             }
         end,
