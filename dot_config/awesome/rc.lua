@@ -90,7 +90,7 @@ beautiful.wallpaper = function()
     return selected_wallpaper
 end
 
-local terminal = "kitty" --"wezterm"
+local terminal = "wezterm"
 local editor = os.getenv("EDITOR") or "nvim"
 local editor_cmd = terminal .. " -e " .. editor
 
