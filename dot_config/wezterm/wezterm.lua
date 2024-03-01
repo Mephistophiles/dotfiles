@@ -3,6 +3,7 @@ local act = wezterm.action
 
 return {
 	font = wezterm.font("FiraCode Nerd Font Mono"),
+	font_size = 11,
 	adjust_window_size_when_changing_font_size = false,
 	color_scheme = "Tokyo Night Storm",
 	enable_kitty_keyboard = true,
