@@ -42,12 +42,11 @@ return {
                     return vim_item
                 end,
             },
-            mapping = {
-                ['<C-p>'] = cmp.mapping.select_prev_item(),
-                ['<C-n>'] = cmp.mapping.select_next_item(),
+            mapping = cmp.mapping.preset.insert {
                 ['<C-d>'] = cmp.mapping.scroll_docs(-4),
                 ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                ['<C-e>'] = cmp.mapping.close(),
+                ['<C-space>'] = cmp.mapping.complete(),
+                ['<C-e>'] = cmp.mapping.abort(),
                 ['<c-y>'] = cmp.mapping(
                     cmp.mapping.confirm {
                         behavior = cmp.ConfirmBehavior.Insert,
@@ -55,6 +54,7 @@ return {
                     },
                     { 'i', 'c' }
                 ),
+                ['<CR>'] = cmp.mapping.confirm { select = true },
                 ['<C-l>'] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         return cmp.complete_common_string()
@@ -68,12 +68,6 @@ return {
                     },
                     { 'i' }
                 ),
-                ['<C-space>'] = cmp.mapping.complete(),
-                -- Testing
-                ['<c-q>'] = cmp.mapping.confirm {
-                    behavior = cmp.ConfirmBehavior.Replace,
-                    select = true,
-                },
             },
             matching = {
                 disallow_fuzzy_matching = false,
