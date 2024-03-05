@@ -7,7 +7,6 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         'nvim-telescope/telescope-ui-select.nvim',
         'nvim-telescope/telescope-project.nvim',
         'debugloop/telescope-undo.nvim',
-        'nvim-telescope/telescope-live-grep-args.nvim',
         { 'polirritmico/telescope-lazy-plugins.nvim', opts = { name_only = true, show_disabled = true } },
     },
     keys = {
