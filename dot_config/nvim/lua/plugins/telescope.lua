@@ -7,7 +7,6 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         'nvim-telescope/telescope-ui-select.nvim',
         'nvim-telescope/telescope-project.nvim',
         'debugloop/telescope-undo.nvim',
-        { 'polirritmico/telescope-lazy-plugins.nvim', opts = { name_only = true, show_disabled = true } },
     },
     keys = {
         { '<leader>su', CMD 'Telescope undo', { desc = '[S]how [U]ndo history' } },
@@ -132,6 +131,5 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         require('telescope').load_extension 'project'
         require('telescope').load_extension 'ui-select'
         require('telescope').load_extension 'undo'
-        require('telescope').load_extension 'live_grep_args'
     end,
 }
