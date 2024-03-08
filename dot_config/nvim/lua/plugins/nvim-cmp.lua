@@ -54,13 +54,6 @@ return {
                     },
                     { 'i', 'c' }
                 ),
-                ['<CR>'] = cmp.mapping.confirm { select = true },
-                ['<C-l>'] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        return cmp.complete_common_string()
-                    end
-                    fallback()
-                end, { 'i' }),
                 ['<right>'] = cmp.mapping(
                     cmp.mapping.confirm {
                         behavior = cmp.ConfirmBehavior.Insert,
@@ -68,13 +61,6 @@ return {
                     },
                     { 'i' }
                 ),
-            },
-            matching = {
-                disallow_fuzzy_matching = false,
-                disallow_fullfuzzy_matching = false,
-                disallow_partial_fuzzy_matching = false,
-                disallow_partial_matching = false,
-                disallow_prefix_unmatching = false,
             },
             sources = {
                 { name = 'nvim_lsp' }, -- language server protocol
