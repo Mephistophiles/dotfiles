@@ -9,6 +9,7 @@ return {
 	enable_kitty_keyboard = true,
 	enable_tab_bar = false,
 	use_fancy_tab_bar = false,
+	scrollback_lines = 999999,
 	window_padding = {
 		left = 2,
 		right = 2,
