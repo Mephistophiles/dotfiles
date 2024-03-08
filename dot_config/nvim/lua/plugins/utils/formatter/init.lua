@@ -4,8 +4,8 @@ local IGNORELIST = require 'plugins.utils.formatter.ignorelist'
 
 local M = {}
 
-local format_file = function()
-    local has_null_ls = #vim.lsp.get_clients { bufnr = 0, name = 'null-ls' } > 0
+local format_file = function(bufnr)
+    local has_null_ls = #vim.lsp.get_clients { bufnr = bufnr, name = 'null-ls' } > 0
     vim.lsp.buf.format {
         filter = function(client)
             if has_null_ls then
@@ -14,11 +14,11 @@ local format_file = function()
             return client.supports_method 'textDocument/formatting'
         end,
         timeout_ms = 2000,
-        bufnr = 0,
+        bufnr = bufnr,
     }
 end
 
-function M.attach_formatter(client)
+function M.attach_formatter(client, bufnr)
     if client.supports_method 'textDocument/formatting' then
         local toggle_formatting = function()
             if vim.b.format_on_save then
@@ -29,7 +29,9 @@ function M.attach_formatter(client)
             vim.b.format_on_save = not vim.b.format_on_save
         end
 
-        vim.keymap.set('n', '<C-f>', format_file, { silent = true, buffer = true, desc = 'Format current document' })
+        vim.keymap.set('n', '<C-f>', function()
+            format_file(bufnr)
+        end, { silent = true, buffer = true, desc = 'Format current document' })
 
         vim.keymap.set(
             'n',
@@ -65,7 +67,7 @@ function M.attach_formatter(client)
             buffer = 0,
             callback = function(opts)
                 if vim.b.format_on_save and not IGNORELIST.is_ignored_file(opts.file) then
-                    format_file()
+                    format_file(opts.buffer)
                 end
             end,
         })

@@ -263,8 +263,8 @@ return {
             null_ls.setup {
                 debug = false,
                 sources = sources,
-                on_attach = function(client)
-                    require('plugins.utils.formatter').attach_formatter(client)
+                on_attach = function(client, bufnr)
+                    require('plugins.utils.formatter').attach_formatter(client, bufnr)
                 end,
             }
         end,

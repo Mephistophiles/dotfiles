@@ -100,14 +100,11 @@ local filetype_attach = setmetatable({ go = function(_client) end, rust = functi
     end,
 })
 
-function M.custom_attach(
-    client,
-    _ --[[bufnr]]
-)
+function M.custom_attach(client, bufnr)
     local filetype = vim.o.filetype
 
     key_bindings(client)
-    require('plugins.utils.formatter').attach_formatter(client)
+    require('plugins.utils.formatter').attach_formatter(client, bufnr)
 
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
