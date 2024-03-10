@@ -5,14 +5,19 @@ local IGNORELIST = require 'plugins.utils.formatter.ignorelist'
 local M = {}
 
 local format_file = function(bufnr)
-    local has_null_ls = #vim.lsp.get_clients { bufnr = bufnr, name = 'null-ls' } > 0
+    local null_ls = vim.lsp.get_clients { bufnr = bufnr, name = 'null-ls' }
+    local null_ls_supports_format = null_ls and null_ls[1] and null_ls[1].supports_method 'textDocument/formatting'
+
+    if null_ls_supports_format then
+        vim.notify 'Autofmt by null-ls'
+    else
+        vim.notify 'Autofmt by lsp'
+    end
+
     vim.lsp.buf.format {
-        filter = function(client)
-            if has_null_ls then
-                return client.name == 'null-ls'
-            end
-            return client.supports_method 'textDocument/formatting'
-        end,
+        filter = null_ls_supports_format and function(client)
+            return client.name == 'null-ls'
+        end or nil,
         timeout_ms = 2000,
         bufnr = bufnr,
     }
