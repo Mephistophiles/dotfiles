@@ -252,6 +252,7 @@ in
     bitwarden-cli
     brightnessctl
     unstable.chezmoi
+    clifm
     curl
     docker-compose
     file
