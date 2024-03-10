@@ -270,36 +270,12 @@ return {
         end,
     },
     {
-        -- Tools for better development in rust using neovim's builtin lsp
-        'simrat39/rust-tools.nvim',
-        event = { 'BufRead *.rs', 'BufWinEnter *.rs', 'BufNewFile *.rs' },
-        dependencies = { 'neovim/nvim-lspconfig', name = 'lspconfig' },
+        'mrcjkb/rustaceanvim',
+        version = '^4', -- Recommended
         config = function()
-            local server = vim.tbl_deep_extend('force', require('plugins.utils.lsp').make_default_opts(), {
-                flags = { allow_incremental_sync = true },
-                settings = {
-                    ['rust-analyzer'] = {
-                        assist = { importGranularity = 'module', importPrefix = 'by_self' },
-                        cargo = { loadOutDirsFromCheck = true, allFeatures = true },
-                        procMacro = { enable = true },
-                        checkOnSave = { command = 'clippy' },
-                        experimental = { procAttrMacros = true },
-                        lens = { methodReferences = true, references = true },
-                    },
-                },
-            })
-
-            local dap = {
-                adapter = {
-                    type = 'executable',
-                    name = 'lldb',
-                },
-            }
-
-            local opts = { server = server, dap = dap }
-
-            require('rust-tools').setup(opts)
+            vim.g.rustaceanvim = { server = { on_attach = require('plugins.utils.lsp').custom_attach } }
         end,
+        event = { 'BufRead *.rs', 'BufWinEnter *.rs', 'BufNewFile *.rs' },
     },
     {
         -- A neovim plugin that helps managing crates.io dependencies
