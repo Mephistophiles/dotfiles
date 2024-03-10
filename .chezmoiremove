@@ -1,4 +1,5 @@
 .config/nvim/lua/plugins/barbar.lua
+.config/nvim/lua/plugins/compile-mode.lua
 .config/nvim/lua/plugins/dropbar.lua
 .config/nvim/lua/plugins/indent-blankline.lua
 .config/nvim/lua/plugins/lualine
