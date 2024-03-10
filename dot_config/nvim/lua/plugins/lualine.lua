@@ -23,7 +23,6 @@ return {
                 },
                 lualine_c = { { 'filename', path = 1 } },
                 lualine_x = {
-                    'overseer',
                     current_lsp,
                     'lsp_progress',
                     'encoding',
