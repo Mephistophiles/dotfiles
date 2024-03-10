@@ -22,6 +22,8 @@
 
     devenv.url = "github:cachix/devenv";
 
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -55,7 +57,7 @@
         devenv = devenv.packages.${system}.devenv;
       };
 
-      overlays = [ overlay-unstable devenv-overlay ];
+      overlays = [ overlay-unstable devenv-overlay inputs.neovim-nightly-overlay.overlay ];
       nixpkgs-overlay = {
         config.allowUnfreePredicate = unfreePredicate;
         inherit overlays;

@@ -241,7 +241,7 @@ in
     unstable.tdesktop
 
     # text editors
-    (unstable.neovim.override { vimAlias = true; })
+    neovim-nightly
     unstable.helix
     # unstable.obsidian
     # unstable.vscode
