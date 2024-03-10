@@ -9,17 +9,6 @@ local function paste_git_signoff()
     return true
 end
 
--- folding
-vim.keymap.set('n', '<tab>', function()
-    local current_level = vim.fn.foldlevel '.'
-
-    if current_level > 0 then
-        vim.api.nvim_input 'za'
-    else
-        vim.api.nvim_input '<tab>'
-    end
-end, { desc = 'Toggle fold' })
-
 -- toggle spelling
 vim.keymap.set('n', '<F7>', [[:set spell!<CR>]], { desc = 'Toggle spelling' })
 
