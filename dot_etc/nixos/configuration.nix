@@ -200,6 +200,7 @@ in
   programs = {
     fish.enable = true;
     dconf.enable = true;
+
     fuse = { userAllowOther = true; };
   };
 
@@ -209,33 +210,13 @@ in
     # rust stuff
     unstable.bat
     unstable.bottom
-    # unstable.cargo-bloat
-    # unstable.cargo-cache
-    # unstable.cargo-criterion
-    # unstable.cargo-diet
-    # unstable.cargo-edit
-    # unstable.cargo-expand
-    # unstable.cargo-insta
-    # unstable.cargo-nextest
-    # unstable.cargo-outdated
-    # unstable.cargo-public-api
-    # unstable.cargo-release
-    # unstable.cargo-tarpaulin
-    # unstable.cargo-udeps
-    # unstable.cargo-watch
-    # unstable.cargo-whatfeatures
-    # unstable.choose
-    # unstable.difftastic
+    unstable.difftastic
     unstable.dua
-    unstable.erdtree
     unstable.eza
-    unstable.fcp
     unstable.fd
-    unstable.gping
     unstable.hyperfine
     # unstable.inferno
     unstable.igrep
-    unstable.mcfly
     unstable.procs
     unstable.ripgrep
     unstable.ruplacer
@@ -245,7 +226,6 @@ in
     unstable.tealdeer
     unstable.watchexec
     unstable.wezterm
-    unstable.xh
     unstable.yazi
     unstable.zoxide
 
@@ -264,8 +244,8 @@ in
     (unstable.neovim.override { vimAlias = true; })
     unstable.helix
     # unstable.obsidian
-    unstable.vscode
-    xfce.mousepad
+    # unstable.vscode
+    # xfce.mousepad
 
     # utils
     age
@@ -339,9 +319,7 @@ in
     sumneko-lua-language-server
     unstable.nodePackages.vscode-json-languageserver
     unstable.nodePackages.jsonlint
-    unstable.nodePackages.vls
     unstable.python3Packages.python-lsp-server
-    unstable.vscode-extensions.vadimcn.vscode-lldb
 
     # file systems
     btrfs-progs
