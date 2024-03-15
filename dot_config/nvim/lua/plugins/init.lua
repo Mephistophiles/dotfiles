@@ -51,4 +51,5 @@ return {
         },
     },
     { 'stevearc/profile.nvim', lazy = true },
+    { 'lewis6991/fileline.nvim' },
 }
