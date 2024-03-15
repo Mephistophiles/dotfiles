@@ -1,3 +1,51 @@
+local multi_rg = function(opts)
+    local conf = require('telescope.config').values
+    local finders = require 'telescope.finders'
+    local make_entry = require 'telescope.make_entry'
+    local pickers = require 'telescope.pickers'
+    local flatten = vim.tbl_flatten
+
+    opts = opts or {}
+    opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+
+    local custom_grep = finders.new_async_job {
+        command_generator = function(prompt)
+            if not prompt or prompt == '' then
+                return nil
+            end
+
+            local prompt_split = vim.split(prompt, '  ')
+
+            local args = { 'rg' }
+            if prompt_split[1] then
+                table.insert(args, '-e')
+                table.insert(args, prompt_split[1])
+            end
+
+            if prompt_split[2] then
+                table.insert(args, '-g')
+                table.insert(args, prompt_split[2])
+            end
+
+            return flatten {
+                args,
+                { '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
+            }
+        end,
+        entry_maker = make_entry.gen_from_vimgrep(opts),
+        cwd = opts.cwd,
+    }
+
+    pickers
+        .new(opts, {
+            debounce = 100,
+            prompt_title = 'Live Grep (with patterns)',
+            finder = custom_grep,
+            previewer = conf.grep_previewer(opts),
+            sorter = require('telescope.sorters').empty(),
+        })
+        :find()
+end
 return { -- Find, Filter, Preview, Pick. All lua, all the time.
     'nvim-telescope/telescope.nvim',
     module = 'telescope',
@@ -27,7 +75,7 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         {
             '<leader>sf',
             function()
-                require('telescope.builtin').find_files()
+                require('telescope.builtin').find_files(require('telescope.themes').get_ivy {})
             end,
             { desc = '[S]earch [F]iles' },
         },
@@ -41,21 +89,21 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         {
             '<leader>sw',
             function()
-                require('telescope.builtin').grep_string()
+                require('telescope.builtin').grep_string(require('telescope.themes').get_ivy {})
             end,
             { desc = '[S]earch current [W]ord' },
         },
         {
             '<leader>sg',
             function()
-                require('telescope.builtin').live_grep()
+                multi_rg(require('telescope.themes').get_ivy {})
             end,
             { desc = '[S]earch by [G]rep' },
         },
         {
             '<leader>sd',
             function()
-                require('telescope.builtin').diagnostics()
+                require('telescope.builtin').diagnostics(require('telescope.themes').get_ivy {})
             end,
             { desc = '[S]earch [D]iagnostics' },
         },
