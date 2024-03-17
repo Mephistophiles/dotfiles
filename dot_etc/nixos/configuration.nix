@@ -307,6 +307,7 @@ in
     lua
     python3
     stylua
+    shellcheck
 
     tig
     unstable.lazygit
