@@ -217,6 +217,7 @@ in
     unstable.hyperfine
     # unstable.inferno
     unstable.igrep
+    unstable.just
     unstable.procs
     unstable.ripgrep
     unstable.ruplacer
@@ -241,7 +242,9 @@ in
     unstable.tdesktop
 
     # text editors
-    neovim-nightly
+    (neovim.override {
+      vimAlias = true;
+    })
     unstable.helix
     # unstable.obsidian
     # unstable.vscode
