@@ -8,12 +8,6 @@ local format_file = function(bufnr)
     local null_ls = vim.lsp.get_clients { bufnr = bufnr, name = 'null-ls' }
     local null_ls_supports_format = null_ls and null_ls[1] and null_ls[1].supports_method 'textDocument/formatting'
 
-    if null_ls_supports_format then
-        vim.notify 'Autofmt by null-ls'
-    else
-        vim.notify 'Autofmt by lsp'
-    end
-
     vim.lsp.buf.format {
         filter = null_ls_supports_format and function(client)
             return client.name == 'null-ls'
