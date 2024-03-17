@@ -180,34 +180,7 @@ return {
                 factory = helpers.generator_factory,
             }
 
-            local jq = helpers.make_builtin {
-                name = 'jq',
-                method = methods.internal.FORMATTING,
-                filetypes = { 'json' },
-                generator_opts = {
-                    command = 'jq',
-                    args = { '--indent', '4' },
-                    extra_args = function()
-                        if vim.b.formatter_sort_keys then
-                            return { '--sort-keys' }
-                        end
-                        return {}
-                    end,
-                    to_stdin = true,
-                },
-                factory = helpers.formatter_factory,
-            }
-
             local sources = {
-                -- Formatters
-                null_ls.builtins.formatting.clang_format.with {
-                    condition = function(utils)
-                        return utils.root_has_file '.clang-format'
-                    end,
-                },
-                null_ls.builtins.formatting.gofmt,
-                jq,
-                null_ls.builtins.formatting.stylua,
                 -- Diagnostics
                 clang_analyzer.with {
                     method = null_ls.methods.DIAGNOSTICS_ON_SAVE,

@@ -5,20 +5,14 @@ local IGNORELIST = require 'plugins.utils.formatter.ignorelist'
 local M = {}
 
 local format_file = function(bufnr)
-    local null_ls = vim.lsp.get_clients { bufnr = bufnr, name = 'null-ls' }
-    local null_ls_supports_format = null_ls and null_ls[1] and null_ls[1].supports_method 'textDocument/formatting'
-
-    vim.lsp.buf.format {
-        filter = null_ls_supports_format and function(client)
-            return client.name == 'null-ls'
-        end or nil,
-        timeout_ms = 2000,
-        bufnr = bufnr,
-    }
+    require('conform').format({bufnr = bufnr})
 end
 
+--- Attach formatter to the current buffer
+---@param client vim.lsp.Client|nil
+---@param bufnr  integer
 function M.attach_formatter(client, bufnr)
-    if client.supports_method 'textDocument/formatting' then
+    if not client or client.supports_method 'textDocument/formatting' then
         local toggle_formatting = function()
             if vim.b.format_on_save then
                 vim.notify 'Disable formatting on save'
