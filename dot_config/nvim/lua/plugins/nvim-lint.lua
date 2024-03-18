@@ -38,10 +38,9 @@ return {
 
         local trail_space = {
             cmd = 'echo',
-            args = { 'LOL' },
+            args = {},
             ignore_exitcode = true,
             parser = function(_, bufnr)
-                vim.notify(vim.inspect(bufnr))
                 local diagnostics = {}
                 local regex = vim.regex [[\s\+$]]
                 local content = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
