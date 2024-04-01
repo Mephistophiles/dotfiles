@@ -6,6 +6,7 @@
 .config/nvim/lua/plugins/multicursors.lua
 .config/nvim/lua/plugins/noice.lua
 .config/nvim/lua/plugins/numb.lua
+.config/nvim/lua/plugins/overseer.lua
 .config/nvim/lua/plugins/smartcolumn.lua
 .config/nvim/lua/plugins/telescope
 .config/nvim/lua/plugins/utils/luasnip
