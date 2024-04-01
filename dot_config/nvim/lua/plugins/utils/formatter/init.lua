@@ -5,7 +5,7 @@ local IGNORELIST = require 'plugins.utils.formatter.ignorelist'
 local M = {}
 
 local format_file = function(bufnr)
-    require('conform').format({bufnr = bufnr})
+    require('conform').format { bufnr = bufnr, lsp_fallback = true }
 end
 
 --- Attach formatter to the current buffer
