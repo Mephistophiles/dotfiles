@@ -2,7 +2,7 @@ return { -- Treesitter based structural search and replace plugin for Neovim.
     'cshuaimin/ssr.nvim',
     keys = {
         {
-            '<leader>sr',
+            '<leader>ss',
             function()
                 require('ssr').open()
             end,
