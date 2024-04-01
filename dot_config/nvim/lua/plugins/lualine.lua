@@ -6,7 +6,7 @@ return {
         local function current_lsp()
             local lsp_info = {}
 
-            for _, client in ipairs(vim.lsp.get_clients()) do
+            for _, client in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
                 table.insert(lsp_info, client.name)
             end
 
