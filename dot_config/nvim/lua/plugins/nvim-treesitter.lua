@@ -12,6 +12,7 @@ local supported_languages = {
     'make',
     'markdown',
     'markdown_inline',
+    'norg',
     'python',
     'query',
     'regex',

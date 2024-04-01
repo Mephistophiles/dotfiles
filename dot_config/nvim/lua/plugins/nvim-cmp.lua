@@ -67,6 +67,7 @@ return {
                     keyword_length = 5,
                 }, -- completion from buffer
                 { name = 'nvim_lua' },
+                { name = 'neorg' },
                 { name = 'crates' }, -- crates
             },
             sorting = {
