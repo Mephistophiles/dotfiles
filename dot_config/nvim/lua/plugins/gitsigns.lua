@@ -36,7 +36,8 @@ return { -- Git integration for buffers
                 map('n', '<leader>hS', gs.stage_buffer, 'Git: Stage buffer')
                 map('n', '<leader>hu', gs.undo_stage_hunk, 'Git: Undo stage hunk')
                 map('n', '<leader>hR', gs.reset_buffer, 'Git: Reset buffer')
-                map('n', '<leader>hp', gs.preview_hunk, 'Git: Preview hunk')
+                map('n', '<leader>hP', gs.preview_hunk, 'Git: Preview hunk')
+                map('n', '<leader>hp', gs.preview_hunk_inline, 'Git: Inline preview hunk')
                 map('n', '<leader>hb', function()
                     gs.blame_line { full = true }
                 end, 'Git: Blame line')
