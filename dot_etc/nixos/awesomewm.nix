@@ -4,8 +4,8 @@
   services = {
     xserver = {
       displayManager = {
-        #gdm.enable = true;
-        sddm.enable = true;
+        gdm.enable = true;
+        #sddm.enable = true;
         #lightdm = {
         #  enable = true;
         #  extraSeatDefaults = ''
