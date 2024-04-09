@@ -40,6 +40,7 @@ local XIDLEHOOK_SOCKET = string.format("/var/run/user/%d/xidlehook.socket", USER
 local CAFFEINE_OFF_ICON = string.format("%s/icons/my-caffeine-off-symbolic.svg", AWESOMEWM_DIR)
 local CAFFEINE_ON_ICON = string.format("%s/icons/my-caffeine-on-symbolic.svg", AWESOMEWM_DIR)
 
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -68,6 +69,9 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+
+naughty.config.defaults.font = "FiraCode Nerd Font Mono 11"
+
 
 -- This is used later as the default terminal and editor to run.
 
