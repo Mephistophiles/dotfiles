@@ -22,7 +22,7 @@ function M.attach_formatter(client, bufnr)
             vim.b.format_on_save = not vim.b.format_on_save
         end
 
-        vim.keymap.set('n', '<C-f>', function()
+        vim.keymap.set({ 'n', 'v' }, '<C-f>', function()
             format_file(bufnr)
         end, { silent = true, buffer = true, desc = 'Format current document' })
 
