@@ -6,8 +6,6 @@
   imports = [
     ./variables.nix
     ./home/git.nix
-    ./home/i3status.nix
-    ./home/mail.nix
     ./home/starship.nix
     ./home/tmux.nix
     ./home/vault.nix

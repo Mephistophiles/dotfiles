@@ -28,10 +28,6 @@
         delta = { line-numbers = true; };
         safe.directory = "/etc/nixos";
       };
-      includes = [{
-        condition = "gitdir:/home/mzhukov/WORK/";
-        contents = { user = { email = "mzhukov@dlink.ru"; }; };
-      }];
     };
   };
 }
