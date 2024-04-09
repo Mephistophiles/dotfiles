@@ -76,7 +76,7 @@ return {
             bash = { 'shellcheck', 'trail_space' },
             fish = { 'fish', 'trail_space' },
             gitcommit = { 'gitlint', 'trail_space' },
-            go = { 'staticcheck', 'trail_space' },
+            go = { 'golangcilint', 'trail_space' },
             sh = { 'shellcheck', 'trail_space' },
         }, {
             __index = function(_, ft)
