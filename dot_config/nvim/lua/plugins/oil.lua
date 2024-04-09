@@ -10,7 +10,7 @@ return {
             desc = 'Oil: Open parent directory',
         },
     },
-    config = {
+    opts = {
         view_options = {
             show_hidden = true,
         },

@@ -1,7 +1,7 @@
 return { -- magit for neovim
     'TimUntersberger/neogit',
     cmd = { 'Neogit' },
-    config = {
+    opts = {
         disable_commit_confirmation = true,
         integrations = {
             diffview = true,
