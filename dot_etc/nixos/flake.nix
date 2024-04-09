@@ -86,9 +86,13 @@
           ({ pkgs, ... }: {
             nixpkgs = nixpkgs-overlay;
             nix.extraOptions = "experimental-features = nix-command flakes";
+            nix.settings.trusted-users = [ "root" "@wheel" ];
             nix.package = pkgs.nixFlakes;
             nix.registry.nixpkgs.flake = nixpkgs;
-            nix.registry.nixpkgs-unstable.flake = nixpkgs-unstable;
+            nix.registry = {
+              nixpkgs-unstable.flake = nixpkgs-unstable;
+              devenv.flake = devenv;
+            };
             home-manager.useGlobalPkgs = true;
           })
 

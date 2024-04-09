@@ -285,6 +285,7 @@ in
     unstable.jq
 
     # nixos
+    # devenv
     deadnix
     nix-du
     nix-index
@@ -296,6 +297,16 @@ in
     statix
     unstable.home-manager
     unstable.nixpkgs-review
+
+    # home manager
+    unstable.direnv
+    unstable.evans
+    unstable.tree-sitter
+    acpi
+    gopass
+    gopls
+    pavucontrol
+    vlc
 
     # programming
     cmake
@@ -313,6 +324,9 @@ in
     unstable.lazygit
     unstable.zlib
     yarn
+
+    # networking
+    networkmanagerapplet
 
     # programming LSP
     clang-tools
@@ -341,7 +355,9 @@ in
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
     # replicates the default behaviour.
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+    };
 
     # wg-quick = { interfaces.wg0 = config.vault.wireguard; };
   };

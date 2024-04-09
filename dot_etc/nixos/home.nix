@@ -11,19 +11,6 @@
     ./home/vault.nix
   ];
 
-  home.packages = with pkgs; [
-    devenv
-    unstable.direnv
-    unstable.evans
-    unstable.tree-sitter
-    acpi
-    gopass
-    gopls
-    pavucontrol
-    vlc
-    unstable.rustup
-  ];
-
   # Let Home Manager install and manage itself.
   programs = {
     home-manager.enable = true;
@@ -61,7 +48,7 @@
   # paths it should manage.
   home.username = "mzhukov";
   home.homeDirectory = "/home/mzhukov";
-  home.stateVersion = "22.11";
+  home.stateVersion = "23.11";
 
   home.activation.report-changes = config.lib.dag.entryAnywhere ''
     ${pkgs.unstable.nvd}/bin/nvd diff $oldGenPath $newGenPath
