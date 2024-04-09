@@ -39,7 +39,6 @@ local supported_languages = {
         end,
     },
     nix = {
-        'rnix',
         'nixd',
     },
     lua = {

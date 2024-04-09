@@ -319,7 +319,6 @@ in
     gdb
     llvmPackages_latest.clang
     llvmPackages_latest.llvm
-    rnix-lsp
     unstable.nixd
     sumneko-lua-language-server
     unstable.nodePackages.vscode-json-languageserver
