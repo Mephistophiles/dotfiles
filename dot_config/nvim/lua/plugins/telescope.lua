@@ -57,94 +57,91 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         'debugloop/telescope-undo.nvim',
     },
     keys = {
-        { '<leader>su', CMD 'Telescope undo', { desc = '[S]how [U]ndo history' } },
+        { '<leader>su', CMD 'Telescope undo', desc = '[S]how [U]ndo history' },
         {
             '<leader>sh',
             function()
                 require('telescope.builtin').help_tags()
             end,
-            { desc = '[S]earch [H]elp' },
+            desc = '[S]earch [H]elp',
         },
         {
             '<leader>sk',
             function()
                 require('telescope.builtin').keymaps()
             end,
-            { desc = '[S]earch [K]eymaps' },
+            desc = '[S]earch [K]eymaps',
         },
         {
             '<leader>sf',
             function()
                 require('telescope.builtin').find_files(require('telescope.themes').get_ivy {})
             end,
-            { desc = '[S]earch [F]iles' },
+            desc = '[S]earch [F]iles',
         },
         {
             '<leader>ss',
             function()
                 require('telescope.builtin').builtin()
             end,
-            { desc = '[S]earch [S]elect Telescope' },
+            desc = '[S]earch [S]elect Telescope',
         },
         {
             '<leader>sw',
             function()
                 require('telescope.builtin').grep_string(require('telescope.themes').get_ivy {})
             end,
-            { desc = '[S]earch current [W]ord' },
+            desc = '[S]earch current [W]ord',
         },
         {
             '<leader>sg',
             function()
                 multi_rg(require('telescope.themes').get_ivy {})
             end,
-            { desc = '[S]earch by [G]rep' },
+            desc = '[S]earch by [G]rep',
         },
         {
             '<leader>sd',
             function()
                 require('telescope.builtin').diagnostics(require('telescope.themes').get_ivy {})
             end,
-            { desc = '[S]earch [D]iagnostics' },
+            desc = '[S]earch [D]iagnostics',
         },
         {
             '<leader>sr',
             function()
                 require('telescope.builtin').resume()
             end,
-            { desc = '[S]earch [R]esume' },
+            desc = '[S]earch [R]esume',
         },
         {
             '<leader>s.',
             function()
                 require('telescope.builtin').oldfiles()
             end,
-            { desc = '[S]earch Recent Files ("." for repeat)' },
+            desc = '[S]earch Recent Files ("." for repeat)',
         },
         {
             '<leader>sb',
             function()
                 require('telescope.builtin').buffers()
             end,
-            { desc = '[S]earch existing [B]uffers' },
+            desc = '[S]earch existing [B]uffers',
         },
         {
             '<leader>s/',
             function()
                 -- You can pass additional configuration to telescope to change theme, layout, etc.
-                require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-                    winblend = 10,
-                    previewer = false,
-                })
+                require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_ivy {})
             end,
-            { desc = '[/] Fuzzily [S]earch in current buffer' },
+            desc = '[/] Fuzzily [S]earch in current buffer',
         },
         {
             '<leader>sn',
             function()
                 require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
             end,
-            { desc = '[S]earch [N]eovim files' },
+            desc = '[S]earch [N]eovim files',
         },
     },
     config = function()
