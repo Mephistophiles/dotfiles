@@ -233,6 +233,7 @@ in
     # gui
     arandr
     evince
+    chromium
     firefox
     gnome3.file-roller
     gnome3.gnome-calculator
