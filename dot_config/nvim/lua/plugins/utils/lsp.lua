@@ -68,7 +68,7 @@ local function key_bindings(client)
     keymap(']d', function()
         smart_goto_next()
     end, { desc = 'LSP: move to the next diagnostic' })
-    keymap('<leader>q', function()
+    keymap('<leader>ql', function()
         vim.diagnostic.setloclist()
     end, { desc = 'LSP: add buffer diagnostics to the location list' })
 
