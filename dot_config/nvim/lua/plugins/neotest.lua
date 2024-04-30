@@ -27,12 +27,15 @@ return {
     },
     dependencies = {
         'nvim-lua/plenary.nvim',
+        'nvim-neotest/nvim-nio',
         'nvim-treesitter/nvim-treesitter',
+        'lawrence-laz/neotest-zig',
     },
     config = function()
         require('neotest').setup {
             adapters = {
                 require 'rustaceanvim.neotest',
+                require 'neotest-zig',
             },
         }
     end,
