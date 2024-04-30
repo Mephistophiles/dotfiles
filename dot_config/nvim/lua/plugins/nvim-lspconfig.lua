@@ -78,6 +78,7 @@ local supported_languages = {
         'pyright',
         'ruff_lsp',
     },
+    zig = { 'zls' },
 }
 
 local event_pattern = vim.tbl_map(function(ft)
