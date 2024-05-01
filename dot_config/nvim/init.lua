@@ -12,6 +12,7 @@ vim.g.did_load_filetypes = false
 vim.g.do_filetype_lua = true
 
 require 'globals'
+require 'news'
 require 'filetype'
 require 'mappings'
 require 'relativenumbers'
