@@ -37,6 +37,10 @@ zoxide init fish | source
 direnv hook fish | source
 just --completions fish | source
 
+if [ -f "./host.fish" ]
+  source ./host.fish
+end
+
 function fish_user_key_bindings
   fzf_key_bindings
 end

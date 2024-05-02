@@ -5,6 +5,7 @@ README.md
 .config/nvim/lua/host/
 .config/fish/fish_variables
 .config/fish/fishd.*
+.config/fish/host.fish
 
 {{- if eq .chezmoi.hostname "mzhukov-laptop" }}
 .config/alacritty/alacritty.yml
