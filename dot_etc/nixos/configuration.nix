@@ -210,6 +210,7 @@ in
     # rust stuff
     unstable.bat
     unstable.bottom
+    unstable.cargo-msrv
     unstable.difftastic
     unstable.dua
     unstable.eza
