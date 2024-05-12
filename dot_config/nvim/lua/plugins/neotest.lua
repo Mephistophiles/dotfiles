@@ -30,12 +30,14 @@ return {
         'nvim-neotest/nvim-nio',
         'nvim-treesitter/nvim-treesitter',
         'lawrence-laz/neotest-zig',
+        'nvim-neotest/neotest-python',
     },
     config = function()
         require('neotest').setup {
             adapters = {
                 require 'rustaceanvim.neotest',
                 require 'neotest-zig',
+                require 'neotest-python',
             },
         }
     end,
