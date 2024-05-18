@@ -16,6 +16,7 @@ return {
         'L3MON4D3/LuaSnip',
     },
     config = function()
+        local ls = require 'luasnip'
         local cmp = require 'cmp'
         local types = require 'cmp.types'
         local source_mapping = {
@@ -25,10 +26,14 @@ return {
             crates = '[Crates.io]',
         }
 
+        for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('lua/snippets/*.lua', true)) do
+            loadfile(ft_path)()
+        end
+
         cmp.setup {
             snippet = {
                 expand = function(args)
-                    require('luasnip').lsp_expand(args.body)
+                    ls.lsp_expand(args.body)
                 end,
             },
             formatting = {
@@ -39,16 +44,14 @@ return {
                 end,
             },
             mapping = cmp.mapping.preset.insert {
-                ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                ['<C-space>'] = cmp.mapping.complete(),
-                ['<C-e>'] = cmp.mapping.abort(),
+                ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+                ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
                 ['<c-y>'] = cmp.mapping(
                     cmp.mapping.confirm {
                         behavior = cmp.ConfirmBehavior.Insert,
                         select = true,
                     },
-                    { 'i', 'c' }
+                    { 'i' }
                 ),
                 ['<right>'] = cmp.mapping(
                     cmp.mapping.confirm {
@@ -57,6 +60,11 @@ return {
                     },
                     { 'i' }
                 ),
+
+                ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+                ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                ['<C-space>'] = cmp.mapping.complete(),
+                ['<C-e>'] = cmp.mapping.abort(),
             },
             sources = {
                 { name = 'nvim_lsp' }, -- language server protocol
@@ -106,19 +114,15 @@ return {
             preselect = cmp.PreselectMode.None,
         }
 
-        vim.keymap.set({ 'i', 's' }, '<Tab>', function()
-            if require('luasnip').jumpable(1) then
-                return CMD 'lua require("luasnip").jump(1)'
-            else
-                return '<Tab>'
+        vim.keymap.set({ 'i', 's' }, '<C-k>', function()
+            if ls.expand_or_jumpable() then
+                ls.expand_or_jump()
             end
-        end, { expr = true })
-        vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
-            if require('luasnip').jumpable(-1) then
-                return CMD 'lua require("luasnip").jump(-1)'
-            else
-                return '<Tab>'
+        end, { silent = true })
+        vim.keymap.set({ 'i', 's' }, '<C-j>', function()
+            if ls.jumpable(-1) then
+                ls.jump(-1)
             end
-        end, { expr = true })
+        end, { silent = true })
     end,
 }
