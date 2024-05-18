@@ -19,10 +19,11 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    nixpkgs-nightly.url = "nixpkgs/master";
 
     devenv.url = "github:cachix/devenv";
 
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -41,6 +42,7 @@
 
       inherit (inputs) devenv;
       inherit (inputs) nixpkgs;
+      inherit (inputs) nixpkgs-nightly;
       inherit (inputs) nixpkgs-unstable;
       inherit (inputs) home-manager;
       system = "x86_64-linux";
@@ -51,13 +53,21 @@
           inherit system;
           config.allowUnfreePredicate = unfreePredicate;
         };
+        nightly = import nixpkgs-nightly {
+          inherit system;
+          config.allowUnfreePredicate = unfreePredicate;
+        };
       };
 
       devenv-overlay = final: prev: {
         devenv = devenv.packages.${system}.devenv;
       };
 
-      overlays = [ overlay-unstable devenv-overlay inputs.neovim-nightly-overlay.overlay ];
+      neovim-overlay = [
+        # inputs.neovim-nightly-overlay.overlay
+      ];
+
+      overlays = [ overlay-unstable devenv-overlay ] ++ neovim-overlay;
       nixpkgs-overlay = {
         config.allowUnfreePredicate = unfreePredicate;
         inherit overlays;
