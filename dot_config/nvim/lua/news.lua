@@ -17,9 +17,7 @@ if vim.uv.fs_access(prev_file_path, 'R') then
         notify 'news.txt was updated'
     end
 else
-    vim.uv.fs_copyfile(news_file_path, prev_file_path, function()
-        notify 'Created initial copy of news.txt'
-    end)
+    vim.uv.fs_copyfile(news_file_path, prev_file_path, function() end)
 end
 
 vim.api.nvim_create_user_command('News', function(ctx)
@@ -33,9 +31,7 @@ vim.api.nvim_create_user_command('News', function(ctx)
         return
     end
     if ctx.fargs[1] == 'apply' then
-        vim.uv.fs_copyfile(news_file_path, prev_file_path, function()
-            notify 'Applied changes to news.txt'
-        end)
+        vim.uv.fs_copyfile(news_file_path, prev_file_path, function() end)
         return
     end
     notify('Unknown args: ' .. ctx.args, vim.log.levels.ERROR)
