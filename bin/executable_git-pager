@@ -1,8 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+DELTA_ARGS=()
 
 if [ -n "$S" ]; then
-  DELTA_ARGS="--word-diff-regex=''"
+  DELTA_ARGS+=("--word-diff-regex=''")
 fi
 
-delta --24-bit-color=always \
-  $DELTA_ARGS
+delta --24-bit-color=always "${DELTA_ARGS[@]}"
