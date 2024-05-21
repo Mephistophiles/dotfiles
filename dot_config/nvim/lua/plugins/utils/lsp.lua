@@ -1,37 +1,5 @@
 local M = {}
 
-local function smart_goto(fn)
-    for _, severity in ipairs {
-        vim.diagnostic.severity.ERROR,
-        vim.diagnostic.severity.WARN,
-        vim.diagnostic.severity.INFO,
-        vim.diagnostic.severity.HINT,
-    } do
-        local diagnostic = vim.diagnostic.get(0, { severity = severity })
-
-        if #diagnostic > 0 then
-            fn(severity)
-            break
-        end
-    end
-end
-
-local function smart_goto_next()
-    smart_goto(function(severity)
-        vim.diagnostic.goto_next {
-            severity = severity,
-        }
-    end)
-end
-
-local function smart_goto_prev()
-    smart_goto(function(severity)
-        vim.diagnostic.goto_prev {
-            severity = severity,
-        }
-    end)
-end
-
 local function keymap(key, cmd, user_opts)
     local default_opts = { remap = true, buffer = true }
     local opts = vim.tbl_extend('force', default_opts, user_opts or {})
@@ -56,18 +24,8 @@ local function key_bindings(client)
         { desc = 'LSP: show all the items that are called by the symbol under the cursor' }
     )
 
-    keymap('K', vim.lsp.buf.hover, { desc = 'LSP: display hover information about the symbol under ther cursor' })
     keymap('<leader>rn', vim.lsp.buf.rename, { desc = 'LSP: renames all references to the symbol under the cursor' })
     keymap('<leader>ca', vim.lsp.buf.code_action, { desc = 'LSP: code actions' })
-    keymap('<leader>d', vim.diagnostic.open_float, { desc = 'LSP: Show diagnostic info' })
-    keymap('[D', vim.diagnostic.goto_prev, { desc = 'LSP: move to the previous diagnostic (whole severities)' })
-    keymap(']D', vim.diagnostic.goto_next, { desc = 'LSP: move to the next diagnostic (whole severities)' })
-    keymap('[d', function()
-        smart_goto_prev()
-    end, { desc = 'LSP: move to the previous diagnostic' })
-    keymap(']d', function()
-        smart_goto_next()
-    end, { desc = 'LSP: move to the next diagnostic' })
     keymap('<leader>ql', function()
         vim.diagnostic.setloclist()
     end, { desc = 'LSP: add buffer diagnostics to the location list' })
