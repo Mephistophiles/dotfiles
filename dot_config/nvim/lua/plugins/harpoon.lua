@@ -78,20 +78,20 @@ return { -- Quick change harpooned buffers
             desc = 'Harpoon: select 6 mark',
         },
         {
-            '<C-p>',
+            '<C-S-P>',
             function()
                 local harpoon = require 'harpoon'
 
-                harpoon:list():prev()
+                harpoon:list():prev { ui_nav_wrap = true }
             end,
             desc = 'Harpoon: Toggle previous buffers stored within list',
         },
         {
-            '<C-n>',
+            '<C-S-N>',
             function()
                 local harpoon = require 'harpoon'
 
-                harpoon:list():next()
+                harpoon:list():next { ui_nav_wrap = true }
             end,
             desc = 'Harpoon: Toggle next buffers stored within list',
         },
