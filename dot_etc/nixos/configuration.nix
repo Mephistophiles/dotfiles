@@ -61,17 +61,19 @@ in
   services = {
     gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
+    # Enable touchpad support (enabled default in most desktopManager).
+    libinput = { enable = true; };
     xserver = {
       enable = true;
 
       desktopManager = { xterm.enable = false; };
 
-      # Enable touchpad support (enabled default in most desktopManager).
-      libinput = { enable = true; };
 
       # Configure keymap in X11
-      layout = "us,ru";
-      xkbOptions = "grp:alt_shift_toggle,grp_led:scroll,caps:backspace";
+      xkb = {
+        layout = "us,ru";
+        options = "grp:alt_shift_toggle,grp_led:scroll,caps:backspace";
+      };
     };
     # Enable CUPS to print documents.
     # printing.enable = true;
@@ -244,7 +246,7 @@ in
     unstable.tdesktop
 
     # text editors
-    (nightly.neovim.override {
+    (unstable.neovim.override {
       vimAlias = true;
     })
     unstable.helix
@@ -401,6 +403,6 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.03"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }
 

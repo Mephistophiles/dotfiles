@@ -2,6 +2,9 @@
 
 {
   services = {
+    displayManager = {
+      defaultSession = "none+awesome";
+    };
     xserver = {
       displayManager = {
         gdm.enable = true;
@@ -14,7 +17,6 @@
         #    ''}
         #  '';
         #};
-        defaultSession = "none+awesome";
       };
       windowManager.awesome = {
         enable = true;
