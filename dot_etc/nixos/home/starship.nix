@@ -32,7 +32,7 @@
           threshold = 75;
         };
         status = { disabled = false; };
-	time.disabled = false;
+        time.disabled = false;
         directory = {
           truncation_symbol = "…/";
           truncation_length = 3;
