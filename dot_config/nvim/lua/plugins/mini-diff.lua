@@ -1,6 +1,6 @@
 return {
     'echasnovski/mini.diff',
-    varsion = false,
+    version = false,
     event = 'VeryLazy',
     keys = {
         { '<leader>md', CMD 'lua require("mini.diff").toggle_overlay()', desc = 'Mini.Diff: toggle overlay' },
