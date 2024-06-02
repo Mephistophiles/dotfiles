@@ -17,6 +17,7 @@ require 'filetype'
 require 'mappings'
 require 'relativenumbers'
 require 'options'
+require 'commands'
 
 pcall(require, 'host')
 
