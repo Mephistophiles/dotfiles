@@ -218,6 +218,7 @@ in
     unstable.eza
     unstable.fd
     unstable.hyperfine
+    unstable.git-cliff
     # unstable.inferno
     unstable.igrep
     unstable.just
