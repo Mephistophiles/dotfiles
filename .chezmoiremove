@@ -1,3 +1,4 @@
+.config/nvim/lua/highlight.lua
 .config/nvim/lua/plugins/barbar.lua
 .config/nvim/lua/plugins/comment.lua
 .config/nvim/lua/plugins/dropbar.lua
