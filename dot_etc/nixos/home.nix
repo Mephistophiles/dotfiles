@@ -28,6 +28,7 @@
   };
 
   services = {
+    opensnitch-ui.enable = true;
     gpg-agent = {
       enable = true;
 

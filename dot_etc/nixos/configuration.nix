@@ -63,6 +63,7 @@ in
     gvfs.enable = true;
     # Enable touchpad support (enabled default in most desktopManager).
     libinput = { enable = true; };
+    opensnitch.enable = true;
     xserver = {
       enable = true;
 
