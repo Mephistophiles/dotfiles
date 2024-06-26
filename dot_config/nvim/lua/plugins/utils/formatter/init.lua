@@ -59,8 +59,8 @@ function M.attach_formatter(client, bufnr)
             desc = 'Format document on save',
             buffer = 0,
             callback = function(opts)
-                if vim.b.format_on_save and not IGNORELIST.is_ignored_file(opts.file) then
-                    format_file(opts.buffer)
+                if vim.b.format_on_save and not IGNORELIST.is_ignored_file(vim.api.nvim_buf_get_name(opts.buf)) then
+                    format_file(opts.buf)
                 end
             end,
         })
