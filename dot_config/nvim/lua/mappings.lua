@@ -66,4 +66,3 @@ vim.keymap.set('n', '<M-CR>', function()
     local word = [[\<]] .. vim.fn.expand '<cword>' .. [[\>]]
     vim.fn.setreg('/', word)
 end, { desc = 'Highlight word under cursor' })
-table.insert(MAP_CLEANUPS, CMD 'lua require("highlight").clear_usage_highlights(0)')
