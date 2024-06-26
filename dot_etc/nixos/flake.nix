@@ -19,7 +19,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
-    nixpkgs-nightly.url = "nixpkgs/master";
+    # nixpkgs-nightly.url = "nixpkgs/master";
 
     devenv.url = "github:cachix/devenv";
 
@@ -42,7 +42,7 @@
 
       inherit (inputs) devenv;
       inherit (inputs) nixpkgs;
-      inherit (inputs) nixpkgs-nightly;
+      # inherit (inputs) nixpkgs-nightly;
       inherit (inputs) nixpkgs-unstable;
       inherit (inputs) home-manager;
       system = "x86_64-linux";
@@ -53,10 +53,10 @@
           inherit system;
           config.allowUnfreePredicate = unfreePredicate;
         };
-        nightly = import nixpkgs-nightly {
-          inherit system;
-          config.allowUnfreePredicate = unfreePredicate;
-        };
+        # nightly = import nixpkgs-nightly {
+        #   inherit system;
+        #   config.allowUnfreePredicate = unfreePredicate;
+        # };
       };
 
       devenv-overlay = final: prev: {
