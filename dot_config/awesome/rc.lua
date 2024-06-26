@@ -314,6 +314,14 @@ local top_mem_usage_widget = awful.widget.watch(
     end
 )
 
+local network_widget = awful.widget.watch(
+    [[bash -c "ip -oneline route show default | awk '{print $9}' | paste"]],
+    60,
+    function(widget, stdout)
+        widget:set_text("NET: " .. stdout)
+    end
+)
+
 local battery_widget = has_battery()
         and (function()
             local widget = wibox.widget.textbox()
@@ -421,6 +429,7 @@ awful.screen.connect_for_each_screen(function(s)
             mem_widget,
             top_mem_usage_widget,
             battery_widget,
+            network_widget,
             separator,
             mykeyboardlayout,
             separator,
