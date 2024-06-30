@@ -25,7 +25,10 @@ in
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    tmp.useTmpfs = true;
+    tmp = {
+      useTmpfs = true;
+      tmpfsSize = "80%";
+    };
     plymouth.enable = true;
     loader = {
       systemd-boot.enable = true;
