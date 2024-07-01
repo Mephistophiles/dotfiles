@@ -65,4 +65,5 @@ vim.keymap.set('v', '<C-p>', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
 vim.keymap.set('n', '<M-CR>', function()
     local word = [[\<]] .. vim.fn.expand '<cword>' .. [[\>]]
     vim.fn.setreg('/', word)
+    vim.opt.hlsearch = true
 end, { desc = 'Highlight word under cursor' })
