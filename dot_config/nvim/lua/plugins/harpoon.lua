@@ -19,7 +19,7 @@ return { -- Quick change harpooned buffers
             function()
                 local harpoon = require 'harpoon'
 
-                harpoon:list():append()
+                harpoon:list():add()
             end,
             desc = 'Harpoon: toogle mark',
         },
