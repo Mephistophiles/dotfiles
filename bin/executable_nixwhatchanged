@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import os
+import sys
+import shlex
 import shutil
 import subprocess
 
@@ -11,6 +13,8 @@ current_user = os.getuid()
 home = os.path.expanduser('~')
 
 def run(*args: str):
+	cmd = shlex.join(args)
+	print(f'>> run {cmd}', file=sys.stderr)
 	subprocess.run(args, check=True)
 
 with TemporaryDirectory() as path:
