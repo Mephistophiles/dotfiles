@@ -4,25 +4,44 @@ return {
     opts = { modes = { search = { enabled = false }, char = { enabled = false } } },
     keys = {
         {
-            '<leader>w',
+            '<leader>f',
+            mode = { 'n', 'x', 'o' },
             function()
-                require('flash').jump { search = { forward = true, wrap = false, multi_window = false } }
+                require('flash').jump()
             end,
-            desc = 'Flash: forward search',
+            desc = 'Flash: motion',
         },
         {
-            '<leader>b',
-            function()
-                require('flash').jump { search = { forward = false, wrap = false, multi_window = false } }
-            end,
-            desc = 'Flash: backward search',
-        },
-        {
-            '<leader>W',
+            '<leader>v',
+            mode = { 'n', 'x', 'o' },
             function()
                 require('flash').treesitter()
             end,
-            desc = 'Flash Treesitter',
+            desc = 'Flash: Treesitter',
+        },
+        {
+            'r',
+            mode = 'o',
+            function()
+                require('flash').remote()
+            end,
+            desc = 'Flash: remote motion',
+        },
+        {
+            'R',
+            mode = { 'o', 'x' },
+            function()
+                require('flash').treesitter_search()
+            end,
+            desc = 'Flash: treesitter search',
+        },
+        {
+            '<C-/>',
+            mode = { 'c' },
+            function()
+                require('flash').toggle()
+            end,
+            desc = 'Flash: toggle flash search',
         },
     },
 }
