@@ -20,6 +20,9 @@ return {
         default_command = 'make',
     },
     config = function()
+        vim.g.compile_mode = {
+            baleia_setup = true,
+        }
         vim.api.nvim_create_autocmd({ 'FileType' }, {
             pattern = 'compilation',
             callback = function(event)
