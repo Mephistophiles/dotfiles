@@ -368,6 +368,11 @@ in
     # replicates the default behaviour.
     networkmanager = {
       enable = true;
+      dispatcherScripts = [
+        {
+          source = ./70-wifi-wired.exclusive.sh;
+        }
+      ];
     };
 
     # wg-quick = { interfaces.wg0 = config.vault.wireguard; };
