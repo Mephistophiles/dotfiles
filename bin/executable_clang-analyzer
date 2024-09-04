@@ -8,11 +8,11 @@ import subprocess
 
 def get_compile_commands_location():
     cwd = os.getcwd()
-    possible_locations = ['.', 'build']
+    possible_locations = [".", "build"]
 
     while cwd != "/":
         for location in possible_locations:
-            lookup = os.path.join(cwd, location, 'compile_commands.json')
+            lookup = os.path.join(cwd, location, "compile_commands.json")
 
             if os.path.isfile(lookup):
                 return os.path.realpath(lookup)
@@ -22,18 +22,18 @@ def get_compile_commands_location():
 
 def windows(seq, window_size):
     for i in range(len(seq) - window_size + 1):
-        yield (i, seq[i: i + window_size])
+        yield (i, seq[i : i + window_size])
 
 
 def prettify_arguments(args):
     new_args = []
 
     ignored_flags_one = [
-        '-c',
-        '-Werror',
+        "-c",
+        "-Werror",
     ]
     ignored_flags_multi = [
-        '-o',
+        "-o",
     ]
     skip_next = False
 
@@ -55,19 +55,28 @@ def prettify_arguments(args):
 
 
 def get_compile_arguments(compile_commands, needed_file):
-    with open(compile_commands, 'r', encoding='utf-8') as cmds:
+    with open(compile_commands, "r", encoding="utf-8") as cmds:
         commands = json.load(cmds)
 
     for command in commands:
-        file = os.path.realpath(os.path.join(
-            command['directory'], command['file']))
+        file = os.path.realpath(os.path.join(command["directory"], command["file"]))
 
         if file == needed_file:
-            return (prettify_arguments(command['arguments']), command['directory'])
+            return (prettify_arguments(command["arguments"]), command["directory"])
 
     return (None, None)
 
 
+ANALYZER_CHECKERS = [
+    "core",
+    "cplusplus",
+    "fuchsia",
+    "nullability",
+    "optin",
+    "security",
+    "unix",
+    "valist",
+]
 COMPILE_COMMANDS = get_compile_commands_location()
 
 if not COMPILE_COMMANDS:
@@ -80,5 +89,15 @@ for filename in sys.argv[1:]:
     if not ARGS:
         continue
 
-    ret = subprocess.run(['clang', '--analyze', *ARGS,
-                         filename], check=False, cwd=DIR)
+    ret = subprocess.run(
+        [
+            "clang",
+            "--analyze",
+            "-Xclang",
+            "-analyzer-checker=" + ",".join(ANALYZER_CHECKERS),
+            *ARGS,
+            filename,
+        ],
+        check=False,
+        cwd=DIR,
+    )
