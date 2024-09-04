@@ -266,6 +266,7 @@ in
     unstable.chezmoi
     clifm
     curl
+    deadbeef-with-plugins
     docker-compose
     file
     fzf
