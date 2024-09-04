@@ -285,6 +285,7 @@ in
     rsync
     sshfs-fuse
     time
+    transmission-gtk
     unzip
     vifm
     wally-cli
