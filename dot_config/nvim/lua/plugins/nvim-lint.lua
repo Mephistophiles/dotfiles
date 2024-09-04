@@ -27,7 +27,6 @@ return {
         ---@class lint.Linter
         local clang_analyzer = {
             cmd = 'clang-analyzer',
-            stdin = true, -- or false if it doesn't support content input via stdin. In that case the filename is automatically added to the arguments.
             append_fname = true, -- Automatically append the file name to `args` if `stdin = false` (default: true)
             args = {}, -- list of arguments. Can contain functions with zero arguments that will be evaluated once the linter is used.
             stream = 'stderr', -- ('stdout' | 'stderr' | 'both') configure the stream to which the linter outputs the linting result.
