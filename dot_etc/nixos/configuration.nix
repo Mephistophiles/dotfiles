@@ -256,7 +256,7 @@ in
       vimAlias = true;
     })
     unstable.helix
-    # unstable.obsidian
+    unstable.obsidian
     # unstable.vscode
     # xfce.mousepad
 
