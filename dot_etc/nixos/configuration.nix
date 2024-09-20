@@ -62,6 +62,7 @@ in
 
   # List services that you want to enable:
   services = {
+    pcscd.enable = true; # smartcard support for yubikey
     gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
     # Enable touchpad support (enabled default in most desktopManager).
