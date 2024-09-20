@@ -1,4 +1,5 @@
 vim.g.mapleader = ' '
+vim.g.maplocalleader = vim.g.mapleader
 
 local function paste_git_signoff()
     local username = io.popen('git config user.name', 'r'):read '*l'
