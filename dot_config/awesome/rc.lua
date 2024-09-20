@@ -315,7 +315,7 @@ local top_mem_usage_widget = awful.widget.watch(
 )
 
 local network_widget = awful.widget.watch(
-    [[bash -c "ip -oneline route show default | awk '{print $9}' | paste"]],
+    [[bash -c "ip -oneline route get 1.1.1.1 | awk '{print $7}' | paste"]],
     60,
     function(widget, stdout)
         widget:set_text("NET: " .. stdout)
