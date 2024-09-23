@@ -27,6 +27,7 @@ vim.api.nvim_create_autocmd('User', {
 
 return {
     'stevearc/oil.nvim',
+    cmd = { 'Oil' },
     keys = {
         {
             '-',
@@ -40,6 +41,7 @@ return {
     init = function()
         vim.g.loaded_netrw = 1
         vim.g.loaded_netrwPlugin = 1
+        -- If netrw was already loaded, clear this augroup
         if vim.fn.exists '#FileExplorer' then
             vim.api.nvim_create_augroup('FileExplorer', { clear = true })
         end
