@@ -115,16 +115,16 @@ function M.custom_attach(client, bufnr)
 end
 
 function M.make_default_opts(extra)
-    local updated_capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-    -- TODO: check if this is the problem.
-    --updated_capabilities.textDocument.codeLens.dynamicRegistration = false
-    updated_capabilities.textDocument.completion.completionItem.insertReplaceSupport = false
+    local capabilities = vim.tbl_deep_extend(
+        'force',
+        vim.lsp.protocol.make_client_capabilities(),
+        require('cmp_nvim_lsp').default_capabilities()
+    )
 
     return vim.tbl_deep_extend('force', {
         on_init = custom_init,
         on_attach = M.custom_attach,
-        capabilities = updated_capabilities,
+        capabilities = capabilities,
         flags = { debounce_text_changes = 50 },
     }, extra or {})
 end

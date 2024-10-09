@@ -5,13 +5,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 return {
     -- A completion plugin for neovim coded in Lua.
-    'hrsh7th/nvim-cmp',
+    'iguanacucumber/magazine.nvim', --'hrsh7th/nvim-cmp',
+    name = 'nvim-cmp',
     lazy = true,
     event = { 'InsertEnter' },
     dependencies = {
-        'hrsh7th/cmp-nvim-lsp', -- language server protocol
+        { 'iguanacucumber/mag-nvim-lsp', name = 'cmp-nvim-lsp' }, -- language server protocol
         'hrsh7th/cmp-nvim-lsp-signature-help',
-        'hrsh7th/cmp-buffer', -- completion from current buffer
+        { 'iguanacucumber/mag-buffer', name = 'cmp-buffer' }, -- completion from current buffer
         'hrsh7th/cmp-path', -- completion for filesystem
         'L3MON4D3/LuaSnip',
     },
