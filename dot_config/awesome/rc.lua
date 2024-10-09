@@ -348,6 +348,69 @@ local cpu_temp_widget = awful.widget.watch(
     end
 )
 
+local taskwarrior_widget, taskwarrior_widget_timer = awful.widget.watch(
+    { "bash", "-c", [[
+    function get_task_id() {
+        "$@" limit:1 | tail -n +4 | head -n 1 | awk '{print $1}'
+    }
+    task_id=$(get_task_id task active)
+    if [ -z "$task_id" ]; then
+        task_id=$(get_task_id task next)
+    fi
+    task_descr=$(task _get "$task_id.description")
+    task_urgency=$(task _get "$task_id.urgency")
+    task_active=$(task _get "$task_id.tags.ACTIVE")
+    timew_summary=$(timew summary today | tail -n2 | head -n1 | awk '{print $1}')
+
+    printf "%s;%s;%s;%s;%s" "$task_id" "$task_descr" "$task_active" "$task_urgency" "$timew_summary"]] },
+    10,
+    function(widget, stdout)
+        if not stdout or #stdout == 0 then
+            widget:set_text("")
+            return
+        end
+
+        local info = gears.string.split(stdout, ";")
+        local id = info[1]
+        local descr = info[2]
+        local active = info[3] == "ACTIVE"
+        local urgency = info[4]
+        local tracked = info[5]
+
+        local status = {}
+
+        if id ~= "" then
+            widget.active_id = id
+            table.insert(status, string.format("taskw: <b>%s</b> (%s)", descr, urgency))
+        else
+            widget.active_id = nil
+        end
+
+        if active then
+            widget.active_status = true
+            table.insert(status, string.format("timew: <b>%s</b>", tracked))
+        else
+            widget.active_status = false
+            table.insert(status, string.format("timew: %s", tracked))
+        end
+
+        widget:set_markup(table.concat(status, " "))
+    end
+)
+taskwarrior_widget:connect_signal("button::press", function(_, _, _, button)
+    if button == 1 then
+        if taskwarrior_widget.active_status then
+            awful.spawn( { "task", taskwarrior_widget.active_id, 'stop' })
+        else
+            awful.spawn( { "task", taskwarrior_widget.active_id, 'start' })
+        end
+    elseif button == 2 then
+        awful.spawn( { "task", taskwarrior_widget.active_id, "done" })
+    end
+
+    taskwarrior_widget_timer:emit_signal("timeout")
+end)
+
 local separator = wibox.widget({
     widget = wibox.widget.separator,
     orientation = "vertical",
@@ -421,6 +484,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     for widget in
         gears.table.iterate({
+            taskwarrior_widget,
             caffeine_widget,
             -- volume_widget({widget_type = 'arc', device = 'default'}),
             text_cpu_widget,
