@@ -9,6 +9,7 @@ local supported_languages = {
     'go',
     'json',
     'lua',
+    'log',
     'make',
     'markdown',
     'markdown_inline',
@@ -21,16 +22,24 @@ local supported_languages = {
     'yaml',
 }
 
-local supported_fts = vim.tbl_map(function(ft)
-    return 'FileType ' .. ft
-end, supported_languages)
-
 return {
     { -- Nvim Treesitter configurations and abstraction layer
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
-        event = supported_fts,
+        ft = supported_languages,
         config = function()
+            local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+            parser_config.log = {
+                install_info = {
+                    url = 'https://github.com/Tudyx/tree-sitter-log', -- local path or git repo
+                    files = { 'src/parser.c' }, -- note that some parsers also require src/scanner.c or src/scanner.cc
+                    -- optional entries:
+                    revision = '62cfe307e942af3417171243b599cc7deac5eab9', -- default branch in case of git repo if different from master
+                    generate_requires_npm = false, -- if stand-alone parser without npm dependencies
+                    requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+                },
+                filetype = 'log', -- if filetype does not match the parser name
+            }
             require('nvim-treesitter').setup()
             require('nvim-treesitter.configs').setup {
                 -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages

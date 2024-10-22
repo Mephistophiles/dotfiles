@@ -11,6 +11,12 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.did_load_filetypes = false
 vim.g.do_filetype_lua = true
 
+vim.filetype.add {
+    extension = {
+        log = 'log',
+    },
+}
+
 require 'globals'
 require 'news'
 require 'filetype'
