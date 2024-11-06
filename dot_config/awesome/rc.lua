@@ -307,7 +307,7 @@ local top_mem_usage_widget = awful.widget.watch(
 
         if tonumber(bytes) > total_memory / 8 then
             widget:set_visible(true)
-            widget:set_text(pretty_memory .. " " .. comm)
+            widget:set_markup("<span color='orange'><b>⚠️ " .. pretty_memory .. " " .. comm .. "</b></span>")
         else
             widget:set_visible(false)
         end
