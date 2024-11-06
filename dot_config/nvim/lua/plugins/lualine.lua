@@ -13,6 +13,14 @@ return {
             return table.concat(lsp_info, '|')
         end
 
+        local function lint_progress()
+            local linters = require('lint').get_running()
+            if #linters == 0 then
+                return ''
+            end
+            return '󱉶 ' .. table.concat(linters, ', ')
+        end
+
         require('lualine').setup {
             sections = {
                 lualine_a = { 'mode' },
@@ -27,6 +35,7 @@ return {
                 },
                 lualine_x = {
                     current_lsp,
+                    lint_progress,
                     'lsp_progress',
                     'encoding',
                     'fileformat',
