@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import shlex
 import subprocess
 
 
@@ -87,17 +88,16 @@ for filename in sys.argv[1:]:
     ARGS, DIR = get_compile_arguments(COMPILE_COMMANDS, filename)
 
     if not ARGS:
+        print(f"Skip not found file {filename}", file=sys.stderr)
         continue
 
-    ret = subprocess.run(
-        [
-            "clang",
-            "--analyze",
-            "-Xclang",
-            "-analyzer-checker=" + ",".join(ANALYZER_CHECKERS),
-            *ARGS,
-            filename,
-        ],
-        check=False,
-        cwd=DIR,
-    )
+    cmd = [
+        "clang",
+        "--analyze",
+        "-Xclang",
+        "-analyzer-checker=" + ",".join(ANALYZER_CHECKERS),
+        *ARGS,
+        filename,
+    ]
+
+    ret = subprocess.run(cmd, check=False, cwd=DIR)
