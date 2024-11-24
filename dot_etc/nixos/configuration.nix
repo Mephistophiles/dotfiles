@@ -265,7 +265,6 @@ in
     bitwarden-cli
     brightnessctl
     unstable.chezmoi
-    clifm
     curl
     deadbeef-with-plugins
     docker-compose
@@ -305,7 +304,7 @@ in
     nix-tree
     nixos-option
     nixpkgs-fmt
-    nvd
+    unstable.nvd
     statix
     unstable.home-manager
     unstable.nixpkgs-review
@@ -346,7 +345,7 @@ in
     llvmPackages_latest.clang
     llvmPackages_latest.llvm
     unstable.nixd
-    sumneko-lua-language-server
+    unstable.sumneko-lua-language-server
     unstable.nodePackages.vscode-json-languageserver
     unstable.nodePackages.jsonlint
     unstable.python3Packages.python-lsp-server
@@ -406,8 +405,8 @@ in
   };
 
   system.activationScripts.report-changes = ''
-    PATH=$PATH:${lib.makeBinPath [ pkgs.nvd pkgs.nix ]}
-    nvd diff $(ls -dv /nix/var/nix/profiles/system-*-link | tail -2) || true
+    PATH=$PATH:${lib.makeBinPath [ pkgs.unstable.nvd pkgs.nix ]}
+    nvd --version-highlight xmas diff $(ls -dv /nix/var/nix/profiles/system-*-link | tail -2) || true
   '';
 
   # This value determines the NixOS release from which the default
