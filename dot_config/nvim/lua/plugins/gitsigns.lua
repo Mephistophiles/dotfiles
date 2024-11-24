@@ -10,15 +10,8 @@ return { -- Git integration for buffers
 
         gitsigns.setup {
             current_line_blame = true,
-            current_line_blame_opts = {
-                ignore_whitespace = true,
-            },
-
-            trouble = true,
-
-            update_debounce = 1000,
-
-            attach_to_untracked = true,
+            update_debounce = 2500,
+            attach_to_untracked = false,
 
             on_attach = function()
                 local gs = package.loaded.gitsigns
