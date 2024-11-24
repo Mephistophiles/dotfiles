@@ -23,8 +23,8 @@ with TemporaryDirectory() as path:
 	if current_user == 0:
 		print("Run nixos-rebuild...")
 		run('nixos-rebuild', 'build')
-		run('nvd', 'diff', '/run/current-system', 'result/')
+		run('nvd', '--version-highlight', 'xmas', 'diff', '/run/current-system', 'result/')
 	else:
 		print("Run home-manager...")
 		run('home-manager', 'build', '--flake', '/etc/nixos')
-		run('nvd', 'diff', f'{home}/.local/state/nix/profiles/home-manager', 'result/')
+		run('nvd', '--version-highlight', 'xmas', 'diff', f'{home}/.local/state/nix/profiles/home-manager', 'result/')
