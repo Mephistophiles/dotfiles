@@ -76,7 +76,7 @@ local supported_languages = {
     python = {
         'pylsp',
         'pyright',
-        'ruff_lsp',
+        'ruff',
     },
     zig = { 'zls' },
 }
