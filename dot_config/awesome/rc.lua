@@ -334,7 +334,6 @@ local battery_widget = has_battery()
 
 -- local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
-
 local cpu_temp_widget = awful.widget.watch(
     { "bash", "-c", [[sensors 'k10temp-*' -u | grep input: | head | cut -d' ' -f4 | head -1]] },
     5,
@@ -347,6 +346,41 @@ local cpu_temp_widget = awful.widget.watch(
         widget:set_text(string.format("%.1f℃", temp))
     end
 )
+
+local function interpolate(value, min_value, max_value, from, to)
+    return from + (to - from) * ((value - min_value) / (max_value - min_value))
+end
+
+local function prettify_seconds(active, tracked, seconds)
+    local warn_start = 0
+    local warn_end = 8 * 60 * 60
+    local output = {}
+
+    if seconds > warn_end then
+        table.insert(output, "<span color='red'>")
+    elseif active then
+        table.insert(output, "<b>")
+    else
+        -- from yellow to green
+        local r = gears.math.round(interpolate(seconds, warn_start, warn_end, 255, 0))
+        local g = 255
+        local b = 0
+
+        table.insert(output, string.format("<span color='#%02x%02x%02x'>", r, g, b))
+    end
+
+    table.insert(output, tracked)
+
+    if seconds > warn_end then
+        table.insert(output, "</span>")
+    elseif active then
+        table.insert(output, "</b>")
+    else
+        table.insert(output, "</span>")
+    end
+
+    return table.concat(output, "")
+end
 
 local taskwarrior_widget, taskwarrior_widget_timer = awful.widget.watch(
     { "bash", "-c", [[
@@ -377,6 +411,12 @@ local taskwarrior_widget, taskwarrior_widget_timer = awful.widget.watch(
         local urgency = info[4]
         local tracked = info[5]
 
+        if gears.string.startswith(tracked, "No") then
+            tracked = "00:00:00"
+        end
+        local time_tokens = gears.string.split(tracked, ":")
+        local total_seconds = tonumber(time_tokens[1]) * 60 * 60 + tonumber(time_tokens[2]) * 60 + tonumber(time_tokens[3])
+
         local status = {}
 
         if id ~= "" then
@@ -388,11 +428,10 @@ local taskwarrior_widget, taskwarrior_widget_timer = awful.widget.watch(
 
         if active then
             widget.active_status = true
-            table.insert(status, string.format("timew: <b>%s</b>", tracked))
         else
             widget.active_status = false
-            table.insert(status, string.format("timew: %s", tracked))
         end
+        table.insert(status, string.format("timew: %s", prettify_seconds(active, tracked, total_seconds)))
 
         widget:set_markup(table.concat(status, " "))
     end
