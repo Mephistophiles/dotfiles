@@ -17,7 +17,7 @@
 
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-24.05";
+    nixpkgs.url = "nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     # nixpkgs-nightly.url = "nixpkgs/master";
 
@@ -25,7 +25,7 @@
 
     # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -97,7 +97,7 @@
             nixpkgs = nixpkgs-overlay;
             nix.extraOptions = "experimental-features = nix-command flakes";
             nix.settings.trusted-users = [ "root" "@wheel" ];
-            nix.package = pkgs.nixFlakes;
+            nix.package = pkgs.nixVersions.stable;
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.registry = {
               nixpkgs-unstable.flake = nixpkgs-unstable;

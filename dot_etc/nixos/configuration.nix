@@ -173,11 +173,7 @@ in
     '';
   };
 
-  # Enable sound.
-  sound.enable = true;
-
   hardware = {
-    pulseaudio.enable = true;
     bluetooth.enable = true;
   };
 
@@ -244,11 +240,11 @@ in
     evince
     chromium
     firefox
-    gnome3.file-roller
-    gnome3.gnome-calculator
-    gnome3.gnome-disk-utility
-    gnome3.gnome-themes-extra
-    gnome3.nautilus
+    file-roller
+    gnome-calculator
+    gnome-disk-utility
+    gnome-themes-extra
+    nautilus
     unstable.tdesktop
 
     # text editors
@@ -285,7 +281,7 @@ in
     rsync
     sshfs-fuse
     time
-    transmission-gtk
+    transmission_4-gtk
     unzip
     vifm
     wally-cli
@@ -390,7 +386,7 @@ in
       material-icons
       nerdfonts
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       weather-icons
     ];
