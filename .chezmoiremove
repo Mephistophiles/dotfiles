@@ -1,4 +1,5 @@
 .config/nvim/lua/highlight.lua
+.config/nvim/lua/news.lua
 .config/nvim/lua/plugins/barbar.lua
 .config/nvim/lua/plugins/comment.lua
 .config/nvim/lua/plugins/dropbar.lua
@@ -8,10 +9,12 @@
 .config/nvim/lua/plugins/multicursors.lua
 .config/nvim/lua/plugins/noice.lua
 .config/nvim/lua/plugins/numb.lua
+.config/nvim/lua/plugins/nvim-notify.lua
 .config/nvim/lua/plugins/nvim-spectre.lua
 .config/nvim/lua/plugins/overseer.lua
 .config/nvim/lua/plugins/smartcolumn.lua
 .config/nvim/lua/plugins/telescope
+.config/nvim/lua/plugins/toggleterm.lua
 .config/nvim/lua/plugins/utils/luasnip
 .config/nvim/lua/plugins/vim-indent-object.lua
 .config/nvim/lua/plugins/which-key.lua
