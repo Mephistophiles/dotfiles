@@ -3,7 +3,6 @@ local multi_rg = function(opts)
     local finders = require 'telescope.finders'
     local make_entry = require 'telescope.make_entry'
     local pickers = require 'telescope.pickers'
-    local flatten = vim.tbl_flatten
 
     opts = opts or {}
     opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
@@ -27,10 +26,10 @@ local multi_rg = function(opts)
                 table.insert(args, prompt_split[2])
             end
 
-            return flatten {
+            return ({
                 args,
                 { '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' },
-            }
+            }):flatten()
         end,
         entry_maker = make_entry.gen_from_vimgrep(opts),
         cwd = opts.cwd,

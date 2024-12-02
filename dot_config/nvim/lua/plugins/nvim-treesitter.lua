@@ -57,65 +57,6 @@ return {
                     -- Instead of true it can also be a list of languages
                     additional_vim_regex_highlighting = {}, -- Required since TS highlighter doesn't support all syntax features (conceal)
                 },
-                incremental_selection = {
-                    enable = true,
-                    keymaps = {
-                        init_selection = 'gnn',
-                        node_incremental = 'grn',
-                        scope_incremental = 'grc',
-                        node_decremental = 'grm',
-                    },
-                },
-                textobjects = {
-                    select = {
-                        enable = true,
-
-                        -- Automatically jump forward to textobj, similar to targets.vim
-                        lookahead = true,
-
-                        keymaps = {
-                            -- You can use the capture groups defined in textobjects.scm
-                            ['af'] = '@function.outer',
-                            ['if'] = '@function.inner',
-                            ['aC'] = '@condition.outer',
-                            ['iC'] = '@condition.inner',
-                            ['ac'] = '@call.outer',
-                            ['ic'] = '@call.inner',
-                            ['ai'] = '@class.outer',
-                            ['ii'] = '@class.inner',
-                            ['al'] = '@loop.outer',
-                            ['il'] = '@loop.inner',
-                            ['ap'] = '@parameter.outer',
-                            ['ip'] = '@parameter.inner',
-                            ['i<space>'] = '@statement.outer',
-                        },
-                    },
-                    swap = {
-                        enable = false,
-                    },
-                    move = {
-                        enable = true,
-                        set_jumps = true, -- whether to set jumps in the jumplist
-                        goto_next_start = {
-                            [']]'] = '@block.outer',
-                            [']f'] = '@function.outer',
-                            [']p'] = '@parameter.outer',
-                        },
-                        goto_next_end = {
-                            [']F'] = '@function.outer',
-                            [']P'] = '@parameter.outer',
-                        },
-                        goto_previous_start = {
-                            ['[['] = '@block.outer',
-                            ['[f'] = '@function.outer',
-                            ['[p'] = '@parameter.outer',
-                        },
-                        goto_previous_end = {
-                            ['[F'] = '@function.outer',
-                            ['[P'] = '@parameter.outer',
-                        },
-                    },
-                },
                 query_linter = {
                     enable = true,
                     use_virtual_text = true,
@@ -127,7 +68,6 @@ return {
             vim.wo.foldmethod = 'expr'
         end,
         dependencies = {
-            { 'nvim-treesitter/nvim-treesitter-textobjects' },
             {
                 'nvim-treesitter/nvim-treesitter-context',
                 opts = {
