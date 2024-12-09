@@ -1,25 +1,27 @@
-P = function(v)
-    print(vim.inspect(v))
-    return v
+_G.dd = function(...)
+    Snacks.debug.inspect(...)
+end
+_G.bt = function()
+    Snacks.debug.backtrace()
 end
 
-RELOAD = function(...)
+_G.RELOAD = function(...)
     return require('plenary.reload').reload_module(...)
 end
 
-R = function(name)
-    RELOAD(name)
+_G.R = function(name)
+    _G.RELOAD(name)
     return require(name)
 end
 
 --- Get nvim command
 ---@param cmd string
 ---@return string
-function CMD(cmd)
+_G.CMD = function(cmd)
     return '<cmd>' .. cmd .. '<cr>'
 end
 
-MAP_CLEANUPS = {
+_G.MAP_CLEANUPS = {
     CMD 'nohlsearch',
     CMD 'call clearmatches()',
 }
