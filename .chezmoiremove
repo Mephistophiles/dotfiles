@@ -14,7 +14,6 @@
 .config/nvim/lua/plugins/nvim-spectre.lua
 .config/nvim/lua/plugins/overseer.lua
 .config/nvim/lua/plugins/smartcolumn.lua
-.config/nvim/lua/plugins/telescope
 .config/nvim/lua/plugins/toggleterm.lua
 .config/nvim/lua/plugins/utils/luasnip
 .config/nvim/lua/plugins/vim-indent-object.lua
