@@ -1,7 +1,7 @@
-_G.dd = function(...)
+_G.DD = function(...)
     Snacks.debug.inspect(...)
 end
-_G.bt = function()
+_G.BT = function()
     Snacks.debug.backtrace()
 end
 
@@ -22,6 +22,6 @@ _G.CMD = function(cmd)
 end
 
 _G.MAP_CLEANUPS = {
-    CMD 'nohlsearch',
-    CMD 'call clearmatches()',
+    '<CMD>nohlsearch<CR>',
+    '<CMD>call clearmatches()<CR>',
 }
