@@ -27,7 +27,7 @@ return {
             formatters = {
                 clang_format = {
                     condition = function()
-                        util.root_file { '.clang-format' }
+                        return util.root_file { '.clang-format' } ~= nil
                     end,
                 },
                 jq = { args = { '--indent', '4' } },
