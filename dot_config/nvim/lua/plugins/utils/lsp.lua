@@ -114,13 +114,7 @@ function M.custom_attach(client, bufnr)
     filetype_attach[filetype](client)
 end
 
-function M.make_default_opts(extra)
-    local capabilities = vim.tbl_deep_extend(
-        'force',
-        vim.lsp.protocol.make_client_capabilities(),
-        require('cmp_nvim_lsp').default_capabilities()
-    )
-
+function M.make_default_opts(capabilities, extra)
     return vim.tbl_deep_extend('force', {
         on_init = custom_init,
         on_attach = M.custom_attach,

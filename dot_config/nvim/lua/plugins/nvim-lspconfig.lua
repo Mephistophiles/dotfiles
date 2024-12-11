@@ -91,10 +91,13 @@ return {
         'neovim/nvim-lspconfig',
         event = event_pattern,
         name = 'lspconfig',
+        dependencies = { 'saghen/blink.cmp' },
         config = function()
             vim.lsp.set_log_level 'off'
             local lsp_config = require 'lspconfig'
             local lsp_utils = require 'plugins.utils.lsp'
+
+            local default_capabilities = require('blink.cmp').get_lsp_capabilities()
 
             for lang, configs in pairs(supported_languages) do
                 local lsp_servers = {}
@@ -114,7 +117,7 @@ return {
                 end
 
                 for server, config in pairs(lsp_servers) do
-                    lsp_config[server].setup(lsp_utils.make_default_opts(config))
+                    lsp_config[server].setup(lsp_utils.make_default_opts(default_capabilities, config))
                 end
 
                 vim.diagnostic.config {

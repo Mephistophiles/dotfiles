@@ -9,6 +9,7 @@
 .config/nvim/lua/plugins/multicursors.lua
 .config/nvim/lua/plugins/noice.lua
 .config/nvim/lua/plugins/numb.lua
+.config/nvim/lua/plugins/nvim-cmp.lua
 .config/nvim/lua/plugins/nvim-config-local.lua
 .config/nvim/lua/plugins/nvim-notify.lua
 .config/nvim/lua/plugins/nvim-spectre.lua
