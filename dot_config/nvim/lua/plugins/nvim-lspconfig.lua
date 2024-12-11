@@ -127,6 +127,16 @@ return {
         end,
     },
     {
+        'folke/lazydev.nvim',
+        ft = 'lua', -- only load on lua files
+        opts = {
+            library = {
+                'lazy.nvim',
+                { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+            },
+        },
+    },
+    {
         'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
         keys = {
             {

@@ -25,6 +25,7 @@ return {
             nvim_lsp = '[LSP]',
             path = '[Path]',
             crates = '[Crates.io]',
+            lazydev = '[LazyDev]',
         }
 
         for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('lua/snippets/*.lua', true)) do
@@ -70,6 +71,7 @@ return {
             sources = {
                 { name = 'nvim_lsp' }, -- language server protocol
                 { name = 'nvim_lsp_signature_help' },
+                { name = 'lazydev', group_index = 0 },
                 { name = 'path' }, -- completion from FS
                 {
                     name = 'buffer',
