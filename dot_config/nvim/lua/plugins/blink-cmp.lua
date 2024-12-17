@@ -4,6 +4,8 @@ return {
     lazy = false,
     build = 'cargo build --release',
 
+    -- dependencies = 'rafamadriz/friendly-snippets',
+
     -- dependencies = {
     --     'L3MON4D3/LuaSnip',
     -- },
@@ -49,18 +51,27 @@ return {
                 'lsp',
                 'path',
                 -- 'luasnip',
+                -- 'snippets',
                 'buffer',
                 'lazydev',
             },
-            -- providers = {
-            --     -- dont show LuaLS require statements when lazydev has items
-            --     lsp = { fallback_for = { 'lazydev' } },
-            --     lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink' },
-            -- },
+            providers = {
+                -- dont show LuaLS require statements when lazydev has items
+                lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
+            },
         },
 
-        -- experimental auto-brackets support
-        completion = { accept = { auto_brackets = { enabled = true } } },
+        completion = {
+            accept = {
+                -- experimental auto-brackets support
+                auto_brackets = {
+                    enabled = true,
+                },
+            },
+            list = {
+                selection = 'auto_insert',
+            },
+        },
 
         -- experimental signature help support
         signature = { enabled = true },
