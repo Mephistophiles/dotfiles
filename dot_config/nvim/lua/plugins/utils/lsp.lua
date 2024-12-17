@@ -1,5 +1,37 @@
 local M = {}
 
+local function smart_goto(fn)
+    for _, severity in ipairs {
+        vim.diagnostic.severity.ERROR,
+        vim.diagnostic.severity.WARN,
+        vim.diagnostic.severity.INFO,
+        vim.diagnostic.severity.HINT,
+    } do
+        local diagnostic = vim.diagnostic.get(0, { severity = severity })
+
+        if #diagnostic > 0 then
+            fn(severity)
+            break
+        end
+    end
+end
+
+local function smart_goto_next()
+    smart_goto(function(severity)
+        vim.diagnostic.goto_next {
+            severity = severity,
+        }
+    end)
+end
+
+local function smart_goto_prev()
+    smart_goto(function(severity)
+        vim.diagnostic.goto_prev {
+            severity = severity,
+        }
+    end)
+end
+
 local function keymap(key, cmd, user_opts)
     local default_opts = { remap = true, buffer = true }
     local opts = vim.tbl_extend('force', default_opts, user_opts or {})
@@ -36,6 +68,13 @@ local function key_bindings(client)
         vim.lsp.buf.format,
         { buffer = true, desc = 'LSP: format document by lsp engine' }
     )
+
+    keymap(']D', function()
+        smart_goto_next()
+    end, { desc = 'LSP: goto next significant diagnostic' })
+    keymap('[D', function()
+        smart_goto_prev()
+    end, { desc = 'LSP: goto prev significant diagnostic' })
 
     if client.supports_method 'textDocument/codeLens' then
         vim.keymap.set(
