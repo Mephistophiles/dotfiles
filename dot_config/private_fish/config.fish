@@ -7,6 +7,7 @@ abbr -a vimdiff 'nvim -d'
 
 abbr --add ls "eza"
 abbr --add ll "eza -l"
+abbr --add lla "eza -la"
 
 abbr --add cat "bat"
 
