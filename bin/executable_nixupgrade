@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+MODE="${1:-dry}"
+
+function log() {
+	tput rev
+	tput bold
+	echo "$*"
+	tput sgr0
+}
+
+function cmd() {
+	echo ">> $*"
+	"$@"
+}
+
+if [ "$MODE" = "dry" ]; then
+	cmd sudo nix flake update --commit-lock-file --flake /etc/nixos
+	cmd nix-channel --update
+
+	cmd sudo nixwhatchanged
+	cmd nixwhatchanged
+fi
+
+if [ "$MODE" = "run" ]; then
+	cmd sudo nixsw
+	cmd nixsw
+	cmd nix profile upgrade --accept-flake-config devenv
+fi
