@@ -262,8 +262,6 @@ in
     brightnessctl
     unstable.chezmoi
     curl
-    deadbeef-with-plugins
-    docker-compose
     file
     fzf
     gnuplot
