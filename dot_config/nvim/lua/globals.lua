@@ -1,10 +1,3 @@
-_G.DD = function(...)
-    Snacks.debug.inspect(...)
-end
-_G.BT = function()
-    Snacks.debug.backtrace()
-end
-
 _G.RELOAD = function(...)
     return require('plenary.reload').reload_module(...)
 end
