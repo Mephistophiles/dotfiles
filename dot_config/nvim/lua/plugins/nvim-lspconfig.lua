@@ -159,7 +159,7 @@ return {
     },
     {
         'mrcjkb/rustaceanvim',
-        version = '^4', -- Recommended
+        version = '^5', -- Recommended
         config = function()
             vim.g.rustaceanvim = { server = { on_attach = require('plugins.utils.lsp').custom_attach } }
         end,
