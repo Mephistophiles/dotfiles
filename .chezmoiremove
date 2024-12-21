@@ -20,4 +20,5 @@
 .config/nvim/lua/plugins/utils/luasnip
 .config/nvim/lua/plugins/vim-indent-object.lua
 .config/nvim/lua/plugins/which-key.lua
+.config/nvim/lua/snippets
 .config/nvim/uncrustify.cfg
