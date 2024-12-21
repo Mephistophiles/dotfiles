@@ -91,6 +91,7 @@ return {
                     Snacks.debug.backtrace()
                 end
                 vim.print = _G.DD
+                vim.ui.input = Snacks.input
 
                 -- dashboard
 

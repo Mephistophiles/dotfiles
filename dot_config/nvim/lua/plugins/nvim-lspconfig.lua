@@ -153,11 +153,6 @@ return {
         end,
     },
     {
-        'doums/suit.nvim',
-        opts = {},
-        event = 'VeryLazy',
-    },
-    {
         'mrcjkb/rustaceanvim',
         version = '^5', -- Recommended
         config = function()
