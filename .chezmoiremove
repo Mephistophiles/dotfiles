@@ -21,7 +21,6 @@
 .config/nvim/lua/plugins/nvim-notify.lua
 .config/nvim/lua/plugins/nvim-spectre.lua
 .config/nvim/lua/plugins/overseer.lua
-.config/nvim/lua/plugins/replacer.lua
 .config/nvim/lua/plugins/smartcolumn.lua
 .config/nvim/lua/plugins/symbols-outline.lua
 .config/nvim/lua/plugins/toggleterm.lua
