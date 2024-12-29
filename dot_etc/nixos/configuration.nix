@@ -180,7 +180,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
     extraUsers.mzhukov = {
-      shell = pkgs.fish;
+      shell = pkgs.unstable.fish;
       isNormalUser = true;
       extraGroups = [
         "dialout"
@@ -201,7 +201,10 @@ in
   };
 
   programs = {
-    fish.enable = true;
+    fish = {
+      enable = true;
+      package = pkgs.unstable.fish;
+    };
     dconf.enable = true;
 
     fuse = { userAllowOther = true; };
@@ -211,15 +214,16 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # rust stuff
+    unstable.alacritty
     unstable.bat
     unstable.bottom
-    unstable.cargo-msrv
+    # unstable.cargo-msrv
     unstable.difftastic
     unstable.dua
     unstable.eza
     unstable.fd
     unstable.hyperfine
-    unstable.git-cliff
+    # unstable.git-cliff
     # unstable.inferno
     unstable.igrep
     unstable.just
@@ -228,21 +232,20 @@ in
     unstable.ruplacer
     unstable.rust-analyzer
     unstable.rustup
-    unstable.simple-http-server
+    # unstable.simple-http-server
     unstable.tealdeer
     unstable.watchexec
-    unstable.wezterm
     unstable.yazi
     unstable.zoxide
 
     # gui
     arandr
     evince
-    chromium
+    # chromium
     firefox
     file-roller
     gnome-calculator
-    gnome-disk-utility
+    # gnome-disk-utility
     gnome-themes-extra
     nautilus
     unstable.tdesktop
@@ -264,7 +267,7 @@ in
     curl
     file
     fzf
-    gnuplot
+    # gnuplot
     haskellPackages.greenclip
     htop
     kitty
@@ -376,6 +379,7 @@ in
     enableDefaultPackages = true;
     packages = with pkgs; [
       fira-code
+      fira-code-nerdfont
       fira-code-symbols
       font-awesome
       fontconfig
