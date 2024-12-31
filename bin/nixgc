@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+import os
+import subprocess
+
+def run(*args: str):
+	subprocess.run(args, check=True)
+
+current_user = os.getuid()
+run('nix-collect-garbage', '-d')
+
+if current_user == 0:
+	run('/nix/var/nix/profiles/system/bin/switch-to-configuration', 'switch')

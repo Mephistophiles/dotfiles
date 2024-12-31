@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import shlex
+import logging
+import subprocess
+from tempfile import TemporaryDirectory
+
+def run(*args: str):
+    subprocess.run(args, check=True)
+
+def copy_nix_files(f: str, to: str, verbose: bool = False, dry_run: bool = False):
+    args = [
+        "rclone",
+        "copy",
+        "--config",
+        "/dev/null",
+        "--include",
+        "*.nix",
+        f + '/',
+        to,
+    ]
+
+    if verbose:
+        args.insert(2, '-v')
+
+    if dry_run:
+        args.insert(2, '--dry-run')
+
+    logging.debug('run ' + shlex.join(args))
+    run(*args)
+
+uid = os.getuid()
+
+search_place = "~/.dotfiles/nixos/nixos/"
+
+if uid != 0:
+	raise Exception("Invalid permissions: you must be root")
+
+with TemporaryDirectory() as before:
+    with TemporaryDirectory() as after:
+        copy_nix_files(search_place, before)
+        copy_nix_files(search_place, after)
+
+        run('nixpkgs-fmt', after)
+
+        diff = subprocess.Popen(['diff', '--recursive', '-U3', before, after], stdout=subprocess.PIPE)
+        delta = subprocess.run(['delta', '--paging', 'never'], stdin=diff.stdout, check=False)
+
+        print('continue? ')
+
+        try:
+            if sys.stdin.readline().strip().lower() != 'y':
+                sys.exit(0)
+
+            copy_nix_files(after, search_place, True)
+        except KeyboardInterrupt:
+            pass
+

@@ -1,0 +1,18 @@
+{
+    "workspace.library": [
+        "/home/mzhukov/.config/nvim",
+        "/home/mzhukov/.local/share/nvim/lazy/lazy.nvim",
+        "/home/mzhukov/.local/share/nvim/lazy/lspconfig",
+        "/home/mzhukov/.local/share/nvim/lazy/git-conflict.nvim",
+        "/home/mzhukov/.local/share/nvim/lazy/project.nvim",
+        "/home/mzhukov/.local/share/nvim/lazy/guess-indent.nvim",
+        "/home/mzhukov/.local/share/nvim/lazy/vim-repeat",
+        "/home/mzhukov/.local/share/nvim/lazy/tokyonight.nvim",
+        "/nix/store/grcfjxsgxjajc1ws6ip2jkkhd238dx77-neovim-unwrapped-0.9.1/share/nvim/runtime",
+        "/nix/store/grcfjxsgxjajc1ws6ip2jkkhd238dx77-neovim-unwrapped-0.9.1/share/nvim/runtime/pack/dist/opt/matchit",
+        "/nix/store/grcfjxsgxjajc1ws6ip2jkkhd238dx77-neovim-unwrapped-0.9.1/lib/nvim",
+        "/home/mzhukov/.config/nvim/after",
+        "/home/mzhukov/.local/state/nvim/lazy/readme",
+        "${3rd}/luassert/library"
+    ]
+}

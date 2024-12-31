@@ -1,6 +1,0 @@
-[".config/awesome/awesome-wm-widgets"]
-    type = "archive"
-    url = "https://github.com/streetturtle/awesome-wm-widgets/archive/refs/heads/master.zip"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
