@@ -27,7 +27,7 @@ return {
         config = function()
             require('project_nvim').setup {
                 detection_methods = { 'pattern' },
-                patterns = { '.git' },
+                patterns = { '.git', '.root' },
             }
         end,
     },

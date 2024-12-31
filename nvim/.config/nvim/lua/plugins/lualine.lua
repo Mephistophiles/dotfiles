@@ -1,7 +1,7 @@
 return {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
-    dependencies = { 'nvim-tree/nvim-web-devicons', 'arkav/lualine-lsp-progress', 'letieu/harpoon-lualine' },
+    dependencies = { 'nvim-tree/nvim-web-devicons', 'letieu/harpoon-lualine' },
     config = function()
         local function current_lsp()
             local lsp_info = {}
@@ -36,7 +36,6 @@ return {
                 lualine_x = {
                     current_lsp,
                     lint_progress,
-                    'lsp_progress',
                     'encoding',
                     'fileformat',
                     'filetype',

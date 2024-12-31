@@ -43,6 +43,16 @@ local supported_languages = {
         'lua_ls',
         function()
             return {
+                default_config = {
+                    root_dir = function(fname)
+                        local root_pattern = vim.lsp.util.root_pattern('.git', '.root')(fname)
+
+                        if fname == vim.loop.os_homedir() then
+                            return nil
+                        end
+                        return root_pattern or fname
+                    end,
+                },
                 settings = {
                     Lua = {
                         completion = {
