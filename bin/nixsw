@@ -5,7 +5,7 @@ import subprocess
 
 current_user = os.getuid()
 home = os.getenv("SUDO_HOME", os.getenv("HOME"))
-flake_dir = os.path.join(home, '.dotfiles', 'nixos', 'nixos')
+flake_dir = os.path.join(home, '.dotfiles', 'nixos')
 
 def run(*args: str):
     subprocess.run(args, check=True)

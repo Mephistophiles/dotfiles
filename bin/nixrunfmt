@@ -33,7 +33,7 @@ def copy_nix_files(f: str, to: str, verbose: bool = False, dry_run: bool = False
 
 uid = os.getuid()
 
-search_place = "~/.dotfiles/nixos/nixos/"
+search_place = "~/.dotfiles/nixos/"
 
 if uid != 0:
 	raise Exception("Invalid permissions: you must be root")
