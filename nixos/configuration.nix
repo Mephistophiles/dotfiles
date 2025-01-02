@@ -82,15 +82,6 @@ in
     # Enable CUPS to print documents.
     # printing.enable = true;
 
-    cron = {
-      enable = true;
-      systemCronJobs = [
-        "*/5 * * * *  mzhukov   /home/mzhukov/.etc/sync.sh"
-        "*/5 * * * *  mzhukov   cat ~/.config/starship.toml > ~/.dotfiles/dot_config/readonly_starship.toml"
-        "*/5 * * * *  mzhukov   cat ~/.config/rofi/config.rasi > ~/.dotfiles/dot_config/rofi/config.rasi"
-      ];
-    };
-
     openssh = { enable = true; };
 
     logind = {
