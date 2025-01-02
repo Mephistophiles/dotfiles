@@ -43,8 +43,4 @@
   home.activation.report-changes = config.lib.dag.entryAnywhere ''
     ${pkgs.unstable.nvd}/bin/nvd diff $oldGenPath $newGenPath
   '';
-
-  home.file.".config/fish/conf.d/add_bin_to_path.fish".text = ''
-    fish_add_path "$HOME/bin"
-  '';
 }
