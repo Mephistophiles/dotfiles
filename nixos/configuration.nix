@@ -235,10 +235,10 @@ in
     # chromium
     firefox
     file-roller
-    gnome-calculator
+    # gnome-calculator
     # gnome-disk-utility
-    gnome-themes-extra
-    nautilus
+    # gnome-themes-extra
+    # nautilus
     unstable.tdesktop
 
     # text editors
@@ -251,7 +251,6 @@ in
     # xfce.mousepad
 
     # utils
-    bitwarden-cli
     brightnessctl
     curl
     file
@@ -283,15 +282,11 @@ in
 
     # nixos
     # devenv
-    deadnix
-    nix-du
     nix-index
-    nix-prefetch
     nix-tree
     nixos-option
     nixpkgs-fmt
     unstable.nvd
-    statix
     unstable.rofi
     unstable.home-manager
     unstable.nixpkgs-review
@@ -302,13 +297,11 @@ in
     unstable.tree-sitter
     acpi
     gopass
-    gopls
     pavucontrol
     vlc
 
     # programming
     cmake
-    gcc_multi
     git
     gitAndTools.delta
     gitAndTools.gh
@@ -327,15 +320,16 @@ in
     networkmanagerapplet
 
     # programming LSP
-    clang-tools
-    gdb
     llvmPackages_latest.clang
+    llvmPackages_latest.clang-tools
     llvmPackages_latest.llvm
+
+    unstable.gopls
     unstable.nixd
-    unstable.sumneko-lua-language-server
-    unstable.nodePackages.vscode-json-languageserver
     unstable.nodePackages.jsonlint
+    unstable.nodePackages.vscode-json-languageserver
     unstable.python3Packages.python-lsp-server
+    unstable.sumneko-lua-language-server
 
     # file systems
     btrfs-progs
@@ -355,6 +349,7 @@ in
     # replicates the default behaviour.
     networkmanager = {
       enable = true;
+      plugins = lib.mkForce [ ];
       dispatcherScripts = [
         {
           source = ./70-wifi-wired.exclusive.sh;
@@ -403,6 +398,6 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 }
 

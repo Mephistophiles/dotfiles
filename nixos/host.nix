@@ -13,8 +13,5 @@
   # environment.systemPackages = with pkgs; [ matebook-applet ];
   networking = {
     hostName = "mzhukov-laptop"; # Define your hostname.
-    networkmanager = {
-      enable = true;
-    };
   };
 }
