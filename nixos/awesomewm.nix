@@ -4,12 +4,10 @@
   services = {
     displayManager = {
       defaultSession = "none+awesome";
+      sddm.enable = true;
     };
     xserver = {
-      displayManager = {
-        gdm.enable = true;
-        #sddm.enable = true;
-      };
+      enable = true;
       windowManager.awesome = {
         enable = true;
         luaModules = with pkgs.luaPackages; [
