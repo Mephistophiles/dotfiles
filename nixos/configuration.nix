@@ -226,6 +226,7 @@ in
     unstable.starship
     unstable.tealdeer
     unstable.watchexec
+    unstable.wezterm
     unstable.yazi
     unstable.zoxide
 
@@ -249,6 +250,7 @@ in
     })
     unstable.helix
     unstable.obsidian
+    unstable.zed-editor
     # unstable.vscode
     # xfce.mousepad
 
