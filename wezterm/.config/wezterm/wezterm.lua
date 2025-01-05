@@ -2,6 +2,8 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 
 return {
+	check_for_updates = false,
+
 	font = wezterm.font("FiraCode Nerd Font Mono"),
 	font_size = 11,
 
