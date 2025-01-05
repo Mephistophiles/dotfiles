@@ -3,7 +3,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, options, ... }:
+{ inputs, config, pkgs, lib, options, ... }:
 
 let
   graphics = "awesomewm";
@@ -228,6 +228,8 @@ in
     unstable.watchexec
     unstable.yazi
     unstable.zoxide
+
+    inputs.wezterm.packages.${pkgs.system}.default
 
     # gui
     arandr
