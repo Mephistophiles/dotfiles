@@ -37,18 +37,6 @@ return {
             },
         },
 
-        completion = {
-            accept = {
-                -- experimental auto-brackets support
-                auto_brackets = {
-                    enabled = true,
-                },
-            },
-            list = {
-                selection = 'auto_insert',
-            },
-        },
-
         -- experimental signature help support
         signature = { enabled = true },
     },
