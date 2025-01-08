@@ -37,6 +37,11 @@ return {
             },
         },
 
+        completion = {
+            -- Don't select by default, auto insert on selection
+            list = { selection = { preselect = false, auto_insert = true } },
+        },
+
         -- experimental signature help support
         signature = { enabled = true },
     },
