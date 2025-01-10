@@ -100,16 +100,20 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
     config = function()
         local actions = require 'telescope.actions'
         require('telescope').setup {
-            defaults = {
-                mappings = {
-                    i = {
-                        ['<C-Down>'] = actions.cycle_history_next,
-                        ['<C-Up>'] = actions.cycle_history_prev,
-                        ['<C-u>'] = false,
-                        ['<C-space>'] = actions.to_fuzzy_refine,
+            defaults = vim.tbl_extend(
+                'force',
+                require('telescope.themes').get_ivy(), -- or get_cursor, get_ivy
+                {
+                    mappings = {
+                        i = {
+                            ['<C-Down>'] = actions.cycle_history_next,
+                            ['<C-Up>'] = actions.cycle_history_prev,
+                            ['<C-u>'] = false,
+                            ['<C-space>'] = actions.to_fuzzy_refine,
+                        },
                     },
-                },
-            },
+                }
+            ),
             pickers = {
                 buffers = {
                     mappings = {
@@ -121,17 +125,7 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
                         },
                     },
                 },
-                find_files = {
-                    theme = 'ivy',
-                },
-                grep_string = {
-                    theme = 'ivy',
-                },
-                diagnostics = {
-                    theme = 'ivy',
-                },
                 current_buffer_fuzzy_find = {
-                    theme = 'ivy',
                     previewer = true,
                 },
             },
