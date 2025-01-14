@@ -5,7 +5,6 @@ return {
 	check_for_updates = false,
 
 	font = wezterm.font("FiraCode Nerd Font Mono"),
-	font_size = 12,
 
 	adjust_window_size_when_changing_font_size = false,
 
