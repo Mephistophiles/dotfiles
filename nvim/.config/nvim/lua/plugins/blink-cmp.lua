@@ -13,7 +13,21 @@ return {
         -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
         -- see the "default configuration" section below for full documentation on how to define
         -- your own keymap.
-        keymap = { preset = 'default' },
+        keymap = {
+            preset = 'default',
+            ['<CR>'] = { 'accept', 'fallback' },
+            ['<Tab>'] = {
+                function(cmp)
+                    if cmp.snippet_active() then
+                        return cmp.accept()
+                    else
+                        return cmp.select_and_accept()
+                    end
+                end,
+                'snippet_forward',
+                'fallback',
+            },
+        },
 
         appearance = {
             -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
