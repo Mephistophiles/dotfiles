@@ -230,8 +230,6 @@ in
     unstable.yazi
     unstable.zoxide
 
-    inputs.wezterm.packages.${pkgs.system}.default
-
     # gui
     arandr
     evince

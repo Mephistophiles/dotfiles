@@ -25,11 +25,6 @@
 
     # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
-    wezterm = {
-      url = "github:wez/wezterm?dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
