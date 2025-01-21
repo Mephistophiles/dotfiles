@@ -69,10 +69,10 @@ local function key_bindings(client)
         { buffer = true, desc = 'LSP: format document by lsp engine' }
     )
 
-    keymap(']D', function()
+    keymap('<leader>]', function()
         smart_goto_next()
     end, { desc = 'LSP: goto next significant diagnostic' })
-    keymap('[D', function()
+    keymap('<leader>[', function()
         smart_goto_prev()
     end, { desc = 'LSP: goto prev significant diagnostic' })
 
