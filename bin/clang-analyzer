@@ -100,4 +100,7 @@ for filename in sys.argv[1:]:
         filename,
     ]
 
+    if os.getenv("VERBOSE"):
+        print(f">> run {shlex.join(cmd)} in {DIR}")
+
     ret = subprocess.run(cmd, check=False, cwd=DIR)
