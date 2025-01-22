@@ -9,6 +9,7 @@ configs:
 		nvim \
 		rofi \
 		starship \
+		tmux \
 		wezterm
 
 bins:
