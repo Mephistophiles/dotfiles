@@ -39,6 +39,6 @@ direnv hook fish | source
 just --completions fish | source
 fzf --fish | source
 
-if [ -f "./host.fish" ]
-  source ./host.fish
+if [ -f "$HOME/.config/fish/host.fish" ]
+  source "$HOME/.config/fish/host.fish"
 end
