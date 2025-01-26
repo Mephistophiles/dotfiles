@@ -15,6 +15,7 @@ in
     ./variables.nix
     ./hardware-configuration.nix
     ./host.nix
+    ./amnezia-vpn.nix
   ] ++ (if graphics == "gnome" then
     [ ./gnome.nix ]
   else if graphics == "awesomewm" then
@@ -191,6 +192,9 @@ in
   };
 
   programs = {
+    amnezia-vpn = {
+      enable = true;
+    };
     fish = {
       enable = true;
       package = pkgs.unstable.fish;
