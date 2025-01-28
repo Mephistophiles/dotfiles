@@ -9,41 +9,55 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         'debugloop/telescope-undo.nvim',
     },
     keys = {
-        { '<leader>su', CMD 'Telescope undo', desc = '[S]how [U]ndo history' },
+        { '<leader>su', CMD 'Telescope undo', desc = 'Telescope: [S]how [U]ndo history' },
         {
             '<leader>sh',
             function()
                 require('telescope.builtin').help_tags()
             end,
-            desc = '[S]earch [H]elp',
+            desc = 'Telescope: [S]earch [H]elp',
         },
         {
             '<leader>sk',
             function()
                 require('telescope.builtin').keymaps()
             end,
-            desc = '[S]earch [K]eymaps',
+            desc = 'Telescope: [S]earch [K]eymaps',
         },
         {
             '<leader>sf',
             function()
                 require('telescope.builtin').find_files()
             end,
-            desc = '[S]earch [F]iles',
+            desc = 'Telescope: [S]earch [F]iles',
         },
         {
             '<leader>ss',
             function()
                 require('telescope.builtin').builtin()
             end,
-            desc = '[S]earch [S]elect Telescope',
+            desc = 'Telescope: [S]earch [S]elect Telescope',
+        },
+        {
+            '<leader>sl',
+            function()
+                require('telescope.builtin').lsp_document_symbols()
+            end,
+            desc = 'Telescope: [S]earch [L]SP document symbols',
+        },
+        {
+            '<leader>sL',
+            function()
+                require('telescope.builtin').lsp_workspace_symbols()
+            end,
+            desc = 'Telescope: [S]earch [L]SP workspace symbols',
         },
         {
             '<leader>sw',
             function()
                 require('telescope.builtin').grep_string()
             end,
-            desc = '[S]earch current [W]ord',
+            desc = 'Telescope: [S]earch current [W]ord',
         },
         {
             '<leader>sg',
@@ -52,49 +66,49 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
 
                 multi_rg(require('telescope.themes').get_ivy {})
             end,
-            desc = '[S]earch by [G]rep',
+            desc = 'Telescope: [S]earch by [G]rep',
         },
         {
             '<leader>sd',
             function()
                 require('telescope.builtin').diagnostics()
             end,
-            desc = '[S]earch [D]iagnostics',
+            desc = 'Telescope: [S]earch [D]iagnostics',
         },
         {
             '<leader>sr',
             function()
                 require('telescope.builtin').resume()
             end,
-            desc = '[S]earch [R]esume',
+            desc = 'Telescope: [S]earch [R]esume',
         },
         {
             '<leader>s.',
             function()
                 require('telescope.builtin').oldfiles()
             end,
-            desc = '[S]earch Recent Files ("." for repeat)',
+            desc = 'Telescope: [S]earch Recent Files ("." for repeat)',
         },
         {
             '<leader>sb',
             function()
                 require('telescope.builtin').buffers()
             end,
-            desc = '[S]earch existing [B]uffers',
+            desc = 'Telescope: [S]earch existing [B]uffers',
         },
         {
             '<leader>s/',
             function()
                 require('telescope.builtin').current_buffer_fuzzy_find()
             end,
-            desc = '[/] Fuzzily [S]earch in current buffer',
+            desc = 'Telescope: [/] Fuzzily [S]earch in current buffer',
         },
         {
             '<leader>sn',
             function()
                 require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
             end,
-            desc = '[S]earch [N]eovim files',
+            desc = 'Telescope: [S]earch [N]eovim files',
         },
     },
     config = function()
