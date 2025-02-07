@@ -53,6 +53,10 @@ return {
         },
         keymaps = {
             ['<C-p>'] = { 'actions.preview', mode = 'n' },
+            ['<C-s>'] = nil,
+            ['<C-h>'] = nil,
+            ['<C-v>'] = { 'actions.select', opts = { vertical = true } },
+            ['<C-x>'] = { 'actions.select', opts = { horizontal = true } },
         },
     },
     -- Optional dependencies
