@@ -19,6 +19,7 @@ local supported_languages = {
     'regex',
     'rust',
     'vim',
+    'vimdoc',
     'yaml',
 }
 
