@@ -13,7 +13,7 @@ return {
 	enable_kitty_keyboard = true,
 	enable_tab_bar = false,
 
-	selection_word_boundary = " \t\n{}[]()\"'·`",
+	selection_word_boundary = " \t\n{}[]()<>\"'·│`",
 
 	use_fancy_tab_bar = false,
 	scrollback_lines = 999999,
