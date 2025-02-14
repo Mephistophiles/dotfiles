@@ -138,6 +138,18 @@ return {
         end,
     },
     {
+        'nvimdev/lspsaga.nvim',
+        opts = {
+            lightbulb = {
+                virtual_text = false,
+            },
+        },
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter', -- optional
+            'nvim-tree/nvim-web-devicons', -- optional
+        },
+    },
+    {
         'folke/lazydev.nvim',
         ft = 'lua', -- only load on lua files
         opts = {
