@@ -12,51 +12,37 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         { '<leader>su', CMD 'Telescope undo', desc = 'Telescope: [S]how [U]ndo history' },
         {
             '<leader>sh',
-            function()
-                require('telescope.builtin').help_tags()
-            end,
+            CMD 'Telescope help_tags',
             desc = 'Telescope: [S]earch [H]elp',
         },
         {
             '<leader>sk',
-            function()
-                require('telescope.builtin').keymaps()
-            end,
+            CMD 'Telescope keymaps',
             desc = 'Telescope: [S]earch [K]eymaps',
         },
         {
             '<leader>sf',
-            function()
-                require('telescope.builtin').find_files()
-            end,
+            CMD 'Telescope find_files',
             desc = 'Telescope: [S]earch [F]iles',
         },
         {
             '<leader>ss',
-            function()
-                require('telescope.builtin').builtin()
-            end,
+            CMD 'Telescope',
             desc = 'Telescope: [S]earch [S]elect Telescope',
         },
         {
             '<leader>sl',
-            function()
-                require('telescope.builtin').lsp_document_symbols()
-            end,
+            CMD 'Telescope lsp_document_symbols',
             desc = 'Telescope: [S]earch [L]SP document symbols',
         },
         {
             '<leader>sL',
-            function()
-                require('telescope.builtin').lsp_workspace_symbols()
-            end,
+            CMD 'Telescope lsp_workspace_symbols',
             desc = 'Telescope: [S]earch [L]SP workspace symbols',
         },
         {
             '<leader>sw',
-            function()
-                require('telescope.builtin').grep_string()
-            end,
+            CMD 'Telescope grep_string',
             desc = 'Telescope: [S]earch current [W]ord',
         },
         {
@@ -70,37 +56,27 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
         },
         {
             '<leader>sd',
-            function()
-                require('telescope.builtin').diagnostics()
-            end,
+            CMD 'Telescope diagnostics',
             desc = 'Telescope: [S]earch [D]iagnostics',
         },
         {
             '<leader>sr',
-            function()
-                require('telescope.builtin').resume()
-            end,
+            CMD 'Telescope resume',
             desc = 'Telescope: [S]earch [R]esume',
         },
         {
             '<leader>s.',
-            function()
-                require('telescope.builtin').oldfiles()
-            end,
+            CMD 'Telescope oldfiles',
             desc = 'Telescope: [S]earch Recent Files ("." for repeat)',
         },
         {
             '<leader>sb',
-            function()
-                require('telescope.builtin').buffers()
-            end,
+            CMD 'Telescope buffers',
             desc = 'Telescope: [S]earch existing [B]uffers',
         },
         {
             '<leader>s/',
-            function()
-                require('telescope.builtin').current_buffer_fuzzy_find()
-            end,
+            CMD 'Telescope current_buffer_fuzzy_find',
             desc = 'Telescope: [/] Fuzzily [S]earch in current buffer',
         },
         {
