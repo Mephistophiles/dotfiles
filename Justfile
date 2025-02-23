@@ -13,7 +13,6 @@ configs:
 		wezterm
 
 bins:
+	mkdir -p ~/bin
 	stow -t ~/bin bin
 
-nixos:
-	sudo stow -t /etc nixos

@@ -13,8 +13,6 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./variables.nix
-    ./hardware-configuration.nix
-    ./host.nix
     ./amnezia-vpn.nix
   ] ++ (if graphics == "gnome" then
     [ ./gnome.nix ]
@@ -346,9 +344,9 @@ in
   # Open ports in the firewall.
   # Or disable the firewall altogether.
   networking = {
-    firewall.enable = true;
-    firewall.allowedTCPPorts = [ ];
-    firewall.allowedUDPPorts = [ ];
+    # firewall.enable = true;
+    # firewall.allowedTCPPorts = [ ];
+    # firewall.allowedUDPPorts = [ ];
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config

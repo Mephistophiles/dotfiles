@@ -87,29 +87,59 @@
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
 
-      nixosConfigurations.mzhukov-laptop = lib.nixosSystem {
-        system = "x86_64-linux";
-        # Things in this set are passed to modules and accessible
-        # in the top-level arguments (e.g. `{ pkgs, lib, inputs, ... }:`).
-        specialArgs = { inherit inputs; };
-        modules = [
-          home-manager.nixosModules.home-manager
+      nixosConfigurations = {
+        mzhukov-laptop = lib.nixosSystem {
+          system = "x86_64-linux";
+          # Things in this set are passed to modules and accessible
+          # in the top-level arguments (e.g. `{ pkgs, lib, inputs, ... }:`).
+          specialArgs = { inherit inputs; };
+          modules = [
+            home-manager.nixosModules.home-manager
 
-          ({ pkgs, ... }: {
-            nixpkgs = nixpkgs-overlay;
-            nix.extraOptions = "experimental-features = nix-command flakes";
-            nix.settings.trusted-users = [ "root" "@wheel" ];
-            nix.package = pkgs.nixVersions.stable;
-            nix.registry.nixpkgs.flake = nixpkgs;
-            nix.registry = {
-              nixpkgs-unstable.flake = nixpkgs-unstable;
-              devenv.flake = devenv;
-            };
-            home-manager.useGlobalPkgs = true;
-          })
+            ({ pkgs, ... }: {
+              nixpkgs = nixpkgs-overlay;
+              nix.extraOptions = "experimental-features = nix-command flakes";
+              nix.settings.trusted-users = [ "root" "@wheel" ];
+              nix.package = pkgs.nixVersions.stable;
+              nix.registry.nixpkgs.flake = nixpkgs;
+              nix.registry = {
+                nixpkgs-unstable.flake = nixpkgs-unstable;
+                devenv.flake = devenv;
+              };
+              home-manager.useGlobalPkgs = true;
+            })
 
-          ./configuration.nix
-        ];
+            ./hardware-configuration-mzhukov-laptop.nix
+            ./host-mzhukov-laptop.nix
+            ./configuration.nix
+          ];
+        };
+        mzhukov-mini-pc = lib.nixosSystem {
+          system = "x86_64-linux";
+          # Things in this set are passed to modules and accessible
+          # in the top-level arguments (e.g. `{ pkgs, lib, inputs, ... }:`).
+          specialArgs = { inherit inputs; };
+          modules = [
+            home-manager.nixosModules.home-manager
+
+            ({ pkgs, ... }: {
+              nixpkgs = nixpkgs-overlay;
+              nix.extraOptions = "experimental-features = nix-command flakes";
+              nix.settings.trusted-users = [ "root" "@wheel" ];
+              nix.package = pkgs.nixVersions.stable;
+              nix.registry.nixpkgs.flake = nixpkgs;
+              nix.registry = {
+                nixpkgs-unstable.flake = nixpkgs-unstable;
+                devenv.flake = devenv;
+              };
+              home-manager.useGlobalPkgs = true;
+            })
+
+            ./hardware-configuration-mzhukov-mini-pc.nix
+            ./host-mzhukov-mini-pc.nix
+            ./configuration.nix
+          ];
+        };
       };
     };
 }
