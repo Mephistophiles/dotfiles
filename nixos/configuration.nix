@@ -344,8 +344,8 @@ in
   # Open ports in the firewall.
   # Or disable the firewall altogether.
   networking = {
-    # firewall.enable = true;
-    # firewall.allowedTCPPorts = [ ];
+    firewall.enable = true;
+    firewall.allowedTCPPorts = [ 22 80 1883 8123 9001 ];
     # firewall.allowedUDPPorts = [ ];
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
