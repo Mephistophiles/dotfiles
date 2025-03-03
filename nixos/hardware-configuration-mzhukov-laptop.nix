@@ -6,11 +6,15 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules =
-    [ "nvme" "xhci_pci" "usb_storage" "usbhid" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot = {
+    extraModulePackages = [ ];
+    kernelModules = [ "kvm-amd" ];
+    initrd = {
+      availableKernelModules =
+        [ "nvme" "xhci_pci" "usb_storage" "usbhid" "sd_mod" ];
+      kernelModules = [ "amdgpu" ];
+    };
+  };
 
   hardware.keyboard.zsa.enable = true;
 
@@ -34,4 +38,13 @@
   swapDevices =
     [{ device = "/dev/disk/by-uuid/53e11865-70bc-4368-88d0-25d52b6add29"; }];
 
+  services = {
+    xserver = {
+      videoDrivers = [ "amdgpu" ];
+    };
+  };
+
+  networking = {
+    hostName = "mzhukov-laptop"; # Define your hostname.
+  };
 }
