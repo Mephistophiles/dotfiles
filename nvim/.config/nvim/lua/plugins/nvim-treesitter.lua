@@ -85,17 +85,6 @@ return {
                     zindex = 20, -- The Z-index of the context window
                 },
             },
-            {
-                'Wansmer/sibling-swap.nvim',
-                opts = {
-                    keymaps = {
-                        ['<C-.>'] = 'swap_with_right',
-                        ['<C-,>'] = 'swap_with_left',
-                        ['<space>.'] = 'swap_with_right_with_opp',
-                        ['<space>,'] = 'swap_with_left_with_opp',
-                    },
-                },
-            },
         },
     },
     { -- Treesitter playground integrated into Neovim

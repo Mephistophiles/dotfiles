@@ -18,7 +18,7 @@ end
 return {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
-    dependencies = { 'nvim-tree/nvim-web-devicons', 'letieu/harpoon-lualine' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
         sections = {
             lualine_a = { 'mode' },
@@ -28,7 +28,6 @@ return {
                 { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } },
             },
             lualine_c = {
-                { 'harpoon2', no_harpoon = '' },
                 { 'filename', path = 1 },
             },
             lualine_x = {
