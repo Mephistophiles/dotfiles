@@ -29,6 +29,10 @@ return {
             },
         },
 
+        fuzzy = {
+            implementation = 'prefer_rust',
+        },
+
         appearance = {
             -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
             -- Adjusts spacing to ensure icons are aligned
