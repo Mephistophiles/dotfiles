@@ -29,9 +29,7 @@ return {
             },
         },
 
-        fuzzy = {
-            implementation = 'prefer_rust',
-        },
+        fuzzy = { implementation = 'prefer_rust' },
 
         appearance = {
             -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
