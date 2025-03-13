@@ -682,6 +682,8 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift" }, "d", function() awful.spawn('rofi -modi drun -show drun', false) end),
     -- Rofi greenclip
     awful.key({ modkey }, "c", function() awful.spawn('rofi -modi "clipboard:greenclip print" -show clipboard', false) end),
+    -- Rofi calc
+    awful.key({ modkey }, "=", function() awful.spawn([[rofi -show calc -modi calc -no-show-match -no-sort -calc-command "echo -n '{result}' | xclip -sel clipboard"]], false) end),
     -- wallpaper
     awful.key({ modkey, "Shift" }, "w", function ()
         awful.spawn(AWESOMEWM_DIR .. "/set_wallpaper.sh", false)
