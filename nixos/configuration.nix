@@ -173,7 +173,6 @@
     nixos-option
     nixpkgs-fmt
     unstable.nvd
-    unstable.rofi
     unstable.home-manager
     unstable.nixpkgs-review
 
