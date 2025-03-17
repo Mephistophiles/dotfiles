@@ -4,7 +4,6 @@
 
 {
   imports = [
-    ./variables.nix
     ./home/git.nix
     ./home/tmux.nix
   ];
