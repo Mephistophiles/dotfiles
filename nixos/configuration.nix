@@ -50,21 +50,8 @@
   # List services that you want to enable:
   services = {
     pcscd.enable = true; # smartcard support for yubikey
-    gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
     opensnitch.enable = true;
-    xserver = {
-      enable = true;
-
-      desktopManager = { xterm.enable = false; };
-
-
-      # Configure keymap in X11
-      xkb = {
-        layout = "us,ru";
-        options = "grp:alt_shift_toggle,grp_led:scroll,caps:backspace";
-      };
-    };
 
     openssh = { enable = true; };
     upower = { enable = true; };

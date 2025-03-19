@@ -1,6 +1,24 @@
+
 { pkgs, ... }:
 
 {
+  services = {
+    gnome.gnome-keyring.enable = true;
+
+    xserver = {
+      enable = true;
+
+      desktopManager = { xterm.enable = false; };
+
+
+      # Configure keymap in X11
+      xkb = {
+        layout = "us,ru";
+        options = "grp:alt_shift_toggle,grp_led:scroll,caps:backspace";
+      };
+    };
+  };
+
   environment.variables = {
     WINIT_X11_SCALE_FACTOR = "1.2";
   };

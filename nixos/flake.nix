@@ -82,8 +82,8 @@
         mzhukov-laptop = mkSystem "x86_64-linux" [
           ./hardware-configuration-mzhukov-laptop.nix
           ./configuration.nix
+          ./modules/desktop.nix
           ./modules/desktop-awesomewm.nix
-          ./modules/desktop-gui.nix
           ./modules/laptop-setup.nix
           ./modules/monitor-setup.nix
           ./modules/keyboard-setup.nix
