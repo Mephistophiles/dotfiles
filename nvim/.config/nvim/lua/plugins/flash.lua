@@ -1,61 +1,63 @@
----@param opts Flash.Format
-local function format(opts)
-    -- always show first and second label
-    return {
-        { opts.match.label1, 'FlashMatch' },
-        { opts.match.label2, 'FlashLabel' },
-    }
-end
-
 return {
     'folke/flash.nvim',
     ---@type Flash.Config
     opts = { modes = { search = { enabled = false }, char = { enabled = false } } },
     keys = {
         {
-            '<leader>f',
+            '<leader>ff',
             mode = { 'n', 'x', 'o' },
             function()
-                require('flash').jump()
+                require('flash').jump {}
             end,
             desc = 'Flash: motion',
         },
         {
-            '<leader>w',
+            '<leader>fs',
             mode = { 'n', 'x', 'o' },
             function()
-                require('flash').jump {
-                    pattern = '.', -- initialize pattern with any char
-                    search = {
-                        mode = function(pattern)
-                            -- remove leading dot
-                            if pattern:sub(1, 1) == '.' then
-                                pattern = pattern:sub(2)
-                            end
-                            -- return word pattern and proper skip pattern
-                            return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
-                        end,
-                    },
-                    -- select the range
-                    jump = { pos = 'range' },
-                }
+                require('flash').jump { mode = 'fuzzy' }
             end,
-            desc = 'Flash: word motion',
+            desc = 'Flash: motion',
         },
         {
-            '<leader>W',
+            '<leader>fc',
             mode = { 'n', 'x', 'o' },
             function()
-                require('flash').jump {
+                require('flash').jump { continue = true }
+            end,
+            desc = 'Flash: continue motion',
+        },
+        {
+            '<leader>fw',
+            mode = { 'n', 'x', 'o' },
+            function()
+                local Flash = require 'flash'
+
+                ---@param opts Flash.Format
+                local function format_first_match(opts)
+                    -- always show first and second label
+                    return {
+                        { opts.match.label1, opts.hl_group },
+                        { opts.match.label2, opts.hl_group },
+                    }
+                end
+
+                local function format_second_match(opts)
+                    return {
+                        { opts.match.label2, opts.hl_group },
+                    }
+                end
+
+                Flash.jump {
                     search = { mode = 'search' },
-                    label = { after = false, before = { 0, 0 }, uppercase = false, format = format },
+                    label = { after = false, before = { 0, 0 }, uppercase = false, format = format_first_match },
                     pattern = [[\<]],
                     action = function(match, state)
                         state:hide()
-                        require('flash').jump {
+                        Flash.jump {
                             search = { max_length = 0 },
                             highlight = { matches = false },
-                            label = { format = format },
+                            label = { after = { 0, 2 }, format = format_second_match },
                             matcher = function(win)
                                 -- limit matches to the current label
                                 return vim.tbl_filter(function(m)
@@ -82,7 +84,7 @@ return {
             desc = 'Flash: 2 char hop motion',
         },
         {
-            '<leader>v',
+            '<leader>fv',
             mode = { 'n', 'x', 'o' },
             function()
                 require('flash').treesitter()
@@ -106,7 +108,7 @@ return {
             desc = 'Flash: treesitter search',
         },
         {
-            '<C-/>',
+            '<leader>fs',
             mode = { 'c' },
             function()
                 require('flash').toggle()
