@@ -20,14 +20,17 @@ return { -- Git integration for buffers
                 end
 
                 -- Navigation
-                map('n', ']c', gs.next_hunk, 'Git: Goto next hunk')
-                map('n', '[c', gs.prev_hunk, 'Git: Goto prev hunk')
+                map('n', ']c', function()
+                    gs.nav_hunk { direction = 'next' }
+                end, 'Git: Goto next hunk')
+                map('n', '[c', function()
+                    gs.nav_hunk { direction = 'prev' }
+                end, 'Git: Goto prev hunk')
 
                 -- Actions
                 map({ 'n', 'v' }, '<leader>hs', gs.stage_hunk, 'Git: Stage hunk')
                 map({ 'n', 'v' }, '<leader>hr', gs.reset_hunk, 'Git: Reset hunk')
                 map('n', '<leader>hS', gs.stage_buffer, 'Git: Stage buffer')
-                map('n', '<leader>hu', gs.undo_stage_hunk, 'Git: Undo stage hunk')
                 map('n', '<leader>hR', gs.reset_buffer, 'Git: Reset buffer')
                 map('n', '<leader>hP', gs.preview_hunk, 'Git: Preview hunk')
                 map('n', '<leader>hp', gs.preview_hunk_inline, 'Git: Inline preview hunk')
