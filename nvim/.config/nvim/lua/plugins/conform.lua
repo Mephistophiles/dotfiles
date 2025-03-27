@@ -9,7 +9,7 @@ local supported_languages = {
 vim.api.nvim_create_autocmd({ 'FileType' }, {
     pattern = vim.tbl_keys(supported_languages),
     callback = function(event)
-        require('plugins.utils.formatter').attach_formatter(nil, event.buf)
+        require('formatter').attach_formatter(nil, event.buf)
     end,
 })
 

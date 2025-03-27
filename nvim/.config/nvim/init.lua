@@ -37,6 +37,7 @@ require 'mappings'
 require 'relativenumbers'
 require 'options'
 require 'commands'
+require 'lsp'
 
 pcall(require, 'host')
 

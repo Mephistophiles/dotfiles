@@ -1,5 +1,5 @@
 local cache_path = vim.fn.stdpath 'cache'
-local cache_file = cache_path .. '/formatter_ignorelist.msgpack'
+local cache_file = vim.fs.joinpath(cache_path, '/formatter_ignorelist.msgpack')
 
 --- @class Ignorelist
 local M = {}

@@ -1,6 +1,6 @@
 local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
-local IGNORELIST = require 'plugins.utils.formatter.ignorelist'
+local IGNORELIST = require 'formatter.ignorelist'
 
 local M = {}
 
@@ -12,7 +12,7 @@ end
 ---@param client vim.lsp.Client|nil
 ---@param bufnr  integer
 function M.attach_formatter(client, bufnr)
-    if not client or client.supports_method 'textDocument/formatting' then
+    if not client or client:supports_method(vim.lsp.protocol.Methods.textDocument_formatting) then
         local toggle_formatting = function()
             if vim.b.format_on_save then
                 vim.notify 'Disable formatting on save'
@@ -49,7 +49,7 @@ function M.attach_formatter(client, bufnr)
             vim.notify(string.format('GC ignorelist: %d -> %d entries', #before, #after))
         end, { desc = 'Formatter: run garbage collector in ignorelist' })
         vim.keymap.set('n', '<leader>ml', function()
-            require('plugins.utils.formatter.ui').toggle_quick_menu(IGNORELIST.get())
+            require('formatter.ui').toggle_quick_menu(IGNORELIST.get())
         end, { desc = 'Formatter: open ignorelistmenu' })
 
         vim.api.nvim_create_user_command('AutoFormatToggle', toggle_formatting, {})
