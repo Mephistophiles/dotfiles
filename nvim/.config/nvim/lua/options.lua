@@ -42,7 +42,6 @@ vim.opt.showbreak = '↳ ' -- Set text wrap symbol
 vim.opt.wrap = true -- Wrap lines
 vim.opt.linebreak = true -- Break lines
 vim.opt.breakindent = true -- Break lines with current indent
-vim.opt.cpoptions = 'Bn' -- When included, the column used for 'number' and 'relativenumber' will also be used for text of wrapped lines.
 
 vim.opt.colorcolumn = { 80, 100 } -- Set column for code length
 vim.opt.showcmd = true -- Show incomplete commands

@@ -1,9 +1,7 @@
 return {
     'saghen/blink.cmp',
-    event = { 'InsertEnter' },
+    event = { 'LspAttach' },
     build = 'cargo build --release',
-
-    dependencies = 'rafamadriz/friendly-snippets',
 
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -29,6 +27,7 @@ return {
             },
         },
 
+        cmdline = { enabled = false },
         fuzzy = { implementation = 'prefer_rust' },
 
         appearance = {
