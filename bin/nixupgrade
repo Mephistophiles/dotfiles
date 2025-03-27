@@ -16,7 +16,6 @@ function cmd() {
 
 if [ "$MODE" = "dry" ]; then
 	cmd nix flake update --commit-lock-file --flake ~/.dotfiles/nixos/
-	cmd nix-channel --update
 
 	cmd sudo nixwhatchanged
 	cmd nixwhatchanged
@@ -25,5 +24,6 @@ fi
 if [ "$MODE" = "run" ]; then
 	cmd sudo nixsw
 	cmd nixsw
+	cmd nix-channel --update
 	cmd nix profile upgrade --accept-flake-config devenv
 fi
