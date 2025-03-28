@@ -137,10 +137,3 @@ vim.keymap.set('n', '<F4>', function()
 
     vim.notify('Current list mode: ' .. vim.g.listchars_mode)
 end, { desc = 'Show/Hide whitespaces' })
-
--- Set completeopt to have a better completion experience
-vim.opt.completeopt = 'menu,menuone,noselect,preview'
-
-vim.opt.shortmess:append {
-    c = true, -- Avoid showing message extra message when using completion
-}

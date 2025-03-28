@@ -1,5 +1,6 @@
 return {
     'saghen/blink.cmp',
+    enabled = not vim.g.builtin_completion,
     event = { 'LspAttach' },
     build = 'cargo build --release',
 
