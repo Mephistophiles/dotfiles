@@ -159,6 +159,7 @@
     nix-tree
     nixos-option
     nixpkgs-fmt
+    unstable.comma
     unstable.nvd
     unstable.home-manager
     unstable.nixpkgs-review
