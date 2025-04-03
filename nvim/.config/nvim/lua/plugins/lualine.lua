@@ -9,11 +9,15 @@ local function current_lsp()
 end
 
 local function lint_progress()
-    local linters = require('lint').get_running()
-    if #linters == 0 then
-        return ''
+    local lint = package.loaded.lint
+
+    if lint then
+        local linters = lint.get_running()
+        if #linters == 0 then
+            return ''
+        end
+        return '󱉶 ' .. table.concat(linters, ', ')
     end
-    return '󱉶 ' .. table.concat(linters, ', ')
 end
 return {
     'nvim-lualine/lualine.nvim',
