@@ -2,7 +2,8 @@ return { -- magit for neovim
     'TimUntersberger/neogit',
     cmd = { 'Neogit' },
     opts = {
-        disable_commit_confirmation = true,
+        console_timeout = 10000,
+        auto_show_console = false,
         integrations = {
             diffview = true,
         },
