@@ -1,4 +1,4 @@
-vim.g.builtin_completion = true
+vim.g.builtin_completion = false
 
 local function smart_goto(fn)
     for _, severity in ipairs {
@@ -105,47 +105,18 @@ local function key_bindings(client)
 end
 
 local supported_lsp = {
-    {
-        language_list = { 'c', 'cpp' },
-        lsp_list = { 'clangd' },
-    },
-    {
-        language_list = { 'go' },
-        lsp_list = { 'gopls' },
-    },
-    {
-        language_list = { 'json' },
-        lsp_list = { 'jsonls' },
-    },
-    {
-        language_list = { 'nix' },
-        lsp_list = { 'nixd' },
-    },
-    {
-        language_list = { 'lua' },
-        lsp_list = { 'lua_ls' },
-    },
-    {
-        language_list = { 'python' },
-        lsp_list = { 'pylsp', 'pyright', 'ruff' },
-    },
-    {
-        language_list = { 'zig' },
-        lsp_list = { 'zls' },
-    },
+    'clangd',
+    'gopls',
+    'jsonls',
+    'nixd',
+    'lua_ls',
+    'pylsp',
+    'pyright',
+    'ruff',
+    'zls',
 }
 
-local lsp_group = vim.api.nvim_create_augroup('LspGroup', { clear = true })
-
-for _, supported in ipairs(supported_lsp) do
-    vim.api.nvim_create_autocmd({ 'FileType' }, {
-        pattern = supported.language_list,
-        group = lsp_group,
-        callback = function()
-            vim.lsp.enable(supported.lsp_list)
-        end,
-    })
-end
+vim.lsp.enable(supported_lsp)
 
 local function setup_completion(client, bufnr)
     vim.tbl_extend('force', client.server_capabilities.completionProvider.triggerCharacters, {
@@ -213,24 +184,38 @@ local function setup_completion(client, bufnr)
     ---]]
 end
 
+local function debounce(ms, fn)
+    local timer = assert(vim.uv.new_timer())
+    return function(...)
+        local argc, argv = select('#', ...), { ... }
+        timer:start(ms, 0, function()
+            timer:stop()
+            vim.schedule(function()
+                fn(unpack(argv, 1, argc))
+            end)
+        end)
+    end
+end
+
 local function setup_document_hightlight(bufnr)
+    local async = require 'async'
     local lsp_document_highlight_group = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = false })
     vim.api.nvim_create_autocmd('CursorHold', {
         group = lsp_document_highlight_group,
         buffer = bufnr,
         desc = 'Document highlight',
-        callback = function()
+        callback = debounce(200, function()
             vim.lsp.buf.document_highlight()
-        end,
+        end),
     })
 
     vim.api.nvim_create_autocmd('CursorMoved', {
         group = lsp_document_highlight_group,
         buffer = bufnr,
         desc = 'Document clear references',
-        callback = function()
+        callback = debounce(200, function()
             vim.lsp.buf.clear_references()
-        end,
+        end),
     })
 end
 
@@ -241,21 +226,22 @@ local function setup_code_lens(bufnr)
         buffer = bufnr,
         once = true,
         desc = 'refresh on enter',
-        callback = function()
+        callback = debounce(200, function()
             require('vim.lsp.codelens').refresh()
-        end,
+        end),
     })
 
     vim.api.nvim_create_autocmd({ 'BufWritePost', 'CursorHold' }, {
         group = lsp_document_codelens_group,
         buffer = bufnr,
         desc = 'Refresh references',
-        callback = function()
+        callback = debounce(200, function()
             require('vim.lsp.codelens').refresh()
-        end,
+        end),
     })
 end
 
+local lsp_group = vim.api.nvim_create_augroup('LspGroup', { clear = true })
 vim.api.nvim_create_autocmd('LspAttach', {
     group = lsp_group,
     callback = function(args)
@@ -291,7 +277,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = 'menu,noselect,noinsert,fuzzy,popup'
 
-vim.lsp.set_log_level 'off'
+vim.lsp.set_log_level 'error'
 vim.diagnostic.config {
     severity_sort = true,
     signs = true,
