@@ -1,17 +1,18 @@
 return {
     cmd = {
-        -- see clangd --help-hidden
         'clangd',
         '--background-index',
-        -- by default, clang-tidy use -checks=clang-diagnostic-*,clang-analyzer-*
-        -- to add more checks, create .clang-tidy file in the root directory
-        -- and add Checks key, see https://clang.llvm.org/extra/clang-tidy/
+        '--query-driver=**',
         '--clang-tidy',
-        '--completion-style=bundled',
+        '--all-scopes-completion',
         '--cross-file-rename',
+        '--completion-style=detailed',
+        '--header-insertion-decorators',
         '--header-insertion=iwyu',
+        '--pch-storage=memory',
+        '--suggest-missing-includes',
+        '--offset-encoding=utf-16',
     },
-    capabilities = { offsetEncoding = { 'utf-16' } },
-    root_markers = { 'compile_commands.json', 'compile_flags.txt', '.git' },
+    root_markers = { 'compile_commands.json', '.clangd' },
     filetypes = { 'c', 'cpp' },
 }
