@@ -12,6 +12,16 @@
   programs = {
     home-manager.enable = true;
     go.enable = true;
+    jujutsu = {
+      enable = true;
+      settings = {
+        user = {
+          name = "Maxim Zhukov";
+          email = "mussitantesmortem@gmail.com";
+        };
+        ui.default-command = "log";
+      };
+    };
     gpg.enable = true;
   };
 
