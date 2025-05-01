@@ -6,7 +6,6 @@ configs:
 		fish \
 		kitty \
 		nvim \
-		rofi \
 		starship \
 		wezterm
 

@@ -5,6 +5,7 @@
 {
   imports = [
     ./home/git.nix
+    ./home/rofi.nix
     ./home/tmux.nix
   ];
 
