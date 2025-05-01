@@ -183,7 +183,6 @@
     shellcheck
 
     tig
-    unstable.lazygit
     unstable.zlib
     yarn
 

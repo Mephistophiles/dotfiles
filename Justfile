@@ -5,11 +5,9 @@ configs:
 		awesome \
 		fish \
 		kitty \
-		lazygit \
 		nvim \
 		rofi \
 		starship \
-		tmux \
 		wezterm
 
 bins:
