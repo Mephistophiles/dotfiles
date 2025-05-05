@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   programs.rofi = {
@@ -11,7 +10,7 @@
     location = "center";
     theme = "Arc-Dark";
 
-    plugins = [pkgs.rofi-calc];
+    plugins = [ pkgs.rofi-calc ];
 
     extraConfig = {
       sort = true;

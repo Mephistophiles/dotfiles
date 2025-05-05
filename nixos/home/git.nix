@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   programs = {
@@ -7,7 +7,6 @@
       package = pkgs.gitAndTools.gitFull;
       userName = "Maxim Zhukov";
       userEmail = "mussitantesmortem@gmail.com";
-      signing.key = "7146F5C513417782";
       lfs.enable = true;
       extraConfig = {
         core = {
@@ -15,8 +14,17 @@
           pager = "~/bin/git-pager";
         };
         difftool = {
+          delta = {
+            cmd = ''delta "$LOCAL" "$REMOTE"'';
+          };
+          difft = {
+            cmd = ''difft "$LOCAL" "$REMOTE"'';
+          };
           difftastic = {
             cmd = ''difft "$LOCAL" "$REMOTE"'';
+          };
+          meld = {
+            cmd = ''meld "$LOCAL" "$REMOTE"'';
           };
         };
         merge = {
@@ -30,7 +38,28 @@
         color = { ui = "auto"; };
         commit = { verbose = true; };
         pull = { rebase = true; };
-        delta = { line-numbers = true; };
+        delta = {
+          line-numbers = true;
+          features = "tokio-night-storm";
+
+          tokio-night-storm = {
+            dark = true;
+            hyperlinks = true;
+            keep-plus-minus-markers = true;
+            # git-moved-from-style = bold purple
+            minus-style = ''syntax "#3f2d3d"'';
+            minus-non-emph-style = ''syntax "#3f2d3d"'';
+            minus-emph-style = ''syntax "#763842"'';
+            minus-empty-line-marker-style = ''syntax "#3f2d3d"'';
+            line-numbers-minus-style = "#b2555b";
+            plus-style = ''syntax "#283b4d"'';
+            plus-non-emph-style = ''syntax "#283b4d"'';
+            plus-emph-style = ''syntax "#316172"'';
+            plus-empty-line-marker-style = ''syntax "#283b4d"'';
+            line-numbers-plus-style = "#266d6a";
+            line-numbers-zero-style = "#3b4261";
+          };
+        };
       };
     };
   };

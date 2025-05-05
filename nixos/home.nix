@@ -7,7 +7,7 @@
     ./home/git.nix
     ./home/rofi.nix
     ./home/tmux.nix
-  ];
+  ] ++ lib.optional (builtins.pathExists ./home/host.nix) ./home/host.nix;
 
   # Let Home Manager install and manage itself.
   programs = {
