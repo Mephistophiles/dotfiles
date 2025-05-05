@@ -103,15 +103,11 @@ vim.opt.spelllang = 'en_us,ru_ru'
 -- better diffopt
 vim.opt.diffopt:append { internal = true, ['algorithm:patience'] = true }
 
--- Show invisible
 vim.opt.list = true
 vim.opt.listchars:append {
-    space = '·',
     trail = '·',
-    extends = '❯',
-    precedes = '❮',
 }
-
+-- Show invisible
 vim.keymap.set('n', '<F4>', function()
     local indent_blankline_commands = require 'indent_blankline.commands'
     local current_mode = vim.g.listchars_mode or 'Full'
@@ -120,11 +116,23 @@ vim.keymap.set('n', '<F4>', function()
         vim.opt.list = true
         vim.g.listchars_mode = 'Partial'
     elseif current_mode == 'Partial' then
-        vim.opt.listchars:append { space = '·', eol = '↴' }
+        vim.opt.listchars:append {
+            trail = '·',
+            space = '·',
+            eol = '↴',
+            extends = '❯',
+            precedes = '❮',
+        }
         vim.g.listchars_mode = 'Full'
     elseif current_mode == 'Full' then
         vim.opt.list = false
-        vim.opt.listchars:remove { 'space', 'eol' }
+        vim.opt.listchars:remove {
+            'trail',
+            'space',
+            'eol',
+            'extends',
+            'precedes',
+        }
         vim.g.listchars_mode = 'Off'
     end
 
