@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import sys
@@ -12,7 +12,10 @@ def run(*args: str):
 
 def copy_nix_files(f: str, to: str, verbose: bool = False, dry_run: bool = False):
     args = [
-        "rclone",
+        "nix",
+        "run",
+        "--",
+        "nixpkgs#rclone",
         "copy",
         "--config",
         "/dev/null",
@@ -23,10 +26,10 @@ def copy_nix_files(f: str, to: str, verbose: bool = False, dry_run: bool = False
     ]
 
     if verbose:
-        args.insert(2, '-v')
+        args.insert(4, '-v')
 
     if dry_run:
-        args.insert(2, '--dry-run')
+        args.insert(4, '--dry-run')
 
     logging.debug('run ' + shlex.join(args))
     run(*args)
@@ -43,7 +46,7 @@ with TemporaryDirectory() as before:
         copy_nix_files(search_place, before)
         copy_nix_files(search_place, after)
 
-        run('nixpkgs-fmt', after)
+        run('nix', 'run', 'nixpkgs#nixpkgs-fmt', after)
 
         diff = subprocess.Popen(['diff', '--recursive', '-U3', before, after], stdout=subprocess.PIPE)
         delta = subprocess.run(['delta', '--paging', 'never'], stdin=diff.stdout, check=False)
