@@ -5,6 +5,8 @@
 {
   imports = [
     ./home/git.nix
+    ./home/lazygit.nix
+    ./home/jujutsu.nix
     ./home/rofi.nix
     ./home/tmux.nix
   ] ++ lib.optional (builtins.pathExists ./home/host.nix) ./home/host.nix;
@@ -13,44 +15,6 @@
   programs = {
     home-manager.enable = true;
     go.enable = true;
-    jujutsu = {
-      enable = true;
-      package = pkgs.unstable.jujutsu;
-      settings = {
-        user = {
-          name = "Maxim Zhukov";
-          email = "mussitantesmortem@gmail.com";
-        };
-        ui.default-command = "log";
-      };
-    };
-    lazygit = {
-      enable = true;
-      package = pkgs.unstable.lazygit;
-
-      settings = {
-        git = {
-          autoFetch = false;
-          paging = {
-            colorArg = "always";
-            pager = "delta --dark --paging=never";
-          };
-        };
-
-        os = {
-          editPreset = "nvim";
-        };
-
-        keybinding = {
-          commits = {
-            moveDownCommit = "<c-n>";
-            moveUpCommit = "<c-p>";
-          };
-        };
-        confirmOnQuit = false;
-        quitOnTopLevelReturn = false;
-      };
-    };
     gpg.enable = true;
   };
 
