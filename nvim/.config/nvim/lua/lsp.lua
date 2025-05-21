@@ -47,6 +47,9 @@ local function key_bindings(client)
         return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
     end, { expr = true, buffer = true, desc = 'Completion: accept completion' })
 
+    keymap('<leader>d', function()
+        vim.diagnostic.open_float(nil, { focusable = false, source = 'if_many' })
+    end, { desc = 'LSP: show diagnostics floating window' })
     keymap('gD', vim.lsp.buf.declaration, { desc = 'LSP: goto declaration' })
     keymap('gd', vim.lsp.buf.definition, { desc = 'LSP: goto definition' })
     keymap('<leader>D', vim.lsp.buf.type_definition, { desc = 'LSP: goto type definition' })
@@ -198,7 +201,6 @@ local function debounce(ms, fn)
 end
 
 local function setup_document_hightlight(bufnr)
-    local async = require 'async'
     local lsp_document_highlight_group = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = false })
     vim.api.nvim_create_autocmd('CursorHold', {
         group = lsp_document_highlight_group,
