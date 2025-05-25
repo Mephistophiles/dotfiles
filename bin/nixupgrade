@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 MODE="${1:-dry}"
 
 function log() {
