@@ -27,46 +27,29 @@ return {
     { -- Nvim Treesitter configurations and abstraction layer
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
+        branch = 'main',
         ft = supported_languages,
         config = function()
-            local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-            parser_config.log = {
-                install_info = {
-                    url = 'https://github.com/Tudyx/tree-sitter-log', -- local path or git repo
-                    files = { 'src/parser.c' }, -- note that some parsers also require src/scanner.c or src/scanner.cc
-                    -- optional entries:
-                    revision = '62cfe307e942af3417171243b599cc7deac5eab9', -- default branch in case of git repo if different from master
-                    generate_requires_npm = false, -- if stand-alone parser without npm dependencies
-                    requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
-                },
-                filetype = 'log', -- if filetype does not match the parser name
-            }
-            require('nvim-treesitter').setup()
-            require('nvim-treesitter.configs').setup {
-                -- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-                ensure_installed = supported_languages,
-                ignore_install = {}, -- List of parsers to ignore installing
-                modules = {},
-                sync_install = true,
-                auto_install = true,
-                highlight = {
-                    enable = true, -- false will disable the whole extension
-                    disable = {}, -- list of language that will be disabled
-                    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-                    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-                    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-                    -- Instead of true it can also be a list of languages
-                    additional_vim_regex_highlighting = {}, -- Required since TS highlighter doesn't support all syntax features (conceal)
-                },
-                query_linter = {
-                    enable = true,
-                    use_virtual_text = true,
-                    lint_events = { 'BufWrite', 'CursorHold' },
-                },
-            }
+            vim.api.nvim_create_autocmd('User', {
+                pattern = 'TSUpdate',
+                callback = function()
+                    require('nvim-treesitter.parsers').zimbu = {
+                        install_info = {
+                            url = 'https://github.com/Tudyx/tree-sitter-log',
+                            files = { 'src/parser.c' },
+                            revision = '62cfe307e942af3417171243b599cc7deac5eab9',
+                        },
+                    }
+                end,
+            })
 
-            vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
-            vim.wo.foldmethod = 'expr'
+            require('nvim-treesitter').setup {
+                install_dir = vim.fn.stdpath 'data' .. '/site',
+            }
+            require('nvim-treesitter').install(supported_languages)
+
+            vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
         dependencies = {
             {
@@ -86,10 +69,5 @@ return {
                 },
             },
         },
-    },
-    { -- Treesitter playground integrated into Neovim
-        'nvim-treesitter/playground',
-        cmd = 'TSPlaygroundToggle',
-        dependencies = { 'nvim-treesitter/nvim-treesitter' },
     },
 }
