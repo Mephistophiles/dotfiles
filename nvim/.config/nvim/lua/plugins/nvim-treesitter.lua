@@ -28,8 +28,17 @@ return {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         branch = 'main',
-        ft = supported_languages,
-        config = function()
+        -- ft = supported_languages,
+        opts = {
+            install_dir = vim.fn.stdpath 'data' .. '/site',
+        },
+        init = function()
+            vim.api.nvim_create_autocmd('User', {
+                pattern = 'VeryLazy',
+                callback = function()
+                    require('nvim-treesitter').install(supported_languages)
+                end,
+            })
             vim.api.nvim_create_autocmd('User', {
                 pattern = 'TSUpdate',
                 callback = function()
@@ -42,14 +51,17 @@ return {
                     }
                 end,
             })
-
-            require('nvim-treesitter').setup {
-                install_dir = vim.fn.stdpath 'data' .. '/site',
-            }
-            require('nvim-treesitter').install(supported_languages)
-
-            vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            vim.api.nvim_create_autocmd('FileType', {
+                pattern = supported_languages,
+                callback = function()
+                    -- syntax highlighting, provided by Neovim
+                    vim.treesitter.start()
+                    -- folds, provided by Neovim
+                    vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+                    -- indentation, provided by nvim-treesitter
+                    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                end,
+            })
         end,
         dependencies = {
             {
