@@ -14,10 +14,21 @@ local function maybe_hijack_directory_buffer(bufnr)
     return true
 end
 
+local lazy_group = vim.api.nvim_create_augroup('LazyOil', { clear = true })
+
 vim.api.nvim_create_autocmd('User', {
     desc = 'Try to setup oil if we open a directory',
-    group = vim.api.nvim_create_augroup('LazyOil', { clear = true }),
+    group = lazy_group,
     pattern = 'LazyDone',
+    callback = function()
+        if maybe_hijack_directory_buffer(vim.api.nvim_get_current_buf()) then
+            require('lazy').load { plugins = { 'oil.nvim' } }
+        end
+    end,
+})
+vim.api.nvim_create_autocmd('BufWinEnter', {
+    group = lazy_group,
+    pattern = '*',
     callback = function()
         if maybe_hijack_directory_buffer(vim.api.nvim_get_current_buf()) then
             require('lazy').load { plugins = { 'oil.nvim' } }
