@@ -42,7 +42,7 @@ return {
             vim.api.nvim_create_autocmd('User', {
                 pattern = 'TSUpdate',
                 callback = function()
-                    require('nvim-treesitter.parsers').zimbu = {
+                    require('nvim-treesitter.parsers').log = {
                         install_info = {
                             url = 'https://github.com/Tudyx/tree-sitter-log',
                             files = { 'src/parser.c' },
