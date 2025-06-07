@@ -36,26 +36,19 @@ return {
                 args = vim.g.compile_command,
             }
         end
-        vim.api.nvim_create_user_command('Run', function(params)
-            run_task(params)
-        end, {
-            desc = 'Compile-Mode: run compile task',
-            nargs = '*',
-            bang = true,
-        })
-        vim.api.nvim_create_user_command('Make', function(params)
-            run_task(params, 'make')
-        end, {
-            desc = 'Compile-Mode: run make target',
-            nargs = '*',
-            bang = true,
-        })
-        vim.api.nvim_create_user_command('Just', function(params)
-            run_task(params, 'just')
-        end, {
-            desc = 'Compile_mode: run justfile target',
-            nargs = '*',
-            bang = true,
-        })
+
+        local function create_cmd(cmd, prepend, task_name)
+            vim.api.nvim_create_user_command(cmd, function(params)
+                run_task(params, prepend)
+            end, {
+                desc = 'Compile-Mode: run ' .. task_name,
+                nargs = '*',
+                bang = true,
+                complete = 'shellcmdline',
+            })
+        end
+        create_cmd('Run', nil, 'custom command')
+        create_cmd('Make', 'make', 'make target')
+        create_cmd('Just', 'just', 'just target')
     end,
 }
