@@ -75,6 +75,11 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
             desc = 'Telescope: [S]earch existing [B]uffers',
         },
         {
+            '<C-b>',
+            CMD 'Telescope buffers',
+            desc = 'Telescope: [S]earch existing [B]uffers',
+        },
+        {
             '<leader>s/',
             CMD 'Telescope current_buffer_fuzzy_find',
             desc = 'Telescope: [/] Fuzzily [S]earch in current buffer',
