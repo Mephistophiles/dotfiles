@@ -1,5 +1,3 @@
-vim.g.builtin_completion = false
-
 local function smart_goto(fn)
     for _, severity in ipairs {
         vim.diagnostic.severity.ERROR,
@@ -42,11 +40,6 @@ end
 local function key_bindings(client)
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-
-    vim.keymap.set('i', '<CR>', function()
-        return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
-    end, { expr = true, buffer = true, desc = 'Completion: accept completion' })
-
     keymap('<leader>d', function()
         vim.diagnostic.open_float(nil, { focusable = false, source = 'if_many' })
     end, { desc = 'LSP: show diagnostics floating window' })
@@ -121,72 +114,6 @@ local supported_lsp = {
 
 vim.lsp.enable(supported_lsp)
 
-local function setup_completion(client, bufnr)
-    vim.tbl_extend('force', client.server_capabilities.completionProvider.triggerCharacters, {
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-        'n',
-        'o',
-        'p',
-        'q',
-        'r',
-        's',
-        't',
-        'u',
-        'v',
-        'w',
-        'x',
-        'y',
-        'z',
-        '.',
-        ':',
-        ' ',
-    })
-    vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-
-    ---[[Code required to add documentation popup for an item
-    local _, cancel_prev = nil, function() end
-    vim.api.nvim_create_autocmd('CompleteChanged', {
-        buffer = bufnr,
-        callback = function()
-            cancel_prev()
-            local info = vim.fn.complete_info { 'selected' }
-            local completionItem = vim.tbl_get(vim.v.completed_item, 'user_data', 'nvim', 'lsp', 'completion_item')
-            if nil == completionItem then
-                return
-            end
-            _, cancel_prev = vim.lsp.buf_request(
-                bufnr,
-                vim.lsp.protocol.Methods.completionItem_resolve,
-                completionItem,
-                function(err, item, ctx)
-                    if not item then
-                        return
-                    end
-                    local docs = (item.documentation or {}).value
-                    local win = vim.api.nvim__complete_set(info['selected'], { info = docs })
-                    if win.winid and vim.api.nvim_win_is_valid(win.winid) then
-                        vim.treesitter.start(win.bufnr, 'markdown')
-                        vim.wo[win.winid].conceallevel = 3
-                    end
-                end
-            )
-        end,
-    })
-    ---]]
-end
-
 local function debounce(ms, fn)
     local timer = assert(vim.uv.new_timer())
     return function(...)
@@ -253,10 +180,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         if not client then
             vim.notify(vim.log.WARN, 'Failed to attach to client ' .. vim.inspect(args))
             return
-        end
-
-        if vim.g.builtin_completion and client:supports_method(client_methods.textDocument_completion) then
-            setup_completion(client, args.buf)
         end
 
         key_bindings(client)

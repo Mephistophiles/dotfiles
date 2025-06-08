@@ -1,6 +1,5 @@
 return {
     'saghen/blink.cmp',
-    enabled = not vim.g.builtin_completion,
     event = { 'LspAttach' },
     build = 'cargo build --release',
 
@@ -28,7 +27,7 @@ return {
             },
         },
 
-        cmdline = { enabled = false },
+        cmdline = { enabled = true },
         fuzzy = { implementation = 'prefer_rust' },
 
         appearance = {
@@ -45,17 +44,13 @@ return {
                 'path',
                 'snippets',
                 'buffer',
-                'lazydev',
-            },
-            providers = {
-                -- dont show LuaLS require statements when lazydev has items
-                lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
             },
         },
 
         completion = {
             -- Don't select by default, auto insert on selection
             list = { selection = { preselect = false, auto_insert = true } },
+            trigger = { show_on_keyword = true },
         },
 
         -- experimental signature help support
