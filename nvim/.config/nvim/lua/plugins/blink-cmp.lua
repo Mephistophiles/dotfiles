@@ -59,6 +59,15 @@ return {
         },
 
         completion = {
+            menu = {
+                draw = {
+                    components = {
+                        label = {
+                            width = { fill = true, max = 300 },
+                        },
+                    },
+                },
+            },
             -- Don't select by default, auto insert on selection
             list = { selection = { preselect = false, auto_insert = true } },
             trigger = { show_on_keyword = true },
