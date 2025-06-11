@@ -28,7 +28,15 @@ return {
         },
 
         cmdline = { enabled = true },
-        fuzzy = { implementation = 'prefer_rust' },
+        fuzzy = {
+            implementation = 'prefer_rust',
+            sorts = {
+                'exact',
+                -- defaults
+                'score',
+                'sort_text',
+            },
+        },
 
         appearance = {
             -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -44,6 +52,9 @@ return {
                 'path',
                 'snippets',
                 'buffer',
+            },
+            providers = {
+                lsp = { fallbacks = {} },
             },
         },
 
