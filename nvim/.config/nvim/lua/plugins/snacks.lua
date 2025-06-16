@@ -46,70 +46,86 @@ vim.api.nvim_create_autocmd('LspProgress', {
     end,
 })
 
-vim.api.nvim_create_autocmd('User', {
-    group = augroup,
-    pattern = 'VeryLazy',
-    callback = function()
-        _G.DD = function(...)
-            Snacks.debug.inspect(...)
-        end
-        _G.BT = function()
-            Snacks.debug.backtrace()
-        end
-        vim.print = _G.DD
-        vim.ui.input = Snacks.input
+local function setup_snacks()
+    _G.DD = function(...)
+        Snacks.debug.inspect(...)
+    end
+    _G.BT = function()
+        Snacks.debug.backtrace()
+    end
+    vim.print = _G.DD
+    vim.ui.input = Snacks.input
 
-        -- dashboard
+    -- dashboard
 
-        -- don't start when opening a file
-        if vim.fn.argc() > 0 then
+    -- don't start when opening a file
+    if vim.fn.argc() > 0 then
+        return
+    end
+
+    -- skip stdin
+    if vim.fn.line2byte '$' ~= -1 then
+        return
+    end
+
+    -- Handle nvim -M
+    if not vim.o.modifiable then
+        return
+    end
+
+    -- profiling mode
+    if vim.env.PROF then
+        return
+    end
+
+    for _, arg in pairs(vim.v.argv) do
+        -- whitelisted arguments
+        -- always open
+        if arg == '--startuptime' then
+            break
+        end
+
+        -- blacklisted arguments
+        -- always skip
+        if
+            arg == '-b'
+            -- commands, typically used for scripting
+            or arg == '-c'
+            or vim.startswith(arg, '+')
+            or arg == '-S'
+        then
             return
         end
+    end
 
-        -- skip stdin
-        if vim.fn.line2byte '$' ~= -1 then
-            return
+    -- show
+    Snacks.dashboard()
+
+    vim.api.nvim_create_user_command('Snacks', function(params)
+        local arg = params.args
+
+        if arg == 'show-history' then
+            Snacks.notifier.show_history()
+        else
+            vim.notify('Invalid command ' .. arg, vim.log.levels.ERROR)
         end
-
-        -- Handle nvim -M
-        if not vim.o.modifiable then
-            return
-        end
-
-        -- profiling mode
-        if vim.env.PROF then
-            return
-        end
-
-        for _, arg in pairs(vim.v.argv) do
-            -- whitelisted arguments
-            -- always open
-            if arg == '--startuptime' then
-                break
-            end
-
-            -- blacklisted arguments
-            -- always skip
-            if
-                arg == '-b'
-                -- commands, typically used for scripting
-                or arg == '-c'
-                or vim.startswith(arg, '+')
-                or arg == '-S'
-            then
-                return
-            end
-        end
-
-        -- show
-        Snacks.dashboard()
-    end,
-})
+    end, {
+        nargs = 1,
+        complete = function(arg_lead, cmdline, cursor_position)
+            local candidates = { 'show-history' }
+            return vim.tbl_filter(function(item)
+                return string.find(item, '^' .. arg_lead) ~= nil
+            end, candidates)
+        end,
+        desc = 'Snacks: run snacks command',
+    })
+end
 
 return {
     'folke/snacks.nvim',
     priority = 1000,
-    lazy = false,
+    cmd = { 'Snacks' },
+    event = 'VeryLazy',
     opts = {
         -- your configuration comes here
         -- or leave it empty to use the default settings
@@ -182,6 +198,7 @@ return {
     },
     config = function(plugin, opts)
         require('snacks').setup(opts)
+        setup_snacks()
 
         vim.notify = Snacks.notifier
         table.insert(MAP_CLEANUPS, CMD 'lua Snacks.notifier.hide()')
