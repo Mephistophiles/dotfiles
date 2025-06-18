@@ -62,6 +62,8 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 
 vim.keymap.set('v', '<C-n>', ":m '>+1<CR>gv=gv", { desc = 'Move line down' })
 vim.keymap.set('v', '<C-p>', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
+vim.keymap.set('n', '<C-n>', ':m .+1<CR>==', { desc = 'Move line down' })
+vim.keymap.set('n', '<C-p>', ':m .-2<CR>==', { desc = 'Move line up' })
 
 vim.keymap.set('n', '<CR>', function()
     local word = [[\<]] .. vim.fn.expand '<cword>' .. [[\>]]
