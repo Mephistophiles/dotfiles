@@ -1,13 +1,3 @@
-local function current_lsp()
-    local lsp_info = {}
-
-    for _, client in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
-        table.insert(lsp_info, client.name)
-    end
-
-    return table.concat(lsp_info, '|')
-end
-
 local function lint_progress()
     local lint = package.loaded.lint
 
@@ -18,7 +8,10 @@ local function lint_progress()
         end
         return '󱉶 ' .. table.concat(linters, ', ')
     end
+
+    return ''
 end
+
 return {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
@@ -35,7 +28,7 @@ return {
                 { 'filename', path = 1 },
             },
             lualine_x = {
-                current_lsp,
+                'lsp_status',
                 lint_progress,
                 'encoding',
                 'fileformat',
