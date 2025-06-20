@@ -21,17 +21,6 @@ return {
         end,
     },
 
-    { -- The superior project management solution for neovim.
-        'ahmedkhalf/project.nvim',
-        event = { 'BufReadPre', 'BufNewFile' },
-        config = function()
-            require('project_nvim').setup {
-                detection_methods = { 'pattern' },
-                patterns = { '.git', '.root' },
-            }
-        end,
-    },
-
     { -- fugitive.vim: A Git wrapper so awesome, it should be illegal
         'tpope/vim-fugitive',
         cmd = { 'G', 'Git' },

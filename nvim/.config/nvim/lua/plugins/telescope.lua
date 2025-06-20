@@ -5,7 +5,6 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
     dependencies = {
         'nvim-lua/plenary.nvim',
         'nvim-telescope/telescope-ui-select.nvim',
-        'nvim-telescope/telescope-project.nvim',
         'debugloop/telescope-undo.nvim',
     },
     keys = {
@@ -75,11 +74,6 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
             desc = 'Telescope: [S]earch existing [B]uffers',
         },
         {
-            '<C-b>',
-            CMD 'Telescope buffers',
-            desc = 'Telescope: [S]earch existing [B]uffers',
-        },
-        {
             '<leader>s/',
             CMD 'Telescope current_buffer_fuzzy_find',
             desc = 'Telescope: [/] Fuzzily [S]earch in current buffer',
@@ -125,7 +119,6 @@ return { -- Find, Filter, Preview, Pick. All lua, all the time.
                 },
             },
         }
-        require('telescope').load_extension 'project'
         require('telescope').load_extension 'ui-select'
         require('telescope').load_extension 'undo'
     end,
