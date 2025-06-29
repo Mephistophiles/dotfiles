@@ -39,7 +39,6 @@ return {
             'SudoEdit',
         },
     },
-    { 'stevearc/profile.nvim', lazy = true },
     {
         'lewis6991/fileline.nvim',
         event = { 'BufNewFile' },
