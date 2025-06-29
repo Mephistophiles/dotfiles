@@ -12,6 +12,20 @@ local function lint_progress()
     return ''
 end
 
+local function filename()
+    return vim.fn.expand '%:~:.'
+end
+
+local function breadcrumb()
+    local lspsaga = package.loaded.lspsaga
+
+    if lspsaga then
+        return require('lspsaga.symbol.winbar').get_bar() or filename()
+    end
+
+    return filename()
+end
+
 return {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
@@ -25,17 +39,17 @@ return {
                 { 'diagnostics', symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' } },
             },
             lualine_c = {
-                { 'filename', path = 1 },
+                breadcrumb,
             },
             lualine_x = {
+                'searchcount',
+                'selectioncount',
                 'lsp_status',
                 lint_progress,
-                'encoding',
-                'fileformat',
                 'filetype',
             },
             lualine_y = { 'progress' },
-            lualine_z = { 'location', 'selectioncount' },
+            lualine_z = { 'location' },
         },
     },
 }
