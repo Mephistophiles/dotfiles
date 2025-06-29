@@ -46,3 +46,11 @@ vim.keymap.set('n', '<CR>', function()
     vim.fn.setreg('/', word)
     vim.opt.hlsearch = true
 end, { desc = 'Highlight word under cursor' })
+
+-- Cleanup all selection
+vim.keymap.set(
+    'n',
+    '<esc>',
+    CMD 'nohlsearch' .. CMD 'call clearmatches()',
+    { desc = 'Clean all notifications/selections' }
+)

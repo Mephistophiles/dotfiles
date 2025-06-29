@@ -1,17 +1,3 @@
-if vim.env.PROF then
-    -- example for lazy.nvim
-    -- change this to the correct path for your plugin manager
-    local snacks = vim.fn.stdpath 'data' .. '/lazy/snacks.nvim'
-    vim.opt.rtp:append(snacks)
-    require('snacks.profiler').startup {
-        startup = {
-            event = 'VimEnter', -- stop profiler on this event. Defaults to `VimEnter`
-            -- event = "UIEnter",
-            -- event = "VeryLazy",
-        },
-    }
-end
-
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 
 if not vim.uv.fs_stat(lazypath) then
@@ -22,29 +8,7 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.did_load_filetypes = false
-vim.g.do_filetype_lua = true
-
-vim.filetype.add {
-    extension = {
-        log = 'log',
-    },
-}
-
-local group = vim.api.nvim_create_augroup('ProjectRoot', { clear = true })
-
-vim.api.nvim_create_autocmd({ 'VimEnter', 'BufEnter' }, {
-    pattern = '*',
-    group = group,
-    callback = function()
-        local project_root = vim.fs.root(0, { '.git', '.root' })
-
-        if project_root then
-            vim.api.nvim_set_current_dir(project_root)
-        end
-    end,
-})
-
+require 'project_root'
 require 'globals'
 require 'filetype'
 require 'mappings'
@@ -65,8 +29,3 @@ end
 
 require('lazy').setup(plugin_dirs)
 vim.cmd.colorscheme 'tokyonight-storm'
-
--- cleanups
-vim.keymap.set('n', '<esc>', table.concat(MAP_CLEANUPS, ''), { desc = 'Clean all notifications/selections' })
-
--- vim.cmd('syntax on') -- On syntax

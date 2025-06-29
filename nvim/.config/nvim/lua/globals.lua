@@ -13,8 +13,3 @@ end
 _G.CMD = function(cmd)
     return '<cmd>' .. cmd .. '<cr>'
 end
-
-_G.MAP_CLEANUPS = {
-    '<CMD>nohlsearch<CR>',
-    '<CMD>call clearmatches()<CR>',
-}
