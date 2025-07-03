@@ -1,4 +1,4 @@
-local function smart_goto(fn)
+local function smart_goto(direction)
     for _, severity in ipairs {
         vim.diagnostic.severity.ERROR,
         vim.diagnostic.severity.WARN,
@@ -8,26 +8,18 @@ local function smart_goto(fn)
         local diagnostic = vim.diagnostic.get(0, { severity = severity })
 
         if #diagnostic > 0 then
-            fn(severity)
+            vim.diagnostic.jump { count = direction, float = true, severity = severity }
             break
         end
     end
 end
 
 local function smart_goto_next()
-    smart_goto(function(severity)
-        vim.diagnostic.goto_next {
-            severity = severity,
-        }
-    end)
+    smart_goto(1)
 end
 
 local function smart_goto_prev()
-    smart_goto(function(severity)
-        vim.diagnostic.goto_prev {
-            severity = severity,
-        }
-    end)
+    smart_goto(-1)
 end
 
 local function keymap(key, cmd, user_opts)
