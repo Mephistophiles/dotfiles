@@ -12,6 +12,21 @@ local function lint_progress()
     return ''
 end
 
+local function active_buf_lsp()
+    local client_list = vim.lsp.get_clients { buf = 0 }
+    local clients = {}
+
+    for _, client in ipairs(client_list) do
+        table.insert(clients, client.name)
+    end
+
+    if #clients > 0 then
+        return ' ' .. table.concat(clients, ', ')
+    end
+
+    return ''
+end
+
 local function filename()
     return vim.fn.expand '%:~:.'
 end
@@ -26,6 +41,7 @@ local function breadcrumb()
     return filename()
 end
 
+vim.o.cmdheight = 0
 return {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
@@ -44,7 +60,7 @@ return {
             lualine_x = {
                 'searchcount',
                 'selectioncount',
-                'lsp_status',
+                active_buf_lsp,
                 lint_progress,
                 'filetype',
             },
