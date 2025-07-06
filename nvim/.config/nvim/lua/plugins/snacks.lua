@@ -6,7 +6,7 @@ end, {
 
 local progress = vim.defaulttable()
 vim.api.nvim_create_autocmd('LspProgress', {
-    ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+    ---@param ev {data: {client_id: integer, params: vim.lsp.ProgressParams}}
     callback = function(ev)
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
         local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd('LspProgress', {
         end, p)
 
         local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
-        vim.notify(table.concat(msg, '\n'), 'info', {
+        vim.notify(table.concat(msg, '\n'), vim.log.INFO, {
             id = 'lsp_progress',
             title = client.name,
             opts = function(notif)

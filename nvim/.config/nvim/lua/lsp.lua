@@ -170,7 +170,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         local client_methods = vim.lsp.protocol.Methods
 
         if not client then
-            vim.notify(vim.log.WARN, 'Failed to attach to client ' .. vim.inspect(args))
+            vim.notify('Failed to attach to client ' .. vim.inspect(args), vim.log.WARN)
             return
         end
 
