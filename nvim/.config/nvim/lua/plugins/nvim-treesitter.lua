@@ -27,6 +27,7 @@ return {
     { -- Nvim Treesitter configurations and abstraction layer
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
+        lazy = true,
         branch = 'main',
         -- ft = supported_languages,
         opts = {
@@ -37,6 +38,24 @@ return {
                 pattern = 'VeryLazy',
                 callback = function()
                     require('nvim-treesitter').install(supported_languages)
+
+                    require('rainbow-delimiters.setup').setup {
+                        strategy = {
+                            [''] = 'rainbow-delimiters.strategy.global',
+                        },
+                        query = {
+                            [''] = 'rainbow-delimiters',
+                        },
+                        highlight = {
+                            'RainbowDelimiterRed',
+                            'RainbowDelimiterYellow',
+                            'RainbowDelimiterBlue',
+                            'RainbowDelimiterOrange',
+                            'RainbowDelimiterGreen',
+                            'RainbowDelimiterViolet',
+                            'RainbowDelimiterCyan',
+                        },
+                    }
                 end,
             })
             vim.api.nvim_create_autocmd('User', {
@@ -61,6 +80,8 @@ return {
                     vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
                     -- indentation, provided by nvim-treesitter
                     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+                    require('rainbow-delimiters').enable(0)
                 end,
             })
         end,
@@ -80,6 +101,9 @@ return {
                     separator = nil,
                     zindex = 20, -- The Z-index of the context window
                 },
+            },
+            {
+                'HiPhish/rainbow-delimiters.nvim',
             },
         },
     },
