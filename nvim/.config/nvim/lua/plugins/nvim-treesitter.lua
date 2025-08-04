@@ -1,6 +1,7 @@
 local supported_languages = {
     'bash',
     'c',
+    'cpp',
     'cmake',
     'diff',
     'doxygen',
