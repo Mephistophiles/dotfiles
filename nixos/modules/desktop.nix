@@ -36,7 +36,7 @@
     # gnome-calculator
     # gnome-disk-utility
     # gnome-themes-extra
-    # nautilus
+    nautilus
     unstable.tdesktop
 
     vlc

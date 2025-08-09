@@ -22,8 +22,8 @@
     '';
   };
   environment.systemPackages = with pkgs; [
-    unstable.flameshot
-    unstable.xidlehook
-    unstable.i3lock
+    flameshot
+    xidlehook
+    i3lock
   ];
 }
