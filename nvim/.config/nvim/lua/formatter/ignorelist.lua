@@ -1,10 +1,24 @@
-local cache_path = vim.fn.stdpath 'cache'
-local cache_file = vim.fs.joinpath(cache_path, '/formatter_ignorelist.msgpack')
+local cache_file = (function()
+    local value = nil
 
---- @class Ignorelist
+    return function()
+        if value == nil then
+            local cache_path = vim.fn.stdpath 'cache'
+            value = vim.fs.joinpath(cache_path, '/formatter_ignorelist.msgpack')
+        end
+
+        return value
+    end
+end)()
+
 local M = {}
 
-function M.ignore_file(file)
+--- @class Ignorelist
+M.set = function(ignorelist)
+    vim.fn.writefile(vim.fn.msgpackdump(ignorelist), cache_file(), 'b')
+end
+
+M.ignore_file = function(file)
     local ignorelist = M.get()
 
     if not vim.tbl_contains(ignorelist, file) then
@@ -14,7 +28,7 @@ function M.ignore_file(file)
     M.set(ignorelist)
 end
 
-function M.gc_ignorelist(ignorelist)
+M.gc_ignorelist = function(ignorelist)
     ignorelist = vim.tbl_filter(function(file)
         local st = vim.loop.fs_stat(file)
         return st ~= nil -- and (st.type == 'file' or st.type == 'directory')
@@ -24,8 +38,7 @@ function M.gc_ignorelist(ignorelist)
 
     return ignorelist
 end
-
-function M.unignore_file(file)
+M.unignore_file = function(file)
     local ignorelist = M.get()
 
     ignorelist = vim.tbl_filter(function(f)
@@ -35,7 +48,7 @@ function M.unignore_file(file)
     M.set(ignorelist)
 end
 
-function M.is_ignored_file(file)
+M.is_ignored_file = function(file)
     local denylist = M.get()
 
     for _, pattern in ipairs(denylist) do
@@ -48,31 +61,19 @@ function M.is_ignored_file(file)
     return false
 end
 
-local function create_empty()
-    return {}
-end
-
---- Gets the current ignorelist
---- @return Ignorelist
-function M.get()
-    local opened, cache = pcall(vim.fn.readfile, cache_file, 'b')
+M.get = function()
+    local opened, cache = pcall(vim.fn.readfile, cache_file(), 'b')
     if not opened then
-        return create_empty()
+        return {}
     end
     local parsed, ret = pcall(vim.fn.msgpackparse, cache)
 
     if parsed then
         return ret
     else
-        vim.loop.fs_unlink(cache_file)
-        return create_empty()
+        vim.loop.fs_unlink(cache_file())
+        return {}
     end
-end
-
---- Override current ignorelist
---- @param ignorelist Ignorelist
-function M.set(ignorelist)
-    vim.fn.writefile(vim.fn.msgpackdump(ignorelist), cache_file, 'b')
 end
 
 return M
