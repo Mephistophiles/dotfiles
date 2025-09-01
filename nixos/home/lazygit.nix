@@ -14,6 +14,9 @@
             pager = "delta --dark --paging=never";
           };
         };
+        gui = {
+          useHunkModeInStagingView = false;
+        };
 
         os = {
           editPreset = "nvim";
