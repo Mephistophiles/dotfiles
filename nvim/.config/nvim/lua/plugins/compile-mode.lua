@@ -4,6 +4,12 @@ return {
     ref = 'latest',
     keys = {
         {
+            '<leader>r',
+            CMD 'Recompile',
+            mode = { 'n' },
+            desc = 'Compile-Mode: run last action',
+        },
+        {
             '<F5>',
             CMD 'Recompile',
             mode = { 'n' },
