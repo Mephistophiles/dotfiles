@@ -7,6 +7,7 @@ return {
         bigfile = { enabled = true },
         explorer = { enabled = true },
         indent = { enabled = true },
+        terminal = { enabled = true },
     },
     keys = {
         {
@@ -42,6 +43,10 @@ return {
 
                 cmd('SnacksProfiler', function()
                     Snacks.profiler.pick()
+                end, 'Snacks: show profiler')
+
+                cmd('SnacksTerm', function()
+                    Snacks.terminal.toggle()
                 end, 'Snacks: show profiler')
 
                 -- Setup some globals for debugging (lazy-loaded)
