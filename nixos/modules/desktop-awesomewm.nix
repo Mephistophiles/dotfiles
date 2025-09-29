@@ -21,9 +21,10 @@
       KERNEL=="card[0-9]*", SUBSYSTEM=="drm", ACTION=="change", RUN+="${pkgs.unstable.autorandr}/bin/autorandr --batch --change --default default"
     '';
   };
+  programs.i3lock.enable = true;
+  security.pam.services.i3lock.enable = true;
   environment.systemPackages = with pkgs; [
     flameshot
     xidlehook
-    i3lock
   ];
 }
