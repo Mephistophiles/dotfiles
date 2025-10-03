@@ -491,6 +491,14 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
 
+    awful.key({ modkey, "Shift",  }, "F2",    function ()
+                    awful.prompt.run({ prompt = "Rename tab: ", text = awful.tag.selected().name, },
+                    awful.screen.focused().mypromptbox.widget,
+                    function (s)
+                        awful.tag.selected().name = s
+                    end)
+            end),
+
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
               {description = "swap with next client by index", group = "client"}),
