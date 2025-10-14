@@ -18,6 +18,10 @@
     gpg.enable = true;
   };
 
+  home.packages = with pkgs; [
+    unstable.pyright
+  ];
+
   services = {
     opensnitch-ui.enable = true;
     gpg-agent = {
