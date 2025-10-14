@@ -26,6 +26,9 @@
           meld = {
             cmd = ''meld "$LOCAL" "$REMOTE"'';
           };
+          nvim_difftool = {
+            cmd = ''nvim -c "packadd nvim.difftool" -c "DiffTool $LOCAL $REMOTE"'';
+          };
         };
         merge = {
           tool = "vimdiff";
