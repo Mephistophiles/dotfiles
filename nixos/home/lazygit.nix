@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 
 {
   programs = {
@@ -9,10 +9,10 @@
       settings = {
         git = {
           autoFetch = false;
-          paging = {
+          pagers = [{
             colorArg = "always";
             pager = "delta --dark --paging=never";
-          };
+          }];
         };
         gui = {
           useHunkModeInStagingView = false;
