@@ -37,7 +37,7 @@
     # gnome-disk-utility
     # gnome-themes-extra
     nautilus
-    unstable.tdesktop
+    unstable.telegram-desktop
 
     vlc
 

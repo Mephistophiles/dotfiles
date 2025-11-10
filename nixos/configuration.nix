@@ -196,7 +196,7 @@
     unstable.nodePackages.jsonlint
     unstable.nodePackages.vscode-json-languageserver
     unstable.python3Packages.python-lsp-server
-    unstable.sumneko-lua-language-server
+    unstable.lua-language-server
 
     # file systems
     btrfs-progs
