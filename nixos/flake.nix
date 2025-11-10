@@ -27,6 +27,8 @@
       system = "x86_64-linux";
       config = { };
 
+      host_home_manager = ./host-home-manager.nix;
+
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
           inherit system;
@@ -71,8 +73,20 @@
         mzhukov = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { inherit system config overlays; };
           modules = [
+            {
+              home.username = "mzhukov";
+            }
             ./home.nix
-          ];
+          ] ++ [host_home_manager];
+        };
+        zhukov_ma = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs { inherit system config overlays; };
+          modules = [
+            {
+              home.username = "zhukov_ma";
+            }
+            ./home.nix
+          ] ++ [host_home_manager];
         };
       };
 

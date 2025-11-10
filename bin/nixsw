@@ -10,10 +10,11 @@ flake_dir = os.path.join(home, '.dotfiles', 'nixos')
 def run(*args: str):
     subprocess.run(args, check=True)
 
+run('nixhost', 'hide')
 if current_user == 0:
 	print("Run nixos-rebuild...")
 	run('nixos-rebuild', 'switch', '--flake', flake_dir)
 else:
 	print("Run home-manager...")
 	run('home-manager', 'switch', '--flake', flake_dir)
-
+run('nixhost', 'restore')

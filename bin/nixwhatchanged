@@ -3,10 +3,8 @@
 import os
 import sys
 import shlex
-import shutil
 import subprocess
 
-from typing import List
 from tempfile import TemporaryDirectory
 
 current_user = os.getuid()
@@ -19,6 +17,7 @@ def run(*args: str):
 	subprocess.run(args, check=True)
 
 with TemporaryDirectory() as path:
+	run('nixhost', 'hide')
 	os.chdir(path)
 
 	if current_user == 0:
@@ -29,3 +28,5 @@ with TemporaryDirectory() as path:
 		print("Run home-manager...")
 		run('home-manager', 'build', '--flake', flake_dir)
 		run('nvd', '--version-highlight', 'xmas', 'diff', f'{home}/.local/state/nix/profiles/home-manager', 'result/')
+
+	run('nixhost', 'restore')

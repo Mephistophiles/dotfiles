@@ -9,7 +9,7 @@
     ./home/jujutsu.nix
     ./home/rofi.nix
     ./home/tmux.nix
-  ] ++ lib.optional (builtins.pathExists ./home/host.nix) ./home/host.nix;
+  ];
 
   # Let Home Manager install and manage itself.
   programs = {
@@ -46,7 +46,6 @@
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "mzhukov";
   home.homeDirectory = "/home/mzhukov";
   home.stateVersion = "25.11";
 
