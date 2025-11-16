@@ -7,12 +7,13 @@ return {
         bigfile = { enabled = true },
         explorer = { enabled = true },
         indent = { enabled = true },
+        picker = { enabled = true, layout = { preset = 'ivy', layout = { position = 'bottom' } } },
         terminal = { enabled = true },
     },
     keys = {
         {
             '<leader>N',
-            desc = 'Neovim News',
+            desc = 'Snacks: Neovim News',
             function()
                 Snacks.win {
                     file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1],
@@ -27,6 +28,70 @@ return {
                     },
                 }
             end,
+        },
+        {
+            '<leader><leader>',
+            function()
+                Snacks.picker.smart()
+            end,
+            desc = 'Snacks: Smart Find Files',
+        },
+        {
+            '<leader>sf',
+            function()
+                Snacks.picker.files()
+            end,
+            desc = 'Snacks: Find Files',
+        },
+        {
+            '<leader>sb',
+            function()
+                Snacks.picker.buffers()
+            end,
+            desc = 'Snacks: buffers',
+        },
+        {
+            '<leader>sw',
+            function()
+                Snacks.picker.grep_word()
+            end,
+            desc = 'Snacks: Visual selection or word',
+            mode = { 'n', 'x' },
+        },
+        {
+            '<leader>sg',
+            function()
+                Snacks.picker.grep()
+            end,
+            desc = 'Snacks: Grep',
+        },
+        {
+            '<leader>sl',
+            function()
+                Snacks.picker.lines()
+            end,
+            desc = 'Snacks: Buffer Lines',
+        },
+        {
+            '<leader>sc',
+            function()
+                Snacks.picker.files { cwd = vim.fn.stdpath 'config' }
+            end,
+            desc = 'Snacks: Find Config File',
+        },
+        {
+            '<leader>sk',
+            function()
+                Snacks.picker.keymaps()
+            end,
+            desc = 'Snacks: Keymaps',
+        },
+        {
+            '<leader>su',
+            function()
+                Snacks.picker.undo()
+            end,
+            desc = 'Snacks: Undo History',
         },
     },
     init = function()
