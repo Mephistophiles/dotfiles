@@ -93,6 +93,13 @@ return {
             end,
             desc = 'Snacks: Undo History',
         },
+        {
+            '<leader>sh',
+            function()
+                Snacks.picker.help()
+            end,
+            desc = 'Snacks: Undo History',
+        },
     },
     init = function()
         vim.api.nvim_create_autocmd('User', {
