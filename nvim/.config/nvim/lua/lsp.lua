@@ -194,7 +194,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = 'menu,noselect,noinsert,fuzzy,popup'
 
-vim.lsp.set_log_level 'off'
+vim.lsp.log.set_level(vim.log.levels.OFF)
 vim.diagnostic.config {
     severity_sort = true,
     signs = true,
