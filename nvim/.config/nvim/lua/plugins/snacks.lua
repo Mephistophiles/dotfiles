@@ -7,7 +7,26 @@ return {
         bigfile = { enabled = true },
         explorer = { enabled = true },
         indent = { enabled = true },
-        picker = { enabled = true, layout = { preset = 'ivy', layout = { position = 'bottom' } } },
+        picker = {
+            enabled = true,
+            layout = { preset = 'ivy', layout = { position = 'bottom' } },
+            sources = {
+                explorer = {
+                    hidden = true,
+                    ignored = true,
+                    layout = { layout = { position = 'left' } },
+                    win = {
+                        list = {
+                            keys = {
+                                ['<Esc>'] = function()
+                                    --Do nothing
+                                end,
+                            },
+                        },
+                    },
+                },
+            },
+        },
         terminal = { enabled = true },
     },
     keys = {
@@ -98,7 +117,32 @@ return {
             function()
                 Snacks.picker.help()
             end,
-            desc = 'Snacks: Undo History',
+            desc = 'Snacks: Help',
+        },
+        {
+            '<leader>sn',
+            function()
+                if Snacks.config.picker and Snacks.config.picker.enabled then
+                    Snacks.picker.notifications()
+                else
+                    Snacks.notifier.show_history()
+                end
+            end,
+            desc = 'Snacks: Show Notifications',
+        },
+        {
+            '<leader>se',
+            function()
+                Snacks.picker.explorer()
+            end,
+            desc = 'Snacks: Explorer',
+        },
+        {
+            '<leader>su',
+            function()
+                Snacks.terminal.toggle()
+            end,
+            desc = 'Snacks: Terminal',
         },
     },
     init = function()
@@ -109,16 +153,8 @@ return {
                     vim.api.nvim_create_user_command(name, fn, { desc = desc })
                 end
 
-                cmd('SnacksExplorer', function()
-                    Snacks.explorer()
-                end, 'Snacks: show explorer')
-
                 cmd('SnacksProfiler', function()
                     Snacks.profiler.pick()
-                end, 'Snacks: show profiler')
-
-                cmd('SnacksTerm', function()
-                    Snacks.terminal.toggle()
                 end, 'Snacks: show profiler')
 
                 -- Setup some globals for debugging (lazy-loaded)
