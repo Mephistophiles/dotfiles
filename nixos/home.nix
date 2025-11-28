@@ -19,8 +19,10 @@
   };
 
   home.packages = with pkgs; [
+    unstable.basedpyright
     unstable.black
     unstable.pyright
+    unstable.ruff
   ];
 
   services = {
