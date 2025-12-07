@@ -4,11 +4,12 @@
   programs = {
     git = {
       enable = true;
-      package = pkgs.gitAndTools.gitFull;
-      userName = "Maxim Zhukov";
-      userEmail = "mussitantesmortem@gmail.com";
-      lfs.enable = true;
-      extraConfig = {
+      package = pkgs.gitFull;
+      settings = {
+        user = {
+          name = "Maxim Zhukov";
+          email = "mussitantesmortem@gmail.com";
+        };
         core = {
           editor = "nvim";
           pager = "~/bin/git-pager";
@@ -64,6 +65,7 @@
           };
         };
       };
+      lfs.enable = true;
     };
   };
 }

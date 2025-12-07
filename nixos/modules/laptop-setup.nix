@@ -4,12 +4,14 @@
   services = {
     libinput = { enable = true; };
     logind = {
-      lidSwitch = "suspend-then-hibernate";
-      lidSwitchDocked = "ignore";
-      lidSwitchExternalPower = "suspend";
-      extraConfig = ''
-        HandlePowerKey=suspend
-      '';
+      settings = {
+        Login = {
+          HandleLidSwitch = "suspend-then-hibernate";
+          HandleLidSwitchDocked = "ignore";
+          HandleLidSwitchExternalPower = "suspend";
+          HandlePowerKey = "suspend";
+        };
+      };
     };
   };
 

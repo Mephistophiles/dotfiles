@@ -44,7 +44,7 @@
   # paths it should manage.
   home.username = "mzhukov";
   home.homeDirectory = "/home/mzhukov";
-  home.stateVersion = "24.11";
+  home.stateVersion = "25.11";
 
   home.activation.report-changes = config.lib.dag.entryAnywhere ''
     ${pkgs.unstable.nvd}/bin/nvd diff $oldGenPath $newGenPath
