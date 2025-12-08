@@ -21,6 +21,7 @@
   home.packages = with pkgs; [
     unstable.basedpyright
     unstable.black
+    unstable.nodePackages.yaml-language-server
     unstable.pyright
     unstable.ruff
   ];
