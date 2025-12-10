@@ -93,11 +93,12 @@ local function key_bindings(client)
 end
 
 local supported_lsp = {
+    'buildstream_lsp',
     'clangd',
     'gopls',
     'jsonls',
-    'nixd',
     'lua_ls',
+    'nixd',
     'pylsp',
     'pyright',
     'ruff',
