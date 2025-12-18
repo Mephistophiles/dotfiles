@@ -22,6 +22,7 @@
     unstable.basedpyright
     unstable.black
     unstable.nodePackages.yaml-language-server
+    unstable.nvd
     unstable.pyright
     unstable.ruff
   ];

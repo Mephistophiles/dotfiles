@@ -256,7 +256,7 @@
   };
 
   system.activationScripts.report-changes = ''
-    PATH=$PATH:${lib.makeBinPath [ pkgs.unstable.nvd pkgs.nix ]}
+    export PATH=$PATH:${lib.makeBinPath [ pkgs.unstable.nvd pkgs.nix ]}
     nvd --version-highlight xmas diff $(ls -dv /nix/var/nix/profiles/system-*-link | tail -2) || true
   '';
 
