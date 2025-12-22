@@ -14,7 +14,7 @@ return {
                 explorer = {
                     hidden = true,
                     ignored = true,
-                    layout = { layout = { position = 'left' } },
+                    layout = { preset = 'sidebar', layout = { position = 'right' } },
                     win = {
                         list = {
                             keys = {
@@ -120,6 +120,13 @@ return {
             desc = 'Snacks: Help',
         },
         {
+            '<leader>sm',
+            function()
+                Snacks.picker.man()
+            end,
+            desc = 'Snacks: Man',
+        },
+        {
             '<leader>sn',
             function()
                 if Snacks.config.picker and Snacks.config.picker.enabled then
@@ -133,7 +140,7 @@ return {
         {
             '<leader>se',
             function()
-                Snacks.picker.explorer()
+                Snacks.explorer()
             end,
             desc = 'Snacks: Explorer',
         },
