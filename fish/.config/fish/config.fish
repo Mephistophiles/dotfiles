@@ -1,6 +1,7 @@
 fish_default_key_bindings
 
 export EDITOR=nvim
+export COLORTERM=truecolor
 
 alias vim='nvim'
 abbr -a vimdiff 'nvim -d'
