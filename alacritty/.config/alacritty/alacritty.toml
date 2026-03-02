@@ -24,3 +24,6 @@ history = 100000
 
 [selection]
 semantic_escape_chars = ''',│`|"' ()[]{}<>	'''
+
+[env]
+COLORTERM = "truecolor"
