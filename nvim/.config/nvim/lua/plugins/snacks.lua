@@ -31,24 +31,6 @@ return {
     },
     keys = {
         {
-            '<leader>N',
-            desc = 'Snacks: Neovim News',
-            function()
-                Snacks.win {
-                    file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1],
-                    width = 0.6,
-                    height = 0.6,
-                    wo = {
-                        spell = false,
-                        wrap = false,
-                        signcolumn = 'yes',
-                        statuscolumn = ' ',
-                        conceallevel = 3,
-                    },
-                }
-            end,
-        },
-        {
             '<leader><leader>',
             function()
                 Snacks.picker.smart()
@@ -61,6 +43,13 @@ return {
                 Snacks.picker.files()
             end,
             desc = 'Snacks: Find Files',
+        },
+        {
+            '<leader>ss',
+            function()
+                Snacks.picker.pick()
+            end,
+            desc = 'Snacks: select picker',
         },
         {
             '<leader>sb',
@@ -127,6 +116,13 @@ return {
             desc = 'Snacks: Man',
         },
         {
+            '<leader>sd',
+            function()
+                Snacks.picker.diagnostics()
+            end,
+            desc = 'Snacks: diagnostics',
+        },
+        {
             '<leader>sn',
             function()
                 if Snacks.config.picker and Snacks.config.picker.enabled then
@@ -156,13 +152,38 @@ return {
         vim.api.nvim_create_autocmd('User', {
             pattern = 'VeryLazy',
             callback = function()
-                local function cmd(name, fn, desc)
-                    vim.api.nvim_create_user_command(name, fn, { desc = desc })
+                local function generate_complete_fn(list)
+                    return function(arg_lead, cmdline, cursor_pos)
+                        return vim.tbl_filter(function(item)
+                            return item:find('^' .. arg_lead)
+                        end, list)
+                    end
+                end
+                local function cmd(name, fn, desc, nargs, complete)
+                    local complete_fn = nil
+                    if nargs > 0 then
+                        complete_fn = generate_complete_fn(complete)
+                    end
+                    vim.api.nvim_create_user_command(name, fn, {
+                        desc = desc,
+                        nargs = nargs,
+                        complete = complete_fn,
+                    })
                 end
 
-                cmd('SnacksProfiler', function()
-                    Snacks.profiler.pick()
-                end, 'Snacks: show profiler')
+                cmd('Snacks', function(opts)
+                    if opts.args == 'profiler' then
+                        Snacks.profiler.pick()
+                    elseif opts.args == 'explorer' then
+                        Snacks.explorer()
+                    elseif opts.args == 'diagnostics' then
+                        Snacks.picker.diagnostics()
+                    elseif opts.args == 'terminal' then
+                        Snacks.terminal.toggle()
+                    else
+                        vim.notify('Unsupported command ' .. vim.inspect(opts.args))
+                    end
+                end, 'Snacks: show profiler', 1, { 'profiler', 'explorer', 'diagnostics', 'terminal' })
 
                 -- Setup some globals for debugging (lazy-loaded)
                 _G.dd = function(...)
