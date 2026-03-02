@@ -54,11 +54,6 @@ vim.g.c_syntax_for_h = true
 -- gui
 vim.o.guifont = 'FiraCode Nerd Font Mono:h10'
 
--- Timeout
--- -- Decrease update time
-vim.opt.timeoutlen = 300
-vim.opt.ttimeoutlen = 0
-
 -- Add new split below or right
 vim.opt.splitbelow = true
 vim.opt.splitright = true
