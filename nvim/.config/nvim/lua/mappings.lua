@@ -62,6 +62,6 @@ end, { desc = 'Highlight word under cursor' })
 vim.keymap.set(
     'n',
     '<esc>',
-    CMD 'nohlsearch' .. CMD 'call clearmatches()' .. CMD 'NoiceDismiss',
+    CMD 'nohlsearch' .. CMD 'call clearmatches()' .. CMD 'lua require("notify").dismiss()',
     { desc = 'Clean all notifications/selections' }
 )
