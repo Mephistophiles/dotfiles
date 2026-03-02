@@ -25,18 +25,10 @@ local supported_languages = {
 
 local ts_loaded = false
 
-local function ts_load()
-    if ts_loaded then
-        return
-    end
-
-    ts_loaded = true
-
-    require('nvim-treesitter').install(supported_languages)
+local function ts_load(args)
     require('lazy').load {
         plugins = {
             'nvim-treesitter-context',
-            'nvim-treesitter-textobjects',
             'rainbow-delimiters.nvim',
         },
     }
@@ -59,15 +51,28 @@ local function ts_load()
         },
     }
 
-    -- syntax highlighting, provided by Neovim
-    vim.treesitter.start()
     -- folds, provided by Neovim
     vim.wo.foldmethod = 'expr'
     vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
     -- indentation, provided by nvim-treesitter
     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+end
 
-    require('rainbow-delimiters').enable(0)
+local function ts_start(args)
+    if not ts_loaded then
+        ts_load(args)
+        ts_loaded = true
+    end
+
+    local ts = require 'nvim-treesitter'
+    local lang = vim.treesitter.language.get_lang(args.match)
+    if vim.list_contains(ts.get_available(), lang) then
+        if not vim.list_contains(ts.get_installed(), lang) then
+            ts.install(lang):wait()
+        end
+        vim.treesitter.start(args.buf)
+        require('rainbow-delimiters').enable(args.buf)
+    end
 end
 
 return {
@@ -94,9 +99,12 @@ return {
         })
         vim.api.nvim_create_autocmd('FileType', {
             pattern = supported_languages,
-            callback = function()
-                vim.defer_fn(ts_load, 500)
+            callback = function(args)
+                vim.defer_fn(function()
+                    ts_start(args)
+                end, 500)
             end,
+            desc = 'Enable nvim-treesitter and install parser if not installed',
         })
     end,
 }
