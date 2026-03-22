@@ -121,6 +121,8 @@
     unstable.yazi
     unstable.zoxide
 
+    opencode
+
     # text editors
     (unstable.neovim.override {
       vimAlias = true;
