@@ -149,7 +149,7 @@ local function setup_code_lens(bufnr)
         once = true,
         desc = 'refresh on enter',
         callback = debounce(200, function()
-            require('vim.lsp.codelens').refresh()
+            vim.lsp.codelens.enable(true, { bufnr = bufnr })
         end),
     })
 
@@ -158,7 +158,7 @@ local function setup_code_lens(bufnr)
         buffer = bufnr,
         desc = 'Refresh references',
         callback = debounce(200, function()
-            require('vim.lsp.codelens').refresh()
+            vim.lsp.codelens.enable(true, { bufnr = bufnr })
         end),
     })
 end
