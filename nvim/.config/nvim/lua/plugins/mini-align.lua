@@ -1,5 +1,5 @@
 return {
-    'echasnovski/mini.align',
+    'nvim-mini/mini.align',
     keys = {
         {
             'ga',
@@ -21,5 +21,5 @@ return {
     version = false,
     config = function()
         require('mini.align').setup()
-    end
+    end,
 }
