@@ -31,6 +31,7 @@ require 'relativenumbers'
 require 'options'
 require 'commands'
 require 'lsp'
+require 'statusline'
 
 pcall(require, 'host')
 
