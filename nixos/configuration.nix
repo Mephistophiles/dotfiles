@@ -195,7 +195,7 @@
 
     unstable.gopls
     unstable.nixd
-    unstable.nodePackages.vscode-json-languageserver
+    unstable.vscode-json-languageserver
     unstable.python3Packages.python-lsp-server
     unstable.lua-language-server
 
