@@ -1,5 +1,8 @@
 return {
     'saghen/blink.cmp',
+    dependencies = {
+        'saghen/blink.lib',
+    },
     event = { 'LspAttach' },
     build = 'cargo build --release',
 
