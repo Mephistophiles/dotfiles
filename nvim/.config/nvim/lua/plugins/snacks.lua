@@ -59,6 +59,13 @@ return {
             desc = 'Snacks: buffers',
         },
         {
+            '<leader>sr',
+            function()
+                Snacks.picker.resume()
+            end,
+            desc = 'Snacks: resume',
+        },
+        {
             '<leader>sw',
             function()
                 Snacks.picker.grep_word()
