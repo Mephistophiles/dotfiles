@@ -3,8 +3,9 @@ vim.g.do_filetype_lua = true
 
 vim.filetype.add {
     extension = {
-        tl = 'teal',
+        bst = 'yaml',
         log = 'log',
+        tl = 'teal',
     },
     filename = {
         ['Config.in'] = 'kconfig',
