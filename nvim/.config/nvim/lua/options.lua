@@ -4,7 +4,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     group = highlight_yank_group,
     pattern = '*',
     callback = function()
-        vim.highlight.on_yank { higroup = 'IncSearch', timeout = 700 }
+        vim.hl.hl_op { higroup = 'IncSearch', timeout = 700 }
     end,
 })
 
@@ -43,7 +43,7 @@ vim.opt.wrap = true -- Wrap lines
 vim.opt.linebreak = true -- Break lines
 vim.opt.breakindent = true -- Break lines with current indent
 
-vim.opt.colorcolumn = { 80, 100 } -- Set column for code length
+vim.opt.colorcolumn = "80,100" -- Set column for code length
 vim.opt.showcmd = true -- Show incomplete commands
 
 -- Update time in msec
