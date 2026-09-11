@@ -9,9 +9,9 @@
       settings = {
         git = {
           autoFetch = false;
-          pagers = [{
+          diffRenderers = [{
             colorArg = "always";
-            pager = "delta --dark --paging=never";
+            command = "delta --dark --paging=never";
           }];
         };
         gui = {
