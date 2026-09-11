@@ -1,7 +1,6 @@
 return {
     'ej-shafran/compile-mode.nvim',
     cmd = { 'Compile', 'Recompile' },
-    ref = 'latest',
     keys = {
         {
             '<leader>r',

@@ -25,13 +25,26 @@ local supported_languages = {
 
 local ts_loaded = false
 
+
+local function get_installed(plugin_name)
+  local ok, result = pcall(vim.pack.get, { plugin_name }, { info = false })
+  if not ok or not result or not result[1] then
+    return nil
+  end
+  return result[1]
+end
+
+local function lazy_load(plugin)
+    local pack = get_installed(plugin)
+    if pack ~= nil then
+        local loader = require('zpack.plugin_loader')
+        loader.try_process_spec(pack.spec, {})
+    end
+end
+
 local function ts_load(args)
-    require('lazy').load {
-        plugins = {
-            'nvim-treesitter-context',
-            'rainbow-delimiters.nvim',
-        },
-    }
+    lazy_load('nvim-treesitter-context')
+    lazy_load('Zpack load rainbow-delimiters.nvim')
 
     require('rainbow-delimiters.setup').setup {
         strategy = {
