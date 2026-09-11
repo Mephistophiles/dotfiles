@@ -36,11 +36,6 @@ vim.keymap.set('i', '<C-c>', '<Esc>', { desc = 'Handle C-c as Esc, otherwise som
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
-vim.keymap.set('n', '<Esc><Esc>', function()
-    local mc_ns = vim.api.nvim_create_namespace('nvim.multicursor')
-    vim.api.nvim_buf_clear_namespace(0, mc_ns, 0, -1)
-end, { desc = 'Clear multicursors' })
-
 vim.keymap.set('v', '<C-n>', ":m '>+1<CR>gv=gv", { desc = 'Move line down' })
 vim.keymap.set('v', '<C-p>', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
 vim.keymap.set('n', '<C-n>', ':m .+1<CR>==', { desc = 'Move line down' })
@@ -67,6 +62,13 @@ end, { desc = 'Highlight word under cursor' })
 vim.keymap.set(
     'n',
     '<esc>',
-    CMD 'nohlsearch' .. CMD 'call clearmatches()' .. CMD 'lua require("notify").dismiss()',
+    function()
+        vim.cmd('nohlsearch')
+        vim.cmd('call clearmatches()')
+        require('notify').dismiss()
+
+        local mc_ns = vim.api.nvim_create_namespace('nvim.multicursor')
+        vim.api.nvim_buf_clear_namespace(0, mc_ns, 0, -1)
+    end,
     { desc = 'Clean all notifications/selections' }
 )
