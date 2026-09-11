@@ -27,11 +27,11 @@ local ts_loaded = false
 
 
 local function get_installed(plugin_name)
-  local ok, result = pcall(vim.pack.get, { plugin_name }, { info = false })
-  if not ok or not result or not result[1] then
-    return nil
-  end
-  return result[1]
+    local ok, result = pcall(vim.pack.get, { plugin_name }, { info = false })
+    if not ok or not result or not result[1] then
+        return nil
+    end
+    return result[1]
 end
 
 local function lazy_load(plugin)

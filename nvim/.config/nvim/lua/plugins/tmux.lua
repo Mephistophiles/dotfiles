@@ -1,10 +1,10 @@
 return { -- tmux integration for nvim features pane movement and resizing from within nvim.
     'aserowy/tmux.nvim',
     keys = {
-        { '<c-h>', CMD 'lua require("tmux").move_left()', desc = 'Left movement' },
+        { '<c-h>', CMD 'lua require("tmux").move_left()',   desc = 'Left movement' },
         { '<c-j>', CMD 'lua require("tmux").move_bottom()', desc = 'Bottom movement' },
-        { '<c-k>', CMD 'lua require("tmux").move_top()', desc = 'Top movement' },
-        { '<c-l>', CMD 'lua require("tmux").move_right()', desc = 'Right movement' },
+        { '<c-k>', CMD 'lua require("tmux").move_top()',    desc = 'Top movement' },
+        { '<c-l>', CMD 'lua require("tmux").move_right()',  desc = 'Right movement' },
     },
     config = function()
         require('tmux').setup {

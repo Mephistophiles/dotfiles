@@ -16,15 +16,15 @@ vim.api.nvim_create_autocmd('TermOpen', {
     command = 'setlocal nonumber norelativenumber',
 })
 
-vim.opt.tabstop = 4 -- by default 4 spaces in tab
-vim.opt.shiftwidth = 4 -- by default 4 spaces in tab
-vim.opt.smartindent = true -- detect indent in file
+vim.opt.tabstop = 4          -- by default 4 spaces in tab
+vim.opt.shiftwidth = 4       -- by default 4 spaces in tab
+vim.opt.smartindent = true   -- detect indent in file
 
-vim.opt.showmatch = true -- Set highlight for search results
-vim.opt.hlsearch = true -- Highlight for search
+vim.opt.showmatch = true     -- Set highlight for search results
+vim.opt.hlsearch = true      -- Highlight for search
 vim.opt.incsearch = true
-vim.opt.ignorecase = true -- Ignore case for search
-vim.opt.smartcase = true -- turn smartcase search
+vim.opt.ignorecase = true    -- Ignore case for search
+vim.opt.smartcase = true     -- turn smartcase search
 
 vim.opt.inccommand = 'split' -- split preview for replace preview
 
@@ -91,7 +91,7 @@ vim.opt.secure = true
 
 -- Langmap Russian
 vim.opt.langmap =
-    [[ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz]]
+[[ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz]]
 -- Spell check
 vim.opt.spelllang = 'en_us,ru_ru'
 

@@ -1,5 +1,5 @@
 return {
 	'sairyy/zshow.nvim',
-	cmd = {'ZShow'},
+	cmd = { 'ZShow' },
 	opts = {},
 }

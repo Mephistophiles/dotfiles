@@ -1,14 +1,14 @@
 return { -- Neovim plugin introducing a new operators motions to quickly replace and exchange text.
     'gbprod/substitute.nvim',
     keys = {
-        { 's', CMD "lua require('substitute').operator()", noremap = true },
-        { 'ss', CMD "lua require('substitute').line()", noremap = true },
-        { 'S', CMD "lua require('substitute').eol()", noremap = true },
-        { 's', CMD "lua require('substitute').visual()", mode = 'x', noremap = true },
-        { 'sx', CMD "lua require('substitute.exchange').operator()", noremap = true },
-        { 'sxx', CMD "lua require('substitute.exchange').line()", noremap = true },
-        { 'X', CMD "lua require('substitute.exchange').visual()", mode = 'x', noremap = true },
-        { 'sxc', CMD "lua require('substitute.exchange').cancel()", noremap = true },
+        { 's',   CMD "lua require('substitute').operator()",          noremap = true },
+        { 'ss',  CMD "lua require('substitute').line()",              noremap = true },
+        { 'S',   CMD "lua require('substitute').eol()",               noremap = true },
+        { 's',   CMD "lua require('substitute').visual()",            mode = 'x',    noremap = true },
+        { 'sx',  CMD "lua require('substitute.exchange').operator()", noremap = true },
+        { 'sxx', CMD "lua require('substitute.exchange').line()",     noremap = true },
+        { 'X',   CMD "lua require('substitute.exchange').visual()",   mode = 'x',    noremap = true },
+        { 'sxc', CMD "lua require('substitute.exchange').cancel()",   noremap = true },
     },
     config = function()
         require('substitute').setup {
