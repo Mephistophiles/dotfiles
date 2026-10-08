@@ -59,7 +59,7 @@ vim.keymap.set(
     function()
         vim.cmd('nohlsearch')
         vim.cmd('call clearmatches()')
-        require('notify').dismiss()
+        vim.api.nvim_echo({}, false, {})
 
         local mc_ns = vim.api.nvim_create_namespace('nvim.multicursor')
         vim.api.nvim_buf_clear_namespace(0, mc_ns, 0, -1)

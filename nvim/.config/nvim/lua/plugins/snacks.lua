@@ -132,11 +132,7 @@ return {
         {
             '<leader>sn',
             function()
-                if Snacks.config.picker and Snacks.config.picker.enabled then
-                    Snacks.picker.notifications()
-                else
-                    Snacks.notifier.show_history()
-                end
+                vim.cmd.messages()
             end,
             desc = 'Snacks: Show Notifications',
         },
