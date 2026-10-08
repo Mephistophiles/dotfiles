@@ -1,6 +1,5 @@
 return {
     'stevearc/oil.nvim',
-    lazy = false,
     cmd = { 'Oil' },
     keys = {
         {
@@ -13,15 +12,12 @@ return {
         },
     },
     init = function()
+        -- Use Neovim's dir explorer for directories, Oil only on request.
         vim.g.loaded_netrw = 1
         vim.g.loaded_netrwPlugin = 1
-        -- If netrw was already loaded, clear this augroup
-        if vim.fn.exists '#FileExplorer' == 1 then
-            vim.api.nvim_create_augroup('FileExplorer', { clear = true })
-        end
     end,
     opts = {
-        default_file_explorer = true,
+        default_file_explorer = false,
         view_options = {
             show_hidden = true,
         },
