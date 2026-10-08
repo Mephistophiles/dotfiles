@@ -5,7 +5,7 @@ return {
     ---@type snacks.Config
     opts = {
         bigfile = { enabled = true },
-        explorer = { enabled = true },
+        explorer = { enabled = true, replace_netrw = false },
         indent = { enabled = true },
         picker = {
             enabled = true,
