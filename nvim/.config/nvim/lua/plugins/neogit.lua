@@ -5,7 +5,7 @@ return { -- magit for neovim
         console_timeout = 60000,
         auto_show_console = false,
         integrations = {
-            diffview = true,
+            diffview = false,
         },
     },
     dependencies = 'nvim-lua/plenary.nvim',
