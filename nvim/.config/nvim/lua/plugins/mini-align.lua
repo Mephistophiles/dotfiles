@@ -1,25 +1,9 @@
 return {
     'nvim-mini/mini.align',
     keys = {
-        {
-            'ga',
-            function()
-                require('mini.align').make_action_normal(vim.api.nvim_get_mode()['mode'] == 'v')
-            end,
-            mode = { 'n', 'v' },
-            desc = 'Align: Align text',
-        },
-        {
-            'gA',
-            function()
-                require('mini.align').make_action_visual(vim.api.nvim_get_mode()['mode'] == 'v')
-            end,
-            mode = { 'n', 'v' },
-            desc = 'Align: Align text with preview',
-        },
+        { 'ga', mode = { 'n', 'x' }, desc = 'Align text' },
+        { 'gA', mode = { 'n', 'x' }, desc = 'Align text with preview' },
     },
     version = false,
-    config = function()
-        require('mini.align').setup()
-    end,
+    opts = {},
 }
