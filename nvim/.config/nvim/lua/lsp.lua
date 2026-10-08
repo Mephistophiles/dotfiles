@@ -104,7 +104,6 @@ local supported_lsp = {
     'jsonls',
     'lua_ls',
     'nixd',
-    'pylsp',
     'pyright',
     'ruff',
     'zls',

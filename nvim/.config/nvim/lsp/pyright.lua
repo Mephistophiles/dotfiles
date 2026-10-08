@@ -8,6 +8,7 @@ local root_files = {
     '.git',
 }
 local settings = {
+    pyright = { disableOrganizeImports = true },
     python = {
         analysis = {
             autoSearchPaths = true,

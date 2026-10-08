@@ -1,5 +1,5 @@
 local exe_resolve = function(name)
-    if vim.fn.exepath(name) then
+    if vim.fn.executable(name) == 1 then
         return name
     end
 end

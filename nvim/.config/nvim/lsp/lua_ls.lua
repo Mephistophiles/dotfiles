@@ -1,43 +1,34 @@
-local root_files = {
-    '.luarc.json',
-    '.luarc.jsonc',
-    '.luacheckrc',
-    '.stylua.toml',
-    'stylua.toml',
-    'selene.toml',
-    'selene.yml',
-    '.git',
-}
-
-local settings = {
-    Lua = {
-        completion = {
-            callSnippet = 'Replace',
-        },
-        runtime = {
-            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-            version = 'LuaJIT',
-        },
-        diagnostics = {
-            -- Get the language server to recognize the `vim` global
-            globals = { 'vim', 'Snacks' },
-        },
-        workspace = {
-            -- Make the server aware of Neovim runtime files
-            library = vim.api.nvim_get_runtime_file('', true),
-            -- Disable busted asks
-            checkThirdParty = false,
-        },
-        -- Do not send telemetry data containing a randomized but unique identifier
-        telemetry = {
-            enable = false,
-        },
-    },
-}
+local config_root = vim.fs.dirname(vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2)))
+config_root = vim.uv.fs_realpath(config_root) or config_root
 
 return {
     cmd = { 'lua-language-server' },
     filetypes = { 'lua' },
-    root_markers = root_files,
-    settings = settings,
+    root_markers = {
+        '.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml',
+        'stylua.toml', 'selene.toml', 'selene.yml', '.git',
+    },
+    settings = {
+        Lua = {
+            completion = { callSnippet = 'Replace' },
+            telemetry = { enable = false },
+        },
+    },
+    on_init = function(client)
+        local root = client.config.root_dir
+        root = root and (vim.uv.fs_realpath(root) or root)
+        if root ~= config_root then
+            return
+        end
+
+        -- Neovim libraries belong only to this config's Lua workspace.
+        local library = vim.api.nvim_get_runtime_file('lua', true)
+        vim.list_extend(library, vim.fn.glob(
+            vim.fn.stdpath 'data' .. '/site/pack/core/opt/*/lua', false, true
+        ))
+        client.config.settings.Lua.workspace = {
+            library = vim.list.unique(library),
+            checkThirdParty = false,
+        }
+    end,
 }
