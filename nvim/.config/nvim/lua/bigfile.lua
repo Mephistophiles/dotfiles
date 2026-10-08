@@ -31,12 +31,15 @@ vim.filetype.add {
 }
 
 local function setup_window(win)
-    vim.wo[win].foldmethod = 'manual'
-    vim.wo[win].foldexpr = '0'
-    vim.wo[win].wrap = false
-    vim.wo[win].cursorline = false
-    vim.wo[win].cursorcolumn = false
-    vim.wo[win].colorcolumn = ''
+    -- Preserve the window defaults inherited by other buffers.
+    local options = { wrap = false, cursorline = false, cursorcolumn = false, colorcolumn = '' }
+    if not vim.wo[win].diff then
+        options.foldmethod = 'manual'
+        options.foldexpr = '0'
+    end
+    for name, value in pairs(options) do
+        vim.api.nvim_set_option_value(name, value, { win = win, scope = 'local' })
+    end
 end
 
 vim.api.nvim_create_autocmd('FileType', {
