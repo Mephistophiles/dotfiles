@@ -120,37 +120,27 @@ local function setup_completion(client, bufnr)
     vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
 end
 
-local function debounce(ms, fn)
-    local timer = assert(vim.uv.new_timer())
-    return function(...)
-        local argc, argv = select('#', ...), { ... }
-        timer:start(ms, 0, function()
-            timer:stop()
-            vim.schedule(function()
-                fn(unpack(argv, 1, argc))
-            end)
-        end)
-    end
-end
+local highlight_group = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = true })
 
-local function setup_document_hightlight(bufnr)
-    local lsp_document_highlight_group = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = false })
+local function setup_document_highlight(bufnr)
+    vim.api.nvim_clear_autocmds { group = highlight_group, buf = bufnr }
     vim.api.nvim_create_autocmd('CursorHold', {
-        group = lsp_document_highlight_group,
-        buffer = bufnr,
+        group = highlight_group,
+        buf = bufnr,
         desc = 'Document highlight',
-        callback = debounce(200, function()
-            vim.lsp.buf.document_highlight()
-        end),
+        callback = function(args)
+            if vim.api.nvim_get_current_buf() == args.buf then
+                vim.lsp.buf.document_highlight()
+            end
+        end,
     })
-
-    vim.api.nvim_create_autocmd('CursorMoved', {
-        group = lsp_document_highlight_group,
-        buffer = bufnr,
-        desc = 'Document clear references',
-        callback = debounce(200, function()
-            vim.lsp.buf.clear_references()
-        end),
+    vim.api.nvim_create_autocmd({ 'CursorMoved', 'InsertEnter', 'BufLeave' }, {
+        group = highlight_group,
+        buf = bufnr,
+        desc = 'Clear document references',
+        callback = function(args)
+            vim.lsp.util.buf_clear_references(args.buf)
+        end,
     })
 end
 
@@ -178,12 +168,27 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         -- Set autocommands conditional on server_capabilities
         if client:supports_method(client_methods.textDocument_documentHighlight) then
-            setup_document_hightlight(args.buf)
+            setup_document_highlight(args.buf)
         end
 
         if client:supports_method(client_methods.textDocument_codeLens) then
             vim.lsp.codelens.enable(true, { bufnr = args.buf, client_id = client.id })
         end
+    end,
+})
+
+vim.api.nvim_create_autocmd('LspDetach', {
+    group = lsp_group,
+    callback = function(args)
+        for _, client in ipairs(vim.lsp.get_clients { bufnr = args.buf }) do
+            if client.id ~= args.data.client_id
+                and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, args.buf)
+            then
+                return
+            end
+        end
+        vim.api.nvim_clear_autocmds { group = highlight_group, buf = args.buf }
+        vim.lsp.util.buf_clear_references(args.buf)
     end,
 })
 
