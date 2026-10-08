@@ -1,6 +1,16 @@
-vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-    callback = function()
-        require('lint').try_lint()
+vim.api.nvim_create_autocmd('BufWritePost', {
+    group = vim.api.nvim_create_augroup('ConfigLint', { clear = true }),
+    pattern = '*',
+    callback = function(args)
+        local ft = vim.bo[args.buf].filetype
+        if vim.bo[args.buf].buftype ~= '' or vim.b[args.buf].bigfile then
+            return
+        end
+        if vim.tbl_contains({ 'c', 'bash', 'fish', 'gitcommit', 'go', 'sh' }, ft) then
+            vim.api.nvim_buf_call(args.buf, function()
+                require('lint').try_lint()
+            end)
+        end
     end,
 })
 
@@ -35,58 +45,14 @@ return {
             parser = parser.from_pattern(pattern, groups, severity_map, { ['source'] = 'clang-analyzer' }),
         }
 
-        local trail_space = {
-            cmd = 'echo',
-            args = {},
-            ignore_exitcode = true,
-            parser = function(_, bufnr)
-                local diagnostics = {}
-                local regex = vim.regex [[\s\+$]]
-                local content = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-
-                for line_number = 1, #content do
-                    local line = content[line_number]
-                    local start_byte, end_byte = regex:match_str(line)
-
-                    if start_byte ~= nil then
-                        table.insert(diagnostics, {
-                            message = 'trailing whitespace',
-                            severity = vim.diagnostic.severity.WARN,
-                            lnum = line_number - 1,
-                            end_lnum = line_number - 1,
-                            col = start_byte,
-                            end_col = end_byte,
-                            source = 'trail-space',
-                        })
-                    end
-                end
-
-                return diagnostics
-            end,
-        }
-
         lint.linters.clang_analyzer = clang_analyzer
-        lint.linters.trail_space = trail_space
-
-        local disabled_trail_space_ft = { 'diff', 'git', 'gitcommit', 'patch', 'strace' }
-
-        local linters_by_ft = setmetatable({
-            c = { 'clang_analyzer', 'trail_space' },
-            bash = { 'shellcheck', 'trail_space' },
-            fish = { 'fish', 'trail_space' },
-            gitcommit = { 'gitlint', 'trail_space' },
-            go = { 'golangcilint', 'trail_space' },
-            sh = { 'shellcheck', 'trail_space' },
-        }, {
-            __index = function(_, ft)
-                if not vim.tbl_contains(disabled_trail_space_ft, ft) then
-                    return { 'trail_space' }
-                end
-
-                return nil
-            end,
-        })
-
-        lint.linters_by_ft = linters_by_ft
+        lint.linters_by_ft = {
+            c = { 'clang_analyzer' },
+            bash = { 'shellcheck' },
+            fish = { 'fish' },
+            gitcommit = { 'gitlint' },
+            go = { 'golangcilint' },
+            sh = { 'shellcheck' },
+        }
     end,
 }

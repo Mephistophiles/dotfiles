@@ -8,6 +8,7 @@ require 'mappings'
 require 'relativenumbers'
 require 'options'
 require 'commands'
+require 'trailing_whitespace'
 require 'lsp'
 require 'statusline'
 
