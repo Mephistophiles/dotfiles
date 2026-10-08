@@ -1,63 +1,35 @@
-local relative_numbers_group = vim.api.nvim_create_augroup('ToggleRelativeNumber', { clear = true })
+local group = vim.api.nvim_create_augroup('ToggleRelativeNumber', { clear = true })
 
-vim.opt.number = true -- Default number mode
+vim.opt.number = true
 
-local function relativeln(target)
-    if vim.b.lnstatus == nil then
-        vim.b.lnstatus = 'number'
+local function update(relative)
+    if vim.w.lnstatus == 'nonumber' then
+        vim.wo.number = false
+    elseif vim.w.lnstatus == 'number' and vim.bo.buftype == '' then
+        -- Revisiting a buffer restores its old window options; keep the toggle
+        -- consistent across ordinary buffers without enabling numbers in terminals.
+        vim.wo.number = true
     end
-
-    if vim.b.lnstatus ~= 'nonumber' then
-        if target == 'number' then
-            vim.o.number = true
-            vim.o.relativenumber = false
-        else
-            vim.o.number = true
-            vim.o.relativenumber = true
-        end
-    else
-        vim.o.number = false
-    end
-end
-
-local function toggleln()
-    if vim.b.lnstatus == nil then
-        vim.b.lnstatus = 'number'
-    end
-
-    if vim.b.lnstatus == 'number' then
-        vim.o.number = false
-        vim.o.relativenumber = false
-        vim.b.lnstatus = 'nonumber'
-    else
-        vim.o.number = true
-        vim.o.relativenumber = true
-        vim.b.lnstatus = 'number'
-    end
+    vim.wo.relativenumber = vim.wo.number and relative
 end
 
 vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'CmdlineLeave', 'WinEnter' }, {
-    pattern = '*',
-    group = relative_numbers_group,
+    group = group,
     callback = function()
-        if vim.o.number and vim.api.nvim_get_mode().mode ~= 'i' then
-            relativeln 'relativenumber'
-        end
+        update(vim.api.nvim_get_mode().mode:sub(1, 1) ~= 'i')
     end,
 })
 
 vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'CmdlineEnter', 'WinLeave' }, {
-    pattern = '*',
-    group = relative_numbers_group,
+    group = group,
     callback = function()
-        if vim.o.number then
-            relativeln 'number'
-            vim.cmd 'redraw'
-        end
+        update(false)
     end,
 })
 
--- toggle show invisible symbols
 vim.keymap.set({ 'n', 'i' }, '<F2>', function()
-    toggleln()
+    local enabled = not vim.wo.number
+    vim.w.lnstatus = enabled and 'number' or 'nonumber'
+    vim.wo.number = enabled
+    vim.wo.relativenumber = enabled and vim.api.nvim_get_mode().mode:sub(1, 1) ~= 'i'
 end, { desc = 'Toggle numbers/relativenumbers' })
