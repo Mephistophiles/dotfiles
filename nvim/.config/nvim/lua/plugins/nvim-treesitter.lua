@@ -51,8 +51,10 @@ end
 
 local function setup_folds(bufnr)
     for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
-        vim.wo[win].foldmethod = 'expr'
-        vim.wo[win].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        if not vim.wo[win].diff then
+            vim.api.nvim_set_option_value('foldmethod', 'expr', { win = win, scope = 'local' })
+            vim.api.nvim_set_option_value('foldexpr', 'v:lua.vim.treesitter.foldexpr()', { win = win, scope = 'local' })
+        end
     end
 end
 
