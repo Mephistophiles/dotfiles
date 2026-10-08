@@ -112,40 +112,12 @@ local supported_lsp = {
 vim.lsp.enable(supported_lsp)
 
 local function setup_completion(client, bufnr)
-    local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
+    local chars = {}
+    for i = 32, 126 do
+        table.insert(chars, string.char(i))
+    end
     client.server_capabilities.completionProvider.triggerCharacters = chars
     vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-
-    ---[[Code required to add documentation popup for an item
-    local _, cancel_prev = nil, function() end
-    vim.api.nvim_create_autocmd('CompleteChanged', {
-        buffer = bufnr,
-        callback = function()
-            cancel_prev()
-            local info = vim.fn.complete_info { 'selected' }
-            local completionItem = vim.tbl_get(vim.v.completed_item, 'user_data', 'nvim', 'lsp', 'completion_item')
-            if nil == completionItem then
-                return
-            end
-            _, cancel_prev = vim.lsp.buf_request(
-                bufnr,
-                vim.lsp.protocol.Methods.completionItem_resolve,
-                completionItem,
-                function(err, item, ctx)
-                    if not item then
-                        return
-                    end
-                    local docs = (item.documentation or {}).value
-                    local win = vim.api.nvim__complete_set(info['selected'], { info = docs })
-                    if win.winid and vim.api.nvim_win_is_valid(win.winid) then
-                        vim.treesitter.start(win.bufnr, 'markdown')
-                        vim.wo[win.winid].conceallevel = 3
-                    end
-                end
-            )
-        end,
-    })
-    ---]]
 end
 
 local function debounce(ms, fn)
@@ -182,28 +154,6 @@ local function setup_document_hightlight(bufnr)
     })
 end
 
-local function setup_code_lens(bufnr)
-    local lsp_document_codelens_group = vim.api.nvim_create_augroup('lsp_document_codelens', { clear = false })
-    vim.api.nvim_create_autocmd('BufEnter', {
-        group = lsp_document_codelens_group,
-        buffer = bufnr,
-        once = true,
-        desc = 'refresh on enter',
-        callback = debounce(200, function()
-            vim.lsp.codelens.enable(true, { bufnr = bufnr })
-        end),
-    })
-
-    vim.api.nvim_create_autocmd({ 'BufWritePost', 'CursorHold' }, {
-        group = lsp_document_codelens_group,
-        buffer = bufnr,
-        desc = 'Refresh references',
-        callback = debounce(200, function()
-            vim.lsp.codelens.enable(true, { bufnr = bufnr })
-        end),
-    })
-end
-
 local lsp_group = vim.api.nvim_create_augroup('LspGroup', { clear = true })
 vim.api.nvim_create_autocmd('LspAttach', {
     group = lsp_group,
@@ -212,7 +162,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         local client_methods = vim.lsp.protocol.Methods
 
         if not client then
-            vim.notify('Failed to attach to client ' .. vim.inspect(args), vim.log.WARN)
+            vim.notify('Failed to attach to client ' .. vim.inspect(args), vim.log.levels.WARN)
             return
         end
 
@@ -232,7 +182,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end
 
         if client:supports_method(client_methods.textDocument_codeLens) then
-            setup_code_lens(args.buf)
+            vim.lsp.codelens.enable(true, { bufnr = args.buf, client_id = client.id })
         end
     end,
 })
