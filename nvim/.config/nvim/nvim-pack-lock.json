@@ -58,10 +58,6 @@
       "rev": "918c60ae919d96df1dc201cbf69eb09090148cdd",
       "src": "https://github.com/rafcamlet/nvim-luapad"
     },
-    "nvim-notify": {
-      "rev": "8701bece920b38ea289b457f902e2ad184131a5d",
-      "src": "https://github.com/rcarriga/nvim-notify"
-    },
     "nvim-surround": {
       "rev": "2e93e154de9ff326def6480a4358bfc149d5da2c",
       "src": "https://github.com/kylechui/nvim-surround",

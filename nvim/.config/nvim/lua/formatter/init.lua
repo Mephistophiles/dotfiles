@@ -38,12 +38,10 @@ function M.attach_formatter(client, bufnr)
 
         vim.keymap.set('n', '<leader>mi', function()
             IGNORELIST.ignore_file(vim.api.nvim_buf_get_name(0))
-            vim.b.disable_formatter = true
             vim.notify 'Permanently disable format on save'
         end, { desc = 'Formatter: permanently disable format for current file' })
         vim.keymap.set('n', '<leader>mu', function()
             IGNORELIST.unignore_file(vim.api.nvim_buf_get_name(0))
-            vim.b.disable_formatter = false
             vim.notify 'Remove current file from the ignorelist'
         end, { desc = 'Formatter: remove current file from the ignorelist' })
         vim.keymap.set('n', '<leader>mc', function()
