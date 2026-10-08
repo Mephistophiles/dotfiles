@@ -26,9 +26,8 @@ return {
             formatters_by_ft = supported_languages,
             formatters = {
                 clang_format = {
-                    condition = function()
-                        return util.root_file { '.clang-format' } ~= nil
-                    end,
+                    cwd = util.root_file { '.clang-format' },
+                    require_cwd = true,
                 },
                 jq = { args = { '--indent', '4' } },
             },

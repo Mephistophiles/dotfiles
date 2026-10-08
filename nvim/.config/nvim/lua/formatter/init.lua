@@ -12,6 +12,9 @@ end
 ---@param client vim.lsp.Client|nil
 ---@param bufnr  integer
 function M.attach_formatter(client, bufnr)
+    if bufnr == 0 then
+        bufnr = vim.api.nvim_get_current_buf()
+    end
     if not client or client:supports_method(vim.lsp.protocol.Methods.textDocument_formatting) then
         local toggle_formatting = function()
             if vim.b.format_on_save then
@@ -24,7 +27,7 @@ function M.attach_formatter(client, bufnr)
 
         vim.keymap.set({ 'n', 'v' }, '<C-f>', function()
             format_file(bufnr)
-        end, { silent = true, buffer = true, desc = 'Format current document' })
+        end, { silent = true, buf = bufnr, desc = 'Format current document' })
 
         vim.keymap.set(
             'n',
@@ -54,12 +57,13 @@ function M.attach_formatter(client, bufnr)
 
         vim.api.nvim_create_user_command('AutoFormatToggle', toggle_formatting, {})
 
+        vim.api.nvim_clear_autocmds { group = augroup, event = 'BufWritePre', buf = bufnr }
         vim.api.nvim_create_autocmd('BufWritePre', {
             group = augroup,
             desc = 'Format document on save',
-            buffer = 0,
+            buf = bufnr,
             callback = function(opts)
-                if vim.b.format_on_save and not IGNORELIST.is_ignored_file(vim.api.nvim_buf_get_name(opts.buf)) then
+                if vim.b[opts.buf].format_on_save and not IGNORELIST.is_ignored_file(vim.api.nvim_buf_get_name(opts.buf)) then
                     format_file(opts.buf)
                 end
             end,
