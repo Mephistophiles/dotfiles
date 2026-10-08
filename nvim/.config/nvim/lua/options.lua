@@ -58,17 +58,18 @@ vim.o.guifont = 'FiraCode Nerd Font Mono:h10'
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
--- Backups
-local current_date = os.date '%Y-%m/%Y-%m-%d/'
-local backupdir = vim.fn.stdpath 'cache' .. '/backup/' .. current_date .. vim.fn.expand '%:p:h'
-
-if vim.fn.isdirectory(backupdir) == 0 then
-    vim.fn.mkdir(backupdir, 'p', '0755')
-end
-
-vim.opt.backupdir = backupdir
-vim.opt.backupext = os.date '.%H:%M:%S.' .. vim.fn.expand '%:e'
+-- Full paths in backup names prevent collisions between projects.
 vim.opt.backup = true
+local backup_group = vim.api.nvim_create_augroup('ConfigBackups', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePre', {
+    group = backup_group,
+    callback = function()
+        local dir = vim.fs.joinpath(vim.fn.stdpath 'state', 'backup', os.date '%Y-%m-%d')
+        vim.fn.mkdir(dir, 'p', '0700')
+        vim.opt.backupdir = { dir .. '//' }
+        vim.o.backupext = os.date '.%H-%M-%S.' .. string.format('%.0f', vim.uv.hrtime())
+    end,
+})
 
 local undodir = vim.fn.stdpath 'cache' .. '/undodir/'
 
