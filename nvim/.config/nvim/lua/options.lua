@@ -105,11 +105,12 @@ vim.opt.listchars:append {
 }
 -- Show invisible
 vim.keymap.set('n', '<F4>', function()
-    local indent_blankline_commands = require 'indent_blankline.commands'
+    local indent = require 'snacks.indent'
     local current_mode = vim.g.listchars_mode or 'Full'
     -- {"Off", "Partial", "Full"}
     if current_mode == 'Off' then
         vim.opt.list = true
+        vim.opt.listchars:append { trail = '·' }
         vim.g.listchars_mode = 'Partial'
     elseif current_mode == 'Partial' then
         vim.opt.listchars:append {
@@ -132,12 +133,11 @@ vim.keymap.set('n', '<F4>', function()
         vim.g.listchars_mode = 'Off'
     end
 
-    if vim.g.listchars_mode == 'Full' and not vim.g.indent_blankline_enabled then
-        indent_blankline_commands.enable(true)
-    elseif vim.g.listchars_mode ~= 'Full' and vim.g.indent_blankline_enabled then
-        indent_blankline_commands.disable(true)
+    if vim.g.listchars_mode == 'Full' then
+        indent.enable()
+    else
+        indent.disable()
     end
-    indent_blankline_commands.refresh(true)
 
     vim.notify('Current list mode: ' .. vim.g.listchars_mode)
 end, { desc = 'Show/Hide whitespaces' })

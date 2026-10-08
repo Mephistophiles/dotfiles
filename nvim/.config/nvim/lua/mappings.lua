@@ -43,14 +43,8 @@ vim.keymap.set('n', '<C-p>', ':m .-2<CR>==', { desc = 'Move line up' })
 
 -- folding
 vim.keymap.set('n', '<tab>', function()
-    local current_level = vim.fn.foldlevel '.'
-
-    if current_level > 0 then
-        vim.api.nvim_input 'za'
-    else
-        vim.api.nvim_input '<tab>'
-    end
-end, { desc = 'Toggle fold' })
+    return vim.fn.foldlevel '.' > 0 and 'za' or '<Tab>'
+end, { expr = true, remap = false, desc = 'Toggle fold' })
 
 vim.keymap.set('n', '<CR>', function()
     local word = [[\<]] .. vim.fn.expand '<cword>' .. [[\>]]

@@ -148,7 +148,7 @@ return {
             desc = 'Snacks: Explorer',
         },
         {
-            '<leader>su',
+            '<leader>st',
             function()
                 Snacks.terminal.toggle()
             end,
