@@ -14,6 +14,9 @@ return { -- Git integration for buffers
             attach_to_untracked = false,
 
             on_attach = function(bufnr)
+                if vim.b[bufnr].bigfile then
+                    return false
+                end
                 local gs = package.loaded.gitsigns
                 local map = function(mode, lhs, rhs, desc)
                     vim.keymap.set(mode, lhs, rhs, { desc = desc, buf = bufnr })

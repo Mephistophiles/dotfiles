@@ -4,7 +4,7 @@ return {
     event = 'VeryLazy',
     ---@type snacks.Config
     opts = {
-        bigfile = { enabled = true },
+        bigfile = { enabled = false },
         explorer = { enabled = true, replace_netrw = false },
         indent = { enabled = true },
         picker = {

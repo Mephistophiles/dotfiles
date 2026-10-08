@@ -2,6 +2,7 @@ vim.pack.add({ 'https://github.com/zuqini/zpack.nvim' })
 
 require 'project_root'
 require 'globals'
+require 'bigfile'
 require 'filetype'
 require 'mappings'
 require 'relativenumbers'
