@@ -13,23 +13,29 @@ return { -- Git integration for buffers
             update_debounce = 2500,
             attach_to_untracked = false,
 
-            on_attach = function()
+            on_attach = function(bufnr)
                 local gs = package.loaded.gitsigns
                 local map = function(mode, lhs, rhs, desc)
-                    vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = true })
+                    vim.keymap.set(mode, lhs, rhs, { desc = desc, buf = bufnr })
                 end
 
                 -- Navigation
                 map('n', ']c', function()
-                    gs.nav_hunk { direction = 'next' }
+                    gs.nav_hunk 'next'
                 end, 'Git: Goto next hunk')
                 map('n', '[c', function()
-                    gs.nav_hunk { direction = 'prev' }
+                    gs.nav_hunk 'prev'
                 end, 'Git: Goto prev hunk')
 
                 -- Actions
-                map({ 'n', 'v' }, '<leader>hs', gs.stage_hunk, 'Git: Stage hunk')
-                map({ 'n', 'v' }, '<leader>hr', gs.reset_hunk, 'Git: Reset hunk')
+                map('n', '<leader>hs', gs.stage_hunk, 'Git: Stage hunk')
+                map('n', '<leader>hr', gs.reset_hunk, 'Git: Reset hunk')
+                map('x', '<leader>hs', function()
+                    gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+                end, 'Git: Stage selected lines')
+                map('x', '<leader>hr', function()
+                    gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+                end, 'Git: Reset selected lines')
                 map('n', '<leader>hS', gs.stage_buffer, 'Git: Stage buffer')
                 map('n', '<leader>hR', gs.reset_buffer, 'Git: Reset buffer')
                 map('n', '<leader>hP', gs.preview_hunk, 'Git: Preview hunk')
@@ -43,7 +49,7 @@ return { -- Git integration for buffers
                 end, 'Git: Run diff this')
 
                 -- Text object
-                map({ 'o', 'x' }, 'ih', CMD '<C-U>Gitsigns select_hunk', 'Git: Select hunk')
+                map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', 'Git: Select hunk')
             end,
         }
     end,
