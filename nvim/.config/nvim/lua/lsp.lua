@@ -59,8 +59,11 @@ local function key_bindings(client)
     vim.keymap.set(
         { 'v', 'n' },
         '<leader>F',
-        vim.lsp.buf.format,
-        { buffer = true, desc = 'LSP: format document by lsp engine' }
+        function()
+            -- Explicit formatting bypasses the save toggle and ignorelist.
+            require('conform').format { lsp_format = 'fallback' }
+        end,
+        { buffer = true, desc = 'Format with Conform or LSP (ignore save exclusions)' }
     )
 
     keymap('<leader>]', function()

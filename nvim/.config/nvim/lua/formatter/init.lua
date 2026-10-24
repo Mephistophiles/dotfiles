@@ -1,11 +1,22 @@
-local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-
 local IGNORELIST = require 'formatter.ignorelist'
 
 local M = {}
 
 local format_file = function(bufnr)
-    require('conform').format { bufnr = bufnr, lsp_fallback = true }
+    require('plugin_usage').record('conform.nvim', 'format', 'manual')
+    require('conform').format { bufnr = bufnr }
+end
+
+---@param bufnr integer
+---@return conform.FormatOpts|nil
+function M.format_on_save(bufnr)
+    if not vim.b[bufnr].format_on_save or vim.b[bufnr].bigfile
+        or IGNORELIST.is_ignored_file(vim.api.nvim_buf_get_name(bufnr))
+    then
+        return nil
+    end
+    require('plugin_usage').record('conform.nvim', 'format on save', 'automatic')
+    return { timeout_ms = 1000 }
 end
 
 --- Attach formatter to the current buffer
@@ -16,6 +27,9 @@ function M.attach_formatter(client, bufnr)
         bufnr = vim.api.nvim_get_current_buf()
     end
     if not client or client:supports_method(vim.lsp.protocol.Methods.textDocument_formatting) then
+        -- Install Conform's save handler before this buffer's first write.
+        require 'conform'
+
         local toggle_formatting = function()
             if vim.b.format_on_save then
                 vim.notify 'Disable formatting on save'
@@ -54,18 +68,6 @@ function M.attach_formatter(client, bufnr)
         end, { desc = 'Formatter: open ignorelistmenu' })
 
         vim.api.nvim_create_user_command('AutoFormatToggle', toggle_formatting, {})
-
-        vim.api.nvim_clear_autocmds { group = augroup, event = 'BufWritePre', buf = bufnr }
-        vim.api.nvim_create_autocmd('BufWritePre', {
-            group = augroup,
-            desc = 'Format document on save',
-            buf = bufnr,
-            callback = function(opts)
-                if vim.b[opts.buf].format_on_save and not IGNORELIST.is_ignored_file(vim.api.nvim_buf_get_name(opts.buf)) then
-                    format_file(opts.buf)
-                end
-            end,
-        })
     end
 end
 

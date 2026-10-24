@@ -58,7 +58,6 @@ vim.keymap.set(
     '<esc>',
     function()
         vim.cmd('nohlsearch')
-        vim.cmd('call clearmatches()')
         vim.api.nvim_echo({}, false, {})
 
         local mc_ns = vim.api.nvim_create_namespace('nvim.multicursor')

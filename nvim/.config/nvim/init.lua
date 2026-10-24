@@ -12,5 +12,6 @@ require 'trailing_whitespace'
 require 'lsp'
 require 'statusline'
 
-require('zpack').setup()
+require('plugin_usage').setup()
+require('zpack').setup { spec = require('plugin_usage').specs() }
 vim.cmd.colorscheme 'tokyonight-storm'
