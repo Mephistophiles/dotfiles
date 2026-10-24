@@ -873,12 +873,14 @@ end)
 local lock_scr = string.format("%sawesome-lock.sh", AWESOMEWM_DIR)
 
 local function autorun(cmd)
-    awful.spawn("pkill " .. cmd[1])
-
-    awful.spawn.once(cmd, awful.spawn_once)
+    awful.spawn.easy_async({ "pgrep", "-u", tostring(USER_ID), "-x", cmd[1] }, function(_, _, _, exit_code)
+        if exit_code == 1 then
+            awful.spawn(cmd)
+        end
+    end)
 end
 autorun({ "flameshot" })
-autorun({ "setxkbmap", "us,ru", "-option", "grp:alt_shift_toggle"})
+awful.spawn({ "setxkbmap", "us,ru", "-option", "grp:alt_shift_toggle"})
 autorun({
     "xidlehook",
     "--socket", XIDLEHOOK_SOCKET,

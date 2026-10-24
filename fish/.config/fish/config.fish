@@ -1,4 +1,6 @@
-fish_default_key_bindings
+if status is-interactive
+    fish_default_key_bindings
+end
 
 export EDITOR=nvim
 export COLORTERM=truecolor
@@ -34,10 +36,12 @@ fish_add_path $HOME/.cargo/bin/
 fish_add_path $HOME/.nimble/bin/
 fish_add_path $HOME/go/bin/
 
-starship init fish | source
-zoxide init fish | source
-direnv hook fish | source
-just --completions fish | source
+if status is-interactive
+    starship init fish | source
+    zoxide init fish | source
+    direnv hook fish | source
+    just --completions fish | source
+end
 
 if [ -f "$HOME/.config/fish/host.fish" ]
   source "$HOME/.config/fish/host.fish"

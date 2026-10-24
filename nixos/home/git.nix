@@ -28,7 +28,7 @@
             cmd = ''meld "$LOCAL" "$REMOTE"'';
           };
           nvim_difftool = {
-            cmd = ''nvim -c "packadd nvim.difftool" -c "DiffTool $LOCAL $REMOTE"'';
+            cmd = ''nvim -c "packadd nvim.difftool" -c 'execute "DiffTool " . fnameescape($LOCAL) . " " . fnameescape($REMOTE)' '';
           };
         };
         merge = {
@@ -36,7 +36,7 @@
         };
         mergetool = {
           vimdiff = {
-            cmd = "nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'";
+            cmd = ''nvim -d "$LOCAL" "$REMOTE" "$MERGED" -c '$wincmd w' -c 'wincmd J' '';
           };
         };
         color = { ui = "auto"; };

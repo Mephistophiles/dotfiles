@@ -24,6 +24,8 @@ return {
 
         conform.setup {
             formatters_by_ft = supported_languages,
+            default_format_opts = { lsp_format = 'fallback' },
+            format_on_save = require('formatter').format_on_save,
             formatters = {
                 clang_format = {
                     cwd = util.root_file { '.clang-format' },

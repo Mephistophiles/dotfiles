@@ -131,8 +131,8 @@ abbr --add 'gga' 'git gui citool --amend'
 #end
 
 abbr --add 'ggpur' 'ggu'
-abbr --add 'ggpull' 'git pull origin "(git_current_branch)"'
-abbr --add 'ggpush' 'git push origin "(git_current_branch)"'
+abbr --add 'ggpull' 'git pull origin "$(git_current_branch)"'
+abbr --add 'ggpush' 'git push origin "$(git_current_branch)"'
 
 abbr --add 'ggsup' 'git branch --set-upstream-to=origin/(git_current_branch)'
 abbr --add 'gpsup' 'git push --set-upstream origin (git_current_branch)'
@@ -198,7 +198,7 @@ abbr --add 'grs' 'git restore'
 abbr --add 'grset' 'git remote set-url'
 abbr --add 'grss' 'git restore --source'
 abbr --add 'grst' 'git restore --staged'
-abbr --add 'grt' 'cd "(git rev-parse --show-toplevel || echo .)"'
+abbr --add 'grt' 'cd "$(git rev-parse --show-toplevel || echo .)"'
 abbr --add 'gru' 'git reset --'
 abbr --add 'grup' 'git remote update'
 abbr --add 'grv' 'git remote -v'
@@ -229,7 +229,9 @@ abbr --add 'gswc' 'git switch -c'
 
 abbr --add 'gts' 'git tag -s'
 abbr --add 'gtv' 'git tag | sort -V'
-abbr --add 'gtl' 'gtl(){ git tag --sort=-v:refname -n -l "${1}*" }; noglob gtl'
+function gtl --description 'List tags matching a prefix'
+  git tag --sort=-v:refname -n -l "$argv[1]*"
+end
 
 abbr --add 'gunignore' 'git update-index --no-assume-unchanged'
 abbr --add 'gunwip' 'git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
@@ -247,16 +249,13 @@ abbr --add 'gams' 'git am --skip'
 abbr --add 'gama' 'git am --abort'
 abbr --add 'gamscp' 'git am --show-current-patch'
 
-function grename
-  if [ -z "$1" ] || [ -z "$2" ]
-    echo "Usage: $0 old_branch new_branch"
+function grename --description 'Rename a local and remote branch'
+  if test (count $argv) -ne 2
+    echo "Usage: grename old_branch new_branch" >&2
     return 1
   end
-
-  # Rename branch locally
-  git branch -m "$1" "$2"
-  # Rename branch in origin remote
-  if git push origin :"$1"
-    git push --set-upstream origin "$2"
-  end
+  git branch -m -- "$argv[1]" "$argv[2]"; or return
+  # Publish the renamed branch before removing its previous remote name.
+  git push --set-upstream origin "$argv[2]"; or return
+  git push origin --delete "$argv[1]"
 end

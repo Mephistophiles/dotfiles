@@ -1,4 +1,7 @@
-require('vim._core.ui2').enable()
+local has_ui2, ui2 = pcall(require, 'vim._core.ui2')
+if has_ui2 and type(ui2.enable) == 'function' then
+    ui2.enable()
+end
 
 local function get_git_status()
     local gs = vim.b.gitsigns_status_dict
@@ -31,17 +34,17 @@ local function get_git_status()
     return table.concat(parts, ' ')
 end
 
-local util = require 'vim._core.util'
+local has_util, util = pcall(require, 'vim._core.util')
 
 function _G.my_statusline()
     local status = {
         '%<%f',     -- File name with truncation
         '%h%w%m%r', -- Flags
-        util.term_exitcode(),
+        has_util and type(util.term_exitcode) == 'function' and util.term_exitcode() or '',
         get_git_status(),
-        vim.ui.progress_status() or '', -- [New] LSP Progress
+        vim.ui.progress_status and vim.ui.progress_status() or '', -- [New] LSP Progress
         vim.bo.busy > 0 and '◐ ' or '',
-        vim.diagnostic.status() or '',  -- [New] Diagnostics
+        vim.diagnostic.status and vim.diagnostic.status() or '',  -- [New] Diagnostics
         '%=',                           -- Right align separator
         ' ',
         ' %-14.(%l,%c%) %P',            -- Line, Col, Percentage

@@ -47,7 +47,7 @@
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.homeDirectory = "/home/mzhukov";
+  home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
   home.stateVersion = "25.11";
 
   home.activation.report-changes = config.lib.dag.entryAnywhere ''

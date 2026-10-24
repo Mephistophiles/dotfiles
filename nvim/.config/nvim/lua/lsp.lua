@@ -201,5 +201,6 @@ vim.diagnostic.config {
     signs = true,
     update_in_insert = true,
     underline = true,
-    virtual_text = { current_line = true },
+    virtual_text = { current_line = true, source = 'if_many' },
+    float = { source = 'if_many' },
 }

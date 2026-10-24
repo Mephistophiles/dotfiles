@@ -12,21 +12,22 @@ home = os.getenv("SUDO_HOME", os.getenv("HOME"))
 flake_dir = os.path.join(home, '.dotfiles', 'nixos')
 
 def run(*args: str):
-	cmd = shlex.join(args)
-	print(f'>> run {cmd}', file=sys.stderr)
-	subprocess.run(args, check=True)
+    cmd = shlex.join(args)
+    print(f'>> run {cmd}', file=sys.stderr)
+    subprocess.run(args, check=True)
 
 with TemporaryDirectory() as path:
-	run('nixhost', 'hide')
-	os.chdir(path)
+    run('nixhost', 'hide')
+    try:
+        os.chdir(path)
 
-	if current_user == 0:
-		print("Run nixos-rebuild...")
-		run('nixos-rebuild', 'build', '--flake', flake_dir)
-		run('nvd', '--version-highlight', 'xmas', 'diff', '/run/current-system', 'result/')
-	else:
-		print("Run home-manager...")
-		run('home-manager', 'build', '--flake', flake_dir)
-		run('nvd', '--version-highlight', 'xmas', 'diff', f'{home}/.local/state/nix/profiles/home-manager', 'result/')
-
-	run('nixhost', 'restore')
+        if current_user == 0:
+            print("Run nixos-rebuild...")
+            run('nixos-rebuild', 'build', '--flake', flake_dir)
+            run('nvd', '--version-highlight', 'xmas', 'diff', '/run/current-system', 'result/')
+        else:
+            print("Run home-manager...")
+            run('home-manager', 'build', '--flake', flake_dir)
+            run('nvd', '--version-highlight', 'xmas', 'diff', f'{home}/.local/state/nix/profiles/home-manager', 'result/')
+    finally:
+        run('nixhost', 'restore')
