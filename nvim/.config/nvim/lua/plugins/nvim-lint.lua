@@ -8,6 +8,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
         end
         if vim.tbl_contains({ 'c', 'bash', 'fish', 'gitcommit', 'go', 'sh' }, ft) then
             vim.api.nvim_buf_call(args.buf, function()
+                require('plugin_usage').record('nvim-lint', 'lint request', 'automatic')
                 require('lint').try_lint()
             end)
         end

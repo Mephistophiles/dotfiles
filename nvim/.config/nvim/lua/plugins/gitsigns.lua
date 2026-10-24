@@ -16,9 +16,18 @@ return { -- Git integration for buffers
                 if vim.b[bufnr].bigfile then
                     return false
                 end
+                require('plugin_usage').record('gitsigns.nvim', 'buffer attached', 'automatic')
                 local gs = package.loaded.gitsigns
                 local map = function(mode, lhs, rhs, desc)
-                    vim.keymap.set(mode, lhs, rhs, { desc = desc, buf = bufnr })
+                    local tracked = function(...)
+                        require('plugin_usage').record('gitsigns.nvim', desc, 'manual')
+                        return rhs(...)
+                    end
+                    -- String mappings retain their original operator behavior.
+                    if type(rhs) == 'string' then
+                        tracked = ('<Cmd>lua require("plugin_usage").record("gitsigns.nvim", %q)<CR>'):format(desc) .. rhs
+                    end
+                    vim.keymap.set(mode, lhs, tracked, { desc = desc, buf = bufnr })
                 end
 
                 -- Navigation

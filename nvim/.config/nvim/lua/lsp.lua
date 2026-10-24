@@ -61,6 +61,7 @@ local function key_bindings(client)
         '<leader>F',
         function()
             -- Explicit formatting bypasses the save toggle and ignorelist.
+            require('plugin_usage').record('conform.nvim', 'format with LSP fallback', 'manual')
             require('conform').format { lsp_format = 'fallback' }
         end,
         { buffer = true, desc = 'Format with Conform or LSP (ignore save exclusions)' }

@@ -81,6 +81,7 @@ local function ts_start(bufnr)
             vim.notify('Treesitter: ' .. tostring(err), vim.log.levels.WARN)
             return
         end
+        require('plugin_usage').record('nvim-treesitter', 'buffer attached', 'automatic')
         if not ts_loaded then
             ts_load()
             ts_loaded = true
