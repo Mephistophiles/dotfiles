@@ -26,6 +26,18 @@ local supported_languages = {
 local ts_loaded = false
 local installing = {}
 
+local function has_query(lang, name)
+    -- Do not cache a missing query while its files are still being installed.
+    if #vim.treesitter.query.get_files(lang, name) == 0 then
+        return false
+    end
+    local ok, query = pcall(vim.treesitter.query.get, lang, name)
+    if not ok then
+        vim.notify_once('Treesitter ' .. name .. ': ' .. tostring(query), vim.log.levels.WARN)
+    end
+    return ok and query ~= nil
+end
+
 local function ts_load()
     -- zpack loads these plugins and applies their specs on require().
     require 'treesitter-context'
@@ -59,7 +71,7 @@ local function setup_folds(bufnr)
 end
 
 local function ts_start(bufnr)
-    if not vim.api.nvim_buf_is_loaded(bufnr) or vim.bo[bufnr].buftype ~= '' then
+    if not vim.api.nvim_buf_is_loaded(bufnr) or vim.bo[bufnr].buftype ~= '' or vim.b[bufnr].bigfile then
         return
     end
 
@@ -71,42 +83,72 @@ local function ts_start(bufnr)
     local function attach()
         if
             not vim.api.nvim_buf_is_loaded(bufnr)
+            or vim.bo[bufnr].buftype ~= ''
+            or vim.b[bufnr].bigfile
             or vim.treesitter.language.get_lang(vim.bo[bufnr].filetype) ~= lang
         then
             return
         end
 
+        -- start() disables regex syntax even when no highlights query exists.
+        if not has_query(lang, 'highlights') then
+            return
+        end
         local ok, err = pcall(vim.treesitter.start, bufnr, lang)
         if not ok then
             vim.notify('Treesitter: ' .. tostring(err), vim.log.levels.WARN)
             return
         end
         require('plugin_usage').record('nvim-treesitter', 'buffer attached', 'automatic')
+        -- Keep the filetype's native indenter when Treesitter has no indent query.
+        if has_query(lang, 'indents') then
+            local indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            if vim.bo[bufnr].indentexpr ~= indentexpr then
+                vim.bo[bufnr].indentexpr = indentexpr
+                local undo = vim.b[bufnr].undo_indent
+                vim.b[bufnr].undo_indent = (undo and undo .. ' | ' or '') .. 'setlocal indentexpr<'
+            end
+        end
+        vim.b[bufnr].treesitter_config_lang = lang
+        setup_folds(bufnr)
+        -- Optional integrations must not prevent the core buffer setup.
         if not ts_loaded then
             ts_load()
             ts_loaded = true
         end
-        vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-        vim.b[bufnr].treesitter_config_lang = lang
-        setup_folds(bufnr)
         require('rainbow-delimiters').enable(bufnr)
     end
 
     local ts = require 'nvim-treesitter'
-    if vim.list_contains(ts.get_installed('parsers'), lang) then
-        attach()
-        return
-    end
-    if not vim.list_contains(ts.get_available(), lang) then
-        return
+    -- The installer copies the parser before its queries. Every buffer must
+    -- wait for an in-progress installation, even if the parser already exists.
+    local task = installing[lang]
+    if not task then
+        local parser_installed = vim.list_contains(ts.get_installed('parsers'), lang)
+        if parser_installed and has_query(lang, 'highlights') then
+            attach()
+            return
+        end
+        if not vim.list_contains(ts.get_available(), lang) then
+            return
+        end
+        -- Repair partial installations: install() otherwise skips a language
+        -- if either its parser or its query directory already exists.
+        local partial = parser_installed or vim.list_contains(ts.get_installed('queries'), lang)
+        task = ts.install({ lang }, { force = partial })
+        installing[lang] = task
     end
 
-    installing[lang] = installing[lang] or ts.install { lang }
-    installing[lang]:await(function(err)
+    task:await(function(err, success)
         vim.schedule(function()
-            installing[lang] = nil
-            if err then
-                vim.notify('Treesitter install: ' .. tostring(err), vim.log.levels.WARN)
+            if installing[lang] == task then
+                installing[lang] = nil
+            end
+            if err or not success then
+                vim.notify_once(
+                    'Treesitter install (' .. lang .. '): ' .. tostring(err or 'failed; see :TSLog'),
+                    vim.log.levels.WARN
+                )
                 return
             end
             attach()
